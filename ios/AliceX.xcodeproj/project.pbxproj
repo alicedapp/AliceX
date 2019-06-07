@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,10 @@
 		15B86B5E22AA043F00110C06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B5C22AA043F00110C06 /* Main.storyboard */; };
 		15B86B6022AA044000110C06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B5F22AA044000110C06 /* Assets.xcassets */; };
 		15B86B6322AA044000110C06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B6122AA044000110C06 /* LaunchScreen.storyboard */; };
+		15B86BAD22AA1C9000110C06 /* WalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86BAC22AA1C9000110C06 /* WalletManager.swift */; };
+		15B86BB222AA1D2900110C06 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86BB122AA1D2900110C06 /* BaseViewController.swift */; };
+		15B86BB822AA1E5100110C06 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86BB622AA1E5100110C06 /* WelcomeViewController.swift */; };
+		15B86BB922AA1E5100110C06 /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15B86BB722AA1E5100110C06 /* WelcomeViewController.xib */; };
 		7B993B8433E3521751DF30CA /* Pods_AliceX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84CA6AAA684CE1F7F31F90B /* Pods_AliceX.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +27,10 @@
 		15B86B5F22AA044000110C06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15B86B6222AA044000110C06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B86B6422AA044000110C06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15B86BAC22AA1C9000110C06 /* WalletManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletManager.swift; sourceTree = "<group>"; };
+		15B86BB122AA1D2900110C06 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		15B86BB622AA1E5100110C06 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		15B86BB722AA1E5100110C06 /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeViewController.xib; sourceTree = "<group>"; };
 		40FE198338246E8AC1AD11B2 /* Pods-AliceX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AliceX.release.xcconfig"; path = "Target Support Files/Pods-AliceX/Pods-AliceX.release.xcconfig"; sourceTree = "<group>"; };
 		E84CA6AAA684CE1F7F31F90B /* Pods_AliceX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AliceX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAB6374680B0CDCF1D48D02E /* Pods-AliceX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AliceX.debug.xcconfig"; path = "Target Support Files/Pods-AliceX/Pods-AliceX.debug.xcconfig"; sourceTree = "<group>"; };
@@ -61,14 +69,130 @@
 		15B86B5722AA043F00110C06 /* AliceX */ = {
 			isa = PBXGroup;
 			children = (
-				15B86B5822AA043F00110C06 /* AppDelegate.swift */,
-				15B86B5A22AA043F00110C06 /* ViewController.swift */,
-				15B86B5C22AA043F00110C06 /* Main.storyboard */,
-				15B86B5F22AA044000110C06 /* Assets.xcassets */,
-				15B86B6122AA044000110C06 /* LaunchScreen.storyboard */,
-				15B86B6422AA044000110C06 /* Info.plist */,
+				15B86BB522AA1DC700110C06 /* Storyboard */,
+				15B86BB422AA1DAF00110C06 /* Modules */,
+				15B86BB322AA1D9100110C06 /* Support */,
+				15B86BAF22AA1CE200110C06 /* Libary */,
+				15B86BAE22AA1CD100110C06 /* Extension */,
+				15B86BA822AA1C5400110C06 /* Resources */,
+				15B86BA722AA1C4F00110C06 /* Base */,
 			);
 			path = AliceX;
+			sourceTree = "<group>";
+		};
+		15B86BA622AA1C4600110C06 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				15B86BAC22AA1C9000110C06 /* WalletManager.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
+		15B86BA722AA1C4F00110C06 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				15B86BB122AA1D2900110C06 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		15B86BA822AA1C5400110C06 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				15B86BB022AA1D1100110C06 /* fronts */,
+				15B86BAB22AA1C6E00110C06 /* sounds */,
+				15B86BAA22AA1C6600110C06 /* music */,
+				15B86BA922AA1C5F00110C06 /* image */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		15B86BA922AA1C5F00110C06 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				15B86B5F22AA044000110C06 /* Assets.xcassets */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		15B86BAA22AA1C6600110C06 /* music */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = music;
+			sourceTree = "<group>";
+		};
+		15B86BAB22AA1C6E00110C06 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = sounds;
+			sourceTree = "<group>";
+		};
+		15B86BAE22AA1CD100110C06 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		15B86BAF22AA1CE200110C06 /* Libary */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Libary;
+			sourceTree = "<group>";
+		};
+		15B86BB022AA1D1100110C06 /* fronts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fronts;
+			sourceTree = "<group>";
+		};
+		15B86BB322AA1D9100110C06 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				15B86B6422AA044000110C06 /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		15B86BB422AA1DAF00110C06 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				15B86BBB22AA1E9400110C06 /* Appdelegate */,
+				15B86BBA22AA1E5700110C06 /* Welcome */,
+				15B86BA622AA1C4600110C06 /* Wallet */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		15B86BB522AA1DC700110C06 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				15B86B5C22AA043F00110C06 /* Main.storyboard */,
+				15B86B6122AA044000110C06 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		15B86BBA22AA1E5700110C06 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				15B86B5A22AA043F00110C06 /* ViewController.swift */,
+				15B86BB622AA1E5100110C06 /* WelcomeViewController.swift */,
+				15B86BB722AA1E5100110C06 /* WelcomeViewController.xib */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		15B86BBB22AA1E9400110C06 /* Appdelegate */ = {
+			isa = PBXGroup;
+			children = (
+				15B86B5822AA043F00110C06 /* AppDelegate.swift */,
+			);
+			path = Appdelegate;
 			sourceTree = "<group>";
 		};
 		42F31BC76ACCB7B292AA99EC /* Frameworks */ = {
@@ -85,11 +209,20 @@
 				EAB6374680B0CDCF1D48D02E /* Pods-AliceX.debug.xcconfig */,
 				40FE198338246E8AC1AD11B2 /* Pods-AliceX.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		15B86BA422AA09D200110C06 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		15B86B5422AA043F00110C06 /* AliceX */ = {
@@ -97,9 +230,12 @@
 			buildConfigurationList = 15B86B6722AA044000110C06 /* Build configuration list for PBXNativeTarget "AliceX" */;
 			buildPhases = (
 				99ACDC7F0A5AEA0DBD8FA77D /* [CP] Check Pods Manifest.lock */,
+				15B86BA422AA09D200110C06 /* Headers */,
 				15B86B5122AA043F00110C06 /* Sources */,
 				15B86B5222AA043F00110C06 /* Frameworks */,
 				15B86B5322AA043F00110C06 /* Resources */,
+				20BDE9586E0D6894FB65811F /* [CP] Embed Pods Frameworks */,
+				15B86BA522AA09DE00110C06 /* Bundle React Native code and images */,
 			);
 			buildRules = (
 			);
@@ -149,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15B86B6322AA044000110C06 /* LaunchScreen.storyboard in Resources */,
+				15B86BB922AA1E5100110C06 /* WelcomeViewController.xib in Resources */,
 				15B86B6022AA044000110C06 /* Assets.xcassets in Resources */,
 				15B86B5E22AA043F00110C06 /* Main.storyboard in Resources */,
 			);
@@ -157,6 +294,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		15B86BA522AA09DE00110C06 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		20BDE9586E0D6894FB65811F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AliceX/Pods-AliceX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AliceX/Pods-AliceX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AliceX/Pods-AliceX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		99ACDC7F0A5AEA0DBD8FA77D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15B86BAD22AA1C9000110C06 /* WalletManager.swift in Sources */,
+				15B86BB822AA1E5100110C06 /* WelcomeViewController.swift in Sources */,
+				15B86BB222AA1D2900110C06 /* BaseViewController.swift in Sources */,
 				15B86B5B22AA043F00110C06 /* ViewController.swift in Sources */,
 				15B86B5922AA043F00110C06 /* AppDelegate.swift in Sources */,
 			);
@@ -336,7 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HTW65CEF3E;
-				INFOPLIST_FILE = AliceX/Info.plist;
+				INFOPLIST_FILE = AliceX/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -355,7 +530,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HTW65CEF3E;
-				INFOPLIST_FILE = AliceX/Info.plist;
+				INFOPLIST_FILE = AliceX/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
