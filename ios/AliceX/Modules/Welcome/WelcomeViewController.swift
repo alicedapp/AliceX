@@ -8,23 +8,52 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+class WelcomeViewController: BaseViewController {
 
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var nLable: UITextView!
+    
+    @IBOutlet weak var impLable: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        nLable.isEditable = false
+        
+        let mnemonics = KeychainHepler.fetchKeychain(key: Setting.MnemonicsKey)
+        self.nLable.text = mnemonics
+        
+        let address = WalletManager.wallet?.address
+        self.label.text = address
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func createAccount() {
+        WalletManager.createAccount { () -> (Void) in
+            let mnemonics = KeychainHepler.fetchKeychain(key: Setting.MnemonicsKey)
+            self.nLable.text = mnemonics
+            
+            let address = WalletManager.wallet?.address
+            self.label.text = address
+            
+        }
     }
-    */
-
+    
+    @IBAction func importAccount() {
+        let mnemonics = impLable.text
+        
+        do {
+            try WalletManager.importAccount(mnemonics: mnemonics!, completion: { () -> (Void) in
+                let mnemonics = KeychainHepler.fetchKeychain(key: Setting.MnemonicsKey)
+                self.nLable.text = mnemonics
+                
+                let address = WalletManager.wallet?.address
+                self.label.text = address
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    @IBAction func popUp() {
+        TransactionManager.showPaymentView()
+    }
 }

@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate var navi: UINavigationController?
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,6 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        WalletManager.loadFromCache()
+        
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.clear
+        window?.makeKeyAndVisible()
+        
+        let vc = WelcomeViewController()
+        let rootVC = UINavigationController.init(rootViewController: vc)
+        navi = rootVC
+        self.window?.rootViewController = rootVC
+        
         return true
     }
 
