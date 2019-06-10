@@ -7,9 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1527871D22ADEBEE00D63C7F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527871C22ADEBEE00D63C7F /* Constant.swift */; };
+		1527871F22ADEDAB00D63C7F /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527871E22ADEDAB00D63C7F /* Style.swift */; };
+		1527872122ADEE0900D63C7F /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872022ADEE0900D63C7F /* UIColor.swift */; };
+		1527872322ADEE3500D63C7F /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872222ADEE3500D63C7F /* UITableView.swift */; };
+		1527872522ADEE6300D63C7F /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872422ADEE6300D63C7F /* NSObject.swift */; };
+		1527872722ADF5EA00D63C7F /* WalletStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872622ADF5EA00D63C7F /* WalletStruct.swift */; };
+		1527872922ADF6F800D63C7F /* WalletError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872822ADF6F800D63C7F /* WalletError.swift */; };
+		1527872C22AE080C00D63C7F /* KaychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872B22AE080C00D63C7F /* KaychainHelper.swift */; };
+		1527872E22AE16D400D63C7F /* WalletManager+Keystore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527872D22AE16D400D63C7F /* WalletManager+Keystore.swift */; };
+		1527873422AE20C800D63C7F /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527873222AE20C800D63C7F /* PaymentViewController.swift */; };
+		1527873522AE20C800D63C7F /* PaymentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1527873322AE20C800D63C7F /* PaymentViewController.xib */; };
+		1527873722AE210200D63C7F /* RPCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527873622AE210200D63C7F /* RPCircularProgress.swift */; };
+		1527873A22AE216C00D63C7F /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527873922AE216C00D63C7F /* TransactionManager.swift */; };
+		1527873C22AE21B200D63C7F /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527873B22AE21B200D63C7F /* UIApplication.swift */; };
 		15B86B5922AA043F00110C06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86B5822AA043F00110C06 /* AppDelegate.swift */; };
-		15B86B5B22AA043F00110C06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86B5A22AA043F00110C06 /* ViewController.swift */; };
-		15B86B5E22AA043F00110C06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B5C22AA043F00110C06 /* Main.storyboard */; };
 		15B86B6022AA044000110C06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B5F22AA044000110C06 /* Assets.xcassets */; };
 		15B86B6322AA044000110C06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15B86B6122AA044000110C06 /* LaunchScreen.storyboard */; };
 		15B86BAD22AA1C9000110C06 /* WalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B86BAC22AA1C9000110C06 /* WalletManager.swift */; };
@@ -20,10 +32,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1527871C22ADEBEE00D63C7F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		1527871E22ADEDAB00D63C7F /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		1527872022ADEE0900D63C7F /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		1527872222ADEE3500D63C7F /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		1527872422ADEE6300D63C7F /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		1527872622ADF5EA00D63C7F /* WalletStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletStruct.swift; sourceTree = "<group>"; };
+		1527872822ADF6F800D63C7F /* WalletError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletError.swift; sourceTree = "<group>"; };
+		1527872B22AE080C00D63C7F /* KaychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaychainHelper.swift; sourceTree = "<group>"; };
+		1527872D22AE16D400D63C7F /* WalletManager+Keystore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WalletManager+Keystore.swift"; sourceTree = "<group>"; };
+		1527873222AE20C800D63C7F /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
+		1527873322AE20C800D63C7F /* PaymentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentViewController.xib; sourceTree = "<group>"; };
+		1527873622AE210200D63C7F /* RPCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RPCircularProgress.swift; sourceTree = "<group>"; };
+		1527873922AE216C00D63C7F /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
+		1527873B22AE21B200D63C7F /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		15B86B5522AA043F00110C06 /* AliceX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AliceX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15B86B5822AA043F00110C06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		15B86B5A22AA043F00110C06 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		15B86B5D22AA043F00110C06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		15B86B5F22AA044000110C06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15B86B6222AA044000110C06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15B86B6422AA044000110C06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,6 +72,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1527872A22AE07FA00D63C7F /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				1527872B22AE080C00D63C7F /* KaychainHelper.swift */,
+			);
+			path = Keychain;
+			sourceTree = "<group>";
+		};
+		1527872F22AE207400D63C7F /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				1527873122AE209100D63C7F /* Popup */,
+				1527873922AE216C00D63C7F /* TransactionManager.swift */,
+			);
+			path = Transaction;
+			sourceTree = "<group>";
+		};
+		1527873122AE209100D63C7F /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				1527873222AE20C800D63C7F /* PaymentViewController.swift */,
+				1527873322AE20C800D63C7F /* PaymentViewController.xib */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
 		15B86B4C22AA043F00110C06 = {
 			isa = PBXGroup;
 			children = (
@@ -69,13 +119,13 @@
 		15B86B5722AA043F00110C06 /* AliceX */ = {
 			isa = PBXGroup;
 			children = (
+				15B86BA722AA1C4F00110C06 /* Base */,
 				15B86BB522AA1DC700110C06 /* Storyboard */,
 				15B86BB422AA1DAF00110C06 /* Modules */,
 				15B86BB322AA1D9100110C06 /* Support */,
 				15B86BAF22AA1CE200110C06 /* Libary */,
 				15B86BAE22AA1CD100110C06 /* Extension */,
 				15B86BA822AA1C5400110C06 /* Resources */,
-				15B86BA722AA1C4F00110C06 /* Base */,
 			);
 			path = AliceX;
 			sourceTree = "<group>";
@@ -84,6 +134,9 @@
 			isa = PBXGroup;
 			children = (
 				15B86BAC22AA1C9000110C06 /* WalletManager.swift */,
+				1527872D22AE16D400D63C7F /* WalletManager+Keystore.swift */,
+				1527872622ADF5EA00D63C7F /* WalletStruct.swift */,
+				1527872822ADF6F800D63C7F /* WalletError.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -132,6 +185,10 @@
 		15B86BAE22AA1CD100110C06 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1527872022ADEE0900D63C7F /* UIColor.swift */,
+				1527872222ADEE3500D63C7F /* UITableView.swift */,
+				1527872422ADEE6300D63C7F /* NSObject.swift */,
+				1527873B22AE21B200D63C7F /* UIApplication.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -139,6 +196,7 @@
 		15B86BAF22AA1CE200110C06 /* Libary */ = {
 			isa = PBXGroup;
 			children = (
+				1527873622AE210200D63C7F /* RPCircularProgress.swift */,
 			);
 			path = Libary;
 			sourceTree = "<group>";
@@ -154,6 +212,8 @@
 			isa = PBXGroup;
 			children = (
 				15B86B6422AA044000110C06 /* Info.plist */,
+				1527871C22ADEBEE00D63C7F /* Constant.swift */,
+				1527871E22ADEDAB00D63C7F /* Style.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -161,6 +221,8 @@
 		15B86BB422AA1DAF00110C06 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				1527872F22AE207400D63C7F /* Transaction */,
+				1527872A22AE07FA00D63C7F /* Keychain */,
 				15B86BBB22AA1E9400110C06 /* Appdelegate */,
 				15B86BBA22AA1E5700110C06 /* Welcome */,
 				15B86BA622AA1C4600110C06 /* Wallet */,
@@ -171,7 +233,6 @@
 		15B86BB522AA1DC700110C06 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				15B86B5C22AA043F00110C06 /* Main.storyboard */,
 				15B86B6122AA044000110C06 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
@@ -180,7 +241,6 @@
 		15B86BBA22AA1E5700110C06 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				15B86B5A22AA043F00110C06 /* ViewController.swift */,
 				15B86BB622AA1E5100110C06 /* WelcomeViewController.swift */,
 				15B86BB722AA1E5100110C06 /* WelcomeViewController.xib */,
 			);
@@ -287,7 +347,7 @@
 				15B86B6322AA044000110C06 /* LaunchScreen.storyboard in Resources */,
 				15B86BB922AA1E5100110C06 /* WelcomeViewController.xib in Resources */,
 				15B86B6022AA044000110C06 /* Assets.xcassets in Resources */,
-				15B86B5E22AA043F00110C06 /* Main.storyboard in Resources */,
+				1527873522AE20C800D63C7F /* PaymentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,24 +419,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				15B86BAD22AA1C9000110C06 /* WalletManager.swift in Sources */,
+				1527872122ADEE0900D63C7F /* UIColor.swift in Sources */,
+				1527872E22AE16D400D63C7F /* WalletManager+Keystore.swift in Sources */,
+				1527871F22ADEDAB00D63C7F /* Style.swift in Sources */,
+				1527873A22AE216C00D63C7F /* TransactionManager.swift in Sources */,
+				1527872522ADEE6300D63C7F /* NSObject.swift in Sources */,
+				1527872922ADF6F800D63C7F /* WalletError.swift in Sources */,
 				15B86BB822AA1E5100110C06 /* WelcomeViewController.swift in Sources */,
+				1527873422AE20C800D63C7F /* PaymentViewController.swift in Sources */,
 				15B86BB222AA1D2900110C06 /* BaseViewController.swift in Sources */,
-				15B86B5B22AA043F00110C06 /* ViewController.swift in Sources */,
+				1527872C22AE080C00D63C7F /* KaychainHelper.swift in Sources */,
+				1527873C22AE21B200D63C7F /* UIApplication.swift in Sources */,
+				1527872322ADEE3500D63C7F /* UITableView.swift in Sources */,
 				15B86B5922AA043F00110C06 /* AppDelegate.swift in Sources */,
+				1527871D22ADEBEE00D63C7F /* Constant.swift in Sources */,
+				1527873722AE210200D63C7F /* RPCircularProgress.swift in Sources */,
+				1527872722ADF5EA00D63C7F /* WalletStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		15B86B5C22AA043F00110C06 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				15B86B5D22AA043F00110C06 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		15B86B6122AA044000110C06 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
