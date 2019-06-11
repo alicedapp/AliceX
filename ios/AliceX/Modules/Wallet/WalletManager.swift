@@ -14,6 +14,12 @@ class WalletManager {
     static let shared = WalletManager()
     static var wallet: Wallet?
     
+    #if DEBUG
+    static var web3Net = Web3.InfuraRopstenWeb3()
+    #else
+    static var web3Net = Web3.InfuraMainnetWeb3()
+    #endif
+    
     var keystore:BIP32Keystore?
     
     class func hasWallet() -> Bool {

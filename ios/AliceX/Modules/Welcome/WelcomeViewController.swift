@@ -20,10 +20,11 @@ class WelcomeViewController: BaseViewController {
         nLable.isEditable = false
         
         let mnemonics = KeychainHepler.fetchKeychain(key: Setting.MnemonicsKey)
-        self.nLable.text = mnemonics
+        nLable.text = mnemonics
         
         let address = WalletManager.wallet?.address
-        self.label.text = address
+        label.text = address
+        
     }
     
     @IBAction func createAccount() {
