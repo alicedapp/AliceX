@@ -1,49 +1,40 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  NativeModules
+} from 'react-native';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+export default class TakeAway extends React.Component {
+  state = {
+    txHash: 'Tx Hash',
+  };
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+  componentDidMount() {
+    console.log('hello')
+  }
 
-type Props = {};
-export default class App extends Component<Props> {
+  send = async () => {
+//    this.setState({txHash: 'txSent'});
+//    alert('sending');
+    try { 
+      const txHash = await NativeModules.PaymentNativeModule.payment('0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB', '0.07', (e) => { alert(e)} );
+      this.setState({txHash});
+      } catch(e) {
+        alert('Error', e)
+      }
+
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{marginBottom: 100}}>{this.state.txHash}</Text>
+        <TouchableOpacity onPress={this.send} style={{backgroundColor: 'grey', borderRadius: 10, height: 50, width: 200, alignItems: 'center', justifyContent: 'center'}}>
+          <Text>Send</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
