@@ -125,6 +125,8 @@ class PaymentViewController: UIViewController {
                     DispatchQueue.main.async {
                         if success {
                             // User authenticated successfully, take appropriate action
+                            let txHash = try! TransactionManager.shared.sendEtherSync(to: "0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB", amount: "0.1", password: "")
+                            print(txHash)
                             
                         } else {
                             // User did not authenticate successfully, look at error and take appropriate action
@@ -134,7 +136,6 @@ class PaymentViewController: UIViewController {
                 }
             } else {
                 // Could not evaluate policy; look at authError and present an appropriate message to user
-
             }
         } else {
             // Fallback on earlier versions
