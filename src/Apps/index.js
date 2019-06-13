@@ -21,6 +21,7 @@ export { default as Fork } from './Fork';
 // export { default as Wyre } from './Wyre';
 // export { default as Peepeth } from './Peepeth';
 export { default as Foam } from './Foam';
+export { default as Test } from './Test';
 // export { default as Dharma } from './Dharma';
 // export { default as Compound } from './Compound';
 // export { default as MetaMultisig } from './MetaMultisig';
@@ -70,6 +71,12 @@ export default class AppsScreen extends Component<Props> {
             <View style={styles.appIcon}>
               <TouchableOpacity style={styles.appSquare} onPress={() => this.props.navigation.navigate('RadarRelay')}>
                 <Image source={require('../Assets/radar-black.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
+              </TouchableOpacity>
+              <Text style={styles.appText}>Radar</Text>
+            </View>
+            <View style={styles.appIcon}>
+              <TouchableOpacity style={styles.appSquare} onPress={() => this.props.navigation.navigate('Test')}>
+                <Image source={require('../Assets/close.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
               </TouchableOpacity>
               <Text style={styles.appText}>Radar</Text>
             </View>
