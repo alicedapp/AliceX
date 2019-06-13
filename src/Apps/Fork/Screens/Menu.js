@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Dimensions, Image, Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  Dimensions, Image, Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, NativeModules
 } from 'react-native';
+import abi from "../Contracts/abi";
 
 const { width, height } = Dimensions.get('window');
 
@@ -71,6 +72,12 @@ export default class Menu extends React.Component {
     restaurants: ['japanese', 'american', 'mexican', 'italian', 'french'],
   }
 
+  sendOrder = async (foodItem) => {
+    NativeModules.PaymentNativeModule.smartContract('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', 'setOrder', JSON.stringify(abi), [foodItem, 'Mark'], (txHash) => {
+      this.props.navigation.navigate('Apps');
+      alert(txHash);
+    })
+  };
 
   render() {
     const { navigation } = this.props;
@@ -95,9 +102,7 @@ export default class Menu extends React.Component {
           <View style={{
             flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', flex: 1, width,
           }}>
-            <TouchableOpacity onPress={() => navigation.navigate('SendSheet', {
-              dappletData: { component: () => ForkDapplet('Hamburger', '10') }, address: '0x89FFF8C75AE3f84B107e1C704c3147a8414Dd417', isContract: true, asset: 'ETH', foodItem: 'Hamburger', assetAmount: '0.001',
-            })} style={styles.kittyContainer}>
+            <TouchableOpacity onPress={() => {this.sendOrder('Hamburger', '10')}} style={styles.kittyContainer}>
               <View style={[{ borderColor: this.state.borderColor }, styles.inputContainer]}>
                 <View>
                   <Image source={require('../../../Assets/emoji-hamburger.png')} style={styles.restaurantImage}/>
