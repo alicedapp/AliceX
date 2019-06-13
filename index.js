@@ -8,4 +8,4 @@ import EmbeddedView from './EmbeddedView';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerComponent('EmbeddedView', () => EmbeddedView);
+AppRegistry.registerComponent({name: 'EmbeddedView', displayName: 'EmbeddedView'}, () => EmbeddedView);
