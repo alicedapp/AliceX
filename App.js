@@ -15,7 +15,7 @@ import {
   View
 } from 'react-native';
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps, {Foam, Fork} from './src/Apps'
+import Apps, {Foam, Fork, Test} from './src/Apps'
 
 import { navigate } from "./src/utils/navigationWrapper";
 
@@ -105,6 +105,7 @@ const MainApp = createStackNavigator({
   Apps: { screen: AppTabNavigator },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
+  Test: { screen: Test },
 }, {
   headerMode: 'none',
 });
