@@ -13,15 +13,15 @@ export default class Restaurants extends React.Component {
   renderSwitch(restaurant) {
     switch (restaurant) {
       case 'japanese':
-        return <Image source={require('../../../Assets/sushi.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceAssets/sushi.png')} style={styles.restaurantImage}/>
       case 'american':
-        return <Image source={require('../../../Assets/fries.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceAssets/fries.png')} style={styles.restaurantImage}/>
       case 'mexican':
-        return <Image source={require('../../../Assets/taco.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceAssets/taco.png')} style={styles.restaurantImage}/>
       case 'italian':
-        return <Image source={require('../../../Assets/pizza.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceAssets/pizza.png')} style={styles.restaurantImage}/>
       case 'french':
-        return <Image source={require('../../../Assets/croissant.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceAssets/croissant.png')} style={styles.restaurantImage}/>
     }
   }
 
@@ -34,10 +34,10 @@ export default class Restaurants extends React.Component {
           margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
           <TouchableOpacity style={{width: 25, height: 25}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../Assets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 35, height: 35}} onPress={() => navigation.navigate('Camera')}>
-            <Image source={require('../../../Assets/camera-emoji.png')} style={{ resizeMode: 'contain', width: 30, height: 30 }}/>
+            <Image source={require('../../../AliceAssets/camera-emoji.png')} style={{ resizeMode: 'contain', width: 30, height: 30 }}/>
           </TouchableOpacity>
         </View>
         <View style={{ margin: 20, marginBottom: 0, backgroundColor: 'transparent' }}>

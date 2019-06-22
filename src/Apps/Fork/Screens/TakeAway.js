@@ -18,7 +18,7 @@ export default class TakeAway extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../../../Assets/red-car.png')} size={30}/>,
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../../../AliceAssets/red-car.png')} size={30}/>,
     };
   };
 
@@ -53,7 +53,7 @@ export default class TakeAway extends React.Component {
           alignItems: 'center',
           backgroundColor: '#faa8ff',
         }}>
-          <Image source={require('../../../Assets/uniswap.png')} style={{
+          <Image source={require('../../../AliceAssets/uniswap.png')} style={{
             width: 80,
             height: 80,
             resizeMode: 'contain',
@@ -80,7 +80,7 @@ export default class TakeAway extends React.Component {
       <View style={{flex: 1}}>
         <View style={{margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent'}}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../Assets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
           <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10 }}>Swap</Text>
         </View>

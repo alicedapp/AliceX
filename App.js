@@ -14,11 +14,12 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
 import Apps, {Foam, Fork, Test} from './src/Apps'
 
-import { navigate } from "./src/utils/navigationWrapper";
-
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
+MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 
 import NavigatorService from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";

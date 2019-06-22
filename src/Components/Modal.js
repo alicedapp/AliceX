@@ -19,7 +19,7 @@ export default class AppsScreen extends Component<Props> {
         <View style={styles.modalBox}>
           <View style={{width: '100%', height: 20, alignItems: 'flex-end', justifyContent: 'center'}}>
             <TouchableOpacity onPress={this.props.closeModal}>
-              <Image source={require('../Assets/close.png')} style={{resizeMode: 'contain', height: 30, width: 30}}/>
+              <Image source={require('../AliceAssets/close.png')} style={{resizeMode: 'contain', height: 30, width: 30}}/>
             </TouchableOpacity>
           </View>
           <View style={{padding: 10}}>
@@ -31,8 +31,8 @@ export default class AppsScreen extends Component<Props> {
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginBottom: 15}}>
               {this.props.app === "ethereum" ?
-                <Image source={require('../Assets/localethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/> :
-                <Image source={require('../Assets/radar-black.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/>
+                <Image source={require('../AliceAssets/localethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/> :
+                <Image source={require('../AliceAssets/radar-black.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/>
               }
               {this.props.app === "ethereum" ?
                 <Text style={{fontFamily: 'Menlo-Regular', fontSize: 17}}> LocalEthereum</Text> :
@@ -44,8 +44,8 @@ export default class AppsScreen extends Component<Props> {
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginBottom: 15}}>
               {this.props.app === "ethereum" ?
-                <Image source={require('../Assets/ethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/> :
-                <Image source={require('../Assets/status-logo.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/>
+                <Image source={require('../AliceAssets/ethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/> :
+                <Image source={require('../AliceAssets/status-logo.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/>
               }
               {this.props.app === "ethereum" ?
                 <Text style={{fontFamily: 'Menlo-Regular', fontSize: 17}}>Ethereum</Text> :

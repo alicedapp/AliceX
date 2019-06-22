@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
   },
 });
 
-MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 
 class ExampleItem {
   constructor(label, Component) {

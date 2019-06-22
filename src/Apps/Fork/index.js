@@ -37,7 +37,7 @@ const HomeScreen2 = createStackNavigator({
 {
   headerMode: 'none',
   navigationOptions: {
-    tabBarIcon: ({ tintColor }) => <Icon icon={require('../../Assets/plate.png')} size={25}/>,
+    tabBarIcon: ({ tintColor }) => <Icon icon={require('../../AliceAssets/plate.png')} size={25}/>,
   },
 });
 

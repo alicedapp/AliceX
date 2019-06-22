@@ -252,21 +252,21 @@ class HomeScreen extends React.Component {
           }}>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
               <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-                <Image source={require('../../Assets/back.png')} style={{
+                <Image source={require('../../AliceAssets/back.png')} style={{
                   resizeMode: 'contain',
                   width: 28,
                   height: 28,
                 }}/>
               </TouchableOpacity>
               <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Apps')}>
-                <Image source={require('../../Assets/home.png')} style={{
+                <Image source={require('../../AliceAssets/home.png')} style={{
                   resizeMode: 'contain',
                   width: 28,
                   height: 28,
                 }}/>
               </TouchableOpacity>
               <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-                <Image source={require('../../Assets/pin.png')} style={{
+                <Image source={require('../../AliceAssets/pin.png')} style={{
                   resizeMode: 'contain',
                   width: 28,
                   height: 28,
