@@ -2,9 +2,9 @@ import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import radar0 from '../assets/radar.png';
-import radar1 from '../assets/radar1.png';
-import radar2 from '../assets/radar2.png';
+import radar0 from '../Assets/radar.png';
+import radar1 from '../Assets/radar1.png';
+import radar2 from '../Assets/radar2.png';
 
 import Page from './common/Page';
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';

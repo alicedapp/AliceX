@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import nycJSON from '../assets/nyc_geojson.json';
+import nycJSON from '../Assets/nyc_geojson.json';
 
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import Page from './common/Page';

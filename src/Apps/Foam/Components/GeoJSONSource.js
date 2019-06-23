@@ -2,8 +2,8 @@ import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import gridPattern from '../assets/grid_pattern.png';
-import smileyFaceGeoJSON from '../assets/smiley_face.json';
+import gridPattern from '../Assets/grid_pattern.png';
+import smileyFaceGeoJSON from '../Assets/smiley_face.json';
 
 import Page from './common/Page';
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';

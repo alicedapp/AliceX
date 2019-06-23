@@ -4,7 +4,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
 import colors from '../styles/colors';
-import indoorMapGeoJSON from '../assets/indoor_3d_map.json';
+import indoorMapGeoJSON from '../Assets/indoor_3d_map.json';
 
 import Page from './common/Page';
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';

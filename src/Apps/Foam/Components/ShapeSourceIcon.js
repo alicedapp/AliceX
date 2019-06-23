@@ -2,7 +2,7 @@ import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import exampleIcon from '../assets/example.png';
+import exampleIcon from '../Assets/example.png';
 import {IS_ANDROID} from '../utils';
 
 import Page from './common/Page';

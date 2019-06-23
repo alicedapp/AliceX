@@ -8,7 +8,8 @@ import App from './App';
 
 import sheet from './styles/sheet';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from './utils';
-import Bubble from "./components/common/Bubble";
+import Bubble from "./Components/common/Bubble";
+import Modal from './Components/Modal'
 
 const { height, width } = Dimensions.get('window');
 
@@ -258,12 +259,12 @@ class HomeScreen extends React.Component {
       console.log('got here pois: ', this.state.pois);
       for (let i = 0; i < this.state.pois.length; i++) {
         console.log('POI: ', this.state.pois[i]);
-        const { geohash, state, listingHash } = this.state.pois[i];
+        const { geohash, state, listingHash, deposit, name } = this.state.pois[i];
         console.log('geohash: ', geohash);
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
         const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
-        const title = `Longitude: ${longitude} Latitude: ${latitude}`;
+        const title = `${name} ${parseInt(deposit)/10e17} FOAM`;
         const id = listingHash;
         console.log('COORDINATE: ', coordinate);
         console.log('TITLE: ', title);
@@ -271,9 +272,9 @@ class HomeScreen extends React.Component {
 
         let backgroundColor;
         if (state.status.type === 'listing') {
-          backgroundColor = '#71d729'
+          backgroundColor = '#27AB5F'
         } else {
-          backgroundColor = '#1279ff'
+          backgroundColor = '#2E7CE6'
         }
 
         items.push(
@@ -287,7 +288,7 @@ class HomeScreen extends React.Component {
             coordinate={coordinate}
           >
             <View style={[{backgroundColor}, styles.annotationContainer]}/>
-            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={JSON.stringify(this.state.pois[i])} />
+            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={title} />
           </MapboxGL.PointAnnotation>,
         );
       }
@@ -325,17 +326,17 @@ class HomeScreen extends React.Component {
       console.log('got here signals: ', this.state.signals);
       for (let i = 0; i < this.state.signals.length; i++) {
         console.log('POI: ', this.state.signals[i]);
-        const { geohash, state } = this.state.signals[i];
+        const { geohash, stake, owner } = this.state.signals[i];
         console.log('geohash: ', geohash);
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
         const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
-        const title = `Longitude: ${longitude} Latitude: ${latitude}`;
+        const title = `Signal: ${owner} ${parseInt(stake)/10e17} FOAM`;
         const id = `pointAnnotation${i}`;
         console.log('COORDINATE: ', coordinate);
         console.log('TITLE: ', title);
         console.log('ID: ', id);
-        let backgroundColor = "#c8be11";
+        let backgroundColor = "#FEC76C";
 
         items.push(
           <MapboxGL.PointAnnotation
@@ -348,7 +349,7 @@ class HomeScreen extends React.Component {
             coordinate={coordinate}
           >
             <View style={[{backgroundColor}, styles.annotationContainer]}/>
-            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={JSON.stringify(this.state.signals[i])} />
+            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={title} />
           </MapboxGL.PointAnnotation>,
         );
       }
@@ -360,92 +361,92 @@ class HomeScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     return (
-      <MapboxGL.MapView
-        ref={c => (this._map = c)}
-        onPress={this.onPress}
-        centerCoordinate={this.state.coordinates[0]}
-        showUserLocation={true}
-        zoomLevel={12}
-        userTrackingMode={MapboxGL.UserTrackingModes.Follow}
-        styleURL={this.state.styleURL}
-        style={sheet.matchParent}
-        onDidFinishLoadingMap={this.onDidFinishLoadingMap}
-        onRegionWillChange={this.onRegionWillChange}
-        onRegionDidChange={this.onRegionDidChange}
-        onRegionIsChanging={this.onRegionIsChanging}
-      >
-        {this.state.finishedRendering === false ? <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#000',
-        }}>
-          <Image source={require('./assets/foam-map-logo.png')} style={{
-            height: 70,
-            resizeMode: 'contain',
-          }}/>
-          <Image source={require('./assets/foam-splash-design.png')} style={{
-            height: 380,
-            width: 380,
-            resizeMode: 'contain',
-          }}/>
-        </View> : <View style={{ flex: 1 }}>
-          <View style={{
-            margin: 20,
-            marginTop: 50,
-            marginBottom: 0,
-            backgroundColor: 'transparent',
+      <View style={{flex: 1}}>
+        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 500, left: 10 }}>
+          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
+            <Image source={require('../../AliceAssets/back.png')} style={{
+              resizeMode: 'contain',
+              width: 28,
+              height: 28,
+            }}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Apps')}>
+            <Image source={require('../../AliceAssets/home.png')} style={{
+              resizeMode: 'contain',
+              width: 28,
+              height: 28,
+            }}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
+            <Image source={require('../../AliceAssets/pin.png')} style={{
+              resizeMode: 'contain',
+              width: 28,
+              height: 28,
+            }}/>
+          </TouchableOpacity>
+        </View>
+        <MapboxGL.MapView
+          ref={c => (this._map = c)}
+          onPress={this.onPress}
+          centerCoordinate={this.state.coordinates[0]}
+          showUserLocation={true}
+          zoomLevel={12}
+          userTrackingMode={MapboxGL.UserTrackingModes.Follow}
+          styleURL={this.state.styleURL}
+          style={sheet.matchParent}
+          onDidFinishLoadingMap={this.onDidFinishLoadingMap}
+          onRegionWillChange={this.onRegionWillChange}
+          onRegionDidChange={this.onRegionDidChange}
+          onRegionIsChanging={this.onRegionIsChanging}
+        >
+          {this.state.finishedRendering === false ? <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#000',
           }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-                <Image source={require('../../AliceAssets/back.png')} style={{
-                  resizeMode: 'contain',
-                  width: 28,
-                  height: 28,
-                }}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Apps')}>
-                <Image source={require('../../AliceAssets/home.png')} style={{
-                  resizeMode: 'contain',
-                  width: 28,
-                  height: 28,
-                }}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-                <Image source={require('../../AliceAssets/pin.png')} style={{
-                  resizeMode: 'contain',
-                  width: 28,
-                  height: 28,
-                }}/>
-              </TouchableOpacity>
+            <Image source={require('./Assets/foam-map-logo.png')} style={{
+              height: 70,
+              resizeMode: 'contain',
+            }}/>
+            <Image source={require('./Assets/foam-splash-design.png')} style={{
+              height: 380,
+              width: 380,
+              resizeMode: 'contain',
+            }}/>
+          </View> : <View style={{ flex: 1 }}>
+            <View style={{
+              margin: 20,
+              marginTop: 50,
+              marginBottom: 0,
+              backgroundColor: 'transparent',
+            }}>
+
             </View>
-          </View>
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-          }}>
-            <View style={styles.blackHeaderModule}>
-              <Text style={{ color: 'white' }}>Main Ethereum Network</Text>
-            </View>
-            <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Maps')}>
-              <View style={styles.blackHeaderModule}>
-                <Text style={{ color: 'white' }}>100.00</Text>
-                <View>
-                  <Text style={{
-                    color: 'white',
-                    fontSize: 10,
-                  }}>FOAM</Text>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}>
+              <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
+              <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Maps')}>
+                <View style={styles.blackHeaderModule}>
+                  <Text style={{ color: 'white' }}>100.00</Text>
+                  <View>
+                    <Text style={{
+                      color: 'white',
+                      fontSize: 10,
+                    }}>FOAM</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-        </View>}
-        {this.renderPOIs()}
-        {this.renderSignals()}
-        {this.renderRegionChange()}
-        {this.renderSelectedPoint()}
-      </MapboxGL.MapView>
+              </TouchableOpacity>
+            </View>
+          </View>}
+          {this.renderPOIs()}
+          {this.renderSignals()}
+          {this.renderRegionChange()}
+          {this.renderSelectedPoint()}
+        </MapboxGL.MapView>
+      </View>
     );
   }
 }

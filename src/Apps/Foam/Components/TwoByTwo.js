@@ -2,7 +2,7 @@ import React from 'react';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import smileyFaceGeoJSON from '../assets/smiley_face.json';
+import smileyFaceGeoJSON from '../Assets/smiley_face.json';
 
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import Page from './common/Page';

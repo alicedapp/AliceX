@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 import sheet from '../styles/sheet';
-import exampleIcon from '../assets/example.png';
+import exampleIcon from '../Assets/example.png';
 
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import Page from './common/Page';
