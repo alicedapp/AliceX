@@ -14,14 +14,8 @@ import Icon from '../Components/IconComponent';
 
 /*        App Export Section */
 export { default as Fork } from './Fork';
-// export { default as Bounties } from './Bounties';
-// export { default as Cryptokitties } from './Cryptokitties';
-// export { default as RadarRelay } from './RadarRelay';
-// export { default as LocalEthereum } from './LocalEthereum';
 export { default as Foam } from './Foam';
-export { default as Test } from './Test';
-// export { default as Uniswap } from './Uniswap';
-// export { default as Gitcoin } from './Gitcoin';
+export { default as Test } from './Example';
 
 
 const { height, width } = Dimensions.get('window');
@@ -65,7 +59,7 @@ export default class AppsScreen extends Component<Props> {
             </View>
             <View style={styles.appIcon}>
               <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#ffffff' }]} onPress={() => this.props.navigation.navigate('Test')}>
-                <Image source={require('./Test/Assets/buidler.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
+                <Image source={require('./Example/Assets/buidler.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
               </TouchableOpacity>
               <Text style={styles.appText}>#BUIDL</Text>
             </View>

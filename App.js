@@ -5,13 +5,8 @@
 
 import React, { Component } from 'react';
 import {
-  Dimensions,
-  NativeModules,
-  Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
 

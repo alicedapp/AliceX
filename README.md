@@ -50,8 +50,13 @@ If we don't get back to you immediately there will be many other resources out t
 
 
 # Building your app in Alice
-Welcome to the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons - We made it insanely easy for you or you're just a gun dev.
-Welcome to the rabbit hole, it's now your choice to enter or not.
+Welcome to the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
+1. We made it insanely easy for you OR
+2. You're just a gun dev.
+
+Welcome to the rabbit hole, it's now your choice to enter or not. You can turn back now and act like none of this happened. OR you can enter into wonderland and you'll experience how deep the rabbit hole goes.
+
+Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see a Test
 
 # Contributing
 Alice is open source and open source for a reason, we want everyone to join in on the fun. There is an ongoing list of key features that we have to implement before launch on the App Store and Google Play Store.

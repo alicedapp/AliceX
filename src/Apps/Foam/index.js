@@ -6,11 +6,9 @@ import { createBottomTabNavigator } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import App from './App';
 
-
 import sheet from './styles/sheet';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from './utils';
-
-import BaseExamplePropTypes from './components/common/BaseExamplePropTypes';
+import Bubble from "./components/common/Bubble";
 
 const { height, width } = Dimensions.get('window');
 
@@ -21,14 +19,9 @@ const isValidCoordinate = geometry => {
   return geometry.coordinates[0] !== 0 && geometry.coordinates[1] !== 0;
 };
 
-
 const ANNOTATION_SIZE = 10;
 
-
 class HomeScreen extends React.Component {
-  static propTypes = {
-    ...BaseExamplePropTypes,
-  };
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -47,7 +40,6 @@ class HomeScreen extends React.Component {
         data: MapboxGL.StyleURL[key],
       }))
       .sort(onSortOptions);
-
 
     this._scaleIn = null;
     this._scaleOut = null;
@@ -68,6 +60,8 @@ class HomeScreen extends React.Component {
       backgroundColor: 'blue',
       coordinates: [[-73.99155, 40.73581]],
       pois: null,
+      signals: null,
+      selectedPoint: null,
 
     };
 
@@ -86,7 +80,23 @@ class HomeScreen extends React.Component {
   onPress(feature) {
     const coords = Object.assign([], this.state.coordinates);
     coords.push(feature.geometry.coordinates);
-    this.setState({ coordinates: coords });
+    const coordinate = [parseFloat(coords[1][0].toPrecision(6)), parseFloat(coords[1][1].toPrecision(6))];
+    this.setState({ selectedPoint: coordinate });
+  }
+
+  renderSelectedPoint = () => {
+    if (this.state.selectedPoint !== null) {
+      return (
+        <MapboxGL.PointAnnotation
+          key={1}
+          id={1}
+          coordinate={this.state.selectedPoint}
+        >
+          <View style={[{backgroundColor: '#fff'}, styles.annotationContainer]}/>
+          <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor: '#fff'}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={'Your POI'} />
+        </MapboxGL.PointAnnotation>
+      );
+    }
   }
 
   onDidFinishLoadingMap = () => {
@@ -125,14 +135,67 @@ class HomeScreen extends React.Component {
       swLng, swLat, neLat, neLng,
     } = this.state;
     if (swLng) {
-      fetch(`https://map-api-direct.foam.space/signal/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
+      fetch(`https://map-api-direct.foam.space/poi/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((pois) => {
-          console.log('POIS: ', pois);
+          console.log('POIS: ', pois)
           this.setState({ pois: JSON.parse(pois) });
         })
         .catch((err) => {});
     }
+  };
+
+  getSignals = async () => {
+    const {
+      swLng, swLat, neLat, neLng,
+    } = this.state;
+    if (swLng) {
+      fetch(`https://map-api-direct.foam.space/signal/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
+        .then((response) => response.text())
+        .then((signals) => {
+          console.log('Signals: ', signals);
+          this.setState({ signals: JSON.parse(signals) });
+        })
+        .catch((err) => {});
+    }
+  };
+
+
+  renderRegionChange() {
+    if (
+      !this.state.regionFeature ||
+      !isValidCoordinate(this.state.regionFeature.geometry)
+    ) {
+      return (
+        <Bubble>
+          <Text>Move the map!</Text>
+        </Bubble>
+      );
+    }
+
+    const {geometry, properties} = this.state.regionFeature;
+    const neCoord = properties.visibleBounds[0]
+      .map(n => n.toPrecision(6))
+      .join(', ');
+    const swCoord = properties.visibleBounds[1]
+      .map(n => n.toPrecision(6))
+      .join(', ');
+    return (
+      <Bubble style={{marginBottom: 100}}>
+        <Text>{this.state.reason}</Text>
+        <Text>Latitude: {geometry.coordinates[1]}</Text>
+        <Text>Longitude: {geometry.coordinates[0]}</Text>
+        <Text>Visible Bounds NE: {neCoord}</Text>
+        <Text>Visible Bounds SW: {swCoord}</Text>
+        <Text>Zoom Level: {properties.zoomLevel}</Text>
+        <Text>Heading: {properties.heading}</Text>
+        <Text>Pitch: {properties.pitch}</Text>
+        <Text>
+          Is User Interaction: {properties.isUserInteraction ? 'true' : 'false'}
+        </Text>
+        <Text>Animated: {properties.animated ? 'true' : 'false'}</Text>
+      </Bubble>
+    );
   }
 
   onRegionWillChange = (regionFeature) => {
@@ -142,6 +205,7 @@ class HomeScreen extends React.Component {
   onRegionDidChange = (regionFeature) => {
     this.setState({ reason: 'did change', regionFeature });
     this.getPOIs();
+    this.getSignals();
   }
 
   onRegionIsChanging = (regionFeature) => {
@@ -161,34 +225,55 @@ class HomeScreen extends React.Component {
     });
   };
 
-  renderAnnotations() {
+  renderMarkers = () => {
+    MapboxGL.PointAnnotation
+  }
+
+  renderPOIs() {
+    const hello = {
+      "state":
+        {
+          "status":
+            {
+              "listingSince":"2018-09-18T20:49:58Z",
+              "type":"listing"
+            },
+          "createdAt":"2018-09-15T20:49:58Z",
+          "deposit":"0x56bc75e2d63100000"
+        },
+      "listingHash":"0xb9b568bf67177b37e4c2c63e1e346f519034ba76b38476e986dbee8bb6aa19a7",
+      "owner":"0xd941b1cd36ee2dabc29ba97823716a3a393813e1",
+      "geohash":"dr5reg6w0c8n",
+      "name":"2 World Trade Center",
+      "tags":
+        [
+          "Retail",
+          "Work",
+          "Attraction"
+        ]
+    };
+
     const items = [];
     if (this.state.pois !== null && this.state.pois !== undefined) {
       console.log('got here pois: ', this.state.pois);
       for (let i = 0; i < this.state.pois.length; i++) {
         console.log('POI: ', this.state.pois[i]);
-        const { geohash } = this.state.pois[i];
+        const { geohash, state, listingHash } = this.state.pois[i];
         console.log('geohash: ', geohash);
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
         const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
         const title = `Longitude: ${longitude} Latitude: ${latitude}`;
-        const id = `pointAnnotation${i}`;
+        const id = listingHash;
         console.log('COORDINATE: ', coordinate);
         console.log('TITLE: ', title);
         console.log('ID: ', id);
 
-        const animationStyle = {};
-        if (i === this.state.activeAnnotationIndex) {
-          animationStyle.transform = [{ scale: this._scaleIn }];
-        } else if (i === this.state.previousActiveAnnotationIndex) {
-          animationStyle.transform = [{ scale: this._scaleOut }];
-        }
         let backgroundColor;
-        if (i % 2) {
-          backgroundColor = '#1279ff'
-        } else {
+        if (state.status.type === 'listing') {
           backgroundColor = '#71d729'
+        } else {
+          backgroundColor = '#1279ff'
         }
 
         items.push(
@@ -202,7 +287,68 @@ class HomeScreen extends React.Component {
             coordinate={coordinate}
           >
             <View style={[{backgroundColor}, styles.annotationContainer]}/>
-            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={title} />
+            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={JSON.stringify(this.state.pois[i])} />
+          </MapboxGL.PointAnnotation>,
+        );
+      }
+    }
+
+    return items;
+  }
+
+  renderSignals() {
+    const hello = {
+      "state":
+        {
+          "status":
+            {
+              "listingSince":"2018-09-18T20:49:58Z",
+              "type":"listing"
+            },
+          "createdAt":"2018-09-15T20:49:58Z",
+          "deposit":"0x56bc75e2d63100000"
+        },
+      "listingHash":"0xb9b568bf67177b37e4c2c63e1e346f519034ba76b38476e986dbee8bb6aa19a7",
+      "owner":"0xd941b1cd36ee2dabc29ba97823716a3a393813e1",
+      "geohash":"dr5reg6w0c8n",
+      "name":"2 World Trade Center",
+      "tags":
+        [
+          "Retail",
+          "Work",
+          "Attraction"
+        ]
+    };
+
+    const items = [];
+    if (this.state.signals !== null && this.state.signals !== undefined) {
+      console.log('got here signals: ', this.state.signals);
+      for (let i = 0; i < this.state.signals.length; i++) {
+        console.log('POI: ', this.state.signals[i]);
+        const { geohash, state } = this.state.signals[i];
+        console.log('geohash: ', geohash);
+        const [latitude] = decodeGeoHash(geohash).latitude;
+        const [longitude] = decodeGeoHash(geohash).longitude;
+        const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
+        const title = `Longitude: ${longitude} Latitude: ${latitude}`;
+        const id = `pointAnnotation${i}`;
+        console.log('COORDINATE: ', coordinate);
+        console.log('TITLE: ', title);
+        console.log('ID: ', id);
+        let backgroundColor = "#c8be11";
+
+        items.push(
+          <MapboxGL.PointAnnotation
+            key={id}
+            id={id}
+            title="Test"
+            selected={this.state.selected && i === 0}
+            onSelected={feature => this.onAnnotationSelected(i, feature)}
+            onDeselected={() => this.onAnnotationDeselected(i)}
+            coordinate={coordinate}
+          >
+            <View style={[{backgroundColor}, styles.annotationContainer]}/>
+            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={JSON.stringify(this.state.signals[i])} />
           </MapboxGL.PointAnnotation>,
         );
       }
@@ -295,7 +441,10 @@ class HomeScreen extends React.Component {
           </View>
           <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
         </View>}
-        {this.renderAnnotations()}
+        {this.renderPOIs()}
+        {this.renderSignals()}
+        {this.renderRegionChange()}
+        {this.renderSelectedPoint()}
       </MapboxGL.MapView>
     );
   }
@@ -404,3 +553,4 @@ const styles = StyleSheet.create({
 { /* </TouchableOpacity> */ }
 { /* </View> */ }
 { /* </View> */ }
+
