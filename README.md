@@ -75,22 +75,25 @@ Now that you're in the repo you will want to navigate to the `src/Apps` folder i
 ```js
 import {Wallet, Contract} from '../../SDK';
 
-** Wallet Functions **
+```
 
 Get Wallet Address
-
+```js
 Wallet.getAccount(); -> '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F' //user's wallet address
+```
 
 Send Transaction
 
+```js
 Wallet.sendTransaction({
     to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
     value: "1000",
     data: "YOLO"
 }) -> '0x9665fd863a2a9657ee09c138306fc9f1a72dd8b52c61675a5221390ed5eb9a76' //transaction hash
+```
 
 Sign Transaction
-
+```js
 Wallet.signTransaction({
     to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
     value: "1000",
@@ -110,30 +113,42 @@ Wallet.signTransaction({
               hash: '0xda3be87732110de6c1354c83770aae630ede9ac308d9f7b399ecfba23d923384'
           }
       }
+```
 
 Sign Message
 
+```js
 Wallet.sign("Yo Bob!") -> "0x30755ed65396facf86c53e6217c52b4daebe72aa4941d89635409de4c9c7f9466d4e9aaec7977f05e923889b33c0d0dd27d7226b6e6f56ce737465c5cfd04be400"
+```
 
 Send Token
 
+```js
 Wallet.sendToken({
     to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
     tokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     value: "1000",
     data: "YOLO"
 })
+```
 
 ** Smart Contract Interactions **
 
+Send Information
+
+```js
 Contract.send({
     abi: [{...}]
     contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
     functionName: 'setOrder',
     parameters: ['Hamburger', 'Mark'],
-
+    value: "0.1",
 }) -> '0xfcbe88307d2edde37b4236c9bcc66bcb81cb9f865f915c9772e46129d56528c7' //transaction hash
+```
 
+Read Data
+
+```js
 Contract.call({
     abi: [{...}]
     contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
