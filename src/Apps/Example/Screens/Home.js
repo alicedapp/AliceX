@@ -1,6 +1,7 @@
 import React from "react";
-import {Image, NativeModules, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, NativeModules, TouchableOpacity, View} from "react-native";
 import Modalize from "react-native-modalize";
+import {getAddress, sendTransaction} from "../../../SDK/Web3";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -11,7 +12,28 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       txHash: 'TX HASH',
+      address: '',
     };
+
+  }
+
+  componentDidMount() {
+
+  }
+
+  getAddress = () => {
+    getAddress((address) => {
+      this.setState({address})
+    });
+  }
+
+  sendTransaction = () => {
+    sendTransaction({to: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB', value: '0.01'}, (txHash) => {
+      this.setState({txHash})
+    })
+  }
+
+  signTransaction = () => {
 
   }
 
@@ -31,21 +53,21 @@ export default class HomeScreen extends React.Component {
 
 
   send = () => {
-    NativeModules.PaymentNativeModule.payment('0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB', '0.01', (txHash) => {
-      this.setState({txHash})
-    });
+
   };
 
   render() {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-        <TouchableOpacity onPress={this.onOpen} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send</Text>
+        <Text>Address: {this.state.address}</Text>
+        <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+          <Text>Get Address</Text>
         </TouchableOpacity>
-        <Modalize ref={this.modalRef} handlePosition="outside" >
-
-        </Modalize>
+        <Text>TransactionHash: {this.state.txHash}</Text>
+        <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+          <Text>Send Transaction</Text>
+        </TouchableOpacity>
       </View>
     );
   }

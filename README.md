@@ -79,7 +79,7 @@ import {Wallet, Contract} from '../../SDK';
 
 Get Wallet Address
 ```js
-Wallet.getAccount(); -> '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F' //user's wallet address
+Wallet.getAddress(); -> '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F' //user's wallet address
 ```
 
 Send Transaction
@@ -129,7 +129,7 @@ Wallet.sendToken({
     tokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     value: "1000",
     data: "YOLO"
-})
+}) -> '0xfcbe88307d2edde37b4236c9bcc66bcb81cb9f865f915c9772e46129d56528c7' //transaction hash
 ```
 
 ** Smart Contract Interactions **

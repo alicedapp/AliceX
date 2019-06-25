@@ -73,7 +73,7 @@ export default class Menu extends React.Component {
   }
 
   sendOrder = async (foodItem) => {
-    NativeModules.PaymentNativeModule.smartContract('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', 'setOrder', JSON.stringify(abi), [foodItem, 'Mark'], (txHash) => {
+    NativeModules.WalletModule.smartContract('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', 'setOrder', JSON.stringify(abi), [foodItem, 'Mark'], (txHash) => {
       this.props.navigation.navigate('Apps');
       alert(txHash);
     })
