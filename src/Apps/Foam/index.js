@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
-  Animated, Image, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions, View,
+  Animated, Image, StyleSheet, Text, ScrollView, TextInput, TouchableOpacity, Dimensions, View,
 } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import App from './App';
+import Modalize from 'react-native-modalize';
 
 import sheet from './styles/sheet';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from './utils';
 import Bubble from "./Components/common/Bubble";
 import Modal from './Components/Modal'
+import {NavigationBar} from "../../Components/NavigationBar";
 
 const { height, width } = Dimensions.get('window');
 
@@ -22,7 +24,7 @@ const isValidCoordinate = geometry => {
 
 const ANNOTATION_SIZE = 10;
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -45,6 +47,8 @@ class HomeScreen extends React.Component {
     this._scaleIn = null;
     this._scaleOut = null;
 
+    this.modalRef = React.createRef();
+
     this.onPress = this.onPress.bind(this);
     this.state = {
       styleURL: this._mapOptions[0].data,
@@ -59,23 +63,35 @@ class HomeScreen extends React.Component {
       previousActiveAnnotationIndex: -1,
       finishedRendering: false,
       backgroundColor: 'blue',
-      coordinates: [[-73.99155, 40.73581]],
+      coordinates: [],
       pois: null,
       signals: null,
       selectedPoint: null,
-
+      showPOIModal: false,
+      selectedPOITitle: 'Huntington Garden',
+      selectedPOIStake: '500',
+      selectedPOIColor: '#2E7CE6',
+      modalHeight: 350,
     };
+  }
 
-    this._tabOptions = [
-      { label: 'Fly To', data: SF_OFFICE_COORDINATE },
-      {
-        label: 'Fit Bounds',
-        data: [[-74.12641, 40.797968], [-74.143727, 40.772177]],
-      },
-      { label: 'Zoom To', data: 12 },
-    ];
+  onOpen = () => {
 
-    this.onMapChange = this.onMapChange.bind(this);
+    const modal = this.modalRef.current;
+    console.log('modal: ', this.modalRef.current);
+
+    if (modal) {
+      modal.open();
+    }
+  };
+
+  componentDidMount() {
+    const getCoords = (pos) => {
+      const {latitude, longitude} = pos.coords;
+      this.setState({coordinates: [[parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))]]})
+    }
+    navigator.geolocation.getCurrentPosition(getCoords, console.error, {enableHighAccuracy: false, timeout: 50000});
+
   }
 
   onPress(feature) {
@@ -90,7 +106,7 @@ class HomeScreen extends React.Component {
       return (
         <MapboxGL.PointAnnotation
           key={1}
-          id={1}
+          id={'1'}
           coordinate={this.state.selectedPoint}
         >
           <View style={[{backgroundColor: '#fff'}, styles.annotationContainer]}/>
@@ -104,7 +120,7 @@ class HomeScreen extends React.Component {
     setTimeout(() => this.setState({ finishedRendering: true }), 1500);
   }
 
-  onAnnotationSelected(activeIndex, feature) {
+  onAnnotationSelected(activeIndex, feature, listingHash) {
     if (this.state.activeIndex === activeIndex) {
       return;
     }
@@ -112,10 +128,24 @@ class HomeScreen extends React.Component {
     this._scaleIn = new Animated.Value(0.6);
     Animated.timing(this._scaleIn, { toValue: 1.0, duration: 200 }).start();
     this.setState({ activeAnnotationIndex: activeIndex, selected: true });
+    this.getPOIDescription(listingHash)
 
     if (this.state.previousActiveAnnotationIndex !== -1) {
       this._map.moveTo(feature.geometry.coordinates, 500);
     }
+    this.onOpen();
+  }
+
+  getPOIDescription = async (listingHash) => {
+    if (listingHash) {
+      fetch(`https://map-api-direct.foam.space/poi/${listingHash}`)
+        .then((response) => response.text())
+        .then((poiDescription) => {
+          this.setState({ poiDescription: JSON.parse(poiDescription) });
+        })
+        .catch((err) => {});
+    }
+
   }
 
   onAnnotationDeselected(deselectedIndex) {
@@ -161,6 +191,9 @@ class HomeScreen extends React.Component {
     }
   };
 
+  closeModal = () => {
+    this.setState({showPOIModal: false})
+  }
 
   renderRegionChange() {
     if (
@@ -184,17 +217,6 @@ class HomeScreen extends React.Component {
     return (
       <Bubble style={{marginBottom: 100}}>
         <Text>{this.state.reason}</Text>
-        <Text>Latitude: {geometry.coordinates[1]}</Text>
-        <Text>Longitude: {geometry.coordinates[0]}</Text>
-        <Text>Visible Bounds NE: {neCoord}</Text>
-        <Text>Visible Bounds SW: {swCoord}</Text>
-        <Text>Zoom Level: {properties.zoomLevel}</Text>
-        <Text>Heading: {properties.heading}</Text>
-        <Text>Pitch: {properties.pitch}</Text>
-        <Text>
-          Is User Interaction: {properties.isUserInteraction ? 'true' : 'false'}
-        </Text>
-        <Text>Animated: {properties.animated ? 'true' : 'false'}</Text>
       </Bubble>
     );
   }
@@ -213,10 +235,6 @@ class HomeScreen extends React.Component {
     this.setState({ reason: 'is changing', regionFeature }, this.setBounds);
   }
 
-  onMapChange = (index, styleURL) => {
-    this.setState({ styleURL });
-  }
-
   setBounds = () => {
     const { geometry, properties } = this.state.regionFeature;
     const [neLng, neLat] = properties.visibleBounds[0];
@@ -226,64 +244,30 @@ class HomeScreen extends React.Component {
     });
   };
 
-  renderMarkers = () => {
-    MapboxGL.PointAnnotation
-  }
-
   renderPOIs() {
-    const hello = {
-      "state":
-        {
-          "status":
-            {
-              "listingSince":"2018-09-18T20:49:58Z",
-              "type":"listing"
-            },
-          "createdAt":"2018-09-15T20:49:58Z",
-          "deposit":"0x56bc75e2d63100000"
-        },
-      "listingHash":"0xb9b568bf67177b37e4c2c63e1e346f519034ba76b38476e986dbee8bb6aa19a7",
-      "owner":"0xd941b1cd36ee2dabc29ba97823716a3a393813e1",
-      "geohash":"dr5reg6w0c8n",
-      "name":"2 World Trade Center",
-      "tags":
-        [
-          "Retail",
-          "Work",
-          "Attraction"
-        ]
-    };
-
     const items = [];
     if (this.state.pois !== null && this.state.pois !== undefined) {
       console.log('got here pois: ', this.state.pois);
       for (let i = 0; i < this.state.pois.length; i++) {
-        console.log('POI: ', this.state.pois[i]);
-        const { geohash, state, listingHash, deposit, name } = this.state.pois[i];
-        console.log('geohash: ', geohash);
+        const { geohash, state, listingHash, name } = this.state.pois[i];
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
-        const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
-        const title = `${name} ${parseInt(deposit)/10e17} FOAM`;
+        const coordinate = [ parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6)) ];
+        const title = `${name} ${parseInt(state.deposit)/10e17} FOAM`;
         const id = listingHash;
-        console.log('COORDINATE: ', coordinate);
-        console.log('TITLE: ', title);
-        console.log('ID: ', id);
-
         let backgroundColor;
         if (state.status.type === 'listing') {
           backgroundColor = '#27AB5F'
         } else {
           backgroundColor = '#2E7CE6'
         }
-
         items.push(
           <MapboxGL.PointAnnotation
             key={id}
             id={id}
             title="Test"
             selected={this.state.selected && i === 0}
-            onSelected={feature => this.onAnnotationSelected(i, feature)}
+            onSelected={feature => this.onAnnotationSelected(i, feature, id)}
             onDeselected={() => this.onAnnotationDeselected(i)}
             coordinate={coordinate}
           >
@@ -298,44 +282,16 @@ class HomeScreen extends React.Component {
   }
 
   renderSignals() {
-    const hello = {
-      "state":
-        {
-          "status":
-            {
-              "listingSince":"2018-09-18T20:49:58Z",
-              "type":"listing"
-            },
-          "createdAt":"2018-09-15T20:49:58Z",
-          "deposit":"0x56bc75e2d63100000"
-        },
-      "listingHash":"0xb9b568bf67177b37e4c2c63e1e346f519034ba76b38476e986dbee8bb6aa19a7",
-      "owner":"0xd941b1cd36ee2dabc29ba97823716a3a393813e1",
-      "geohash":"dr5reg6w0c8n",
-      "name":"2 World Trade Center",
-      "tags":
-        [
-          "Retail",
-          "Work",
-          "Attraction"
-        ]
-    };
-
     const items = [];
     if (this.state.signals !== null && this.state.signals !== undefined) {
       console.log('got here signals: ', this.state.signals);
       for (let i = 0; i < this.state.signals.length; i++) {
-        console.log('POI: ', this.state.signals[i]);
         const { geohash, stake, owner } = this.state.signals[i];
-        console.log('geohash: ', geohash);
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
         const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
         const title = `Signal: ${owner} ${parseInt(stake)/10e17} FOAM`;
         const id = `pointAnnotation${i}`;
-        console.log('COORDINATE: ', coordinate);
-        console.log('TITLE: ', title);
-        console.log('ID: ', id);
         let backgroundColor = "#FEC76C";
 
         items.push(
@@ -358,33 +314,12 @@ class HomeScreen extends React.Component {
     return items;
   }
 
+
   render() {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1}}>
-        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 500, left: 10 }}>
-          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-            <Image source={require('../../AliceAssets/back.png')} style={{
-              resizeMode: 'contain',
-              width: 28,
-              height: 28,
-            }}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../AliceAssets/home.png')} style={{
-              resizeMode: 'contain',
-              width: 28,
-              height: 28,
-            }}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.goBack(null)}>
-            <Image source={require('../../AliceAssets/pin.png')} style={{
-              resizeMode: 'contain',
-              width: 28,
-              height: 28,
-            }}/>
-          </TouchableOpacity>
-        </View>
+        <NavigationBar/>
         <MapboxGL.MapView
           ref={c => (this._map = c)}
           onPress={this.onPress}
@@ -421,30 +356,42 @@ class HomeScreen extends React.Component {
               marginBottom: 0,
               backgroundColor: 'transparent',
             }}>
-
-            </View>
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
-              <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-              <TouchableOpacity style={{ padding: 3 }} onPress={() => navigation.navigate('Maps')}>
-                <View style={styles.blackHeaderModule}>
-                  <Text style={{ color: 'white' }}>100.00</Text>
-                  <View>
-                    <Text style={{
-                      color: 'white',
-                      fontSize: 10,
-                    }}>FOAM</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+              <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+                <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
+                <TouchableOpacity style={{ padding: 3, flex: 1, marginLeft: 10}} onPress={this.onOpen}>
+                  <Image source={require('./Assets/account-icon.png')} style={{width: 40,height: 40, resizeMode: 'contain'}}/>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>}
           {this.renderPOIs()}
           {this.renderSignals()}
           {this.renderRegionChange()}
           {this.renderSelectedPoint()}
+          <Modalize ref={this.modalRef} handlePosition="outside" height={140}>
+              <View style={styles.innerModalBox}>
+                <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.selectedPOITitle}</Text>
+                <View style={styles.tokenAmount}>
+                  <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.selectedPOIStake).toFixed(2)}</Text>
+                  <View>
+                    <Text style={{
+                      color: this.state.selectedPOIColor,
+                      fontSize: 10,
+                      fontStyle: 'italic',
+                      paddingLeft: 2,
+                      paddingRight: 3
+                    }}>FOAM</Text>
+                  </View>
+                  <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
+                </View>
+
+                <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
+                  <Text style={{color: 'white'}}>Challenged Point of Interest</Text>
+                  <Image source={require('./Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>
+                </TouchableOpacity>
+                <Text>{JSON.stringify(this.state.poiDescription)}</Text>
+              </View>
+          </Modalize>
         </MapboxGL.MapView>
       </View>
     );
@@ -486,24 +433,29 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
     transform: [{ scale: 0.6 }],
   },
-  blackHeaderModule: {
+  tokenAmount: {
+    flexDirection: 'row',
+    marginBottom: 15
+  },
+  descriptionButton: {
     flexDirection: 'row',
     padding: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
     height: 40,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#636363',
-    backgroundColor: '#212121',
+    borderRadius: 50/2,
+    alignItems: 'center',
+    justifyContent: 'space-between',
     shadowColor: '#212121',
     shadowOffset: {
       width: 0,
       height: 3,
     },
-    shadowRadius: 10,
-    shadowOpacity: 1.0,
+    shadowRadius: 3,
+    shadowOpacity: 0.3,
   },
   whiteSearch: {
-    margin: 25,
+    flex: 3,
     marginTop: 0,
     flexDirection: 'row',
     alignItems: 'center',
@@ -521,6 +473,19 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
     shadowOpacity: 1.0,
+  },
+  modal: {
+    margin: 0,
+  },
+  modalBox: {
+    width,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    position: 'absolute',
+    bottom: 0
+  },
+  innerModalBox: {
+    margin: 20
   },
   whiteBox: {
     margin: 25,

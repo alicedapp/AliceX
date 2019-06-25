@@ -3,7 +3,7 @@ import {RNCamera} from 'react-native-camera';
 import Modal from './Modal';
 import {Text} from 'react-native';
 
-export default class CameraComponent extends Component {
+export default class Camera extends Component {
 
   state = {
     isVisible: false
@@ -12,7 +12,7 @@ export default class CameraComponent extends Component {
   reader = (e) => {
     this.setState({isVisible: true, text: JSON.stringify(e)});
     console.log('Event: ', e)
-  }
+  };
 
   closeModal = () => {
     console.log('closing');

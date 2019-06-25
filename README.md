@@ -58,6 +58,92 @@ Welcome to the rabbit hole, it's now your choice to enter or not. You can turn b
 
 Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see a Test
 
+## Web3 Functions
+### Function Completion List
+
+#### Wallet Functions
+- [ ] Get Wallet Address
+- [ ] Send Transaction
+- [ ] Sign Transaction
+- [ ] Sign Message
+- [ ] Send Token
+
+#### Smart Contract Functions
+- [ ] Contract Send
+- [ ] Contract Call
+
+```js
+import {Wallet, Contract} from '../../SDK';
+
+** Wallet Functions **
+
+Get Wallet Address
+
+Wallet.getAccount(); -> '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F' //user's wallet address
+
+Send Transaction
+
+Wallet.sendTransaction({
+    to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
+    value: "1000",
+    data: "YOLO"
+}) -> '0x9665fd863a2a9657ee09c138306fc9f1a72dd8b52c61675a5221390ed5eb9a76' //transaction hash
+
+Sign Transaction
+
+Wallet.signTransaction({
+    to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
+    value: "1000",
+    data: "YOLO"
+}) -> {
+          raw: '0xf86c808504a817c800825208943535353535353535353535353535353535353535880de0b6b3a76400008025a04f4c17305743700648bc4f6cd3038ec6f6af0df73e31757007b7f59df7bee88da07e1941b264348e80c78c4027afc65a87b0a5e43e86742b8ca0823584c6788fd0',
+          tx: {
+              nonce: '0x0',
+              gasPrice: '0x4a817c800',
+              gas: '0x5208',
+              to: '0x3535353535353535353535353535353535353535',
+              value: '0xde0b6b3a7640000',
+              input: '0x',
+              v: '0x25',
+              r: '0x4f4c17305743700648bc4f6cd3038ec6f6af0df73e31757007b7f59df7bee88d',
+              s: '0x7e1941b264348e80c78c4027afc65a87b0a5e43e86742b8ca0823584c6788fd0',
+              hash: '0xda3be87732110de6c1354c83770aae630ede9ac308d9f7b399ecfba23d923384'
+          }
+      }
+
+Sign Message
+
+Wallet.sign("Yo Bob!") -> "0x30755ed65396facf86c53e6217c52b4daebe72aa4941d89635409de4c9c7f9466d4e9aaec7977f05e923889b33c0d0dd27d7226b6e6f56ce737465c5cfd04be400"
+
+Send Token
+
+Wallet.sendToken({
+    to: '0x25c4a76e7d118705e7ea2e9b7d8c59930d8acd3b',
+    tokenAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    value: "1000",
+    data: "YOLO"
+})
+
+** Smart Contract Interactions **
+
+Contract.send({
+    abi: [{...}]
+    contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
+    functionName: 'setOrder',
+    parameters: ['Hamburger', 'Mark'],
+
+}) -> '0xfcbe88307d2edde37b4236c9bcc66bcb81cb9f865f915c9772e46129d56528c7' //transaction hash
+
+Contract.call({
+    abi: [{...}]
+    contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
+    functionName: 'getOrderDetails',
+    parameters: ['Hamburger', 'Mark'],
+
+}) -> []
+
+```
+
 # Contributing
 Alice is open source and open source for a reason, we want everyone to join in on the fun. There is an ongoing list of key features that we have to implement before launch on the App Store and Google Play Store.
 The list of features you can find below.

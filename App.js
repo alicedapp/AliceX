@@ -18,13 +18,14 @@ MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0
 
 import NavigatorService from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";
+import Camera from "./src/Components/Camera";
 
 
 class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Screen 1</Text>
+        <Camera></Camera>
       </View>
     );
   }
@@ -98,7 +99,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 })
 
 const MainApp = createStackNavigator({
-  Apps: { screen: AppTabNavigator },
+  Apps: { screen: Test },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
   Test: { screen: Test },
@@ -126,8 +127,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    padding: 20
   },
   buttonContainer: {
     height: 400,
