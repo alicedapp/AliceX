@@ -76,9 +76,6 @@ export default class ExampleHome extends React.Component {
     this.setState({contractInfo: result});
   };
 
-  send = () => {
-
-  };
 
   render() {
     const { navigation } = this.props;
