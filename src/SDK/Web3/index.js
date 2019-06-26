@@ -1,7 +1,38 @@
 import {Image, NativeModules, Text, TouchableOpacity, View} from "react-native";
 
-export const getAddress = (cb) => {
-  NativeModules.WalletModule.getAddress(cb);
+const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
+
+const sendTransaction = ({to, value, data}, cb) => NativeModules.WalletModule.sendTransaction(to, value, cb);
+
+const signTransaction = () => {
+
 };
 
-export const sendTransaction = ({to, value, data}, cb) => NativeModules.WalletModule.sendTransaction(to, value, cb);
+const signMessage = () => {
+
+};
+
+const sendToken = () => {
+
+};
+
+const write = () => {
+
+};
+
+const read = () => {
+
+};
+
+export const Wallet = {
+  getAddress,
+  sendTransaction,
+  signTransaction,
+  signMessage,
+  sendToken
+};
+
+export const Contract = {
+  write,
+  read
+};

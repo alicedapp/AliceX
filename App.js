@@ -99,7 +99,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 })
 
 const MainApp = createStackNavigator({
-  Apps: { screen: Test },
+  Apps: { screen: AppTabNavigator },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
   Test: { screen: Test },

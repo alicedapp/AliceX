@@ -50,13 +50,14 @@ If we don't get back to you immediately there will be many other resources out t
 
 
 # Building your app in Alice
-Welcome to the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
+Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
 1. We made it insanely easy for you OR
 2. You're just a gun dev.
 
 Welcome to the rabbit hole, it's now your choice to enter or not. You can turn back now and act like none of this happened. OR you can enter into wonderland and you'll experience how deep the rabbit hole goes.
 
-Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see a Test
+Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see an Example app which you can use as a guide or boilerplate for your project.
+As a buidler in Alice you will have access to Camera Features, Map Features, Navigation Features and Web3 features (the ability to prompt a user to send transactions in your application).
 
 ## Web3 Functions
 ### Function Completion List
@@ -118,7 +119,7 @@ Wallet.signTransaction({
 Sign Message
 
 ```js
-Wallet.sign("Yo Bob!") -> "0x30755ed65396facf86c53e6217c52b4daebe72aa4941d89635409de4c9c7f9466d4e9aaec7977f05e923889b33c0d0dd27d7226b6e6f56ce737465c5cfd04be400"
+Wallet.signMessage("Yo Bob!") -> "0x30755ed65396facf86c53e6217c52b4daebe72aa4941d89635409de4c9c7f9466d4e9aaec7977f05e923889b33c0d0dd27d7226b6e6f56ce737465c5cfd04be400"
 ```
 
 Send Token
@@ -137,7 +138,7 @@ Wallet.sendToken({
 Send Information
 
 ```js
-Contract.send({
+Contract.write({
     abi: [{...}]
     contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
     functionName: 'setOrder',
@@ -149,7 +150,7 @@ Contract.send({
 Read Data
 
 ```js
-Contract.call({
+Contract.read({
     abi: [{...}]
     contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
     functionName: 'getOrderDetails',

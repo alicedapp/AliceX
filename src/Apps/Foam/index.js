@@ -5,12 +5,11 @@ import {
 import { createBottomTabNavigator } from 'react-navigation';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 import App from './App';
-import Modalize from 'react-native-modalize';
+import Modalize from './Components/Modalize';
 
 import sheet from './styles/sheet';
-import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from './utils';
+import { decodeGeoHash, onSortOptions } from './utils';
 import Bubble from "./Components/common/Bubble";
-import Modal from './Components/Modal'
 import {NavigationBar} from "../../Components/NavigationBar";
 
 const { height, width } = Dimensions.get('window');
@@ -81,7 +80,7 @@ class HomeScreen extends Component {
     console.log('modal: ', this.modalRef.current);
 
     if (modal) {
-      modal.open();
+      modal.openModal();
     }
   };
 
@@ -358,39 +357,37 @@ class HomeScreen extends Component {
             }}>
               <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
                 <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-                <TouchableOpacity style={{ padding: 3, flex: 1, marginLeft: 10}} onPress={this.onOpen}>
-                  <Image source={require('./Assets/account-icon.png')} style={{width: 40,height: 40, resizeMode: 'contain'}}/>
-                </TouchableOpacity>
+                <Image source={require('./Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
               </View>
             </View>
           </View>}
-          {this.renderPOIs()}
-          {this.renderSignals()}
-          {this.renderRegionChange()}
-          {this.renderSelectedPoint()}
+          {/*{this.renderPOIs()}*/}
+          {/*{this.renderSignals()}*/}
+          {/*{this.renderRegionChange()}*/}
+          {/*{this.renderSelectedPoint()}*/}
           <Modalize ref={this.modalRef} handlePosition="outside" height={140}>
-              <View style={styles.innerModalBox}>
-                <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.selectedPOITitle}</Text>
-                <View style={styles.tokenAmount}>
-                  <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.selectedPOIStake).toFixed(2)}</Text>
-                  <View>
-                    <Text style={{
-                      color: this.state.selectedPOIColor,
-                      fontSize: 10,
-                      fontStyle: 'italic',
-                      paddingLeft: 2,
-                      paddingRight: 3
-                    }}>FOAM</Text>
-                  </View>
-                  <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
+            <View style={styles.innerModalBox}>
+              <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.selectedPOITitle}</Text>
+              <View style={styles.tokenAmount}>
+                <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.selectedPOIStake).toFixed(2)}</Text>
+                <View>
+                  <Text style={{
+                    color: this.state.selectedPOIColor,
+                    fontSize: 10,
+                    fontStyle: 'italic',
+                    paddingLeft: 2,
+                    paddingRight: 3
+                  }}>FOAM</Text>
                 </View>
-
-                <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
-                  <Text style={{color: 'white'}}>Challenged Point of Interest</Text>
-                  <Image source={require('./Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>
-                </TouchableOpacity>
-                <Text>{JSON.stringify(this.state.poiDescription)}</Text>
+                <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
               </View>
+
+              <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
+                <Text style={{color: 'white'}}>Challenged Point of Interest</Text>
+                <Image source={require('./Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>
+              </TouchableOpacity>
+              <Text>{JSON.stringify(this.state.poiDescription)}</Text>
+            </View>
           </Modalize>
         </MapboxGL.MapView>
       </View>
