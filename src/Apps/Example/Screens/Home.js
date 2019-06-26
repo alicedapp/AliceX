@@ -2,6 +2,7 @@ import React from "react";
 import {Image, Text, NativeModules, TouchableOpacity, View} from "react-native";
 import {Wallet, Contract} from "../../../SDK/Web3";
 import Modalize from '../Components/Modalize'
+import {FoodContractABI} from "../ABI";
 
 export default class ExampleHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -18,6 +19,7 @@ export default class ExampleHome extends React.Component {
       signedTransaction: '',
       tokenTxHash: '',
       txHash: '',
+      balance: ''
     };
 
     this.child = React.createRef();
@@ -37,6 +39,11 @@ export default class ExampleHome extends React.Component {
       this.setState({address});
       console.log('ADDRESS: ', address);
     });
+  };
+
+  getBalance = async () => {
+    const balance = await Wallet.getBalance("0xE89171fC813cEA8F367E9da840288c31b2569548");
+    this.setState({balance})
   };
 
   sendTransaction = () => {
@@ -61,8 +68,10 @@ export default class ExampleHome extends React.Component {
 
   };
 
-  contractRead = () => {
-
+  contractRead = async () => {
+    const result = await Contract.read('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', FoodContractABI, 'getOrder', []);
+    console.log('RESULT: ', result);
+    this.setState({contractInfo: result});
   };
 
   send = () => {
@@ -104,6 +113,10 @@ export default class ExampleHome extends React.Component {
         <Text>Render Modal</Text>
         <TouchableOpacity onPress={this.onClick} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Pop Up</Text>
+        </TouchableOpacity>
+        <Text>Get Balance: {this.state.balance}</Text>
+        <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+          <Text>Get Balance</Text>
         </TouchableOpacity>
         <Modalize ref={this.child}>
 
