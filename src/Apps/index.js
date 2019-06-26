@@ -29,16 +29,6 @@ export default class AppsScreen extends Component<Props> {
     };
   };
 
-  componentDidMount() {
-
-  }
-
-  send = () => {
-    NativeModules.NativeModuleCallSwift.helloSwift("0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB", "0xE115012aA32a46F53b09e0A71CD0afa0658Da55F", "10000000000");
-  }
-
-  navigate = () => console.log('hello');
-
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

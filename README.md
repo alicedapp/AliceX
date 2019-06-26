@@ -48,7 +48,6 @@ If we don't get back to you immediately there will be many other resources out t
 3. `./install.android.sh`
 4. Run the project in Android Simulator. 🎉
 
-
 # Building your app in Alice
 Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
 1. We made it insanely easy for you OR
@@ -58,6 +57,25 @@ Welcome to the rabbit hole, it's now your choice to enter or not. You can turn b
 
 Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see an Example app which you can use as a guide or boilerplate for your project.
 As a buidler in Alice you will have access to Camera Features, Map Features, Navigation Features and Web3 features (the ability to prompt a user to send transactions in your application).
+
+Building your React Native app in Alice will be very similar to building a regular React Native app, if you're familiar with the process.
+For Documentation on how to use React Native:
+- https://facebook.github.io/react-native/
+For Documentation on how to use the Navigation:
+- https://reactnavigation.org/docs/en/getting-started.html
+For Documentation on how to use the MapBox component:
+- https://github.com/nitaliano/react-native-mapbox-gl/tree/master/docs
+For Documentation on how to use the Camera:
+- https://react-native-community.github.io/react-native-camera/docs/rncamera
+For Documentation on how to use Web3:
+- https://github.com/alicedapp/AliceX/wiki
+
+
+## Limitations
+- All of your code will only be allowed within your Applications folder in the `/App` directory.
+- Your apps are limited to a 10MB file size.
+- You will not be able to directly install any packages into the Alice native app and be approved a pull request unless you raise an issue in the github to have a package added, stating why and then we may approve it.
+If you do wish to have a javascript package added to your app you will have to put the code for the package directly in your folder.
 
 ## Web3 Functions
 ### Function Completion List

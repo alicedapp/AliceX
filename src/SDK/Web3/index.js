@@ -28,7 +28,7 @@ const sendToken = () => {
 
 };
 
-const write = ({contractAddress, abi, functionName, parameters, value}, cb) => NativeModules.ContractModule.write(contractAddress, abi, functionName, parameters, value, cb);
+const write = ({contractAddress, abi, functionName, parameters, value, data}, cb) => NativeModules.ContractModule.write(contractAddress, abi, functionName, parameters, value, data, cb);
 
 
 const read = ({contractAddress, abi, functionName, parameters}) => {

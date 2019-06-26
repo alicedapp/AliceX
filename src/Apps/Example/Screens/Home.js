@@ -65,7 +65,7 @@ export default class ExampleHome extends React.Component {
   };
 
   contractSend = () => {
-    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'Hamburger'], value: '0.001'}, (contractTxHash) => {
+    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'Hamburger'], value: '0.001', data: ''}, (contractTxHash) => {
       this.setState({contractTxHash})
     })
   };
