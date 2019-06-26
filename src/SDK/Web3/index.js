@@ -1,4 +1,5 @@
 import {Image, NativeModules, Text, TouchableOpacity, View} from "react-native";
+import ethers from 'ethers';
 
 const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
 

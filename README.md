@@ -144,6 +144,7 @@ Contract.write({
     functionName: 'setOrder',
     parameters: ['Hamburger', 'Mark'],
     value: "0.1",
+    data: ""
 }) -> '0xfcbe88307d2edde37b4236c9bcc66bcb81cb9f865f915c9772e46129d56528c7' //transaction hash
 ```
 
@@ -155,7 +156,6 @@ Contract.read({
     contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E',
     functionName: 'getOrderDetails',
     parameters: ['Hamburger', 'Mark'],
-
 }) -> []
 
 ```

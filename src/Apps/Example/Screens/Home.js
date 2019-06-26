@@ -34,7 +34,8 @@ export default class ExampleHome extends React.Component {
 
   getAddress = () => {
     Wallet.getAddress((address) => {
-      this.setState({address})
+      this.setState({address});
+      console.log('ADDRESS: ', address);
     });
   };
 

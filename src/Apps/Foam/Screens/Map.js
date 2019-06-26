@@ -1,21 +1,20 @@
-import {Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React from 'react';
+import {
+  StyleSheet, Text, TouchableOpacity, View,
+} from 'react-native';
+import MapboxGL from '@mapbox/react-native-mapbox-gl';
+
+
+import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import {NavigationBar} from "../../../Components/NavigationBar";
-import sheet from "../styles/sheet";
-import Modalize from "../Components/Modalize";
-import React, {Component} from "react";
-import MapboxGL from '@mapbox/react-native-mapbox-gl'
-import { decodeGeoHash, onSortOptions } from '../utils';
 
-const { height, width } = Dimensions.get('window');
+const ANNOTATION_SIZE = 10;
 
 
-export default class FoamMap extends Component {
+export default class MapComponent extends React.Component {
+
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
-
-    return {
-      tabBarVisible: false,
-    };
   };
 
   constructor(props) {
@@ -39,28 +38,46 @@ export default class FoamMap extends Component {
       neLat: '',
       activeAnnotationIndex: -1,
       previousActiveAnnotationIndex: -1,
-      finishedRendering: true,
+      finishedRendering: false,
       backgroundColor: 'blue',
-      coordinates: [],
+      coordinates: [[-73.99155, 40.73581]],
       pois: null,
-      signals: null,
-      selectedPoint: null,
-      showPOIModal: false,
-      selectedPOITitle: 'Huntington Garden',
-      selectedPOIStake: '500',
-      selectedPOIColor: '#2E7CE6',
-      modalHeight: 350,
+      showBox: false
+
     };
+
+    this.onMapChange = this.onMapChange.bind(this);
   }
 
-  componentDidMount() {
-    const getCoords = (pos) => {
-      const {latitude, longitude} = pos.coords;
-      this.setState({coordinates: [[parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))]]})
-    }
-    navigator.geolocation.getCurrentPosition(getCoords, console.error, {enableHighAccuracy: false, timeout: 50000});
-
+  onDidFinishLoadingMap = () => {
+    setTimeout(() => this.setState({finishedRendering: true}), 1500);
   }
+
+  onRegionWillChange = (regionFeature) => {
+    this.setState({ reason: 'will change', regionFeature });
+  }
+
+  onRegionDidChange = (regionFeature) => {
+    this.setState({ reason: 'did change', regionFeature });
+  }
+
+  onRegionIsChanging = (regionFeature) => {
+    this.setState({ reason: 'is changing', regionFeature }, this.setBounds);
+  }
+
+  onMapChange = (index, styleURL) => {
+    this.setState({ styleURL });
+  }
+
+  setBounds = () => {
+    const { geometry, properties } = this.state.regionFeature;
+    const [neLng, neLat] = properties.visibleBounds[0];
+    const [swLng, swLat] = properties.visibleBounds[1];
+    this.setState({
+      neLat: neLat.toPrecision(6), neLng: neLng.toPrecision(6), swLat: swLat.toPrecision(6), swLng: swLng.toPrecision(6),
+    });
+  };
+
   render() {
     const { navigation } = this.props;
     return (
@@ -68,84 +85,35 @@ export default class FoamMap extends Component {
         <NavigationBar/>
         <MapboxGL.MapView
           ref={c => (this._map = c)}
-          onPress={this.onPress}
           centerCoordinate={this.state.coordinates[0]}
           showUserLocation={true}
           zoomLevel={12}
           userTrackingMode={MapboxGL.UserTrackingModes.Follow}
           styleURL={this.state.styleURL}
-          style={sheet.matchParent}
+          style={{flex: 1}}
           onDidFinishLoadingMap={this.onDidFinishLoadingMap}
           onRegionWillChange={this.onRegionWillChange}
           onRegionDidChange={this.onRegionDidChange}
           onRegionIsChanging={this.onRegionIsChanging}
         >
-          {this.state.finishedRendering === false ? <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#000',
-          }}>
-            <Image source={require('../Assets/foam-map-logo.png')} style={{
-              height: 70,
-              resizeMode: 'contain',
-            }}/>
-            <Image source={require('../Assets/foam-splash-design.png')} style={{
-              height: 380,
-              width: 380,
-              resizeMode: 'contain',
-            }}/>
-          </View> : <View style={{ flex: 1 }}>
-            <View style={{
-              margin: 20,
-              marginTop: 50,
-              marginBottom: 0,
-              backgroundColor: 'transparent',
-            }}>
-              <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-                <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-                <Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
-              </View>
-              <TouchableOpacity onPress={console.log} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Press me</Text>
-              </TouchableOpacity>
-            </View>
-          </View>}
-          {/*{this.renderPOIs()}*/}
-          {/*{this.renderSignals()}*/}
-          {/*{this.renderRegionChange()}*/}
-          {/*{this.renderSelectedPoint()}*/}
-          <Modalize ref={this.modalRef} handlePosition="outside" height={140}>
-            <View style={styles.innerModalBox}>
-              <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.selectedPOITitle}</Text>
-              <View style={styles.tokenAmount}>
-                <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.selectedPOIStake).toFixed(2)}</Text>
-                <View>
-                  <Text style={{
-                    color: this.state.selectedPOIColor,
-                    fontSize: 10,
-                    fontStyle: 'italic',
-                    paddingLeft: 2,
-                    paddingRight: 3
-                  }}>FOAM</Text>
-                </View>
-                <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
-              </View>
+          <View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>
 
-              <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
-                <Text style={{color: 'white'}}>Challenged Point of Interest</Text>
-                <Image source={require('../Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>
-              </TouchableOpacity>
-              <Text>{JSON.stringify(this.state.poiDescription)}</Text>
-            </View>
-          </Modalize>
+            <TouchableOpacity onPress={() => this.setState({showBox: !this.state.showBox})} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
+              <Text>Press me</Text>
+            </TouchableOpacity>
+            {this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}
+          </View>
         </MapboxGL.MapView>
       </View>
     );
   }
 }
 
-const ANNOTATION_SIZE = 10;
+const MapBoxStyles = MapboxGL.StyleSheet.create({
+  tip: {
+    backgroundColor: 'black',
+  }
+});
 
 const styles = StyleSheet.create({
   annotationContainer: {
@@ -162,29 +130,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
     transform: [{ scale: 0.6 }],
   },
-  tokenAmount: {
-    flexDirection: 'row',
-    marginBottom: 15
-  },
-  descriptionButton: {
+  blackHeaderModule: {
     flexDirection: 'row',
     padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
     height: 40,
-    borderRadius: 50/2,
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#636363',
+    backgroundColor: '#212121',
     shadowColor: '#212121',
     shadowOffset: {
       width: 0,
       height: 3,
     },
-    shadowRadius: 3,
-    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOpacity: 1.0,
   },
   whiteSearch: {
-    flex: 3,
+    margin: 25,
     marginTop: 0,
     flexDirection: 'row',
     alignItems: 'center',
@@ -203,19 +166,6 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 1.0,
   },
-  modal: {
-    margin: 0,
-  },
-  modalBox: {
-    width,
-    backgroundColor: 'white',
-    borderRadius: 25,
-    position: 'absolute',
-    bottom: 0
-  },
-  innerModalBox: {
-    margin: 20
-  },
   whiteBox: {
     margin: 25,
     flexDirection: 'row',
@@ -233,3 +183,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
   },
 });
+
+{ /* <View style={styles.whiteBox}> */ }
+{ /* <View style={{}}> */ }
+{ /* <Text style={{ */ }
+{ /* fontSize: 20, */ }
+{ /* color: 'black', */ }
+{ /* }}>Add a POI or Signal for Location Services</Text> */ }
+{ /* <Text style={{ fontSize: 14 }}>Click anywhere on the map to start.</Text> */ }
+{ /* </View> */ }
+{ /* <View style={{}}> */ }
+{ /* <TouchableOpacity onPress={() => this.toggleBox(1)}> */ }
+{ /* <Text style={{ fontSize: 20 }}>X</Text> */ }
+{ /* </TouchableOpacity> */ }
+{ /* </View> */ }
+{ /* </View> */ }
