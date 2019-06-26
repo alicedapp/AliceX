@@ -65,11 +65,13 @@ export default class ExampleHome extends React.Component {
   };
 
   contractSend = () => {
-
+    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'Hamburger'], value: '0.001'}, (contractTxHash) => {
+      this.setState({contractTxHash})
+    })
   };
 
   contractRead = async () => {
-    const result = await Contract.read('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', FoodContractABI, 'getOrder', []);
+    const result = await Contract.read({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'getOrder', parameters: [] });
     console.log('RESULT: ', result);
     this.setState({contractInfo: result});
   };

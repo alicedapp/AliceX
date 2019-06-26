@@ -28,11 +28,10 @@ const sendToken = () => {
 
 };
 
-const write = () => {
+const write = ({contractAddress, abi, functionName, parameters, value}, cb) => NativeModules.ContractModule.write(contractAddress, abi, functionName, parameters, value, cb);
 
-};
 
-const read = (contractAddress, abi, functionName, parameters) => {
+const read = ({contractAddress, abi, functionName, parameters}) => {
   const contract = new EthersContract(contractAddress, abi, infuraProvider);
   if (parameters.length === 0) {
     return contract[functionName]();
