@@ -1,8 +1,8 @@
 /*
- * This is the App Registrar for Alice
+ * This is the ExampleMaps Registrar for Alice
  * Register your app by:
  * 1. Creating a folder in the src/Apps directory which contains your React Native app
- * 2. Exporting your app in the App Export Section
+ * 2. Exporting your app in the ExampleMaps Export Section
  * 3. Adding your app to the list of apps in the Apps List Section
 */
 
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Icon from '../Components/IconComponent';
 
-/*        App Export Section */
+/*        ExampleMaps Export Section */
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
@@ -100,12 +100,12 @@ export default class AppsScreen extends Component<Props> {
               </TouchableOpacity>
               <Text style={styles.appText}>Foam</Text>
             </View>
-            {/*<Text>                 Your App ( uncomment the code below this line & delete this entire line of code )                   </Text>*/}
+            {/*<Text>                 Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )                   </Text>*/}
             {/*<View style={styles.appIcon}>*/}
             {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#F20000' }]} onPress={() => this.props.navigation.navigate('Qantas')}>*/}
             {/*<Image source={require('../Assets/your_app_logo.png')} style={{ width: 45, height: 45, resizeMode: 'contain' }}/>*/}
             {/*</TouchableOpacity>*/}
-            {/*<Text style={styles.appText}>Your App's Name</Text>*/}
+            {/*<Text style={styles.appText}>Your ExampleMaps's Name</Text>*/}
             {/*</View>*/}
           </View>
         </View>

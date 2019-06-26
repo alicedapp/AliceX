@@ -4,11 +4,12 @@ import {
 } from 'react-native';
 
 
+
 export default class SimpleView extends React.Component{
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 20, color: 'black'}}>Embedded View</Text>
+        {this.props.children}
       </View>
     );
   }

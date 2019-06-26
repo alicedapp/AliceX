@@ -17,7 +17,7 @@ import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 
 export default createBottomTabNavigator({
-	// Your App's Tab Navigator's names are defined here as a default
+	// Your ExampleMaps's Tab Navigator's names are defined here as a default
 	Home: Home,
 	Maps: Map,
 	Camera: Camera

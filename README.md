@@ -70,8 +70,8 @@ As a buidler in Alice you will have access to Camera Features, Map Features, Nav
 - [ ] Send Token
 
 #### Smart Contract Functions
-- [ ] Contract Send
-- [ ] Contract Call
+- [ ] Contract Write
+- [ ] Contract Read
 
 ```js
 import {Wallet, Contract} from '../../SDK';

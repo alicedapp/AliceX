@@ -1,6 +1,6 @@
 /**
  * @format
- * This is the App Registrar for Alice
+ * This is the ExampleMaps Registrar for Alice
  */
 
 import React, { Component } from 'react';

@@ -10,45 +10,45 @@ import {
 } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
 
-import MapHeader from './Components/common/MapHeader';
+import MapHeader from '../Components/common/MapHeader';
 // Styles
-import sheet from './styles/sheet';
-import colors from './styles/colors';
+import sheet from '../styles/sheet';
+import colors from '../styles/colors';
 // Utils
-import {IS_ANDROID} from './utils';
+import {IS_ANDROID} from '../utils/index';
 // Examples
-import ShowMap from './Components/ShowMap';
-import SetPitch from './Components/SetPitch';
-import SetBearing from './Components/SetBearing';
-import ShowClick from './Components/ShowClick';
-import FlyTo from './Components/FlyTo';
-import FitBounds from './Components/FitBounds';
-import SetUserTrackingModes from './Components/SetUserTrackingModes';
-import SetUserLocationVerticalAlignment from './Components/SetUserLocationVerticalAlignment';
-import ShowRegionChange from './Components/ShowRegionChange';
-import CustomIcon from './Components/CustomIcon';
-import YoYo from './Components/YoYo';
-import EarthQuakes from './Components/EarthQuakes';
-import GeoJSONSource from './Components/GeoJSONSource';
-import WatercolorRasterTiles from './Components/WatercolorRasterTiles';
-import TwoByTwo from './Components/TwoByTwo';
-import IndoorBuilding from './Components/IndoorBuilding';
-import QueryAtPoint from './Components/QueryAtPoint';
-import QueryWithRect from './Components/QueryWithRect';
-import ShapeSourceIcon from './Components/ShapeSourceIcon';
-import CustomVectorSource from './Components/CustomVectorSource';
-import ShowPointAnnotation from './Components/ShowPointAnnotation';
-import CreateOfflineRegion from './Components/CreateOfflineRegion';
-import DriveTheLine from './Components/DriveTheLine';
-import ImageOverlay from './Components/ImageOverlay';
-import DataDrivenCircleColors from './Components/DataDrivenCircleColors';
-import ChoroplethLayerByZoomLevel from './Components/ChoroplethLayerByZoomLevel';
-import PointInMapView from './Components/PointInMapView';
-import TakeSnapshot from './Components/TakeSnapshot';
-import TakeSnapshotWithMap from './Components/TakeSnapshotWithMap';
-import GetZoom from './Components/GetZoom';
-import GetCenter from './Components/GetCenter';
-import UserLocationChange from './Components/UserLocationChange';
+import ShowMap from '../Components/ShowMap';
+import SetPitch from '../Components/SetPitch';
+import SetBearing from '../Components/SetBearing';
+import ShowClick from '../Components/ShowClick';
+import FlyTo from '../Components/FlyTo';
+import FitBounds from '../Components/FitBounds';
+import SetUserTrackingModes from '../Components/SetUserTrackingModes';
+import SetUserLocationVerticalAlignment from '../Components/SetUserLocationVerticalAlignment';
+import ShowRegionChange from '../Components/ShowRegionChange';
+import CustomIcon from '../Components/CustomIcon';
+import YoYo from '../Components/YoYo';
+import EarthQuakes from '../Components/EarthQuakes';
+import GeoJSONSource from '../Components/GeoJSONSource';
+import WatercolorRasterTiles from '../Components/WatercolorRasterTiles';
+import TwoByTwo from '../Components/TwoByTwo';
+import IndoorBuilding from '../Components/IndoorBuilding';
+import QueryAtPoint from '../Components/QueryAtPoint';
+import QueryWithRect from '../Components/QueryWithRect';
+import ShapeSourceIcon from '../Components/ShapeSourceIcon';
+import CustomVectorSource from '../Components/CustomVectorSource';
+import ShowPointAnnotation from '../Components/ShowPointAnnotation';
+import CreateOfflineRegion from '../Components/CreateOfflineRegion';
+import DriveTheLine from '../Components/DriveTheLine';
+import ImageOverlay from '../Components/ImageOverlay';
+import DataDrivenCircleColors from '../Components/DataDrivenCircleColors';
+import ChoroplethLayerByZoomLevel from '../Components/ChoroplethLayerByZoomLevel';
+import PointInMapView from '../Components/PointInMapView';
+import TakeSnapshot from '../Components/TakeSnapshot';
+import TakeSnapshotWithMap from '../Components/TakeSnapshotWithMap';
+import GetZoom from '../Components/GetZoom';
+import GetCenter from '../Components/GetCenter';
+import UserLocationChange from '../Components/UserLocationChange';
 
 const styles = StyleSheet.create({
   noPermissionsText: {
@@ -124,7 +124,7 @@ const Examples = [
   new ExampleItem('User Location Updates', UserLocationChange),
 ];
 
-class App extends React.Component {
+class ExampleMaps extends React.Component {
   constructor(props) {
     super(props);
 
@@ -253,4 +253,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default ExampleMaps;
