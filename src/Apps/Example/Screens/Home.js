@@ -57,7 +57,9 @@ export default class ExampleHome extends React.Component {
   };
 
   signMessage = () => {
-
+    Wallet.signMessage('Hello Hao :)', (signedMessage) => {
+      this.setState({signedMessage})
+    })
   };
 
   sendToken = () => {

@@ -11,40 +11,21 @@ import {
 } from 'react-native';
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps, {Foam, Fork, Test} from './src/Apps'
-
+import Apps, {Foam, Fork, Mintbase, Test} from './src/Apps'
+import CameraScreen from './src/AliceCore/Screens/Camera';
+import Profile from './src/AliceCore/Screens/Profile';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 
 import NavigatorService from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";
-import Camera from "./src/Components/Camera";
 
-
-class HomeScreen extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Camera></Camera>
-      </View>
-    );
-  }
-}
-class SettingsScreen extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Screen 2</Text>
-      </View>
-    );
-  }
-}
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const AppTabNavigator = createMaterialTopTabNavigator({
   Home: {
-    screen: HomeScreen,
+    screen: CameraScreen,
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
@@ -62,7 +43,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   },
   Settings: {
-    screen: SettingsScreen,
+    screen: Profile,
     navigationOptions: {
       tabBarLabel: 'Settings',
       tabBarIcon: ({ tintColor }) => (
@@ -103,6 +84,7 @@ const MainApp = createStackNavigator({
   Fork: { screen: Fork },
   Foam: { screen: Foam },
   Test: { screen: Test },
+  Mintbase: { screen: Mintbase },
 }, {
   headerMode: 'none',
 });

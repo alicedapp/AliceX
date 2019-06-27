@@ -16,6 +16,7 @@ import Icon from '../Components/IconComponent';
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
+export { default as Mintbase } from './Mintbase';
 
 
 const { height, width } = Dimensions.get('window');
@@ -77,7 +78,12 @@ export default class AppsScreen extends Component<Props> {
               </TouchableOpacity>
               <Text style={styles.appText}>GitCoin</Text>
             </View>
-
+            <View style={styles.appIcon}>
+              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#587280' }]} onPress={() => this.props.navigation.navigate('Mintbase')}>
+                <Image source={require('./Mintbase/Assets/logo.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
+              </TouchableOpacity>
+              <Text style={styles.appText}>Mintbase</Text>
+            </View>
             <View style={styles.appIcon}>
               <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#dbe0ff' }]} onPress={() => this.props.navigation.navigate('LocalEthereum')}>
                 <Image source={require('../AliceAssets/localethereum.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>

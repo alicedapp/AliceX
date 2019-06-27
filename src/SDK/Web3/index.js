@@ -20,9 +20,8 @@ const signTransaction = () => {
 
 };
 
-const signMessage = () => {
+const signMessage = (message, cb) => NativeModules.WalletModule.signMessage(message, cb);
 
-};
 
 const sendToken = () => {
 

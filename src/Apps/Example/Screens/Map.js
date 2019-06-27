@@ -6,6 +6,7 @@ import MapboxGL from '@mapbox/react-native-mapbox-gl';
 
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
+import Modalize from "../Components/Modalize";
 
 const ANNOTATION_SIZE = 10;
 
@@ -45,8 +46,14 @@ export default class MapComponent extends React.Component {
 
     };
 
+    this.child = React.createRef();
+
     this.onMapChange = this.onMapChange.bind(this);
   }
+
+  onClick = () => {
+    this.child.current.openModal();
+  };
 
   onDidFinishLoadingMap = () => {
     setTimeout(() => this.setState({finishedRendering: true}), 1500);
@@ -95,11 +102,14 @@ export default class MapComponent extends React.Component {
           onRegionIsChanging={this.onRegionIsChanging}
         >
           <View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={() => this.setState({showBox: !this.state.showBox})} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
               <Text>Press me</Text>
             </TouchableOpacity>
             {this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}
           </View>
+          <Modalize ref={this.child}>
+
+          </Modalize>
         </MapboxGL.MapView>
       </View>
     );
