@@ -21,6 +21,10 @@ export default class Icon extends Component<Props> {
         return (
           <Image source={require('../AliceAssets/avatar-grey.png')} style={{height: this.props.size, width: this.props.size, resizeMode: 'contain'}}/>
         );
+      case 'ActivityGrey' :
+        return (
+          <Image source={require('../AliceAssets/send-button.png')} style={{height: this.props.size, width: this.props.size, resizeMode: 'contain'}}/>
+        );
       case 'HomeBlack' :
         return (
           <Image source={require('../AliceAssets/home-black.png')} style={{height: this.props.size, width: this.props.size, resizeMode: 'contain'}}/>

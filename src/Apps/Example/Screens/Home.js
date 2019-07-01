@@ -42,12 +42,20 @@ export default class ExampleHome extends React.Component {
   };
 
   getBalance = async () => {
-    const balance = await Wallet.getBalance("0xE89171fC813cEA8F367E9da840288c31b2569548");
-    this.setState({balance})
+    Wallet.getAddress((address) => {
+      this.setState({address}, async () => {
+        const balance = await Wallet.getBalance(this.state.address);
+        this.setState({balance})
+      });
+      console.log('ADDRESS: ', address);
+    })
+
+
   };
 
   sendTransaction = () => {
-    Wallet.sendTransaction({to: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB', value: '0.01'}, (txHash) => {
+    Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'}, (txHash) => {
+      console.log('txHash: ', txHash)
       this.setState({txHash})
     })
   };
@@ -57,7 +65,8 @@ export default class ExampleHome extends React.Component {
   };
 
   signMessage = () => {
-    Wallet.signMessage('Hello Hao :)', (signedMessage) => {
+    Wallet.signMessage('Hello World', (signedMessage) => {
+      console.log('signedMessage: ', signedMessage)
       this.setState({signedMessage})
     })
   };
@@ -67,7 +76,7 @@ export default class ExampleHome extends React.Component {
   };
 
   contractSend = () => {
-    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'Hamburger'], value: '0.001', data: ''}, (contractTxHash) => {
+    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.001', data: ''}, (contractTxHash) => {
       this.setState({contractTxHash})
     })
   };

@@ -19,6 +19,7 @@ MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0
 
 import NavigatorService from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";
+import Activity from "./src/AliceCore/Screens/Activity";
 
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
@@ -50,10 +51,19 @@ const AppTabNavigator = createMaterialTopTabNavigator({
         <Icon icon="AvatarGrey" color={tintColor} size={40} />
       )
     }
+  },
+  Activity: {
+    screen: Activity,
+    navigationOptions: {
+      tabBarLabel: 'Settings',
+      tabBarIcon: ({tintColor}) => (
+        <Icon icon="ActivityGrey" color={tintColor} size={25}/>
+      )
+    }
   }
 }, {
-  initialRouteName: 'Apps',
-  order: ['Home', 'Apps', 'Settings'],
+  initialRouteName: 'Activity',
+  order: ['Home', 'Apps', 'Settings', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {

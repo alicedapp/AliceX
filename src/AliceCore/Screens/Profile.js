@@ -35,8 +35,6 @@ export default class Profile extends Component {
     xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB?apiKey=freekey");
     xhr.send(data);
 
-
-
   };
 
   render() {
@@ -51,17 +49,17 @@ export default class Profile extends Component {
             return (
               <View key={i} style={styles.tokenBox}>
                 {tokenInfo.image ?
-                  <Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/> :
-                  <View style={styles.tokenImage}>
-                    <Text>{tokenInfo.symbol}</Text>
+                  <View style={styles.tokenContainer}>
+                    <Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>
+                  </View> :
+                  <View style={styles.tokenContainer}>
+                    <Text>{tokenInfo.symbol.substring(0, 4)}</Text>
                   </View>
                 }
-                <View>
+                <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
                   <Text>{tokenInfo.name}</Text>
-                  <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {token.symbol}</Text>
+                  <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {tokenInfo.symbol.substring(0, 4)}</Text>
                 </View>
-
-
               </View>
 
             )
@@ -83,13 +81,18 @@ const styles = StyleSheet.create({
     width: '100%',
     margin: 8
   },
-  tokenImage: {
+  tokenContainer: {
     backgroundColor: '#c9c9c9',
     height: 50,
     width: 50,
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    resizeMode: 'contain'
+    marginRight: 10
+  },
+  tokenImage: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain',
   }
 });

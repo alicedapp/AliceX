@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "3box-activity": "^0.0.9",
     "@mapbox/react-native-mapbox-gl": "https://github.com/nitaliano/react-native-mapbox-gl#master",
     "ethers": "^4.0.31",
     "react": "16.8.3",
