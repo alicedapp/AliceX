@@ -2,12 +2,14 @@ import {Component} from "react";
 import {StyleSheet, ScrollView, Text, Image, View, Dimensions} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
+import {addDataType} from "../../utils";
+import { Activity } from "../Components/Activity";
 
 const { height, width } = Dimensions.get('window');
 
 //TODO: needs api key
 
-export default class Activity extends Component {
+export default class ActivityClass extends Component {
   constructor(props) {
     super(props);
 
@@ -15,7 +17,10 @@ export default class Activity extends Component {
       tokenInfo: '',
       tokens: [],
       ethereum: {},
-      activity: {}
+      activity: {},
+      categorizedActivity: [],
+      fetching: true,
+      feed: {}
     };
 
   }
@@ -24,14 +29,54 @@ export default class Activity extends Component {
   }
 
   getTokenInfo = async () => {
-    try {
-      let activity = await ThreeBoxActivity.get('0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB');
-      console.log('ACTIVITY: ', activity);
-      this.setState({activity});
-    } catch(e) {
-      console.log('ACTIVITY ERROR: ', e);
-    }
-
+    // let activity;
+    // try {
+    //   activity = await ThreeBoxActivity.get('0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB');
+    //   const categorizedActivity = await addDataType(activity);
+    //   let feed = categorizedActivity.internal
+    //       .concat(categorizedActivity.txs)
+    //       .concat(categorizedActivity.token);
+    //   // if timestamp is undefined, give it the timestamp of the previous entry
+    //   feed.map((item, i) => {
+    //     const feedItem = item;
+    //     if (!feedItem.timeStamp) {
+    //       const deletedTime = parseInt(feed[i - 1].timeStamp, 10) + 1;
+    //       feedItem.timeStamp = deletedTime.toString();
+    //     }
+    //     return feedItem;
+    //   });
+    //
+    //   // order feed chronologically
+    //   feed.sort((a, b) => b.timeStamp - a.timeStamp);
+    //
+    //   // order feed by address
+    //   let feedByAddress = [];
+    //   feed.forEach((item) => {
+    //     // group feed by 3box or counterparty address activity
+    //     if (feedByAddress.length > 0 &&
+    //       Object.keys(feedByAddress[feedByAddress.length - 1])[0] === othersAddress) {
+    //       feedByAddress[feedByAddress.length - 1][othersAddress].push(item);
+    //     } else if (feedByAddress.length > 0 && Object.keys(feedByAddress[feedByAddress.length - 1])[0] === 'threeBox' && !item.spaceName && (item.dataType === 'Public' || item.dataType === 'Private')) {
+    //       feedByAddress[feedByAddress.length - 1].threeBox.push(item);
+    //     } else if (feedByAddress.length > 0 && Object.keys(feedByAddress[feedByAddress.length - 1])[0] === item.spaceName) {
+    //       feedByAddress[feedByAddress.length - 1][item.spaceName].push(item);
+    //     } else if (item.spaceName) {
+    //       feedByAddress.push({
+    //         [item.spaceName]: [item],
+    //       });
+    //     } else if ((item.dataType === 'Public' || item.dataType === 'Private') && !item.spaceName) {
+    //       feedByAddress.push({
+    //         threeBox: [item],
+    //       });
+    //     } else {
+    //       console.log('meh others address')
+    //     }
+    //   });
+    //
+    //   this.setState({activity, fetching: false, categorizedActivity, feed});
+    // } catch(e) {
+    //   console.log('ACTIVITY ERROR: ', e);
+    // }
 
   };
 
@@ -41,7 +86,8 @@ export default class Activity extends Component {
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1, width, padding: 20}}>
-          <Text>{JSON.stringify(this.state.activity)}</Text>
+          <Text>Hello</Text>
+          <Activity isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed} otherProfileActivity={[]}/>
         </ScrollView>
       </View>
     );
@@ -53,6 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 100
   },
   tokenBox: {
     flexDirection: 'row',

@@ -381,6 +381,7 @@ class HomeScreen extends Component {
                 <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
               </View>
 
+
               <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
                 <Text style={{color: 'white'}}>Challenged Point of Interest</Text>
                 <Image source={require('./Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>

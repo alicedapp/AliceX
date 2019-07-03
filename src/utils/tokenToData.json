@@ -1,0 +1,944 @@
+{
+  "DTH": {
+    "name": "Dether",
+    "logo": "dether.svg",
+    "erc20": true,
+    "symbol": "DTH",
+    "decimals": 18
+  },
+  "BOB": {
+    "name": "Bob\"s Repair",
+    "logo": "bobsrepair.png",
+    "erc20": true,
+    "symbol": "BOB",
+    "decimals": 18
+  },
+  "SWM": {
+    "name": "Swarm",
+    "logo": "swarm.svg",
+    "erc20": true,
+    "symbol": "SWM",
+    "decimals": 18
+  },
+  "ONL": {
+    "name": "On.Live",
+    "logo": "onlive.svg",
+    "erc20": true,
+    "symbol": "ONL",
+    "decimals": 18
+  },
+  "PARETO": {
+    "name": "Pareto",
+    "logo": "ParetoLogo.png",
+    "erc20": true,
+    "symbol": "PARETO",
+    "decimals": 18
+  },
+  "SPND": {
+    "name": "Spendcoin",
+    "logo": "SpendCoin.png",
+    "erc20": true,
+    "symbol": "SPND",
+    "decimals": 18
+  },
+  "AST": {
+    "name": "AirSwap Token",
+    "logo": "AST.png",
+    "erc20": true,
+    "symbol": "AST",
+    "decimals": 4
+  },
+  "RMESH": {
+    "name": "RightMesh Token",
+    "logo": "Rmesh.png",
+    "erc20": true,
+    "symbol": "RMESH",
+    "decimals": 18
+  },
+  "JOY": {
+    "name": "JOYSO",
+    "logo": "JOY.png",
+    "erc20": true,
+    "symbol": "JOY",
+    "decimals": 6
+  },
+  "J8T": {
+    "name": "JET8 Token",
+    "logo": "J8T.svg",
+    "erc20": true,
+    "symbol": "J8T",
+    "decimals": 8
+  },
+  "QNT": {
+    "name": "Quant Network",
+    "logo": "quant-network.svg",
+    "erc20": true,
+    "symbol": "QNT",
+    "decimals": 18
+  },
+  "XNK": {
+    "name": "Ink Protocol",
+    "logo": "ink_protocol.svg",
+    "erc20": true,
+    "symbol": "XNK",
+    "decimals": 18
+  },
+  "AION": {
+    "name": "Aion Network",
+    "logo": "Aion.png",
+    "erc20": true,
+    "symbol": "AION",
+    "decimals": 8
+  },
+  "ELY": {
+    "name": "ELY Token",
+    "logo": "ely.png",
+    "erc20": true,
+    "symbol": "ELY",
+    "decimals": 18
+  },
+  "NCT": {
+    "name": "PolySwarm Nectar",
+    "logo": "polyswarm_nectar.svg",
+    "erc20": true,
+    "symbol": "NCT",
+    "decimals": 18
+  },
+  "BOX": {
+    "name": "BOX Token",
+    "logo": "box_token.png",
+    "erc20": true,
+    "symbol": "BOX",
+    "decimals": 18
+  },
+  "VDOC": {
+    "name": "dutyof.care Token",
+    "logo": "dutyof.care-square.png",
+    "erc20": true,
+    "symbol": "VDOC",
+    "decimals": 18
+  },
+  "RHOC": {
+    "name": "Rhoc",
+    "logo": "rchain.png",
+    "erc20": true,
+    "symbol": "RHOC",
+    "decimals": 8
+  },
+  "GEN": {
+    "name": "DAOstack",
+    "logo": "DAOstack.png",
+    "erc20": true,
+    "symbol": "GEN",
+    "decimals": 18
+  },
+  "DGS": {
+    "name": "Dragonglass",
+    "logo": "dragonglass.svg",
+    "erc20": true,
+    "symbol": "DGS",
+    "decimals": 8
+  },
+  "OMG": {
+    "name": "OmiseGO",
+    "logo": "omg.jpg",
+    "erc20": true,
+    "symbol": "OMG",
+    "decimals": 18
+  },
+  "CLN": {
+    "name": "Colu Local Network",
+    "logo": "cln.png",
+    "erc20": true,
+    "symbol": "CLN",
+    "decimals": 18
+  },
+  "STORJ": {
+    "name": "Storj",
+    "logo": "storj.jpg",
+    "erc20": true,
+    "symbol": "STORJ",
+    "decimals": 8
+  },
+  "MANA": {
+    "name": "Decentraland",
+    "logo": "decentraland.png",
+    "erc20": true,
+    "symbol": "MANA",
+    "decimals": 18
+  },
+  "XSC": {
+    "name": "CrowdstartCoin",
+    "logo": "XSC_Logo.svg",
+    "erc20": true,
+    "symbol": "XSC",
+    "decimals": 18
+  },
+  "ENTRP": {
+    "name": "Hut34 Entropy Token",
+    "logo": "ENTRP.png",
+    "symbol": "ENTRP",
+    "erc20": true,
+    "decimals": 18
+  },
+  "HYDRO": {
+    "name": "Hydro",
+    "logo": "hydro.png",
+    "erc20": true,
+    "symbol": "HYDRO",
+    "decimals": 18
+  },
+  "PKT": {
+    "name": "Playkey Token",
+    "logo": "playkey.svg",
+    "erc20": true,
+    "symbol": "PKT",
+    "decimals": 18
+  },
+  "ZRX": {
+    "name": "0x",
+    "logo": "0x.svg",
+    "erc20": true,
+    "symbol": "ZRX",
+    "decimals": 18
+  },
+  "REDC": {
+    "name": "RedCab",
+    "logo": "redcab.png",
+    "erc20": true,
+    "symbol": "REDC",
+    "decimals": 18
+  },
+  "MOD": {
+    "name": "Modum Token",
+    "logo": "modum.svg",
+    "erc20": true,
+    "symbol": "MOD",
+    "decimals": 0
+  },
+  "APPC": {
+    "name": "AppCoins",
+    "logo": "appcoins.png",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "APPC"
+  },
+  "EURS": {
+    "name": "STASIS EURS Token",
+    "logo": "stasis-eurs.svg",
+    "erc20": true,
+    "decimals": 2,
+    "symbol": "EURS"
+  },
+  "SNX": {
+    "name": "Synthetix Network Token",
+    "logo": "synthetix.svg",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "SNX"
+  },
+  "SUSD": {
+    "name": "sUSD",
+    "logo": "synthetix_susd.svg",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "SUSD"
+  },
+  "IQN": {
+    "name": "IQeon",
+    "logo": "iqeon.svg",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "IQN"
+  },
+  "C20": {
+    "name": "Crypto20",
+    "logo": "c20.svg",
+    "erc20": true,
+    "symbol": "C20",
+    "decimals": 18
+  },
+  "CK": {
+    "name": "Crypto Kitties",
+    "logo": "CryptoKitties-Kitty-13733.svg",
+    "erc20": true,
+    "symbol": "CK",
+    "decimals": 0
+  },
+  "PLAY": {
+    "name": "Herocoin",
+    "logo": "herocoin_logo.png",
+    "erc20": true,
+    "symbol": "PLAY",
+    "decimals": 18
+  },
+  "GEE": {
+    "name": "Geens Platform Token",
+    "logo": "gee-icon.svg",
+    "erc20": true,
+    "symbol": "GEE",
+    "decimals": 8
+  },
+  "MLN": {
+    "name": "Melon",
+    "logo": "MLNSymbol.png",
+    "erc20": true,
+    "symbol": "MLN",
+    "decimals": 18
+  },
+  "TRL": {
+    "name": "Too Real Badge",
+    "logo": "too-real.jpg",
+    "erc20": true,
+    "symbol": "TRL",
+    "decimals": 0
+  },
+  "DCN": {
+    "name": "Dentacoin",
+    "logo": "Dentacoin.png",
+    "erc20": true,
+    "symbol": "DCN",
+    "decimals": 0
+  },
+  "HGT": {
+    "name": "HelloGold Token",
+    "logo": "hgt.png",
+    "erc20": true,
+    "symbol": "HGT",
+    "decimals": 8
+  },
+  "GOLDX": {
+    "name": "GOLDX",
+    "logo": "goldx.png",
+    "erc20": true,
+    "symbol": "GOLDX",
+    "decimals": 18
+  },
+  "JET": {
+    "name": "Jetcoin Institute Token",
+    "logo": "JETCOIN28.png",
+    "erc20": true,
+    "symbol": "JET",
+    "decimals": 18
+  },
+  "IND": {
+    "name": "Indorse Token",
+    "logo": "indorseLogo.jpg",
+    "erc20": true,
+    "symbol": "IND",
+    "decimals": 18
+  },
+  "TPT": {
+    "name": "Teleport Token",
+    "logo": "tpt.png",
+    "erc20": true,
+    "symbol": "TPT",
+    "decimals": 18
+  },
+  "NDC": {
+    "name": "NEVERDIE Coin",
+    "logo": "ndc.png",
+    "erc20": true,
+    "symbol": "NDC",
+    "decimals": 18
+  },
+  "BCPT": {
+    "name": "BlockMason Credit Protocol Token",
+    "logo": "bcpt.svg",
+    "erc20": true,
+    "symbol": "BCPT",
+    "decimals": 18
+  },
+  "SPN": {
+    "name": "Sapien Network Token",
+    "logo": "spn.svg",
+    "erc20": true,
+    "symbol": "SPN",
+    "decimals": 6
+  },
+  "LOOM": {
+    "name": "Loom Network Token",
+    "logo": "loom.svg",
+    "erc20": true,
+    "symbol": "LOOM",
+    "decimals": 18
+  },
+  "EGO": {
+    "name": "EGO Badge",
+    "logo": "ego_badge.png",
+    "erc20": true,
+    "symbol": "EGO",
+    "decimals": 0
+  },
+  "GLA": {
+    "name": "Gladius",
+    "logo": "gladius.svg",
+    "erc20": true,
+    "symbol": "GLA",
+    "decimals": 8
+  },
+  "EOS": {
+    "name": "EOS",
+    "logo": "eos-logo.jpeg",
+    "erc20": true,
+    "symbol": "EOS",
+    "decimals": 18
+  },
+  "KNC": {
+    "name": "Kyber Network Crystal",
+    "logo": "kyber.svg",
+    "erc20": true,
+    "symbol": "KNC",
+    "decimals": 18
+  },
+  "BNT": {
+    "name": "Bancor Network Token",
+    "logo": "bancor.png",
+    "erc20": true,
+    "symbol": "BNT",
+    "decimals": 18
+  },
+  "LUN": {
+    "name": "Lunyr Token",
+    "logo": "lun.png",
+    "erc20": true,
+    "symbol": "LUN",
+    "decimals": 18
+  },
+  "EDU": {
+    "name": "EDU Token",
+    "logo": "edu.svg",
+    "erc20": true,
+    "symbol": "EDU",
+    "decimals": 8
+  },
+  "VSL": {
+    "name": "vSlice",
+    "logo": "vslice.png",
+    "erc20": true,
+    "symbol": "VSL",
+    "decimals": 18
+  },
+  "BCAP": {
+    "name": "Blockchain Capital",
+    "logo": "bcap.svg",
+    "erc20": true,
+    "symbol": "BCAP",
+    "decimals": 0
+  },
+  "TIME": {
+    "name": "Chronobank TIME",
+    "logo": "chronobank.png",
+    "erc20": true,
+    "symbol": "TIME",
+    "decimals": 8
+  },
+  "TAAS": {
+    "name": "Token-as-a-Service",
+    "logo": "taas-ico.png",
+    "erc20": true,
+    "symbol": "TAAS",
+    "decimals": 6
+  },
+  "TKN": {
+    "name": "Monolith TKN",
+    "logo": "tkn.svg",
+    "erc20": true,
+    "symbol": "TKN",
+    "decimals": 8
+  },
+  "EDG": {
+    "name": "Edgeless",
+    "logo": "edgeless.jpg",
+    "erc20": true,
+    "symbol": "EDG",
+    "decimals": 0
+  },
+  "GUP": {
+    "name": "Guppy",
+    "logo": "guppy.png",
+    "erc20": true,
+    "symbol": "GUP",
+    "decimals": 3
+  },
+  "XAUR": {
+    "name": "Xaurum",
+    "logo": "xaurum_logo.svg",
+    "erc20": true,
+    "symbol": "XAUR",
+    "decimals": 8
+  },
+  "SWT": {
+    "name": "Swarm City Token",
+    "logo": "swt.jpg",
+    "erc20": true,
+    "symbol": "SWT",
+    "decimals": 18
+  },
+  "TRST": {
+    "name": "Trustcoin",
+    "logo": "trustcoin.jpg",
+    "erc20": true,
+    "symbol": "TRST",
+    "decimals": 6
+  },
+  "ANT": {
+    "name": "Aragon Network Token",
+    "logo": "aragon_isotype.svg",
+    "erc20": true,
+    "symbol": "ANT",
+    "decimals": 18
+  },
+  "WINGS": {
+    "name": "WINGS",
+    "logo": "wings_logo.svg",
+    "erc20": true,
+    "symbol": "WINGS",
+    "decimals": 18
+  },
+  "1ST": {
+    "name": "FirstBlood Token",
+    "logo": "1st.svg",
+    "erc20": true,
+    "symbol": "1ST",
+    "decimals": 18
+  },
+  "RLC": {
+    "name": "iExec RLC Token",
+    "logo": "rlc.svg",
+    "erc20": true,
+    "symbol": "RLC",
+    "decimals": 9
+  },
+  "SNGLS": {
+    "name": "SingularDTV",
+    "logo": "singulardtv.svg",
+    "erc20": true,
+    "symbol": "SNGLS",
+    "decimals": 0
+  },
+  "ICN": {
+    "name": "ICONOMI",
+    "logo": "iconomi.png",
+    "erc20": true,
+    "symbol": "ICN",
+    "decimals": 18
+  },
+  "DGD": {
+    "name": "Digix",
+    "logo": "DGD.png",
+    "erc20": true,
+    "symbol": "DGD",
+    "decimals": 9
+  },
+  "MKR": {
+    "name": "Maker",
+    "logo": "logo-maker-4.svg",
+    "erc20": true,
+    "symbol": "MKR",
+    "decimals": 18
+  },
+  "DAI": {
+    "name": "Dai Stablecoin v1.0",
+    "logo": "dai.svg",
+    "erc20": true,
+    "symbol": "DAI",
+    "decimals": 18
+  },
+  "BAT": {
+    "name": "Basic Attention Token",
+    "logo": "BAT_icon.svg",
+    "erc20": true,
+    "symbol": "BAT",
+    "decimals": 18
+  },
+  "BEE": {
+    "name": "BEE Token",
+    "logo": "bee_token.svg",
+    "erc20": true,
+    "symbol": "BEE",
+    "decimals": 18
+  },
+  "GNO": {
+    "name": "Gnosis Token",
+    "logo": "gnosis.svg",
+    "erc20": true,
+    "symbol": "GNO",
+    "decimals": 18
+  },
+  "PLU": {
+    "name": "Pluton",
+    "logo": "plutus-god.svg",
+    "erc20": true,
+    "symbol": "PLU",
+    "decimals": 18
+  },
+  "REP": {
+    "name": "Reputation",
+    "logo": "augur_logo.png",
+    "erc20": true,
+    "symbol": "REP",
+    "decimals": 18
+  },
+  "RFR": {
+    "name": "Refereum",
+    "logo": "rfr.svg",
+    "erc20": true,
+    "symbol": "RFR",
+    "decimals": 4
+  },
+  "NFC": {
+    "name": "NoFakeCoin",
+    "logo": "nfticon.png",
+    "erc20": true,
+    "symbol": "NFC",
+    "decimals": 18
+  },
+  "REN": {
+    "name": "Republic Protocol",
+    "logo": "ren.svg",
+    "erc20": true,
+    "symbol": "REN",
+    "decimals": 18
+  },
+  "GNT": {
+    "name": "Golem Network Token",
+    "logo": "golem.svg",
+    "erc20": true,
+    "symbol": "GNT",
+    "decimals": 18
+  },
+  "SIG": {
+    "name": "Spectiv Signal Token",
+    "logo": "spectiv.svg",
+    "erc20": true,
+    "symbol": "SIG",
+    "decimals": 18
+  },
+  "undefined": {
+    "name": "StandardBounties",
+    "logo": "StandardBounties.png"
+  },
+  "META": {
+    "name": "MetaMark",
+    "logo": "metamark.svg",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "META"
+  },
+  "QTUM": {
+    "name": "Qtum",
+    "logo": "qtum_28.png",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "QTUM"
+  },
+  "CAT": {
+    "name": "BitClave",
+    "logo": "bitclave.svg",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "CAT"
+  },
+  "CAG": {
+    "name": "Change Coin",
+    "logo": "change.png",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "CAG"
+  },
+  "CAN": {
+    "name": "CanYaCoin",
+    "logo": "CanYa.svg",
+    "erc20": true,
+    "decimals": 6,
+    "symbol": "CAN"
+  },
+  "RVT": {
+    "name": "Rivetz",
+    "logo": "rivetz.png",
+    "erc20": true,
+    "decimals": 18,
+    "symbol": "RVT"
+  },
+  "DIVX": {
+    "name": "Divi Exchange Token",
+    "logo": "divi.svg",
+    "erc20": true,
+    "symbol": "DIVX",
+    "decimals": 18
+  },
+  "WYV": {
+    "name": "WyvernToken",
+    "logo": "wyvern-logo.svg",
+    "erc20": true,
+    "symbol": "WYV",
+    "decimals": 18
+  },
+  "ART": {
+    "name": "Maecenas ART Token",
+    "logo": "Maecenas.jpg",
+    "erc20": true,
+    "symbol": "ART",
+    "decimals": 18
+  },
+  "ZIL": {
+    "name": "Zilliqa",
+    "logo": "zilliqa.svg",
+    "erc20": true,
+    "symbol": "ZIL",
+    "decimals": 12
+  },
+  "BMX": {
+    "name": "BitMartToken",
+    "logo": "bitmart.png",
+    "erc20": true,
+    "symbol": "BMX",
+    "decimals": 18
+  },
+  "VIEW": {
+    "name": "Viewly",
+    "logo": "viewly.svg",
+    "erc20": true,
+    "symbol": "VIEW",
+    "decimals": 18
+  },
+  "WETH": {
+    "name": "Wrapped Ether",
+    "logo": "weth.png",
+    "erc20": true,
+    "symbol": "WETH",
+    "decimals": 18
+  },
+  "NANJ": {
+    "name": "NANJCOIN",
+    "logo": "nanjcoin.svg",
+    "erc20": true,
+    "symbol": "NANJ",
+    "decimals": 8
+  },
+  "0xBTC": {
+    "name": "0xBitcoin Token",
+    "logo": "0xbitcoin.svg",
+    "erc20": true,
+    "symbol": "0xBTC",
+    "decimals": 8
+  },
+  "SNT": {
+    "name": "Status Network Token",
+    "logo": "snt.svg",
+    "erc20": true,
+    "symbol": "SNT",
+    "decimals": 18
+  },
+  "SPANK": {
+    "name": "SPANK",
+    "logo": "SPANK.png",
+    "erc20": true,
+    "symbol": "SPANK",
+    "decimals": 18
+  },
+  "BBK": {
+    "name": "Brickblock",
+    "logo": "Brickblock.svg",
+    "erc20": true,
+    "symbol": "BBK",
+    "decimals": 18
+  },
+  "LEND": {
+    "name": "ETHLend Token",
+    "logo": "lend.svg",
+    "erc20": true,
+    "symbol": "LEND",
+    "decimals": 18
+  },
+  "IMP": {
+    "name": "Ether Kingdoms Token",
+    "logo": "IMP.svg",
+    "erc20": true,
+    "symbol": "IMP",
+    "decimals": 7
+  },
+  "LIKE": {
+    "name": "Kucoin Shares",
+    "logo": "kucoin.svg",
+    "erc20": true,
+    "symbol": "LIKE",
+    "decimals": 6
+  },
+  "BNB": {
+    "name": "Binance Coin",
+    "logo": "bnb.png",
+    "erc20": true,
+    "symbol": "BNB",
+    "decimals": 18
+  },
+  "VEN": {
+    "name": "VeChain",
+    "logo": "vechain.png",
+    "erc20": true,
+    "symbol": "VEN",
+    "decimals": 18
+  },
+  "ICX": {
+    "name": "ICON",
+    "logo": "icon-icx-logo.png",
+    "erc20": true,
+    "symbol": "ICX",
+    "decimals": 18
+  },
+  "AE": {
+    "name": "Aeternity",
+    "logo": "aeternity.svg",
+    "erc20": true,
+    "symbol": "AE",
+    "decimals": 18
+  },
+  "PPT": {
+    "name": "Populous",
+    "logo": "FEATURED.POP_.png",
+    "erc20": true,
+    "symbol": "PPT",
+    "decimals": 8
+  },
+  "IOST": {
+    "name": "IOST",
+    "logo": "iost.png",
+    "erc20": true,
+    "symbol": "IOST",
+    "decimals": 18
+  },
+  "MITH": {
+    "name": "Mithril",
+    "logo": "mithril-featured.png",
+    "erc20": true,
+    "symbol": "MITH",
+    "decimals": 18
+  },
+  "WTC": {
+    "name": "Walton",
+    "logo": "waltonchain.png",
+    "erc20": true,
+    "symbol": "WTC",
+    "decimals": 18
+  },
+  "PNK": {
+    "name": "Pinakion Token",
+    "logo": "pinakion.svg",
+    "erc20": true,
+    "symbol": "PNK",
+    "decimals": 18
+  },
+  "FUN": {
+    "name": "FunFair",
+    "logo": "fun.svg",
+    "erc20": true,
+    "symbol": "FUN",
+    "decimals": 8
+  },
+  "YEED": {
+    "name": "YGGDRASH YEED Token",
+    "logo": "yggdrash.svg",
+    "erc20": true,
+    "symbol": "YEED",
+    "decimals": 18
+  },
+  "DSCP": {
+    "name": "Disciplina Token",
+    "logo": "disciplina.svg",
+    "erc20": true,
+    "symbol": "DSCP",
+    "decimals": 18
+  },
+  "DAY": {
+    "name": "Chronologic DAY Token",
+    "logo": "DAY.png",
+    "erc20": true,
+    "symbol": "DAY",
+    "decimals": 18
+  },
+  "PLAT": {
+    "name": "PLATINUM",
+    "logo": "plat.png",
+    "erc20": true,
+    "symbol": "PLAT",
+    "decimals": 18
+  },
+  "PAX": {
+    "name": "PAX Stablecoin",
+    "logo": "pax.svg",
+    "erc20": true,
+    "symbol": "PAX",
+    "decimals": 18
+  },
+  "TUSD": {
+    "name": "TrueUSD",
+    "logo": "tusd.png",
+    "erc20": true,
+    "symbol": "TUSD",
+    "decimals": 18
+  },
+  "ROCK2": {
+    "name": "ICE ROCK MINING",
+    "logo": "rock2.png",
+    "erc20": true,
+    "symbol": "ROCK2",
+    "decimals": 0
+  },
+  "POA20": {
+    "name": "POA20 Token",
+    "logo": "POA20.png",
+    "erc20": true,
+    "symbol": "POA20",
+    "decimals": 18
+  },
+  "CPLO": {
+    "name": "Cpollo",
+    "logo": "Cpollo.svg",
+    "erc20": true,
+    "symbol": "CPLO",
+    "decimals": 18
+  },
+  "NEEO": {
+    "name": "NEEO",
+    "logo": "neeo.png",
+    "erc20": true,
+    "symbol": "NEEO",
+    "decimals": 18
+  },
+  "DATA": {
+    "name": "Streamr",
+    "logo": "streamr.svg",
+    "erc20": true,
+    "symbol": "DATA",
+    "decimals": 18
+  },
+  "STAR": {
+    "name": "STAR",
+    "logo": "starbase.png",
+    "erc20": true,
+    "symbol": "STAR",
+    "decimals": 18
+  },
+  "GROO": {
+    "name": "Groocoin",
+    "logo": "groo.png",
+    "erc20": true,
+    "symbol": "GROO",
+    "decimals": 18
+  },
+  "SAN": {
+    "name": "Santiment",
+    "logo": "santiment.svg",
+    "erc20": true,
+    "symbol": "SAN",
+    "decimals": 18
+  },
+  "KODA": {
+    "name": "KnownOrigin",
+    "logo": "knownorigin.svg",
+    "erc20": true,
+    "symbol": "KODA",
+    "decimals": 0
+  }
+}
