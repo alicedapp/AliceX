@@ -1,9 +1,10 @@
 import {Component} from "react";
-import {StyleSheet, ScrollView, Text, Image, View, Dimensions} from "react-native";
+import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
 import {addDataType} from "../../utils";
 import { Activity } from "../Components/Activity";
+import {Settings} from "../../SDK/Web3";
 
 const { height, width } = Dimensions.get('window');
 
@@ -80,12 +81,19 @@ export default class ActivityClass extends Component {
 
   };
 
+  openSettings = () => {
+    Settings.settingsPopUp();
+  };
+
   render() {
     console.log('token: ', this.state.to);
 
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1, width, padding: 20}}>
+          <TouchableOpacity onPress={this.openSettings} style={{backgroundColor: 'black', width: 40, height: 40}}>
+
+          </TouchableOpacity>
           <Text>Hello</Text>
           <Activity isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed} otherProfileActivity={[]}/>
         </ScrollView>

@@ -24,8 +24,7 @@ export default class ModalizeModal extends React.PureComponent {
       <Modalize
         ref={this.modal}
         onClosed={this.onClosed}
-        handlePosition="outside"
-        adjustToContentHeight
+        {...this.props}
       >
         {this.props.children}
       </Modalize>

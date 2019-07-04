@@ -90,7 +90,7 @@ export default class MapComponent extends React.Component {
     const getCoords = (pos) => {
       const {latitude, longitude} = pos.coords;
       this.setState({coordinates: [[parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))]]})
-    }
+    };
     navigator.geolocation.getCurrentPosition(getCoords, console.error, {enableHighAccuracy: false, timeout: 50000});
 
   }
@@ -100,7 +100,7 @@ export default class MapComponent extends React.Component {
     coords.push(feature.geometry.coordinates);
     const coordinate = [parseFloat(coords[1][0].toPrecision(6)), parseFloat(coords[1][1].toPrecision(6))];
     this.setState({ selectedPoint: coordinate });
-  }
+  };
 
   renderSelectedPoint = () => {
     if (this.state.selectedPoint !== null) {
@@ -115,14 +115,15 @@ export default class MapComponent extends React.Component {
         </MapboxGL.PointAnnotation>
       );
     }
-  }
+  };
 
   onDidFinishLoadingMap = () => {
     setTimeout(() => this.setState({ finishedRendering: true }), 1500);
-  }
+  };
 
   onAnnotationSelected = (activeIndex, feature, listingHash, poi) => {
-    console.log('being called at the same time?');
+    this.setState({poiDescription: {loading: true}});
+
 
     if (this.state.activeIndex === activeIndex) {
       return;
@@ -139,8 +140,35 @@ export default class MapComponent extends React.Component {
     this.onOpen(poi.state.status.type);
   }
 
-  onSignalSelected = (activeIndex, feature, signal) => {
-    console.log('this shouldn\'t be selected');
+  getPOIDescription = async (_listingHash, poiData) => {
+
+    if (poiData.name) {
+      const {name, longitude, latitude, owner, status, listingHash} = poiData;
+      if (_listingHash) {
+        console.log('getting', _listingHash, poiData)
+        fetch(`https://map-api-direct.foam.space/poi/${_listingHash}`)
+          .then((response) => response.text())
+          .then((poiDescription) => {
+            const data = JSON.parse(poiDescription).data;
+            console.log('got1: ', data);
+            const stake = data.state.deposit;
+            console.log('got2: ', stake);
+            const { description, tags, phone, web, address } = data.data;
+            console.log('got3: ', description, tags, phone, web);
+            const poiObj = {name, stake, address, longitude, latitude, description, tags, phone, web, owner, status, loading: false};
+            console.log('got4: ', poiObj);
+            this.setState({ poiDescription: poiObj });
+          })
+          .catch((err) => {});
+      }
+
+    } else {
+      console.log('no poi data from map annotation')
+    }
+  };
+
+  onSignalSelected = (activeIndex, feature, cst, signal) => {
+    this.setState({poiDescription: {loading: true}});
     if (this.state.activeIndex === activeIndex) {
       return;
     }
@@ -148,33 +176,37 @@ export default class MapComponent extends React.Component {
     this._scaleIn = new Animated.Value(0.6);
     Animated.timing(this._scaleIn, { toValue: 1.0, duration: 200 }).start();
     this.setState({ activeAnnotationIndex: activeIndex, selected: true });
-    this.setState({selectedSignal: signal});
+    this.getSignalDescription(signal, cst);
+    console.log('signal being sent: ', signal)
     // if (this.state.previousActiveAnnotationIndex !== -1) {
     //   this._map.moveTo(feature.geometry.coordinates, 500);
     // }
     this.onOpen('signal');
   }
 
-  getPOIDescription = async (listingHash, poiData) => {
-    console.log('le poiData: ', poiData);
-    let poiObj = {...poiData};
-    console.log('LISTING HASH: ', listingHash)
-    if (listingHash) {
-      fetch(`https://map-api-direct.foam.space/poi/${listingHash}`)
-        .then((response) => response.text())
-        .then((poiDescription) => {
-          const poiDesc = JSON.parse(poiDescription);
-          console.log('POI DESCRIPTION: ', poiDescription);
-          poiObj = {...poiObj, ...poiDesc};
-          console.log('POI OBJECT: ', poiObj);
-          this.setState({ poiDescription: poiObj });
-        })
-        .catch((err) => {});
+  getSignalDescription = async (signal, cst) => {
+    if (signal.nftAddress) {
+      signal = {...signal, loading: false};
+      // const {createdAt, cst, geohash, longitude, latitude, nftAddress, owner, radius, stake, tokenId} = signal;
+      this.setState({poiDescription: signal})
     }
 
   };
 
-  onAnnotationDeselected(deselectedIndex) {
+  onAnnotationDeselected = (deselectedIndex) => {
+    const nextState = {};
+
+    if (this.state.activeAnnotationIndex === deselectedIndex) {
+      nextState.activeAnnotationIndex = -1;
+    }
+
+    this._scaleOut = new Animated.Value(1);
+    Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
+    nextState.previousActiveAnnotationIndex = deselectedIndex;
+    this.setState(nextState);
+  }
+
+  onSignalDeselected = (deselectedIndex) => {
     const nextState = {};
 
     if (this.state.activeAnnotationIndex === deselectedIndex) {
@@ -195,7 +227,7 @@ export default class MapComponent extends React.Component {
       fetch(`https://map-api-direct.foam.space/poi/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((pois) => {
-          this.setState({ pois: JSON.parse(pois) });
+          this.setState({ pois: JSON.parse(pois) }, this.renderPOIs);
         })
         .catch((err) => {});
     }
@@ -205,61 +237,41 @@ export default class MapComponent extends React.Component {
     const {
       swLng, swLat, neLat, neLng,
     } = this.state;
+
     if (swLng) {
       fetch(`https://map-api-direct.foam.space/signal/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((signals) => {
-          this.setState({ signals: JSON.parse(signals) });
+          this.setState({ signals: JSON.parse(signals) }, this.renderSignals);
         })
         .catch((err) => {});
     }
   };
 
   closeModal = () => {
+
     this.setState({showPOIModal: false})
   }
 
-  renderRegionChange() {
-    if (
-      !this.state.regionFeature ||
-      !isValidCoordinate(this.state.regionFeature.geometry)
-    ) {
-      return (
-        <Bubble>
-          <Text>Move the map!</Text>
-        </Bubble>
-      );
-    }
-
-    const {geometry, properties} = this.state.regionFeature;
-    const neCoord = properties.visibleBounds[0]
-      .map(n => n.toPrecision(6))
-      .join(', ');
-    const swCoord = properties.visibleBounds[1]
-      .map(n => n.toPrecision(6))
-      .join(', ');
-    return (
-      <Bubble style={{marginBottom: 100}}>
-        <Text>{this.state.reason}</Text>
-      </Bubble>
-    );
-  }
-
   onRegionWillChange = (regionFeature) => {
-    this.setState({ reason: 'will change', regionFeature });
+
+    this.setState({ reason: 'will change', regionFeature }, () => {
+      this.setBounds();
+      this.getPOIs();
+      this.getSignals();
+    })
   }
 
   onRegionDidChange = (regionFeature) => {
-    this.setState({ reason: 'did change', regionFeature });
-    this.getPOIs();
-    this.getSignals();
-  }
-
-  onRegionIsChanging = (regionFeature) => {
-    this.setState({ reason: 'is changing', regionFeature }, this.setBounds);
+    this.setState({ reason: 'did change', regionFeature }, () => {
+      this.setBounds();
+      this.getPOIs();
+      this.getSignals();
+    });
   }
 
   setBounds = () => {
+
     const { geometry, properties } = this.state.regionFeature;
     const [neLng, neLat] = properties.visibleBounds[0];
     const [swLng, swLat] = properties.visibleBounds[1];
@@ -268,7 +280,7 @@ export default class MapComponent extends React.Component {
     });
   };
 
-  renderPOIs() {
+  renderPOIs = () => {
     const items = [];
     if (this.state.pois !== null && this.state.pois !== undefined) {
       for (let i = 0; i < this.state.pois.length; i++) {
@@ -306,7 +318,7 @@ export default class MapComponent extends React.Component {
     return items;
   }
 
-  renderSignals() {
+  renderSignals = () => {
     const items = [];
     if (this.state.signals !== null && this.state.signals !== undefined) {
       for (let i = 0; i < this.state.signals.length; i++) {
@@ -314,11 +326,10 @@ export default class MapComponent extends React.Component {
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
         const coordinate = [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))];
-        const title = `Signal: ${owner} ${parseInt(stake)/10e17} FOAM`;
+        const title = `Signal ${parseInt(stake)/10e17} FOAM`;
         const signal = {createdAt, cst, nftAddress, radius, tokenId, geohash, owner, latitude, longitude, stake};
         const id = `pointAnnotation${i}`;
         let backgroundColor = "#FEC76C";
-
         items.push(
           <MapboxGL.PointAnnotation
             key={id}
@@ -326,11 +337,11 @@ export default class MapComponent extends React.Component {
             title="Test"
             selected={this.state.selected && i === 0}
             onSelected={feature => this.onSignalSelected(i, feature, cst, signal)}
-            onDeselected={() => this.onAnnotationDeselected(i)}
+            onDeselected={() => this.onSignalDeselected(i)}
             coordinate={coordinate}
           >
             <View style={[{backgroundColor}, styles.annotationContainer]}/>
-            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'white'}} title={title} />
+            <MapboxGL.Callout contentStyle={{borderRadius: 10, backgroundColor}} tipStyle={MapBoxStyles.tip} textStyle={{color: 'black'}} title={title} />
           </MapboxGL.PointAnnotation>,
         );
       }
@@ -341,6 +352,7 @@ export default class MapComponent extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    console.log('STATE: ', this.state.poiDescription);
     return (
       <View style={{flex: 1}}>
         <NavigationBar/>
@@ -352,54 +364,49 @@ export default class MapComponent extends React.Component {
           zoomLevel={12}
           userTrackingMode={MapboxGL.UserTrackingModes.Follow}
           styleURL={this.state.styleURL}
-          style={sheet.matchParent}
+          style={{flex: 1}}
           onDidFinishLoadingMap={this.onDidFinishLoadingMap}
           onRegionWillChange={this.onRegionWillChange}
           onRegionDidChange={this.onRegionDidChange}
           onRegionIsChanging={this.onRegionIsChanging}
         >
-          {this.state.finishedRendering === false ? <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#000',
-          }}>
-            <Image source={require('../Assets/foam-map-logo.png')} style={{
-              height: 70,
-              resizeMode: 'contain',
-            }}/>
-            <Image source={require('../Assets/foam-splash-design.png')} style={{
-              height: 380,
-              width: 380,
-              resizeMode: 'contain',
-            }}/>
-          </View> : <View style={{ flex: 1 }}>
-            <View style={{
-              margin: 20,
-              marginTop: 50,
-              marginBottom: 0,
-              backgroundColor: 'transparent',
-            }}>
-              <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-                <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-                <Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
-              </View>
-            </View>
-          </View>}
-          <TouchableOpacity onPress={() => this.setState({showBox: !this.state.showBox})} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Press me</Text>
-          </TouchableOpacity>
-          {this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}
+          {/*{this.state.finishedRendering === false ? <View style={{*/}
+          {/*flex: 1,*/}
+          {/*justifyContent: 'center',*/}
+          {/*alignItems: 'center',*/}
+          {/*backgroundColor: '#000',*/}
+          {/*}}>*/}
+          {/*<Image source={require('../Assets/foam-map-logo.png')} style={{*/}
+          {/*height: 70,*/}
+          {/*resizeMode: 'contain',*/}
+          {/*}}/>*/}
+          {/*<Image source={require('../Assets/foam-splash-design.png')} style={{*/}
+          {/*height: 380,*/}
+          {/*width: 380,*/}
+          {/*resizeMode: 'contain',*/}
+          {/*}}/>*/}
+          {/*</View> : <View style={{ flex: 1 }}>*/}
+          {/*<View style={{*/}
+          {/*margin: 20,*/}
+          {/*marginTop: 50,*/}
+          {/*marginBottom: 0,*/}
+          {/*backgroundColor: 'transparent',*/}
+          {/*}}>*/}
+          {/*<View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>*/}
+          {/*<TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>*/}
+          {/*<Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>*/}
+          {/*</View>*/}
+          {/*</View>*/}
+          {/*</View>}*/}
 
-          {this.renderPOIs()}
-          {this.renderSignals()}
-          {this.renderRegionChange()}
+          {this.state.pois && this.renderPOIs()}
+          {this.state.signals && this.renderSignals()}
           {this.renderSelectedPoint()}
-          <Modalize ref={this.modalRef} handlePosition="outside" height={140}>
+          <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>
               <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.poiDescription.name}</Text>
-              <View style={styles.tokenAmount}>
-                <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.poiDescription.stake).toFixed(2)}</Text>
+              {this.state.poiDescription.stake && <View style={styles.tokenAmount}>
+                <Text style={{ color: this.state.selectedPOIColor }}>{parseInt(this.state.poiDescription.stake)/10e17.toFixed(2)}</Text>
                 <View>
                   <Text style={{
                     color: this.state.selectedPOIColor,
@@ -410,18 +417,21 @@ export default class MapComponent extends React.Component {
                   }}>FOAM</Text>
                 </View>
                 <Text style={{ color: this.state.selectedPOIColor }}>staked</Text>
-              </View>
+              </View>}
 
               <TouchableOpacity style={[styles.descriptionButton, { backgroundColor: this.state.selectedPOIColor }]}>
-                <Text style={{color: this.state.selectedPOIStatusColor}}>{this.state.selectedPOIStatus}</Text>
-                <Image source={require('../Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>
+                {this.state.poiDescription.loading ? <Text style={{color: this.state.selectedPOIStatusColor}}>Loading</Text> : <Text style={{color: this.state.selectedPOIStatusColor}}>{this.state.selectedPOIStatus}</Text>}
+                {this.state.poiDescription.loading ? <Image source={require('../Assets/location.png')} style={{resizeMode: 'contain', width: 15}}/> :
+                  <Image source={require('../Assets/caret.png')} style={{resizeMode: 'contain', width: 15}}/>}
               </TouchableOpacity>
-              <Text style={{fontWeight: '500'}}>Address</Text>
-              {this.state.poiDescription.data && <Text style={{marginBottom: 5}}>{this.state.poiDescription.data.data.address.toUpperCase()}</Text>}
-              {this.state.poiDescription.data && <Text style={{color: 'grey', fontSize: 13, marginBottom: 25}}>Longitude and Latitude: {this.state.poiDescription.longitude.toFixed(3)} N, {this.state.poiDescription.latitude.toFixed(3)}W</Text>}
-              <Text style={{fontWeight: '500', marginBottom: 8}}>Description</Text>
-              {this.state.poiDescription.data && <Text style={{marginBottom: 20}}>{this.state.poiDescription.data.data.description}</Text>}
-              <Text style={{fontWeight: '500', marginBottom: 8}}>Tags</Text>
+
+              {this.state.poiDescription.address && <Text style={{fontWeight: '500'}}>Address</Text>}
+              {this.state.poiDescription.address && <Text style={{marginBottom: 5}}>{this.state.poiDescription.address.toUpperCase()}</Text>}
+              {this.state.poiDescription.latitude && <Text style={{color: 'grey', fontSize: 13, marginBottom: 25}}>Longitude and Latitude: {this.state.poiDescription.longitude.toFixed(3)} N, {this.state.poiDescription.latitude.toFixed(3)}W</Text>}
+              {this.state.poiDescription.description && <Text style={{fontWeight: '500', marginBottom: 8}}>Description</Text>}
+
+              {this.state.poiDescription.description && <Text style={{marginBottom: 20}}>{this.state.poiDescription.description}</Text>}
+              {this.state.poiDescription.tags && <Text style={{fontWeight: '500', marginBottom: 8}}>Tags</Text>}
               {this.state.poiDescription.tags && <View style={{marginBottom: 20, flexDirection: 'row', }}>
                 {this.state.poiDescription.tags.map((tag, i) => {
                   return (
@@ -430,10 +440,9 @@ export default class MapComponent extends React.Component {
                     </View>
                   )
                 })}
-                </View>}
-                {this.state.poiDescription.data && <Text style={{fontWeight: '500', marginBottom: 20}}>Phone: <Text style={{fontWeight: '200'}}>{this.state.poiDescription.data.data.phone}</Text></Text>}
-                {this.state.poiDescription.data && <Text style={{fontWeight: '500', marginBottom: 20}}>Web: <Text style={{fontWeight: '200'}}>{this.state.poiDescription.data.data.web}</Text></Text>}
-
+              </View>}
+              {!!this.state.poiDescription.phone && <View style={{flexDirection: 'row'}}><Text style={{fontWeight: '500', marginBottom: 20}}>Phone: </Text><Text style={{fontWeight: '200'}}>{this.state.poiDescription.phone}</Text></View>}
+              {!!this.state.poiDescription.web && <View style={{flexDirection: 'row'}}><Text style={{fontWeight: '500', marginBottom: 20}}>Web: </Text><Text style={{fontWeight: '200'}}>{this.state.poiDescription.web}</Text></View>}
             </View>
           </Modalize>
         </MapboxGL.MapView>
@@ -551,7 +560,7 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   innerModalBox: {
-    margin: 20
+    margin: 20,
   },
 
 });
