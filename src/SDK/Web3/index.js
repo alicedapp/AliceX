@@ -24,6 +24,9 @@ const signMessage = (message, cb) => {
   return NativeModules.WalletModule.signMessage(message, cb);
 }
 
+const settingsPopUp = () => {
+  return NativeModules.NativeVCModule.setting();
+}
 
 const sendToken = () => {
 
@@ -42,6 +45,9 @@ const read = ({contractAddress, abi, functionName, parameters}) => {
 
 };
 
+export const Settings = {
+  settingsPopUp
+};
 
 export const Wallet = {
   getAddress,
@@ -49,7 +55,7 @@ export const Wallet = {
   sendTransaction,
   signTransaction,
   signMessage,
-  sendToken
+  sendToken,
 };
 
 export const Contract = {

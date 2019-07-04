@@ -5200,6 +5200,13 @@ react-native-modalize@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-modalize/-/react-native-modalize-1.1.1.tgz#2db40853e8f9f8c1d55bbdf0672c217a483e4238"
   integrity sha512-t9WcacV1hbx+fu2atKu0xa+L7dUQhLpBeQdhpggPDHvllnWqXvJ2VGHMl3TsnzaQsOFBLLb11wmbKaCIJAqeyw==
 
+react-native-onesignal@^3.2.14:
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.14.tgz#421a3b34c226e5b6ea9e801b7b3f914d8e3c0abb"
+  integrity sha512-pL5eSTUAPSeVZQcYJcuFhAUGA+Pl22WgBn4VXYGI93Dtmzklhpuzxtkdm4LZSu08tHkhbe3VzYuziconJ33AKw==
+  dependencies:
+    invariant "^2.2.2"
+
 react-native-safe-area-view@^0.14.1:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.5.tgz#eeded66bbeb0807f0a7f5f449e7fb2871f7ecf76"
