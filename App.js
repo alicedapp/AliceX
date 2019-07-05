@@ -142,7 +142,7 @@ export default class App extends Component {
   componentDidMount() {
     this.getAddress();
 
-    const walletChangedEventEmitter = Wallet.walletChangeEvent();
+    const walletChangedEventEmitter = Wallet.walletChangeEvent()
     walletChangedEventEmitter.addListener(
       "walletChangedEvent",
       (walletInfo) => {
