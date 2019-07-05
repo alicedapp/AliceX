@@ -115,7 +115,7 @@ export default class App extends Component {
     this.getAddress();
 
     const walletChangedEventEmitter = Wallet.walletChangeEvent()
-    walletChangedEventEmitter.addListener(
+    const walletSubscriber = walletChangedEventEmitter.addListener(
       "walletChangedEvent",
       (walletInfo) => {
         console.log('walletINFO: ', walletInfo, walletInfo.address);

@@ -52,7 +52,7 @@ const read = ({contractAddress, abi, functionName, parameters}) => {
 
 };
 
-const walletChangeEvent = () => new NativeEventEmitter(NativeModules.walletChangedEvent);
+const walletChangeEvent = () => new NativeEventEmitter(NativeModules.CallRNModule);
 
 export const Settings = {
   settingsPopUp
