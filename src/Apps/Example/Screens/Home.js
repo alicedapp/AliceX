@@ -34,17 +34,10 @@ export default class ExampleHome extends React.Component {
     this.child.current.openModal();
   };
 
-  // getAddress = () => {
-  //   Wallet.getAddress((address) => {
-  //     this.setState({address});
-  //     console.log('ADDRESS: ', address);
-  //   });
-  // };
-
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
-      this.setState({address})
+      this.setState({ address })
     } catch(e) {
       console.log(e);
     }

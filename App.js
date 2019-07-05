@@ -18,7 +18,7 @@ import Profile from './src/AliceCore/Screens/Profile';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 
-import NavigatorService from './src/utils/navigationWrapper';
+import NavigatorService, {navigate} from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
 import {Wallet} from './src/SDK/Web3'
@@ -109,12 +109,41 @@ export default class App extends Component {
     this.state = {
       wallet: ''
     }
+    OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
+
+    OneSignal.addEventListener('received', this.onReceived);
+    OneSignal.addEventListener('opened', this.onOpened);
+    OneSignal.addEventListener('ids', this.onIds);
+    OneSignal.configure(); 	// triggers the ids event
+  }
+
+  componentWillUnmount() {
+    OneSignal.removeEventListener('received', this.onReceived);
+    OneSignal.removeEventListener('opened', this.onOpened);
+    OneSignal.removeEventListener('ids', this.onIds);
+  }
+
+  onReceived(notification) {
+    console.log("Notification received: ", notification);
+  }
+
+  onOpened(openResult) {
+    console.log('Message: ', openResult.notification.payload.body);
+    navigate('Foam');
+    console.log('Data: ', openResult.notification.payload.additionalData);
+    console.log('isActive: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+  }
+
+  onIds(device) {
+    console.log('Device info: ', device);
   }
 
   componentDidMount() {
     this.getAddress();
 
-    const walletChangedEventEmitter = Wallet.walletChangeEvent()
+    const walletChangedEventEmitter = Wallet.walletChangeEvent();
+    console.log('WALLET CHANGED EMITTER: ', walletChangedEventEmitter);
     walletChangedEventEmitter.addListener(
       "walletChangedEvent",
       (walletInfo) => {

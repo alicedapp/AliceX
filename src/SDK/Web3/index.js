@@ -1,4 +1,4 @@
-import { NativeModules } from "react-native";
+import { NativeModules, NativeEventEmitter } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('ropsten');
 
@@ -52,7 +52,11 @@ const read = ({contractAddress, abi, functionName, parameters}) => {
 
 };
 
-const walletChangeEvent = () => new NativeEventEmitter(NativeModules.walletChangedEvent);
+const walletChangeEvent = () => {
+  console.log('Native Event Emitter: ', NativeEventEmitter)
+  console.log('Native Modules: ', NativeModules)
+  return new NativeEventEmitter(NativeModules.CallRNModule);
+}
 
 export const Settings = {
   settingsPopUp
