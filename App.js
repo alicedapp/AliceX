@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import {
+  NativeModules,
   StyleSheet,
   Text,
   View
@@ -20,7 +21,8 @@ MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0
 import NavigatorService from './src/utils/navigationWrapper';
 import Icon from "./src/Components/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
-
+import {Wallet} from './src/SDK/Web3'
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -102,6 +104,35 @@ const MainApp = createStackNavigator({
 export const AliceMain = createAppContainer(MainApp);
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wallet: ''
+    }
+  }
+
+  componentDidMount() {
+    this.getAddress();
+
+    const walletChangedEventEmitter = Wallet.walletChangeEvent()
+    walletChangedEventEmitter.addListener(
+      "walletChangedEvent",
+      (walletInfo) => {
+        console.log('walletINFO: ', walletInfo, walletInfo.address);
+        this.setState({ wallet: walletInfo.address});
+      }
+    );
+  }
+
+  getAddress = async () => {
+    try {
+      const address = await Wallet.getAddress();
+      console.log('ADDRESS: ', address)
+    } catch(e) {
+      console.log(e);
+    }
+
+  };
 
   render() {
     return (

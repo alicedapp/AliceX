@@ -14,12 +14,14 @@ export default class Profile extends Component {
     this.state = {
       tokenInfo: '',
       tokens: [],
-      ethereum: {}
+      ethereum: {},
+      nfts: []
     };
 
   }
   componentDidMount() {
     this.getTokenInfo()
+    this.getNFTInfo()
   }
 
   getTokenInfo = async () => {
@@ -37,12 +39,28 @@ export default class Profile extends Component {
 
   };
 
+  getNFTInfo = async () => {
+    let data = null;
+    var xhr = new XMLHttpRequest();
+    const onData = (data) => this.setState({nftInfo: data, nfts: data.assets});
+    xhr.addEventListener("readystatechange",  function()  {
+      if (this.readyState === this.DONE) {
+        onData(JSON.parse(this.responseText));
+        console.log('nfts: ', JSON.parse(this.responseText));
+      }
+    });
+    xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner=0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB");
+    xhr.send(data);
+
+  };
+
   render() {
     console.log('token: ', this.state.to);
 
     return (
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, width, padding: 20}}>
+        <ScrollView style={{flex: 1, width, padding: 30, backgroundColor: 'transparent'}}>
+          <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
           {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
             const {tokenInfo} = token;
             console.log('token info: ', tokenInfo);
@@ -64,7 +82,16 @@ export default class Profile extends Component {
 
             )
           })}
-        </ScrollView>
+          <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
+          {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
+            return (
+              <Image key={i} source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
+            )
+            })
+          }
+          </View>
+          </ScrollView>
       </View>
     );
   }
@@ -75,11 +102,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 20,
+    backgroundColor: 'transparent'
   },
   tokenBox: {
     flexDirection: 'row',
     width: '100%',
-    margin: 8
+    margin: 8,
+
   },
   tokenContainer: {
     backgroundColor: '#c9c9c9',

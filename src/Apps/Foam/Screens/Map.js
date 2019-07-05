@@ -27,6 +27,9 @@ export default class MapComponent extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
+    return {
+      tabBarVisible: false,
+    };
   };
 
   constructor(props) {
@@ -370,38 +373,35 @@ export default class MapComponent extends React.Component {
           onRegionDidChange={this.onRegionDidChange}
           onRegionIsChanging={this.onRegionIsChanging}
         >
-          {/*{this.state.finishedRendering === false ? <View style={{*/}
-          {/*flex: 1,*/}
-          {/*justifyContent: 'center',*/}
-          {/*alignItems: 'center',*/}
-          {/*backgroundColor: '#000',*/}
-          {/*}}>*/}
-          {/*<Image source={require('../Assets/foam-map-logo.png')} style={{*/}
-          {/*height: 70,*/}
-          {/*resizeMode: 'contain',*/}
-          {/*}}/>*/}
-          {/*<Image source={require('../Assets/foam-splash-design.png')} style={{*/}
-          {/*height: 380,*/}
-          {/*width: 380,*/}
-          {/*resizeMode: 'contain',*/}
-          {/*}}/>*/}
-          {/*</View> : <View style={{ flex: 1 }}>*/}
-          {/*<View style={{*/}
-          {/*margin: 20,*/}
-          {/*marginTop: 50,*/}
-          {/*marginBottom: 0,*/}
-          {/*backgroundColor: 'transparent',*/}
-          {/*}}>*/}
-          {/*<View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>*/}
-          {/*<TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>*/}
-          {/*<Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>*/}
-          {/*</View>*/}
-          {/*</View>*/}
-          {/*</View>}*/}
+          {this.state.finishedRendering === false ? <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#000',
+          }}>
+            <Image source={require('../Assets/foam-map-logo.png')} style={{
+              height: 70,
+              resizeMode: 'contain',
+            }}/>
+            <Image source={require('../Assets/foam-splash-design.png')} style={{
+              height: 380,
+              width: 380,
+              resizeMode: 'contain',
+            }}/>
+          </View> : <View style={{ flex: 1 }}>
+            <View style={{
+              margin: 20,
+              marginTop: 50,
+              marginBottom: 0,
+              backgroundColor: 'transparent',
+            }}>
+              <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+                <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
+                <Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
+              </View>
+            </View>
+          </View>}
 
-          {this.state.pois && this.renderPOIs()}
-          {this.state.signals && this.renderSignals()}
-          {this.renderSelectedPoint()}
           <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>
               <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.poiDescription.name}</Text>

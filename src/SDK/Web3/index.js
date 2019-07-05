@@ -1,9 +1,16 @@
-import {Image, NativeModules, Text, TouchableOpacity, View} from "react-native";
+import { NativeModules } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('ropsten');
 
 
-const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
+// const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
+const getAddress = async () => {
+  try {
+    return await NativeModules.WalletModule.getAddress();
+  } catch(e) {
+    return "Wallet fetch failed"
+  }
+};
 
 const getBalance = (address) => {
   return infuraProvider.getBalance(address).then((balance) => {
@@ -45,6 +52,8 @@ const read = ({contractAddress, abi, functionName, parameters}) => {
 
 };
 
+const walletChangeEvent = () => new NativeEventEmitter(NativeModules.walletChangedEvent);
+
 export const Settings = {
   settingsPopUp
 };
@@ -56,6 +65,7 @@ export const Wallet = {
   signTransaction,
   signMessage,
   sendToken,
+  walletChangeEvent,
 };
 
 export const Contract = {
