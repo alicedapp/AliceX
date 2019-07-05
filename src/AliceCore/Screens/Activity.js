@@ -86,8 +86,6 @@ export default class ActivityClass extends Component {
   };
 
   render() {
-    console.log('token: ', this.state.to);
-
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1, width, padding: 20}}>

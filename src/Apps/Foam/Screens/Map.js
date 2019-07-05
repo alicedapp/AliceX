@@ -223,6 +223,8 @@ export default class MapComponent extends React.Component {
   }
 
   getPOIs = async () => {
+    console.log('getting pois')
+
     const {
       swLng, swLat, neLat, neLng,
     } = this.state;
@@ -237,6 +239,7 @@ export default class MapComponent extends React.Component {
   };
 
   getSignals = async () => {
+    console.log('getting signals')
     const {
       swLng, swLat, neLat, neLng,
     } = this.state;
@@ -245,6 +248,7 @@ export default class MapComponent extends React.Component {
       fetch(`https://map-api-direct.foam.space/signal/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((signals) => {
+          console.log('SIGNALS: ', JSON.parse(signals));
           this.setState({ signals: JSON.parse(signals) }, this.renderSignals);
         })
         .catch((err) => {});
@@ -355,7 +359,6 @@ export default class MapComponent extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    console.log('STATE: ', this.state.poiDescription);
     return (
       <View style={{flex: 1}}>
         <NavigationBar/>
@@ -401,6 +404,9 @@ export default class MapComponent extends React.Component {
               </View>
             </View>
           </View>}
+          {this.renderSignals()}
+          {this.renderPOIs()}
+          {this.renderSelectedPoint()}
 
           <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>

@@ -129,7 +129,7 @@ export default class App extends Component {
 
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
-    navigate('Foam');
+    navigate('FoamExamples');
     console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
@@ -143,7 +143,6 @@ export default class App extends Component {
     this.getAddress();
 
     const walletChangedEventEmitter = Wallet.walletChangeEvent();
-    console.log('WALLET CHANGED EMITTER: ', walletChangedEventEmitter);
     walletChangedEventEmitter.addListener(
       "walletChangedEvent",
       (walletInfo) => {

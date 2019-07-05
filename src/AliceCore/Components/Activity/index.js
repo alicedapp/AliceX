@@ -11,7 +11,6 @@ export const Activity = ({
                     feedByAddress,
                     otherProfileActivity,
                   }) => {
-  console.log('Activity feed: ', feedByAddress)
   return (
     <View>
       <View>

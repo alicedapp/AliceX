@@ -31,7 +31,6 @@ export default class Profile extends Component {
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         onData(JSON.parse(this.responseText));
-        console.log(JSON.parse(this.responseText));
       }
     });
     xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB?apiKey=freekey");
@@ -46,7 +45,6 @@ export default class Profile extends Component {
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         onData(JSON.parse(this.responseText));
-        console.log('nfts: ', JSON.parse(this.responseText));
       }
     });
     xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner=0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB");
@@ -55,7 +53,6 @@ export default class Profile extends Component {
   };
 
   render() {
-    console.log('token: ', this.state.to);
 
     return (
       <View style={styles.container}>
@@ -63,7 +60,6 @@ export default class Profile extends Component {
           <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
           {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
             const {tokenInfo} = token;
-            console.log('token info: ', tokenInfo);
             return (
               <View key={i} style={styles.tokenBox}>
                 {tokenInfo.image ?

@@ -17,7 +17,6 @@ export const ActivityTiles = ({
                          name,
                          feedAddress,
                        }) => {
-  console.log('FEED ADDRESS: ', feedAddress);
   return (
     <React.Fragment>
       {
