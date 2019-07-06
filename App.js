@@ -17,11 +17,12 @@ import CameraScreen from './src/AliceCore/Screens/Camera';
 import Profile from './src/AliceCore/Screens/Profile';
 import MapboxGL from '@mapbox/react-native-mapbox-gl';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
+//TODO: change API key on release to TestFlight
 
-import NavigatorService, {navigate} from './src/utils/navigationWrapper';
-import Icon from "./src/Components/IconComponent";
+import NavigatorService, {navigate} from './src/AliceUtils/navigationWrapper';
+import Icon from "./src/AliceComponents/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
-import {Wallet} from './src/SDK/Web3'
+import {Wallet} from './src/AliceSDK/Web3'
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
@@ -110,6 +111,7 @@ export default class App extends Component {
       wallet: ''
     }
     OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
+    //TODO: change API key on release to TestFlight
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);

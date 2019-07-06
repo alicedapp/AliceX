@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { timeSince } from '../../../utils/time';
+import { timeSince } from '../../../AliceUtils/time';
 
 export const FeedTileContext = ({ item }) => (
   <View style={{flex: 1}} >

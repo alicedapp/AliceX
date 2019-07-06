@@ -2,9 +2,9 @@ import {Component} from "react";
 import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
-import {addDataType} from "../../utils";
+import {addDataType} from "../../AliceUtils";
 import { Activity } from "../Components/Activity";
-import {Settings} from "../../SDK/Web3";
+import {Settings} from "../../AliceSDK/Web3";
 
 const { height, width } = Dimensions.get('window');
 

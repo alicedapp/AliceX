@@ -1,6 +1,6 @@
 import {Image, TouchableOpacity, View} from "react-native";
 import React from "react";
-import {navigate, backAction} from "../utils/navigationWrapper";
+import {navigate, backAction} from "../AliceUtils/navigationWrapper";
 
 export const NavigationBar = () => (
   <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 1000 }}>

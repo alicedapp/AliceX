@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Icon from '../../../Components/IconComponent';
+import Icon from '../../../AliceComponents/IconComponent';
 let { height, width } = Dimensions.get('window');
 export default class Deals extends React.Component {
   static navigationOptions = ({ navigation }) => {

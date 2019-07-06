@@ -1,6 +1,6 @@
 import React from "react";
 import {Image, Text, NativeModules, TouchableOpacity, View} from "react-native";
-import {Wallet, Contract} from "../../../SDK/Web3";
+import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import Modalize from '../Components/Modalize'
 import {FoodContractABI} from "../ABI";
 

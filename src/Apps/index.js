@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, TextInput, Dimensions, NativeModules
 } from 'react-native';
-import Icon from '../Components/IconComponent';
+import Icon from '../AliceComponents/IconComponent';
 
 /*        ExampleMaps Export Section */
 export { default as Fork } from './Fork';

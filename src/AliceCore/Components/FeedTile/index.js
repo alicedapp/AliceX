@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import tokenToData from '../../../utils/tokenToData.json';
+import tokenToData from '../../../AliceUtils/tokenToData.json';
 
 import Save from '../../../AliceAssets/share.png';
 import FeedTileContext from './FeedTileContext';
