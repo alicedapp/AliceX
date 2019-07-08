@@ -46,7 +46,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
       )
     }
   },
-  Settings: {
+  Profile: {
     screen: Profile,
     navigationOptions: {
       tabBarLabel: 'Settings',
@@ -65,8 +65,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   }
 }, {
-  initialRouteName: 'Activity',
-  order: ['Home', 'Apps', 'Settings', 'Activity'],
+  initialRouteName: 'Profile',
+  order: ['Home', 'Apps', 'Profile', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {

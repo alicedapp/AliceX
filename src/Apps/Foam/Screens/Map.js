@@ -141,7 +141,7 @@ export default class MapComponent extends React.Component {
     //   this._map.moveTo(feature.geometry.coordinates, 500);
     // }
     this.onOpen(poi.state.status.type);
-  }
+  };
 
   getPOIDescription = async (_listingHash, poiData) => {
 
@@ -258,7 +258,7 @@ export default class MapComponent extends React.Component {
   closeModal = () => {
 
     this.setState({showPOIModal: false})
-  }
+  };
 
   onRegionWillChange = (regionFeature) => {
 
@@ -267,7 +267,7 @@ export default class MapComponent extends React.Component {
       this.getPOIs();
       this.getSignals();
     })
-  }
+  };
 
   onRegionDidChange = (regionFeature) => {
     this.setState({ reason: 'did change', regionFeature }, () => {
@@ -275,7 +275,7 @@ export default class MapComponent extends React.Component {
       this.getPOIs();
       this.getSignals();
     });
-  }
+  };
 
   setBounds = () => {
 
@@ -323,7 +323,7 @@ export default class MapComponent extends React.Component {
     }
 
     return items;
-  }
+  };
 
   renderSignals = () => {
     const items = [];

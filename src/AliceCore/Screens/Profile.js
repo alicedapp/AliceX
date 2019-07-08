@@ -1,9 +1,11 @@
 import {Component} from "react";
-import {StyleSheet, ScrollView, Text, Image, View, Dimensions} from "react-native";
+import {Animated, StyleSheet, ScrollView, TouchableWithoutFeedback, Text, Image, View, Dimensions} from "react-native";
 import React from "react";
 import MapboxGL from "@mapbox/react-native-mapbox-gl";
 import {onSortOptions} from "../../Apps/Foam/utils";
 const { height, width } = Dimensions.get('window');
+const cols = 3, rows = 3;
+import NFT from '../../AliceComponents/NFT'
 
 //TODO: needs api key
 
@@ -15,7 +17,7 @@ export default class Profile extends Component {
       tokenInfo: '',
       tokens: [],
       ethereum: {},
-      nfts: []
+      nfts: [],
     };
 
   }
@@ -38,10 +40,14 @@ export default class Profile extends Component {
 
   };
 
+
   getNFTInfo = async () => {
     let data = null;
     var xhr = new XMLHttpRequest();
-    const onData = (data) => this.setState({nftInfo: data, nfts: data.assets});
+    const onData = (data) => {
+      console.log('NFTs: ', data.assets)
+      this.setState({nftInfo: data, nfts: data.assets});
+    }
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         onData(JSON.parse(this.responseText));
@@ -56,36 +62,37 @@ export default class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, width, padding: 30, backgroundColor: 'transparent'}}>
+        <ScrollView style={{flex: 1, width, padding: 10, backgroundColor: 'transparent'}}>
           <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
-          {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
-            const {tokenInfo} = token;
-            return (
-              <View key={i} style={styles.tokenBox}>
-                {tokenInfo.image ?
-                  <View style={styles.tokenContainer}>
-                    <Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>
-                  </View> :
-                  <View style={styles.tokenContainer}>
-                    <Text>{tokenInfo.symbol.substring(0, 4)}</Text>
-                  </View>
-                }
-                <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
-                  <Text>{tokenInfo.name}</Text>
-                  <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {tokenInfo.symbol.substring(0, 4)}</Text>
-                </View>
-              </View>
+          {/*{this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {*/}
+            {/*const {tokenInfo} = token;*/}
+            {/*return (*/}
+              {/*<View key={i} style={styles.tokenBox}>*/}
+                {/*{tokenInfo.image ?*/}
+                  {/*<View style={styles.tokenContainer}>*/}
+                    {/*<Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>*/}
+                  {/*</View> :*/}
+                  {/*<View style={styles.tokenContainer}>*/}
+                    {/*<Text>{tokenInfo.symbol.substring(0, 4)}</Text>*/}
+                  {/*</View>*/}
+                {/*}*/}
+                {/*<View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>*/}
+                  {/*<Text>{tokenInfo.name}</Text>*/}
+                  {/*<Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {tokenInfo.symbol.substring(0, 4)}</Text>*/}
+                {/*</View>*/}
+              {/*</View>*/}
 
-            )
-          })}
+            {/*)*/}
+          {/*})}*/}
           <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between'}}>
           {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
-            return (
-              <Image key={i} source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
-            )
-            })
-          }
+            if (nft.collection) {
+              return (
+                <NFT nft={nft}/>
+              )
+            }
+          })}
           </View>
           </ScrollView>
       </View>

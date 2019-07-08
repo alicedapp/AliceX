@@ -93,7 +93,7 @@ export default class ActivityClass extends Component {
 
           </TouchableOpacity>
           <Text>Hello</Text>
-          <Activity isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed} otherProfileActivity={[]}/>
+          {/*<Activity isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed} otherProfileActivity={[]}/>*/}
         </ScrollView>
       </View>
     );
