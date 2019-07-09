@@ -1,2 +1,2 @@
-import {MapView as Map} from '@mapbox/react-native-mapbox-gl'
+import {MapView as Map} from '@react-native-mapbox-gl/maps'
 export default Map;

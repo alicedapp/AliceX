@@ -16,7 +16,7 @@ import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator
 import Apps, {Foam, Fork, Mintbase, Test} from './src/Apps'
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Profile from './src/AliceCore/Screens/Profile';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 //TODO: change API key on release to TestFlight
 

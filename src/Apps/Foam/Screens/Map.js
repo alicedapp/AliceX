@@ -3,12 +3,119 @@ import {
   Animated, Dimensions, Image,
   StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+
+const feature = {"type":"Feature",
+    "properties":{"mag":1.3,
+      "place":"6km SE of Talkeetna," +
+        " Alaska",
+      "time":1562633337528,
+      "updated":1562633478814,
+      "tz":-540,
+      "url":"https://earthquake.usgs.gov/earthquakes/eventpage/ak0198q8ecn9",
+      "detail":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak0198q8ecn9.geojson",
+      "felt":null,
+      "cdi":null,
+      "mmi":null,
+      "alert":null,
+      "status":"automatic",
+      "tsunami":0,
+      "sig":26,
+      "net":"ak",
+      "code":"0198q8ecn9",
+      "ids":"," +
+        "ak0198q8ecn9," +
+        "",
+      "sources":"," +
+        "ak," +
+        "",
+      "types":"," +
+        "geoserve," +
+        "origin," +
+        "",
+      "nst":null,
+      "dmin":null,
+      "rms":0.55000000000000004,
+      "gap":null,
+      "magType":"ml",
+      "type":"earthquake",
+      "title":"M 1.3 - 6km SE of Talkeetna," +
+        " Alaska"},
+    "geometry":{"type":"Point",
+      "coordinates":[-150.00710000000001,
+        62.286700000000003,
+        14.699999999999999]},
+    "id":"ak0198q8ecn9"};
+
+const poi = {
+  "state": {
+    "status": {
+      "listingSince": "2019-01-12T19:54:00Z",
+      "type": "listing"
+    },
+    "createdAt": "2019-01-09T19:54:00Z",
+    "deposit": "0x2b5e3af16b1880000"
+  },
+  "listingHash": "0x566b907de771a02bcd8be7eca8b2a894aa3755b93eb6c2082b3e90d3ff31c292",
+  "owner": "0x222861f16354020f62bbfa0a878b2f047a385576",
+  "geohash": "drs3jf20m3c7",
+  "name": "Amherst Coffee and Whisk(e)y Bar ",
+  "tags": ["Nightlife", "Food"]
+};
+
+const geoJSON = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 1,
+        "id": 1,
+        "uniqueid": "1695.00",
+        "address": "230",
+        "suffix": " ",
+        "street": "Stratford Ave",
+        "onstr": "Friendship Ave",
+        "fromstr": "Stratford Ave",
+        "tostr": "Fairmount St /S",
+        "side": "Side",
+        "site": "1",
+        "spp": "Acer platanoides",
+        "dbh": 5,
+        "cond": "Good",
+        "trunks": 1,
+        "mt": "Training Prune",
+        "observe": "None",
+        "hardscape": "N",
+        "inspect": "N",
+        "klir": "Vehicle",
+        "utilities": "Y",
+        "grow": "Tree Lawn",
+        "spacesize": 2,
+        "loctype": "Street",
+        "pghdbsdeTree_Keeperarea": 8,
+        "staff": "Kara Masak",
+        "inv_date": "2005-02-14T00:00:00.000Z",
+        "inv_time": " ",
+        "inspect_dt": "2005-02-14T00:00:00.000Z",
+        "inspect_tm": "10:18:32",
+        "active": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.9334671524,
+          40.4611126031
+        ]
+      }
+    }
+    // additional features
+  ]
+}
 
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
-import Bubble from "../Components/common/Bubble";
 import sheet from "../styles/sheet";
 import Modalize from "../Components/Modalize";
 import exampleIcon from '../Assets/example.png';
@@ -24,44 +131,45 @@ const isValidCoordinate = geometry => {
 
 const { height, width } = Dimensions.get('window');
 
-const featureCollection = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
-      properties: {
-        icon: 'example',
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-117.20611157485, 52.180961084261],
-      },
-    },
-    {
-      type: 'Feature',
-      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
-      properties: {
-        icon: 'airport-15',
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-117.205908, 52.180843],
-      },
-    },
-    {
-      type: 'Feature',
-      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
-      properties: {
-        icon: 'pin',
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-117.206562, 52.180797],
-      },
-    },
-  ],
+
+
+const layerStyles = {
+  singlePoint: {
+    circleColor: 'green',
+    circleOpacity: 0.84,
+    circleStrokeWidth: 2,
+    circleStrokeColor: 'white',
+    circleRadius: 5,
+    circlePitchAlignment: 'map',
+  },
+
+  clusteredPoints: {
+    circlePitchAlignment: 'map',
+
+    circleColor: [
+      'step',
+      ['get', 'point_count'],
+      '#51bbd6',
+      100,
+      '#f1f075',
+      750,
+      '#f28cb1',
+    ],
+
+    circleRadius: ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+
+    circleOpacity: 0.84,
+    circleStrokeWidth: 2,
+    circleStrokeColor: 'white',
+  },
+
+  clusterCount: {
+    textField: '{point_count}',
+    textSize: 12,
+    textPitchAlignment: 'map',
+  },
 };
+
 
 export default class MapComponent extends React.Component {
 
@@ -115,10 +223,13 @@ export default class MapComponent extends React.Component {
   }
 
   onOpen = (itemDescription) => {
+
     if (itemDescription === 'signal') {
       this.setState({selectedPOIColor: '#FEC76C', selectedPOIStatus: 'Signal', selectedPOIStatusColor: 'black'});
     } else if (itemDescription === 'applied') {
       this.setState({selectedPOIColor: '#2E7CE6', selectedPOIStatus: 'Pending Point of Interest', selectedPOIStatusColor: 'white'})
+    } else if (itemDescription === 'challenged') {
+      this.setState({selectedPOIColor: '#f47f67', selectedPOIStatus: 'Challenged Point of Interest', selectedPOIStatusColor: 'white'})
     } else {
       this.setState({selectedPOIColor: '#27AB5F', selectedPOIStatus: 'Verified Point of Interest', selectedPOIStatusColor: 'white'})
     }
@@ -220,7 +331,6 @@ export default class MapComponent extends React.Component {
     Animated.timing(this._scaleIn, { toValue: 1.0, duration: 200 }).start();
     this.setState({ activeAnnotationIndex: activeIndex, selected: true });
     this.getSignalDescription(signal, cst);
-    console.log('signal being sent: ', signal)
     // if (this.state.previousActiveAnnotationIndex !== -1) {
     //   this._map.moveTo(feature.geometry.coordinates, 500);
     // }
@@ -236,31 +346,33 @@ export default class MapComponent extends React.Component {
 
   };
 
-  // onAnnotationDeselected = (deselectedIndex) => {
-  //   const nextState = {};
-  //
-  //   if (this.state.activeAnnotationIndex === deselectedIndex) {
-  //     nextState.activeAnnotationIndex = -1;
-  //   }
-  //
-  //   this._scaleOut = new Animated.Value(1);
-  //   Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-  //   nextState.previousActiveAnnotationIndex = deselectedIndex;
-  //   this.setState(nextState);
-  // }
-  //
-  // onSignalDeselected = (deselectedIndex) => {
-  //   const nextState = {};
-  //
-  //   if (this.state.activeAnnotationIndex === deselectedIndex) {
-  //     nextState.activeAnnotationIndex = -1;
-  //   }
-  //
-  //   this._scaleOut = new Animated.Value(1);
-  //   Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-  //   nextState.previousActiveAnnotationIndex = deselectedIndex;
-  //   this.setState(nextState);
-  // }
+  onAnnotationDeselected = (deselectedIndex) => {
+    // const nextState = {};
+    //
+    // if (this.state.activeAnnotationIndex === deselectedIndex) {
+    //   nextState.activeAnnotationIndex = -1;
+    // }
+    //
+    // this._scaleOut = new Animated.Value(1);
+    // Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
+    // nextState.previousActiveAnnotationIndex = deselectedIndex;
+    // this.setState(nextState);
+  }
+
+  onSignalDeselected = (deselectedIndex) => {
+    // const nextState = {};
+    //
+    // if (this.state.activeAnnotationIndex === deselectedIndex) {
+    //   nextState.activeAnnotationIndex = -1;
+    // }
+    //
+    // this._scaleOut = new Animated.Value(1);
+    // Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
+    // nextState.previousActiveAnnotationIndex = deselectedIndex;
+    // this.setState(nextState);
+  };
+
+
 
   getPOIs = async () => {
     console.log('getting pois')
@@ -278,6 +390,8 @@ export default class MapComponent extends React.Component {
     }
   };
 
+
+
   getSignals = async () => {
     console.log('getting signals')
     const {
@@ -288,7 +402,6 @@ export default class MapComponent extends React.Component {
       fetch(`https://map-api-direct.foam.space/signal/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((signals) => {
-          console.log('SIGNALS: ', JSON.parse(signals));
           this.setState({ signals: JSON.parse(signals) }, this.renderSignals);
         })
         .catch((err) => {});
@@ -331,6 +444,7 @@ export default class MapComponent extends React.Component {
     const items = [];
     if (this.state.pois !== null && this.state.pois !== undefined) {
       for (let i = 0; i < this.state.pois.length; i++) {
+        console.log(JSON.stringify(this.state.pois[i]));
         const { geohash, state, listingHash, name, owner, tags } = this.state.pois[i];
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
@@ -342,6 +456,8 @@ export default class MapComponent extends React.Component {
         let backgroundColor;
         if (state.status.type === 'listing') {
           backgroundColor = '#27AB5F'
+        } else if (state.status.type === 'challenged') {
+          backgroundColor = '#f47f67'
         } else {
           backgroundColor = '#2E7CE6'
         }
@@ -407,10 +523,7 @@ export default class MapComponent extends React.Component {
         <MapboxGL.MapView
           ref={c => (this._map = c)}
           onPress={this.onPress}
-          // centerCoordinate={this.state.coordinates[0]}
-          centerCoordinate={[-117.20611157485, 52.180961084261]}
           showUserLocation={true}
-          zoomLevel={12}
           userTrackingMode={MapboxGL.UserTrackingModes.Follow}
           styleURL={this.state.styleURL}
           style={{flex: 1}}
@@ -419,6 +532,11 @@ export default class MapComponent extends React.Component {
           onRegionDidChange={this.onRegionDidChange}
           onRegionIsChanging={this.onRegionIsChanging}
         >
+          <MapboxGL.Camera
+            zoomLevel={12}
+            centerCoordinate={[-69.975482, 41.865860]}
+            // centerCoordinate={this.state.coordinates[0]}
+          />
           {this.state.finishedRendering === false ? <View style={{
             flex: 1,
             justifyContent: 'center',
@@ -447,16 +565,9 @@ export default class MapComponent extends React.Component {
               </View>
             </View>
           </View>}
-          {/*{this.renderSignals()}*/}
-          {/*{this.renderPOIs()}*/}
-          {/*{this.renderSelectedPoint()}*/}
-          <MapboxGL.ShapeSource
-            id="exampleShapeSource"
-            shape={featureCollection}
-            images={{example: exampleIcon, assets: ['pin']}}
-          >
-            <MapboxGL.SymbolLayer id="exampleIconName" style={styles.icon} />
-          </MapboxGL.ShapeSource>
+          {this.renderSignals()}
+          {this.renderPOIs()}
+          {this.renderSelectedPoint()}
           <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>
               <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.poiDescription.name}</Text>
@@ -507,17 +618,25 @@ export default class MapComponent extends React.Component {
   }
 }
 
-const MapBoxStyles = MapboxGL.StyleSheet.create({
+const styled = {
+  icon: {
+    iconImage: ['get', 'icon'],
+
+    iconSize: [
+      'match',
+      ['get', 'icon'],
+      'example',
+      1.2,
+      'airport-15',
+      1.2,
+      /* default */ 1,
+    ],
+  },
+};
+
+const MapBoxStyles = StyleSheet.create({
   tip: {
     backgroundColor: 'black',
-  },
-  icon: {
-    iconImage: '{icon}',
-    iconSize: MapboxGL.StyleSheet.source(
-      [['example', 0.5], ['airport-15', 1.2]],
-      'icon',
-      MapboxGL.InterpolationMode.Categorical,
-    ),
   },
 });
 
@@ -640,3 +759,4 @@ const styles = StyleSheet.create({
 { /* </TouchableOpacity> */ }
 { /* </View> */ }
 { /* </View> */ }
+

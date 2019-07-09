@@ -11,10 +11,10 @@ import {
   TouchableOpacity
 } from "react-native";
 import React from "react";
-import MapboxGL from "@mapbox/react-native-mapbox-gl";
+import MapboxGL from "@react-native-mapbox-gl/maps";
 import {onSortOptions} from "../../Apps/Foam/utils";
 const { height, width } = Dimensions.get('window');
-const cols = 3, rows = 3;
+const cols = 2, rows = 2;
 import NFT from '../../AliceComponents/NFT'
 import Token from '../../AliceComponents/Token'
 import {navigate} from "../../AliceUtils/navigationWrapper";
@@ -95,16 +95,16 @@ export default class Profile extends Component {
             )
           })}
           <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
-          {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
-            if (nft.collection) {
-              return (
-                <NFT key={i} nft={nft}/>
-              )
-            }
-          })}
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between'}}>
+            {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
+              if (nft.collection) {
+                return (
+                  <NFT key={i} nft={nft}/>
+                )
+              }
+            })}
           </View>
-          </ScrollView>
+        </ScrollView>
       </View>
     );
   }
