@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
+import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 
 const { height, width } = Dimensions.get('window');
 
@@ -30,12 +31,10 @@ export default class Restaurants extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <NavigationBar/>
         <View style={{
-          margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+          margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center',
         }}>
-          <TouchableOpacity style={{width: 25, height: 25}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
-          </TouchableOpacity>
           <TouchableOpacity style={{width: 35, height: 35}} onPress={() => navigation.navigate('Camera')}>
             <Image source={require('../../../AliceAssets/camera-emoji.png')} style={{ resizeMode: 'contain', width: 30, height: 30 }}/>
           </TouchableOpacity>

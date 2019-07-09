@@ -1,9 +1,9 @@
 import {Animated, Image, Text, StyleSheet, Dimensions, TouchableWithoutFeedback, View} from "react-native";
 import React, {Component} from "react";
 const { height, width } = Dimensions.get('window');
-const cols = 3, rows = 3;
+const cols = 2, rows = 3;
 
-export default class Modalize extends Component<Props> {
+export default class NFT extends Component<Props> {
   constructor(props) {
     super(props);
 
@@ -29,20 +29,28 @@ export default class Modalize extends Component<Props> {
   };
 
   render() {
-    const {nft} = this.props;
-    const {key, name, collection, background_color} = nft;
+    const {nft, key} = this.props;
+    const { name, collection, background_color} = nft;
     return (
       <View key={key} style={{margin: 5, width: 100}}>
-        <Animated.View style={{transform: [
+        <Animated.View style={{ transform: [
             {
               scale: this.state.animatePress
             }
           ]}}>
-          <TouchableWithoutFeedback style={[styles.nftContainer, {backgroundColor: background_color ? '#'+ background_color: 'white',}]} onPressIn={this.animateIn} onPressOut={this.animateOut}>
-            <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
+          <TouchableWithoutFeedback onPressIn={this.animateIn} onPressOut={this.animateOut}>
+            <View>
+              <View style={{...styles.nftContainer, backgroundColor: background_color ? '#'+ background_color : 'white',}}>
+                <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
+
+              </View>
+              <View style={{width: '100%', backgroundColor: 'white',}}>
+                <Text style={{marginLeft: 3, fontSize: 15, fontWeight: '500' }} numberOfLines={1}>{name}</Text>
+                <Text style={{marginLeft: 3, fontSize: 14, fontWeight: '300', color: '#aaaaaa'}}>{collection.name}</Text>
+              </View>
+
+            </View>
           </TouchableWithoutFeedback>
-          <Text style={{marginLeft: 3, fontSize: 15, fontWeight: '500' }} numberOfLines={1}>{name}</Text>
-          <Text style={{marginLeft: 3, fontSize: 14, fontWeight: '300', color: '#aaaaaa'}}>{collection.name}</Text>
         </Animated.View>
       </View>
     )
@@ -53,8 +61,8 @@ const styles = StyleSheet.create({
   nftContainer: {
     marginBottom: 5,
     borderRadius: 15,
-    height: 150,
-    width: (width - 10) / cols - 18,
+    height: 140,
+    width: 1400,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#212121',

@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import {
+  Image,
   NativeModules,
   StyleSheet,
   Text,
@@ -32,8 +33,9 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: CameraScreen,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="ChatGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -41,8 +43,9 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: Apps,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="HomeGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/dapps-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/dapps-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -50,8 +53,9 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: Profile,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="AvatarGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+        : <Image source={require('./src/AliceAssets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -59,9 +63,11 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: Activity,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      tabBarIcon: ({tintColor}) => (
-        <Icon icon="ActivityGrey" color={tintColor} size={25}/>
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/notif-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/notif-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
+
     }
   }
 }, {

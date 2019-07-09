@@ -11,6 +11,8 @@ import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Bubble from "../Components/common/Bubble";
 import sheet from "../styles/sheet";
 import Modalize from "../Components/Modalize";
+import exampleIcon from '../Assets/example.png';
+
 
 const ANNOTATION_SIZE = 10;
 const isValidCoordinate = geometry => {
@@ -22,6 +24,44 @@ const isValidCoordinate = geometry => {
 
 const { height, width } = Dimensions.get('window');
 
+const featureCollection = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
+      properties: {
+        icon: 'example',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [-117.20611157485, 52.180961084261],
+      },
+    },
+    {
+      type: 'Feature',
+      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
+      properties: {
+        icon: 'airport-15',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [-117.205908, 52.180843],
+      },
+    },
+    {
+      type: 'Feature',
+      id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
+      properties: {
+        icon: 'pin',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [-117.206562, 52.180797],
+      },
+    },
+  ],
+};
 
 export default class MapComponent extends React.Component {
 
@@ -196,31 +236,31 @@ export default class MapComponent extends React.Component {
 
   };
 
-  onAnnotationDeselected = (deselectedIndex) => {
-    const nextState = {};
-
-    if (this.state.activeAnnotationIndex === deselectedIndex) {
-      nextState.activeAnnotationIndex = -1;
-    }
-
-    this._scaleOut = new Animated.Value(1);
-    Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-    nextState.previousActiveAnnotationIndex = deselectedIndex;
-    this.setState(nextState);
-  }
-
-  onSignalDeselected = (deselectedIndex) => {
-    const nextState = {};
-
-    if (this.state.activeAnnotationIndex === deselectedIndex) {
-      nextState.activeAnnotationIndex = -1;
-    }
-
-    this._scaleOut = new Animated.Value(1);
-    Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-    nextState.previousActiveAnnotationIndex = deselectedIndex;
-    this.setState(nextState);
-  }
+  // onAnnotationDeselected = (deselectedIndex) => {
+  //   const nextState = {};
+  //
+  //   if (this.state.activeAnnotationIndex === deselectedIndex) {
+  //     nextState.activeAnnotationIndex = -1;
+  //   }
+  //
+  //   this._scaleOut = new Animated.Value(1);
+  //   Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
+  //   nextState.previousActiveAnnotationIndex = deselectedIndex;
+  //   this.setState(nextState);
+  // }
+  //
+  // onSignalDeselected = (deselectedIndex) => {
+  //   const nextState = {};
+  //
+  //   if (this.state.activeAnnotationIndex === deselectedIndex) {
+  //     nextState.activeAnnotationIndex = -1;
+  //   }
+  //
+  //   this._scaleOut = new Animated.Value(1);
+  //   Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
+  //   nextState.previousActiveAnnotationIndex = deselectedIndex;
+  //   this.setState(nextState);
+  // }
 
   getPOIs = async () => {
     console.log('getting pois')
@@ -357,6 +397,8 @@ export default class MapComponent extends React.Component {
     return items;
   }
 
+
+
   render() {
     const { navigation } = this.props;
     return (
@@ -365,7 +407,8 @@ export default class MapComponent extends React.Component {
         <MapboxGL.MapView
           ref={c => (this._map = c)}
           onPress={this.onPress}
-          centerCoordinate={this.state.coordinates[0]}
+          // centerCoordinate={this.state.coordinates[0]}
+          centerCoordinate={[-117.20611157485, 52.180961084261]}
           showUserLocation={true}
           zoomLevel={12}
           userTrackingMode={MapboxGL.UserTrackingModes.Follow}
@@ -398,16 +441,22 @@ export default class MapComponent extends React.Component {
               marginBottom: 0,
               backgroundColor: 'transparent',
             }}>
-              <View style={{marginTop: 20, width, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+              <View style={{marginTop: 20, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
                 <Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
               </View>
             </View>
           </View>}
-          {this.renderSignals()}
-          {this.renderPOIs()}
-          {this.renderSelectedPoint()}
-
+          {/*{this.renderSignals()}*/}
+          {/*{this.renderPOIs()}*/}
+          {/*{this.renderSelectedPoint()}*/}
+          <MapboxGL.ShapeSource
+            id="exampleShapeSource"
+            shape={featureCollection}
+            images={{example: exampleIcon, assets: ['pin']}}
+          >
+            <MapboxGL.SymbolLayer id="exampleIconName" style={styles.icon} />
+          </MapboxGL.ShapeSource>
           <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>
               <Text style={{fontSize: 16, fontWeight: '600', marginBottom: 7}}>{this.state.poiDescription.name}</Text>
@@ -461,7 +510,15 @@ export default class MapComponent extends React.Component {
 const MapBoxStyles = MapboxGL.StyleSheet.create({
   tip: {
     backgroundColor: 'black',
-  }
+  },
+  icon: {
+    iconImage: '{icon}',
+    iconSize: MapboxGL.StyleSheet.source(
+      [['example', 0.5], ['airport-15', 1.2]],
+      'icon',
+      MapboxGL.InterpolationMode.Categorical,
+    ),
+  },
 });
 
 const styles = StyleSheet.create({
@@ -496,11 +553,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
   },
   whiteSearch: {
-    margin: 25,
-    marginTop: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    flex: 5,
     padding: 10,
     height: 40,
     borderRadius: 20,

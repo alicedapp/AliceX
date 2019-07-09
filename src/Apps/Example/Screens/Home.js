@@ -3,6 +3,7 @@ import {Image, Text, NativeModules, TouchableOpacity, View} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import Modalize from '../Components/Modalize'
 import {FoodContractABI} from "../ABI";
+import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 
 export default class ExampleHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -95,6 +96,7 @@ export default class ExampleHome extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+        <NavigationBar/>
         <Text>Address: {this.state.address}</Text>
         <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Get Address</Text>

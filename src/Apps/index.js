@@ -11,6 +11,7 @@ import {
   StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, TextInput, Dimensions, NativeModules
 } from 'react-native';
 import Icon from '../AliceComponents/IconComponent';
+import {navigate} from "../AliceUtils/navigationWrapper";
 
 /*        ExampleMaps Export Section */
 export { default as Fork } from './Fork';
@@ -33,6 +34,17 @@ export default class AppsScreen extends Component<Props> {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+        <View style={{
+          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+        }}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
+            <Image source={require('../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+            <Image source={require('../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          </TouchableOpacity>
+        </View>
         <View style={styles.container}>
           <Text style={styles.H1}>Experiences</Text>
           <View style={styles.appsContainer}>
@@ -105,6 +117,7 @@ export default class AppsScreen extends Component<Props> {
             {/*</View>*/}
           </View>
         </View>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -139,10 +152,13 @@ const styles = StyleSheet.create({
     height: 65,
     justifyContent: 'center',
     width: 65,
-    shadowColor: '#7d7d7d',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
+    shadowColor: '#212121',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
   },
   appText: {
     color: 'black',

@@ -1,11 +1,23 @@
 import {Component} from "react";
-import {Animated, StyleSheet, ScrollView, TouchableWithoutFeedback, Text, Image, View, Dimensions} from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Text,
+  Image,
+  View,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 import React from "react";
 import MapboxGL from "@mapbox/react-native-mapbox-gl";
 import {onSortOptions} from "../../Apps/Foam/utils";
 const { height, width } = Dimensions.get('window');
 const cols = 3, rows = 3;
 import NFT from '../../AliceComponents/NFT'
+import Token from '../../AliceComponents/Token'
+import {navigate} from "../../AliceUtils/navigationWrapper";
 
 //TODO: needs api key
 
@@ -62,34 +74,32 @@ export default class Profile extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, width, padding: 10, backgroundColor: 'transparent'}}>
-          <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
-          {/*{this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {*/}
-            {/*const {tokenInfo} = token;*/}
-            {/*return (*/}
-              {/*<View key={i} style={styles.tokenBox}>*/}
-                {/*{tokenInfo.image ?*/}
-                  {/*<View style={styles.tokenContainer}>*/}
-                    {/*<Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>*/}
-                  {/*</View> :*/}
-                  {/*<View style={styles.tokenContainer}>*/}
-                    {/*<Text>{tokenInfo.symbol.substring(0, 4)}</Text>*/}
-                  {/*</View>*/}
-                {/*}*/}
-                {/*<View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>*/}
-                  {/*<Text>{tokenInfo.name}</Text>*/}
-                  {/*<Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {tokenInfo.symbol.substring(0, 4)}</Text>*/}
-                {/*</View>*/}
-              {/*</View>*/}
+        <View style={{
+          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+        }}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
+            <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+            <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          </TouchableOpacity>
+        </View>
 
-            {/*)*/}
-          {/*})}*/}
+        <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}}>
+          <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
+          {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
+            const {tokenInfo} = token;
+            if (tokenInfo.name === "") return;
+            return (
+              <Token key={i} tokenInfo={tokenInfo} token={token}/>
+            )
+          })}
           <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between'}}>
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
           {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
             if (nft.collection) {
               return (
-                <NFT nft={nft}/>
+                <NFT key={i} nft={nft}/>
               )
             }
           })}
@@ -108,24 +118,4 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: 'transparent'
   },
-  tokenBox: {
-    flexDirection: 'row',
-    width: '100%',
-    margin: 8,
-
-  },
-  tokenContainer: {
-    backgroundColor: '#c9c9c9',
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10
-  },
-  tokenImage: {
-    height: 30,
-    width: 30,
-    resizeMode: 'contain',
-  }
 });
