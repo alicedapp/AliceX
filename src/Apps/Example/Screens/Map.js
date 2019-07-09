@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+// import MapboxGL from '@react-native-mapbox-gl/maps';
 
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
@@ -88,35 +88,35 @@ export default class MapComponent extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1}}>
-        <MapboxGL.MapView
-          ref={c => (this._map = c)}
-          centerCoordinate={this.state.coordinates[0]}
-          showUserLocation={true}
-          zoomLevel={12}
-          userTrackingMode={MapboxGL.UserTrackingModes.Follow}
-          styleURL={this.state.styleURL}
-          style={{flex: 1}}
-          onDidFinishLoadingMap={this.onDidFinishLoadingMap}
-          onRegionWillChange={this.onRegionWillChange}
-          onRegionDidChange={this.onRegionDidChange}
-          onRegionIsChanging={this.onRegionIsChanging}
-        >
-          <View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>
-            <TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>
-              <Text>Press me</Text>
-            </TouchableOpacity>
-            {this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}
-          </View>
-          <Modalize ref={this.child}>
+        {/*<MapboxGL.MapView*/}
+          {/*ref={c => (this._map = c)}*/}
+          {/*centerCoordinate={this.state.coordinates[0]}*/}
+          {/*showUserLocation={true}*/}
+          {/*zoomLevel={12}*/}
+          {/*userTrackingMode={MapboxGL.UserTrackingModes.Follow}*/}
+          {/*styleURL={this.state.styleURL}*/}
+          {/*style={{flex: 1}}*/}
+          {/*onDidFinishLoadingMap={this.onDidFinishLoadingMap}*/}
+          {/*onRegionWillChange={this.onRegionWillChange}*/}
+          {/*onRegionDidChange={this.onRegionDidChange}*/}
+          {/*onRegionIsChanging={this.onRegionIsChanging}*/}
+        {/*>*/}
+          {/*<View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>*/}
+            {/*<TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>*/}
+              {/*<Text>Press me</Text>*/}
+            {/*</TouchableOpacity>*/}
+            {/*{this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}*/}
+          {/*</View>*/}
+          {/*<Modalize ref={this.child}>*/}
 
-          </Modalize>
-        </MapboxGL.MapView>
+          {/*</Modalize>*/}
+        {/*</MapboxGL.MapView>*/}
       </View>
     );
   }
 }
 
-const MapBoxStyles = MapboxGL.StyleSheet.create({
+const MapBoxStyles = StyleSheet.create({
   tip: {
     backgroundColor: 'black',
   }

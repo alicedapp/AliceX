@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {RNCamera as Camera} from "react-native-camera";
+import Camera from "../../AliceSDK/Camera";
 import {StyleSheet, Text, View, TouchableOpacity, Image, Dimensions} from "react-native";
 import React from "react";
 import {onSortOptions} from "../../Apps/Foam/utils";

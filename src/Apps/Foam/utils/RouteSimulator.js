@@ -1,5 +1,5 @@
 import {Animated} from 'react-native';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 class Polyline {
   constructor(lineStringFeature) {

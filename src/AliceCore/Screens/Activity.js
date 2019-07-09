@@ -2,9 +2,10 @@ import {Component} from "react";
 import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
-import {addDataType} from "../../utils";
+import {addDataType} from "../../AliceUtils";
 import { Activity } from "../Components/Activity";
-import {Settings} from "../../SDK/Web3";
+import {Settings} from "../../AliceSDK/Web3";
+import {navigate} from "../../AliceUtils/navigationWrapper";
 
 const { height, width } = Dimensions.get('window');
 
@@ -88,13 +89,16 @@ export default class ActivityClass extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={{flex: 1, width, padding: 20}}>
-          <TouchableOpacity onPress={this.openSettings} style={{backgroundColor: 'black', width: 40, height: 40}}>
-
+        <View style={{
+          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+        }}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
+            <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
-          <Text>Hello</Text>
-          <Activity isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed} otherProfileActivity={[]}/>
-        </ScrollView>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+            <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -103,27 +107,11 @@ export default class ActivityClass extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 100
+    paddingTop: 20,
   },
   tokenBox: {
     flexDirection: 'row',
     width: '100%',
     margin: 8
   },
-  tokenContainer: {
-    backgroundColor: '#c9c9c9',
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10
-  },
-  tokenImage: {
-    height: 30,
-    width: 30,
-    resizeMode: 'contain',
-  }
 });

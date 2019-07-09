@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import networkArray from '../../../utils/networkArray';
-import { isEthAddress } from '../../../utils/funcs';
+import networkArray from '../../../AliceUtils/networkArray';
+import { isEthAddress } from '../../../AliceUtils/funcs';
 
 const Activity = ({ name, image, feedAddress }) => (
   <div className="feed__activity__context">

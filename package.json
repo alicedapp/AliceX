@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "3box-activity": "^0.0.9",
-    "@mapbox/react-native-mapbox-gl": "https://github.com/nitaliano/react-native-mapbox-gl#master",
+    "@react-native-mapbox-gl/maps": "^7.0.0-rc3",
     "ethers": "^4.0.31",
     "react": "16.8.3",
     "react-native": "0.59.9",

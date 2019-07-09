@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from '../../../Components/IconComponent';
+import Icon from '../../../AliceComponents/IconComponent';
 import Deals from './Deals'
 
 let { height, width } = Dimensions.get('window');

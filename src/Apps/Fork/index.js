@@ -10,13 +10,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from '../../Components/IconComponent';
+import Icon from '../../AliceComponents/IconComponent';
 import Deals from './Screens/Deals';
 import Menu from './Screens/Menu';
 import TakeAway from './Screens/TakeAway';
 import Restaurants from './Screens/Restaurants';
 import Confirmation from './Screens/Confirmation';
-import CameraComponent from '../../Components/Camera';
+import CameraComponent from '../../AliceComponents/Camera';
 
 let { height, width } = Dimensions.get('window');
 

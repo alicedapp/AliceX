@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import {
+  Image,
   NativeModules,
   StyleSheet,
   Text,
@@ -15,13 +16,14 @@ import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator
 import Apps, {Foam, Fork, Mintbase, Test} from './src/Apps'
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Profile from './src/AliceCore/Screens/Profile';
-import MapboxGL from '@mapbox/react-native-mapbox-gl';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
+//TODO: change API key on release to TestFlight
 
-import NavigatorService, {navigate} from './src/utils/navigationWrapper';
-import Icon from "./src/Components/IconComponent";
+import NavigatorService, {navigate} from './src/AliceUtils/navigationWrapper';
+import Icon from "./src/AliceComponents/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
-import {Wallet} from './src/SDK/Web3'
+import {Wallet} from './src/AliceSDK/Web3'
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
@@ -31,8 +33,9 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: CameraScreen,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="ChatGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -40,17 +43,19 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: Apps,
     navigationOptions: {
       tabBarLabel: 'Home',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="HomeGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/dapps-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/dapps-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
-  Settings: {
+  Profile: {
     screen: Profile,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon icon="AvatarGrey" color={tintColor} size={40} />
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+        : <Image source={require('./src/AliceAssets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -58,14 +63,16 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     screen: Activity,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      tabBarIcon: ({tintColor}) => (
-        <Icon icon="ActivityGrey" color={tintColor} size={25}/>
+      tabBarIcon: ({ focused }) => (
+        focused ? <Image source={require('./src/AliceAssets/notif-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/notif-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
+
     }
   }
 }, {
-  initialRouteName: 'Activity',
-  order: ['Home', 'Apps', 'Settings', 'Activity'],
+  initialRouteName: 'Profile',
+  order: ['Home', 'Apps', 'Profile', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {
@@ -110,6 +117,7 @@ export default class App extends Component {
       wallet: ''
     }
     OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
+    //TODO: change API key on release to TestFlight
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
