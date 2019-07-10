@@ -217,7 +217,8 @@ export default class MapComponent extends React.Component {
       poiDescription: {},
       selectedSignal: {},
       selectedPOIStatus: '',
-      selectedPOIStatusColor: 'white'
+      selectedPOIStatusColor: 'white',
+      notificationRendered: false
     };
 
   }
@@ -234,7 +235,6 @@ export default class MapComponent extends React.Component {
       this.setState({selectedPOIColor: '#27AB5F', selectedPOIStatus: 'Verified Point of Interest', selectedPOIStatusColor: 'white'})
     }
     const modal = this.modalRef.current;
-
     if (modal) {
       modal.openModal();
     }
@@ -246,7 +246,6 @@ export default class MapComponent extends React.Component {
       this.setState({coordinates: [[parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))]]})
     };
     navigator.geolocation.getCurrentPosition(getCoords, console.error, {enableHighAccuracy: false, timeout: 50000});
-
   }
 
   onPress = (feature) => {
@@ -270,6 +269,15 @@ export default class MapComponent extends React.Component {
       );
     }
   };
+
+  renderNotification = () => {
+    if (this.props.navigation.state.params && this.modalRef.current && this.state.finishedRendering && !this.state.notificationRendered) {
+      this.setState({poiDescription: this.props.navigation.state.params.poi, notificationRendered: true});
+      this.onOpen('challenged');
+      console.log('navigation: ', this.props.navigation.state.params.poi);
+    }
+  };
+
 
   onDidFinishLoadingMap = () => {
     setTimeout(() => this.setState({ finishedRendering: true }), 1500);
@@ -310,7 +318,7 @@ export default class MapComponent extends React.Component {
             const { description, tags, phone, web, address } = data.data;
             console.log('got3: ', description, tags, phone, web);
             const poiObj = {name, stake, address, longitude, latitude, description, tags, phone, web, owner, status, loading: false};
-            console.log('got4: ', poiObj);
+            console.log('got4: ', JSON.stringify(poiObj));
             this.setState({ poiDescription: poiObj });
           })
           .catch((err) => {});
@@ -375,8 +383,6 @@ export default class MapComponent extends React.Component {
 
 
   getPOIs = async () => {
-    console.log('getting pois')
-
     const {
       swLng, swLat, neLat, neLng,
     } = this.state;
@@ -393,7 +399,6 @@ export default class MapComponent extends React.Component {
 
 
   getSignals = async () => {
-    console.log('getting signals')
     const {
       swLng, swLat, neLat, neLng,
     } = this.state;
@@ -444,7 +449,6 @@ export default class MapComponent extends React.Component {
     const items = [];
     if (this.state.pois !== null && this.state.pois !== undefined) {
       for (let i = 0; i < this.state.pois.length; i++) {
-        console.log(JSON.stringify(this.state.pois[i]));
         const { geohash, state, listingHash, name, owner, tags } = this.state.pois[i];
         const [latitude] = decodeGeoHash(geohash).latitude;
         const [longitude] = decodeGeoHash(geohash).longitude;
@@ -567,6 +571,7 @@ export default class MapComponent extends React.Component {
           </View>}
           {this.renderSignals()}
           {this.renderPOIs()}
+          {this.renderNotification()}
           {this.renderSelectedPoint()}
           <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
             <View style={styles.innerModalBox}>
