@@ -12,16 +12,23 @@ const getAddress = async () => {
   }
 };
 
-const getBalance = (address) => {
-  return infuraProvider.getBalance(address).then((balance) => {
-    let etherString = ethers.utils.formatEther(balance);
-    console.log("Balance: " + etherString);
-    return etherString;
-  });
-}
+const getBalance = async () => {
+  try {
+    return await NativeModules.WalletModule.getBalance();
+  } catch(e) {
+    return "Get balance failed with error: " + e
+  }
+};
 
 
-const sendTransaction = ({to, value, data}, cb) => NativeModules.WalletModule.sendTransaction(to, value, cb);
+const sendTransaction = async ({to, value, data}) => {
+  try {
+    return await NativeModules.WalletModule.sendTransaction(to, value, data);
+  } catch(e) {
+    return "Send transaction failed with error: " + e
+  }
+
+};
 
 const signTransaction = async ({to, value, data}) => {
   try {
@@ -31,8 +38,12 @@ const signTransaction = async ({to, value, data}) => {
   }
 };
 
-const signMessage = (message, cb) => {
-  return NativeModules.WalletModule.signMessage(message, cb);
+const signMessage = async (message) => {
+  try {
+    return await NativeModules.WalletModule.signMessage(message);
+  } catch(e) {
+    return "Sign message failed with error: " + e
+  }
 }
 
 const settingsPopUp = () => {
@@ -43,10 +54,16 @@ const sendToken = () => {
 
 };
 
-const write = ({contractAddress, abi, functionName, parameters, value, data}, cb) => NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, value, data, cb);
+const write = async ({contractAddress, abi, functionName, parameters, value, data}) => {
+  try {
+    return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, value, data);
+  } catch(e) {
+    return "Write to contract failed with error: " + e
+  }
 
+};
 
-const read = ({contractAddress, abi, functionName, parameters}) => {
+const read = async ({contractAddress, abi, functionName, parameters}) => {
   const contract = new EthersContract(contractAddress, abi, infuraProvider);
   if (parameters.length === 0) {
     return contract[functionName]();

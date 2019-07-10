@@ -38,6 +38,7 @@ export default class ExampleHome extends React.Component {
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
+      console.log('address: ', address);
       this.setState({ address })
     } catch(e) {
       console.log(e);
@@ -46,54 +47,73 @@ export default class ExampleHome extends React.Component {
   };
 
   getBalance = async () => {
-    Wallet.getAddress((address) => {
-      this.setState({address}, async () => {
-        const balance = await Wallet.getBalance(this.state.address);
-        this.setState({balance})
-      });
-      console.log('ADDRESS: ', address);
-    })
+    try {
+      const balance = await Wallet.getBalance();
+      console.log('balance: ', balance);
+      this.setState({ balance })
+
+    } catch(e) {
+      console.log(e)
+    }
 
 
   };
 
-  sendTransaction = () => {
-    Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'}, (txHash) => {
+  sendTransaction = async () => {
+    try {
+      const txHash = await Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
       console.log('txHash: ', txHash);
       this.setState({txHash})
-    })
+    } catch(e) {
+      console.log(e);
+    }
   };
 
   signTransaction = async () => {
     try {
       const signedTransaction = await Wallet.signTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01', data: 'Hello'});
+      console.log('signedMessage: ', signedTransaction);
       this.setState({signedTransaction})
     } catch(e) {
       console.log(e);
     }
   };
 
-  signMessage = () => {
-    Wallet.signMessage('Hello World', (signedMessage) => {
+  signMessage = async () => {
+    try {
+      const signedMessage = await Wallet.signMessage('Hello World');
       console.log('signedMessage: ', signedMessage);
       this.setState({signedMessage})
-    })
+    } catch(e) {
+      console.log(e)
+    }
+
   };
 
   sendToken = () => {
 
   };
 
-  contractSend = () => {
-    Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.001', data: ''}, (contractTxHash) => {
+  contractSend = async () => {
+    try {
+      const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.001', data: ''})
+      console.log('contractTxHash: ', contractTxHash);
       this.setState({contractTxHash})
-    })
+
+    } catch(e) {
+      console.log(e)
+    }
   };
 
   contractRead = async () => {
-    const result = await Contract.read({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'getOrder', parameters: [] });
-    console.log('RESULT: ', result);
-    this.setState({contractInfo: result});
+    try {
+      const result = await Contract.read({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'getOrder', parameters: [] });
+      console.log('RESULT: ', result);
+      this.setState({contractInfo: result});
+
+    } catch(e) {
+      console.log(e)
+    }
   };
 
 
