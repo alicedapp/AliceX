@@ -72,24 +72,24 @@ export default class AppsScreen extends Component<Props> {
               </TouchableOpacity>
               <Text style={styles.appText}>Cryptokitties</Text>
             </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#5A28C6' }]} onPress={() => this.props.navigation.navigate('Bounties')}>
-                <Image source={require('../AliceAssets/bounties.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Bounties</Text>
-            </View>
+            {/*<View style={styles.appIcon}>*/}
+              {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#5A28C6' }]} onPress={() => this.props.navigation.navigate('Bounties')}>*/}
+                {/*<Image source={require('../AliceAssets/bounties.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>*/}
+              {/*</TouchableOpacity>*/}
+              {/*<Text style={styles.appText}>Bounties</Text>*/}
+            {/*</View>*/}
             <View style={styles.appIcon}>
               <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#faa8ff' }]} onPress={() => this.props.navigation.navigate('Uniswap')}>
                 <Image source={require('../AliceAssets/uniswap.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
               </TouchableOpacity>
               <Text style={styles.appText}>UniSwap</Text>
             </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#0D023B' }]} onPress={() => this.props.navigation.navigate('Gitcoin')}>
-                <Image source={require('../AliceAssets/gitcoin.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>GitCoin</Text>
-            </View>
+            {/*<View style={styles.appIcon}>*/}
+              {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#0D023B' }]} onPress={() => this.props.navigation.navigate('Gitcoin')}>*/}
+                {/*<Image source={require('../AliceAssets/gitcoin.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>*/}
+              {/*</TouchableOpacity>*/}
+              {/*<Text style={styles.appText}>GitCoin</Text>*/}
+            {/*</View>*/}
             <View style={styles.appIcon}>
               <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#587280' }]} onPress={() => this.props.navigation.navigate('Mintbase')}>
                 <Image source={require('./Mintbase/Assets/logo.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>

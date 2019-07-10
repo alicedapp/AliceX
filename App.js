@@ -25,6 +25,21 @@ import Icon from "./src/AliceComponents/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
 import {Wallet} from './src/AliceSDK/Web3'
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
+import CodePush from "react-native-code-push";
+
+const challengedPOI = {
+  "name":"Cape Cod National Seashore Visitor Center",
+  "stake":"0x0",
+  "address":"400 Nauset Road, Eastham, Massachusetts 02642, United States",
+  "longitude":-69.97270938009024,
+  "latitude":41.8372811190784,
+  "description":"National Park Office and National Seashore Museum with trailheads leading to the marshlands of the national seashore.  ",
+  "tags":["Government", "Attraction"],
+  "phone":"(508) 255-3421",
+  "web":"nps.gov",
+  "owner":"0x09527e337f3cccc1bd688037a66b8516b319e31d",
+  "loading":false
+};
 
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -110,12 +125,13 @@ const MainApp = createStackNavigator({
 
 export const AliceMain = createAppContainer(MainApp);
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       wallet: ''
-    }
+    };
+
     OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
     //TODO: change API key on release to TestFlight
 
@@ -137,7 +153,7 @@ export default class App extends Component {
 
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
-    navigate('FoamExamples');
+    navigate('FoamMap', {poi: challengedPOI});
     console.log('Data: ', openResult.notification.payload.additionalData);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
@@ -148,6 +164,8 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    // navigate('FoamMap', {poi: challengedPOI});
+
     this.getAddress();
 
     const walletChangedEventEmitter = Wallet.walletChangeEvent()
@@ -180,6 +198,11 @@ export default class App extends Component {
     );
   }
 }
+
+export default CodePush({
+  checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+  installMode: CodePush.InstallMode.ON_NEXT_RESUME,
+})(App);
 
 const styles = StyleSheet.create({
   container: {
