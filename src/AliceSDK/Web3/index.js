@@ -23,8 +23,12 @@ const getBalance = (address) => {
 
 const sendTransaction = ({to, value, data}, cb) => NativeModules.WalletModule.sendTransaction(to, value, cb);
 
-const signTransaction = () => {
-
+const signTransaction = async ({to, value, data}) => {
+  try {
+    return await NativeModules.WalletModule.signTransaction(to, value, data);
+  } catch(e) {
+    return "Sign transaction failed with error: " + e
+  }
 };
 
 const signMessage = (message, cb) => {

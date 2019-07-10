@@ -59,18 +59,23 @@ export default class ExampleHome extends React.Component {
 
   sendTransaction = () => {
     Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'}, (txHash) => {
-      console.log('txHash: ', txHash)
+      console.log('txHash: ', txHash);
       this.setState({txHash})
     })
   };
 
-  signTransaction = () => {
-
+  signTransaction = async () => {
+    try {
+      const signedTransaction = await Wallet.signTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01', data: 'Hello'});
+      this.setState({signedTransaction})
+    } catch(e) {
+      console.log(e);
+    }
   };
 
   signMessage = () => {
     Wallet.signMessage('Hello World', (signedMessage) => {
-      console.log('signedMessage: ', signedMessage)
+      console.log('signedMessage: ', signedMessage);
       this.setState({signedMessage})
     })
   };
