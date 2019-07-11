@@ -31,11 +31,11 @@ export default class NFT extends Component<Props> {
   closeCallback;
 
   renderNFT = () => {
-    const {nft, key, navigator} = this.props;
+    const {nft,iterator, navigator} = this.props;
     const { name, collection, background_color} = nft;
 
     return (
-      <Lightbox navigator={navigator} backgroundColor={'transparent'} renderContent={this.renderDetails} renderHeader={close => this.closeCallback = close}>
+      <Lightbox key={iterator} navigator={navigator} backgroundColor={'transparent'} renderContent={this.renderDetails} renderHeader={close => this.closeCallback = close}>
         <View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <View style={{...styles.nftContainer, backgroundColor: background_color ? '#'+ background_color : 'white',}}>
             <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
@@ -51,10 +51,10 @@ export default class NFT extends Component<Props> {
   }
 
   renderDetails = () => {
-    const {nft, key, navigator} = this.props;
+    const {nft, iterator, navigator} = this.props;
     const { name, collection, background_color} = nft;
     return (
-      <TouchableWithoutFeedback onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
+      <TouchableWithoutFeedback  onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
         <View style={{padding: 10, backgroundColor: 'white', borderRadius: 25,  alignItems: 'center', justifyContent: 'center' }}>
           <View style={{...styles.nftContainer, backgroundColor: background_color ? '#'+ background_color : 'white',}}>
             <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>

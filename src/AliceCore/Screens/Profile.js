@@ -57,7 +57,6 @@ export default class Profile extends Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      console.log('NFTs: ', data.assets)
       this.setState({nftInfo: data, nfts: data.assets});
     }
     xhr.addEventListener("readystatechange",  function()  {
@@ -91,7 +90,7 @@ export default class Profile extends Component {
             const {tokenInfo} = token;
             if (tokenInfo.name === "") return;
             return (
-              <Token key={i} tokenInfo={tokenInfo} token={token}/>
+              <Token key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
             )
           })}
           <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
@@ -99,7 +98,7 @@ export default class Profile extends Component {
             {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
               if (nft.collection) {
                 return (
-                  <NFT key={i} nft={nft}/>
+                  <NFT iterator={i} key={i} nft={nft}/>
                 )
               }
             })}

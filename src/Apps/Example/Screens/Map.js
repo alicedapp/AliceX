@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-// import MapboxGL from '@react-native-mapbox-gl/maps';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
@@ -26,9 +26,10 @@ export default class MapComponent extends React.Component {
         data: MapboxGL.StyleURL[key],
       }))
       .sort(onSortOptions);
+    console.log('Map Options: ', this._mapOptions)
 
     this.state = {
-      styleURL: this._mapOptions[2].data,
+      styleURL: this._mapOptions[5].data,
       reason: '',
       selected: false,
       regionFeature: undefined,
@@ -88,7 +89,11 @@ export default class MapComponent extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1}}>
-        {/*<MapboxGL.MapView*/}
+        <MapboxGL.MapView
+          styleURL={this.state.styleURL}
+          style={{flex: 1}}
+        >
+          <MapboxGL.Camera followZoomLevel={12} followUserLocation />
           {/*ref={c => (this._map = c)}*/}
           {/*centerCoordinate={this.state.coordinates[0]}*/}
           {/*showUserLocation={true}*/}
@@ -110,7 +115,7 @@ export default class MapComponent extends React.Component {
           {/*<Modalize ref={this.child}>*/}
 
           {/*</Modalize>*/}
-        {/*</MapboxGL.MapView>*/}
+        </MapboxGL.MapView>
       </View>
     );
   }

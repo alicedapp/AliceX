@@ -35,7 +35,7 @@ export default class ModalizeModal extends React.PureComponent {
         handlePosition="outside"
         adjustToContentHeight
       >
-        {this.renderContent()}
+        {this.props.children}
       </Modalize>
     );
   }

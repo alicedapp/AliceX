@@ -10,6 +10,7 @@
     "3box-activity": "^0.0.9",
     "@react-native-mapbox-gl/maps": "^7.0.0-rc3",
     "ethers": "^4.0.31",
+    "moment": "^2.24.0",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-camera": "^2.10.1",

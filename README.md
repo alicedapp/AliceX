@@ -39,12 +39,12 @@ If we don't get back to you immediately there will be many other resources out t
 2. cd into the repository and run `yarn` or `npm install` depending if you are using either.
 
 ### iOS
-
+`COMING SOON`
 3. `./install.ios.sh`
 4. Run the project in Xcode. 🎉
 
 ### Android
-
+`COMING SOON`
 3. `./install.android.sh`
 4. Run the project in Android Simulator. 🎉
 

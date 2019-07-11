@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from '../AliceComponents/IconComponent';
 import {navigate} from "../AliceUtils/navigationWrapper";
+import AppIcon from "../AliceComponents/AppIcon";
 
 /*        ExampleMaps Export Section */
 export { default as Fork } from './Fork';
@@ -19,6 +20,77 @@ export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
 
+export const AppRegistry = [
+  // // Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )
+  // {
+  //   appName: 'Your App\'s Name',
+  //   // can be either written or a hexadecimal or rgba
+  //   backgroundColor: '#8e00ff' || 'blue' || 'rgba(0,0,0,0.5)',
+  //   homeRoute: 'YourAppRoute',
+  //   // your apps icon has to contain the require function to be rendered -> require('../Assets/your_app_logo.png')
+  //   icon: require('../Assets/your_app_logo.png')
+  // },
+  {
+    appName: 'Fork',
+    backgroundColor: '#8e00ff',
+    homeRoute: 'Fork',
+    icon: require('../AliceAssets/fork-logo.png')
+  },
+  {
+    appName: 'Radar',
+    backgroundColor: '#43fd9c',
+    homeRoute: 'RadarRelay',
+    icon: require('../AliceAssets/radar-black.png')
+  },
+  {
+    appName: '#BUIDL',
+    backgroundColor: '#ffffff',
+    homeRoute: 'Test',
+    icon: require('./Example/Assets/buidler.png')
+  },
+  {
+    appName: 'Cryptokitties',
+    backgroundColor: '#ffd6f7',
+    homeRoute: 'Cryptokitties',
+    icon: require('../AliceAssets/cryptokitties.png')
+  },
+  {
+    appName: 'UniSwap',
+    backgroundColor: '#faa8ff',
+    homeRoute: 'Uniswap',
+    icon: require('../AliceAssets/uniswap.png')
+  },
+  {
+    appName: 'Mintbase',
+    backgroundColor: '#587280',
+    homeRoute: 'Uniswap',
+    icon: require('./Mintbase/Assets/logo.png')
+  },
+  {
+    appName: 'localethereum',
+    backgroundColor: '#dbe0ff',
+    homeRoute: 'LocalEthereum',
+    icon: require('../AliceAssets/localethereum.png')
+  },
+  {
+    appName: 'Foam',
+    backgroundColor: '#ffffff',
+    homeRoute: 'Foam',
+    icon: require('../AliceAssets/foam.png')
+  },
+  {
+    appName: 'Foam',
+    backgroundColor: '#5A28C6',
+    homeRoute: 'Foam',
+    icon: require('../AliceAssets/bounties.png')
+  },
+  {
+    appName: 'Gitcoin',
+    backgroundColor: '#0D023B',
+    homeRoute: 'Gitcoin',
+    icon: require('../AliceAssets/gitcoin.png')
+  },
+];
 
 const { height, width } = Dimensions.get('window');
 
@@ -36,85 +108,22 @@ export default class AppsScreen extends Component<Props> {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
         <View style={{
-          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+          width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
             <Image source={require('../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
-            <Image source={require('../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <Image source={require('../AliceAssets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
         <View style={styles.container}>
           <Text style={styles.H1}>Experiences</Text>
           <View style={styles.appsContainer}>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#ffffff' }]} onPress={() => this.props.navigation.navigate('Fork')}>
-                <Image source={require('../AliceAssets/fork-logo.png')} style={{ borderRadius: 32.5, height: 65, justifyContent: 'center', width: 65, resizeMode: 'contain', }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Fork</Text>
-            </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={styles.appSquare} onPress={() => this.props.navigation.navigate('RadarRelay')}>
-                <Image source={require('../AliceAssets/radar-black.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Radar</Text>
-            </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#ffffff' }]} onPress={() => this.props.navigation.navigate('Test')}>
-                <Image source={require('./Example/Assets/buidler.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>#BUIDL</Text>
-            </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#ffd6f7' }]} onPress={() => this.props.navigation.navigate('Cryptokitties')}>
-                <Image source={require('../AliceAssets/cryptokitties.png')} style={{ width: 60, height: 60, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Cryptokitties</Text>
-            </View>
-            {/*<View style={styles.appIcon}>*/}
-              {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#5A28C6' }]} onPress={() => this.props.navigation.navigate('Bounties')}>*/}
-                {/*<Image source={require('../AliceAssets/bounties.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>*/}
-              {/*</TouchableOpacity>*/}
-              {/*<Text style={styles.appText}>Bounties</Text>*/}
-            {/*</View>*/}
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#faa8ff' }]} onPress={() => this.props.navigation.navigate('Uniswap')}>
-                <Image source={require('../AliceAssets/uniswap.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>UniSwap</Text>
-            </View>
-            {/*<View style={styles.appIcon}>*/}
-              {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#0D023B' }]} onPress={() => this.props.navigation.navigate('Gitcoin')}>*/}
-                {/*<Image source={require('../AliceAssets/gitcoin.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>*/}
-              {/*</TouchableOpacity>*/}
-              {/*<Text style={styles.appText}>GitCoin</Text>*/}
-            {/*</View>*/}
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#587280' }]} onPress={() => this.props.navigation.navigate('Mintbase')}>
-                <Image source={require('./Mintbase/Assets/logo.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Mintbase</Text>
-            </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#dbe0ff' }]} onPress={() => this.props.navigation.navigate('LocalEthereum')}>
-                <Image source={require('../AliceAssets/localethereum.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>localethereum</Text>
-            </View>
-            <View style={styles.appIcon}>
-              <TouchableOpacity style={[styles.appSquare, { backgroundColor: '#ffffff' }]} onPress={() => this.props.navigation.navigate('Foam')}>
-                <Image source={require('../AliceAssets/foam.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
-              </TouchableOpacity>
-              <Text style={styles.appText}>Foam</Text>
-            </View>
-            {/*<Text>                 Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )                   </Text>*/}
-            {/*<View style={styles.appIcon}>*/}
-            {/*<TouchableOpacity style={[styles.appSquare, { backgroundColor: '#F20000' }]} onPress={() => this.props.navigation.navigate('Qantas')}>*/}
-            {/*<Image source={require('../Assets/your_app_logo.png')} style={{ width: 45, height: 45, resizeMode: 'contain' }}/>*/}
-            {/*</TouchableOpacity>*/}
-            {/*<Text style={styles.appText}>Your ExampleMaps's Name</Text>*/}
-            {/*</View>*/}
+            {AppRegistry.map((app, i) => {
+              return (<AppIcon appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
+            })
+            }
           </View>
         </View>
         </View>
