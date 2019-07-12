@@ -13,12 +13,20 @@ import {
 import Icon from '../AliceComponents/IconComponent';
 import {navigate} from "../AliceUtils/navigationWrapper";
 import AppIcon from "../AliceComponents/AppIcon";
+import {Settings} from "../AliceSDK/Web3";
 
 /*        ExampleMaps Export Section */
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false
+};
+
 const WEBVIEW = 'WEBVIEW';
 
 export const AppRegistry = [
@@ -108,8 +116,9 @@ export default class AppsScreen extends Component<Props> {
     modalVisible: false,
   };
 
-  toggleWebView = () => {
-    this.setState({modalVisible: !this.state.modalVisible});
+  openBrowser = () => {
+    ReactNativeHapticFeedback.trigger("impactLight", options);
+    Settings.openBrowser()
   };
 
   back = () => {
@@ -135,7 +144,7 @@ export default class AppsScreen extends Component<Props> {
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
             <Image source={require('../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleWebView}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
             <Image source={require('../AliceAssets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>

@@ -45,9 +45,9 @@ const signMessage = async (message) => {
   }
 }
 
-const settingsPopUp = () => {
-  return NativeModules.NativeVCModule.setting();
-}
+const settingsPopUp = () => NativeModules.NativeVCModule.setting();
+
+const openBrowser = () => NativeModules.NativeVCModule.browser();
 
 const sendToken = () => {
 
@@ -79,7 +79,8 @@ const walletChangeEvent = () => {
 };
 
 export const Settings = {
-  settingsPopUp
+  settingsPopUp,
+  openBrowser
 };
 
 export const Wallet = {
