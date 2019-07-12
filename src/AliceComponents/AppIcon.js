@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {Component} from "react";
 import Icon from "./IconComponent";
+import {navigate} from "../AliceUtils/navigationWrapper";
 
 export default class AppIcon extends Component<Props> {
   static navigationOptions = ({ navigation }) => {
@@ -11,7 +12,7 @@ export default class AppIcon extends Component<Props> {
   render() {
     return (
       <View key={this.props.iterator} style={styles.appIcon}>
-        <TouchableOpacity style={{...styles.appSquare, backgroundColor: this.props.backgroundColor}} onPress={() => nnavigate(this.props.homeRoute)}>
+        <TouchableOpacity style={{...styles.appSquare, backgroundColor: this.props.backgroundColor}} onPress={() => navigate(this.props.homeRoute)}>
           <Image source={this.props.icon} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
         </TouchableOpacity>
         <Text style={styles.appText}>{this.props.appName}</Text>

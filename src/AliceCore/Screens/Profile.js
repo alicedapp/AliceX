@@ -1,6 +1,6 @@
 import {Component} from "react";
 import {
-  Animated,
+  Clipboard,
   StyleSheet,
   ScrollView,
   TouchableWithoutFeedback,
@@ -18,6 +18,9 @@ const cols = 2, rows = 2;
 import NFT from '../../AliceComponents/NFT'
 import Token from '../../AliceComponents/Token'
 import {navigate} from "../../AliceUtils/navigationWrapper";
+import Modal from "react-native-modal";
+import QRCode from 'react-native-qrcode-svg';
+import {Wallet} from '../../AliceSDK/Web3'
 
 //TODO: needs api key
 
@@ -30,12 +33,15 @@ export default class Profile extends Component {
       tokens: [],
       ethereum: {},
       nfts: [],
+      profileModalVisible: false,
+      address: ''
     };
 
   }
-  componentDidMount() {
-    this.getTokenInfo()
-    this.getNFTInfo()
+  async componentDidMount() {
+    this.getTokenInfo();
+    this.getNFTInfo();
+    this.setState({address: await Wallet.getAddress()})
   }
 
   getTokenInfo = async () => {
@@ -52,6 +58,9 @@ export default class Profile extends Component {
 
   };
 
+  toggleModal = () => {
+    this.setState({profileModalVisible: !this.state.profileModalVisible})
+  };
 
   getNFTInfo = async () => {
     let data = null;
@@ -70,20 +79,19 @@ export default class Profile extends Component {
   };
 
   render() {
-
+    console.log('ADDRESS: ', this.state.address)
     return (
       <View style={styles.container}>
         <View style={{
           width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
             <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
-
         <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}}>
           <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
           {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
@@ -104,6 +112,29 @@ export default class Profile extends Component {
             })}
           </View>
         </ScrollView>
+        <Modal
+          isVisible={this.state.profileModalVisible}
+          onBackdropPress={this.toggleModal}
+          style={styles.modal}
+        >
+          <View style={styles.modalBox}>
+            <QRCode
+              value={`{ethereum: ${this.state.address}}`}
+            />
+            <Text style={{color: 'black'}}>{this.state.address}</Text>
+
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <TouchableOpacity onPress={() => Clipboard.getString(this.state.address)} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
+              <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/copy.png')}/>
+              <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Copy</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ ...styles.buttons, borderTopRightRadius: 20, borderTopLeftRadius: 7, borderBottomRightRadius: 20, borderBottomLeftRadius: 7 }}>
+              <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/share.png')}/>
+              <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Share</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -117,4 +148,22 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: 'transparent'
   },
+  buttons: {
+    backgroundColor: 'rgba(256,256,256,0.5)',
+    flex: 1,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  modal: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalBox: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderRadius: 25,
+  }
+
 });

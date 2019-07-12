@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, TextInput, Dimensions, NativeModules
+  StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, Modal, Dimensions, WebView,
 } from 'react-native';
 import Icon from '../AliceComponents/IconComponent';
 import {navigate} from "../AliceUtils/navigationWrapper";
@@ -19,6 +19,7 @@ export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
+const WEBVIEW = 'WEBVIEW';
 
 export const AppRegistry = [
   // // Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )
@@ -103,6 +104,27 @@ export default class AppsScreen extends Component<Props> {
     };
   };
 
+  state = {
+    modalVisible: false,
+  };
+
+  toggleWebView = () => {
+    this.setState({modalVisible: !this.state.modalVisible});
+  };
+
+  back = () => {
+    this.refs[WEBVIEW].goBack()
+  }
+  forward = () => {
+    this.refs[WEBVIEW].goForward()
+  }
+  reload = () => {
+    this.refs[WEBVIEW].reload()
+  }
+  stopLoading = () => {
+    this.refs[WEBVIEW].stopLoading()
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -113,19 +135,53 @@ export default class AppsScreen extends Component<Props> {
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Profile')}>
             <Image source={require('../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleWebView}>
             <Image source={require('../AliceAssets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
         <View style={styles.container}>
-          <Text style={styles.H1}>Experiences</Text>
           <View style={styles.appsContainer}>
             {AppRegistry.map((app, i) => {
-              return (<AppIcon appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
+              return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
             })
             }
           </View>
         </View>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            style={{backgroundColor: 'blue'}}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <View style={{flex: 1, borderRadius: 100, marginTop: 100}}>
+            <WebView
+              source={{uri: 'https://github.com/facebook/react-native'}}
+              style={{flex: 1, paddingBottom: 60, alignItems: 'center', justifyContent: 'center', padding: 20}}
+              ref={WEBVIEW}
+              onMessage={(e) => console.log('message: ', e.nativeEvent.data)}
+              injectedJavaScript="window.onscroll=(e) => {window.postMessage('hello')};"
+              // injectedJavaScript={'(function(){return "Send me back!"}());'}
+              // injectedJavaScript="window.onscroll=function(e){window.postMessage(e)}';"
+            >
+            </WebView>
+            <View style={{position: 'absolute', bottom: 10, left: 0, width: width - 40, padding: 20, margin: 20, borderRadius: 20, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'yellow'}}>
+              <TouchableOpacity onPress={this.back}>
+                <Text>{'<'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.forward}>
+                <Text>{'>'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.reload}>
+                <Text>C</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.toggleWebView}>
+                <Text>X</Text>
+              </TouchableOpacity>
+            </View>
+            </View>
+          </Modal>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -177,7 +233,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    paddingTop: 50,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

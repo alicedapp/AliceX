@@ -27,7 +27,6 @@ const sendTransaction = async ({to, value, data}) => {
   } catch(e) {
     return "Send transaction failed with error: " + e
   }
-
 };
 
 const signTransaction = async ({to, value, data}) => {
