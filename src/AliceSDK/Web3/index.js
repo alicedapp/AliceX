@@ -76,7 +76,7 @@ const walletChangeEvent = () => {
   console.log('Native Event Emitter: ', NativeEventEmitter)
   console.log('Native Modules: ', NativeModules)
   return new NativeEventEmitter(NativeModules.CallRNModule);
-}
+};
 
 export const Settings = {
   settingsPopUp

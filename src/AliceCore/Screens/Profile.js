@@ -3,6 +3,7 @@ import {
   Clipboard,
   StyleSheet,
   ScrollView,
+  TextInput,
   TouchableWithoutFeedback,
   Text,
   Image,
@@ -21,8 +22,11 @@ import {navigate} from "../../AliceUtils/navigationWrapper";
 import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
 import {Wallet} from '../../AliceSDK/Web3'
+import AppIcon from "../../AliceComponents/AppIcon";
+import {AppRegistry} from "../../Apps";
 
 //TODO: needs api key
+
 
 export default class Profile extends Component {
   constructor(props) {
@@ -30,14 +34,17 @@ export default class Profile extends Component {
 
     this.state = {
       tokenInfo: '',
+      token: '',
       tokens: [],
       ethereum: {},
       nfts: [],
       profileModalVisible: false,
+      tokenModalVisible: false,
       address: ''
     };
 
   }
+
   async componentDidMount() {
     this.getTokenInfo();
     this.getNFTInfo();
@@ -60,6 +67,14 @@ export default class Profile extends Component {
 
   toggleModal = () => {
     this.setState({profileModalVisible: !this.state.profileModalVisible})
+  };
+
+  openTokenModal = (tokenInfo, token) => {
+    this.setState({tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
+  };
+
+  closeTokenModal = () => {
+    this.setState({tokenModalVisible: !this.state.tokenModalVisible})
   };
 
   getNFTInfo = async () => {
@@ -98,7 +113,7 @@ export default class Profile extends Component {
             const {tokenInfo} = token;
             if (tokenInfo.name === "") return;
             return (
-              <Token key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
+              <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
             )
           })}
           <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
@@ -112,6 +127,30 @@ export default class Profile extends Component {
             })}
           </View>
         </ScrollView>
+        <Modal
+          isVisible={this.state.tokenModalVisible}
+          onBackdropPress={this.closeTokenModal}
+          style={styles.modal}
+        >
+          <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
+            <Token tokenInfo={this.state.tokenInfo} token={this.state.token} />
+          </View>
+          <View style={{height: 100, width: '100%'}}>
+            <ScrollView horizontal>
+              {AppRegistry.map((app, i) => {
+                return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
+              })
+              }
+            </ScrollView>
+          </View>
+          <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
+            <TextInput placeholder="Enter address or ENS"/>
+            <TouchableOpacity>
+              <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 20, resizeMode: 'contain'}}/>
+            </TouchableOpacity>
+          </View>
+
+        </Modal>
         <Modal
           isVisible={this.state.profileModalVisible}
           onBackdropPress={this.toggleModal}

@@ -31,7 +31,7 @@ export default class Token extends Component<Props> {
   render() {
     const {tokenInfo, iterator, token} = this.props;
     return (
-      <TouchableWithoutFeedback key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
+      <TouchableWithoutFeedback {...this.props} key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
         <Animated.View  style={{...styles.tokenBox, transform: [
             {
               scale: this.state.animatePress
