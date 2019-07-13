@@ -47,7 +47,7 @@ const signMessage = async (message) => {
 
 const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 
-const openBrowser = () => NativeModules.NativeVCModule.browser();
+const openBrowser = () => NativeModules.NativeVCModule.browser('foam.space');
 
 const sendToken = () => {
 
