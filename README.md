@@ -81,15 +81,15 @@ If you do wish to have a javascript package added to your app you will have to p
 ### Function Completion List
 
 #### Wallet Functions
-- [ ] Get Wallet Address
-- [ ] Send Transaction
-- [ ] Sign Transaction
-- [ ] Sign Message
+- [x] Get Wallet Address
+- [x] Send Transaction
+- [x] Sign Transaction
+- [x] Sign Message
 - [ ] Send Token
 
 #### Smart Contract Functions
-- [ ] Contract Write
-- [ ] Contract Read
+- [x] Contract Write
+- [x] Contract Read
 
 ```js
 import {Wallet, Contract} from '../../SDK';
