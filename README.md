@@ -81,15 +81,15 @@ If you do wish to have a javascript package added to your app you will have to p
 ### Function Completion List
 
 #### Wallet Functions
-- [ ] Get Wallet Address
-- [ ] Send Transaction
-- [ ] Sign Transaction
-- [ ] Sign Message
+- [x] Get Wallet Address
+- [x] Send Transaction
+- [x] Sign Transaction
+- [x] Sign Message
 - [ ] Send Token
 
 #### Smart Contract Functions
-- [ ] Contract Write
-- [ ] Contract Read
+- [x] Contract Write
+- [x] Contract Read
 
 ```js
 import {Wallet, Contract} from '../../SDK';
@@ -194,4 +194,4 @@ Please be sure to include your operating system, device, version number, and
 steps to reproduce reported bugs.
 
 ## Open source acknowledgment
-Alice is also exploring their Licensing as of right now. Feel free to join in on the discussion as well.
+Alice has decided upon the MIT License due to the nature of it's existence as a platform and it's ownership of proprietary code and third-party assets associated with it's platform. This doesn't mean that all code existing within Alice's platform will be licensed under the MIT License. Your application can exist within our platform with it's own license and only adhere to the rules and guidelines of the Alice platform. 
