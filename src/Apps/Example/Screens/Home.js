@@ -1,7 +1,6 @@
 import React from "react";
-import {Image, Text, NativeModules, TouchableOpacity, View} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
-import Modalize from '../Components/Modalize'
 import {FoodContractABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 
@@ -31,10 +30,6 @@ export default class ExampleHome extends React.Component {
 
   }
 
-  onClick = () => {
-    this.child.current.openModal();
-  };
-
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
@@ -62,6 +57,16 @@ export default class ExampleHome extends React.Component {
   sendTransaction = async () => {
     try {
       const txHash = await Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
+      console.log('txHash: ', txHash);
+      this.setState({txHash})
+    } catch(e) {
+      console.log(e);
+    }
+  };
+
+  openDapplet = async () => {
+    try {
+      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
       console.log('txHash: ', txHash);
       this.setState({txHash})
     } catch(e) {
@@ -130,6 +135,10 @@ export default class ExampleHome extends React.Component {
         <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Send Transaction</Text>
         </TouchableOpacity>
+        <Text>TransactionHash: {this.state.txHash}</Text>
+        <TouchableOpacity onPress={this.openDapplet} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+          <Text>Send Transaction with Dapplet</Text>
+        </TouchableOpacity>
         <Text>Signed Transaction: {this.state.signedTransaction}</Text>
         <TouchableOpacity onPress={this.signTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Sign Transaction</Text>
@@ -151,16 +160,10 @@ export default class ExampleHome extends React.Component {
           <Text>Read From Contract</Text>
         </TouchableOpacity>
         <Text>Render Modal</Text>
-        <TouchableOpacity onPress={this.onClick} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Pop Up</Text>
-        </TouchableOpacity>
         <Text>Get Balance: {this.state.balance}</Text>
         <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Get Balance</Text>
         </TouchableOpacity>
-        <Modalize ref={this.child}>
-
-        </Modalize>
       </View>
     );
   }

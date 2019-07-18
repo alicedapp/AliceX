@@ -10,6 +10,7 @@ export default class SimpleView extends React.Component{
     return (
       <View style={styles.container}>
         {this.props.children}
+        <Text>TEST</Text>
       </View>
     );
   }

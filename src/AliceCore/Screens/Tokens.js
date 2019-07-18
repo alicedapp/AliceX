@@ -24,11 +24,12 @@ import QRCode from 'react-native-qrcode-svg';
 import {Wallet} from '../../AliceSDK/Web3'
 import AppIcon from "../../AliceComponents/AppIcon";
 import {AppRegistry} from "../../Apps";
+import TransactionModal from '../../AliceComponents/TransactionModal'
 
 //TODO: needs api key
 
 
-export default class Profile extends Component {
+export default class Tokens extends Component {
   constructor(props) {
     super(props);
 
@@ -40,6 +41,7 @@ export default class Profile extends Component {
       nfts: [],
       profileModalVisible: false,
       tokenModalVisible: false,
+      transactionModalVisible: false,
       address: ''
     };
 
@@ -60,7 +62,7 @@ export default class Profile extends Component {
         onData(JSON.parse(this.responseText));
       }
     });
-    xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB?apiKey=freekey");
+    xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/"+await Wallet.getAddress()+"?apiKey=freekey");
     xhr.send(data);
 
   };
@@ -70,7 +72,8 @@ export default class Profile extends Component {
   };
 
   openTokenModal = (tokenInfo, token) => {
-    this.setState({tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
+    this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenInfo, token})
+    // this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
   };
 
   closeTokenModal = () => {
@@ -88,13 +91,14 @@ export default class Profile extends Component {
         onData(JSON.parse(this.responseText));
       }
     });
-    xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner=0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB");
+    xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress());
     xhr.send(data);
 
   };
 
   render() {
-    console.log('ADDRESS: ', this.state.address)
+    console.log('ADDRESS: ', this.state.address);
+    const { transactionModalVisible } = this.state;
     return (
       <View style={styles.container}>
         <View style={{
@@ -158,7 +162,7 @@ export default class Profile extends Component {
         >
           <View style={styles.modalBox}>
             <QRCode
-              value={`{ethereum: ${this.state.address}}`}
+              value={`${this.state.address}`}
             />
             <Text style={{color: 'black'}}>{this.state.address}</Text>
 
@@ -174,6 +178,7 @@ export default class Profile extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        <TransactionModal isVisible={transactionModalVisible} modalControl={() => this.setState({transactionModalVisible: !transactionModalVisible})}/>
       </View>
     );
   }

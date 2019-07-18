@@ -15,7 +15,7 @@ import {
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
 import Apps, {Foam, Fork, Mintbase, Test} from './src/Apps'
 import CameraScreen from './src/AliceCore/Screens/Camera';
-import Profile from './src/AliceCore/Screens/Profile';
+import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
 //TODO: change API key on release to TestFlight
@@ -64,8 +64,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
       )
     }
   },
-  Profile: {
-    screen: Profile,
+  Tokens: {
+    screen: Tokens,
     navigationOptions: {
       tabBarLabel: 'Settings',
       tabBarIcon: ({ focused }) => (
@@ -86,8 +86,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   }
 }, {
-  initialRouteName: 'Profile',
-  order: ['Home', 'Apps', 'Profile', 'Activity'],
+  initialRouteName: 'Tokens',
+  order: ['Home', 'Apps', 'Tokens', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {
