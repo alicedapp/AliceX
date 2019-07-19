@@ -43,6 +43,7 @@ const publicAddress = "0xb78197a43836e084bE4ff1F4c84d7557EA11F214";
 
 // import { transferEtherNoReward, transferTokensNoReward, transferTokensWithTokenReward, transferEtherWithEtherReward } from 'tenzorum'
 import {Wallet} from "../../AliceSDK";
+import {ENS} from "../../AliceSDK/Web3";
 // import {getBalance, getTenzBalance} from "../../utils/ether";
 
 
@@ -63,7 +64,7 @@ export default class TransactionModal extends Component<Props> {
     this.state = {
       buttonState: 'upload',
       cryptoBalance: '',
-      ensDomain: '',
+      inputAddress: '',
       ensAvailable: false,
       publicAddress: '',
       ensMessage: 'Enter a public address or ENS username',
@@ -137,37 +138,40 @@ export default class TransactionModal extends Component<Props> {
   // };
 
   _resolveAddress = async (ensUsername) => {
-    const {publicAddress} = this.state;
-    this.setState({addressChecked: true});
-    if (ensUsername.length === 0) {
-      this.setState({ensAvailable: false, ensMessage: 'Enter a valid or unempty username'});
-    } else if (true === true) {
-      if (ensUsername === emptyAddress) {
-        this.setState({ensAvailable: false, ensMessage: 'Invalid address'});
-      } else if(ensUsername === publicAddress) {
-        this.setState({ensAvailable: true, ensMessage: "It's your domain!"});
-      } else {
-        console.log(this.state.publicAddress)
-        this.setState({publicAddress: ensUsername});
-        this.setState({ensAvailable: true, ensMessage: "Valid address: " + ensUsername});
-      }
-      return ensUsername;
-
-    } else {
-      this.setState({ensDomain: ensUsername});
-      const {ensDomain} = this.state;
-      const addr = await addressResolver(ensUsername);
-      this.setState({publicAddress: addr});
-      if (addr === emptyAddress) {
-        this.setState({ensAvailable: false, ensMessage: 'Invalid address'});
-      } else if(addr === publicAddress) {
-        this.setState({ensAvailable: true, ensMessage: "It's your domain!"});
-      } else {
-        this.setState({ensAvailable: true, ensMessage: "Valid address: " + this.state.publicAddress});
-      }
-      return addr;
-    }
-
+    this.setState({inputAddress: ensUsername})
+    const address = await ENS.resolve(ensUsername);
+    console.log('ADDRESS: ', address);
+    // const {publicAddress} = this.state;
+    // this.setState({addressChecked: true});
+    // if (ensUsername.length === 0) {
+    //   this.setState({ensAvailable: false, ensMessage: 'Enter a valid or unempty username'});
+    // } else if (true === true) {
+    //   if (ensUsername === emptyAddress) {
+    //     this.setState({ensAvailable: false, ensMessage: 'Invalid address'});
+    //   } else if(ensUsername === publicAddress) {
+    //     this.setState({ensAvailable: true, ensMessage: "It's your domain!"});
+    //   } else {
+    //     console.log(this.state.publicAddress)
+    //     this.setState({publicAddress: ensUsername});
+    //     this.setState({ensAvailable: true, ensMessage: "Valid address: " + ensUsername});
+    //   }
+    //   return ensUsername;
+    //
+    // } else {
+    //   this.setState({inputAddress: ensUsername});
+    //   const {inputAddress} = this.state;
+    //   const addr = await addressResolver(ensUsername);
+    //   this.setState({publicAddress: addr});
+    //   if (addr === emptyAddress) {
+    //     this.setState({ensAvailable: false, ensMessage: 'Invalid address'});
+    //   } else if(addr === publicAddress) {
+    //     this.setState({ensAvailable: true, ensMessage: "It's your domain!"});
+    //   } else {
+    //     this.setState({ensAvailable: true, ensMessage: "Valid address: " + this.state.publicAddress});
+    //   }
+    //   return addr;
+    // }
+    //
   };
 
   _chooseBalance = (crypto) => {
@@ -183,11 +187,11 @@ export default class TransactionModal extends Component<Props> {
 
   _addressScan =  async (address) => {
     const resolve = await this._resolveAddress(address);
-    if (resolve) this.setState({publicAddress: address, ensDomain: address});
+    if (resolve) this.setState({publicAddress: address, inputAddress: address});
   }
 
   render() {
-    const { ensDomain, ensAvailable, ensMessage, cameraModalVisible, qrModalVisible, reward, amount } = this.state;
+    const { inputAddress, ensAvailable, ensMessage, cameraModalVisible, qrModalVisible, reward, amount } = this.state;
     const { isVisible } = this.props;
     return (
         <Modal isVisible={isVisible}>
@@ -214,7 +218,7 @@ export default class TransactionModal extends Component<Props> {
                 <Text ref={this.handleTextRef} style={{fontSize: 20, fontWeight: '700', margin: 5}}>{this.state.currentCrypto.name}</Text>
                 <View style={{width: 5, height: 20}}/>
                 <View style={styles.inputAndButton}>
-                  <Input placeholder="Send to..." onChangeText={this._resolveAddress} autoCapitalize="none" value={ensDomain}/>
+                  <Input placeholder="Send to..." onChangeText={this._resolveAddress} autoCapitalize="none" value={inputAddress}/>
                   <TouchableOpacity onPress={() => this.setState({cameraModalVisible: !cameraModalVisible})} style={styles.squareButton}>
                     <Image src={require('../../AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 20}}/>
                   </TouchableOpacity>

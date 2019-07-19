@@ -1,8 +1,7 @@
-import {Animated, Image, Text, StyleSheet, Dimensions, TouchableWithoutFeedback, View} from "react-native";
+import {Animated, Image, Text, StyleSheet, Dimensions, TouchableOpacity, View} from "react-native";
 import React, {Component} from "react";
 const { height, width } = Dimensions.get('window');
 const cols = 2, rows = 3;
-import Lightbox from './Lightbox';
 
 export default class NFT extends Component<Props> {
   constructor(props) {
@@ -11,7 +10,6 @@ export default class NFT extends Component<Props> {
     this.state = {
       animatePress: new Animated.Value(1)
     };
-
   }
 
   animateIn = () => {
@@ -30,12 +28,12 @@ export default class NFT extends Component<Props> {
 
   closeCallback;
 
-  renderNFT = () => {
+  render() {
     const {nft,iterator, navigator} = this.props;
     const { name, collection, background_color} = nft;
 
     return (
-      <Lightbox key={iterator} navigator={navigator} backgroundColor={'transparent'} renderContent={this.renderDetails} renderHeader={close => this.closeCallback = close}>
+      <TouchableOpacity key={iterator} navigator={navigator} backgroundColor={'transparent'} renderContent={this.renderDetails} renderHeader={close => this.closeCallback = close}>
         <View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <View style={{...styles.nftContainer, backgroundColor: background_color ? '#'+ background_color : 'white',}}>
             <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
@@ -45,31 +43,9 @@ export default class NFT extends Component<Props> {
             <Text style={{marginLeft: 3, fontSize: 14, fontWeight: '300', color: '#aaaaaa'}}>{collection.name}</Text>
           </View>
         </View>
-      </Lightbox>
-
+      </TouchableOpacity>
     )
-  }
 
-  renderDetails = () => {
-    const {nft, iterator, navigator} = this.props;
-    const { name, collection, background_color} = nft;
-    return (
-      <TouchableWithoutFeedback  onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-        <View style={{padding: 10, backgroundColor: 'white', borderRadius: 25,  alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{...styles.nftContainer, backgroundColor: background_color ? '#'+ background_color : 'white',}}>
-            <Image source={{uri: nft.image_thumbnail_url}} style={{width: 100, height: 100, resizeMode: 'contain'}}/>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    )
-  };
-
-  render() {
-    return (
-      <>
-      {this.renderNFT()}
-      </>
-    )
   }
 }
 

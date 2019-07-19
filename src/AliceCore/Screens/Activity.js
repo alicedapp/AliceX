@@ -5,7 +5,7 @@ import ThreeBoxActivity from '3box-activity';
 import {addDataType} from "../../AliceUtils";
 import { Activity } from "../Components/Activity";
 import {Settings} from "../../AliceSDK/Web3";
-import {navigate} from "../../AliceUtils/navigationWrapper";
+import {goBack, navigate} from "../../AliceUtils/navigationWrapper";
 
 const { height, width } = Dimensions.get('window');
 
@@ -94,8 +94,8 @@ export default class ActivityClass extends Component {
         <View style={{
           width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Tokens')}>
-            <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={goBack}>
+            <Image source={require('../../AliceAssets/back-arrow.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>

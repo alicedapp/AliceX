@@ -28,6 +28,7 @@ If we don't get back to you immediately there will be many other resources out t
 - [Cocoapod](https://cocoapods.org)
 
 ### iOS
+The app is fully functioning in the iOS version
 
 ### Android
 // Work in progress
@@ -38,15 +39,21 @@ If we don't get back to you immediately there will be many other resources out t
 
 2. cd into the repository and run `yarn` or `npm install` depending if you are using either.
 
+3. run `git submodule init && git submodule update` to install the ios directory
+
 ### iOS
+4. run `cd ios && pod install`
+5. Open the `AliceX.xcworkspace` file in xcode
+6. 
+
 `COMING SOON`
-3. `./install.ios.sh`
-4. Run the project in Xcode. 🎉
+4. `./install.ios.sh`
+5. Run the project in Xcode. 🎉
 
 ### Android
 `COMING SOON`
-3. `./install.android.sh`
-4. Run the project in Android Simulator. 🎉
+4. `./install.android.sh`
+5. Run the project in Android Simulator. 🎉
 
 # Building your app in Alice
 Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
@@ -194,4 +201,4 @@ Please be sure to include your operating system, device, version number, and
 steps to reproduce reported bugs.
 
 ## Open source acknowledgment
-Alice has decided upon the MIT License due to the nature of it's existence as a platform and it's ownership of proprietary code and third-party assets associated with it's platform. This doesn't mean that all code existing within Alice's platform will be licensed under the MIT License. Your application can exist within our platform with it's own license and only adhere to the rules and guidelines of the Alice platform. 
+Alice has decided upon the MIT License due to the nature of it's existence as a platform and it's ownership of proprietary code and third-party assets associated with it's platform. This doesn't mean that all code existing within Alice's platform will be licensed under the MIT License. Your application can exist within our platform with it's own license and only adhere to the rules and guidelines of the Alice platform.
