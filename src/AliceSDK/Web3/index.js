@@ -79,11 +79,29 @@ const read = async ({contractAddress, abi, functionName, parameters}) => {
 };
 
 const resolve = async (ensName) => {
-  if (ensName.slice(-4) === '.eth') {
+  if (ensName.substring(0,2) === '0x') {
+    if (/^(0x){1}[0-9a-fA-F]{40}$/i.test(ensName)) {
+      return ensName;
+    } else {
+      return "0x0000000000000000000000000000000000000000";
+    }
+  } else if (ensName.slice(-4) === '.eth' || ensName.slice(-4) === '.xyz') {
     try {
       return await infuraProvider.resolveName(ensName);
     } catch (e) {
       return "ENS resolver error: " + e;
+    }
+  } else {
+    return "0x0000000000000000000000000000000000000000";
+  }
+};
+
+const isPublicAddress = (ensName) => {
+  if (ensName) {
+    if (/^(0x){1}[0-9a-fA-F]{40}$/i.test(ensName)) {
+      return ensName;
+    } else {
+      return "0x0000000000000000000000000000000000000000";
     }
   }
 };
@@ -114,5 +132,6 @@ export const Contract = {
 };
 
 export const ENS = {
-  resolve
+  resolve,
+  isPublicAddress
 }

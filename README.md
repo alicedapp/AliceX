@@ -28,6 +28,7 @@ If we don't get back to you immediately there will be many other resources out t
 - [Cocoapod](https://cocoapods.org)
 
 ### iOS
+The app is fully functioning in the iOS version
 
 ### Android
 // Work in progress
@@ -38,15 +39,21 @@ If we don't get back to you immediately there will be many other resources out t
 
 2. cd into the repository and run `yarn` or `npm install` depending if you are using either.
 
+3. run `git submodule init && git submodule update` to install the ios directory
+
 ### iOS
+4. run `cd ios && pod install`
+5. Open the `AliceX.xcworkspace` file in xcode
+6. Run the project and start to build your app
+
 `COMING SOON`
-3. `./install.ios.sh`
-4. Run the project in Xcode. 🎉
+4. `./install.ios.sh`
+5. Run the project in Xcode. 🎉
 
 ### Android
 `COMING SOON`
-3. `./install.android.sh`
-4. Run the project in Android Simulator. 🎉
+4. `./install.android.sh`
+5. Run the project in Android Simulator. 🎉
 
 # Building your app in Alice
 Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons

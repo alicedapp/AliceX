@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native'
 import Modal from "react-native-modal";
-import Camera from "../../AliceSDK/Camera";
+import {RNCamera as Camera} from 'react-native-camera'
 import ReactNativeHaptic from 'react-native-haptic-feedback';
 import _ from "lodash";
 // const Web3 = require('web3');
@@ -58,6 +58,7 @@ export default class CameraModal extends Component {
   //     })
   // };
   //
+
   _onBarcodeRead = (read) => {
     if (read) {
       console.log('READ PUBLIC ADDRESS', read.data)

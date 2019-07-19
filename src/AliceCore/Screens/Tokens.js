@@ -21,10 +21,11 @@ import Token from '../../AliceComponents/Token'
 import {navigate} from "../../AliceUtils/navigationWrapper";
 import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
-import {Wallet} from '../../AliceSDK/Web3'
+import {ENS, Wallet} from '../../AliceSDK/Web3'
 import AppIcon from "../../AliceComponents/AppIcon";
 import {AppRegistry} from "../../Apps";
 import TransactionModal from '../../AliceComponents/TransactionModal'
+import CameraModal from "../../AliceComponents/TransactionModal/CameraModal";
 
 //TODO: needs api key
 
@@ -42,7 +43,10 @@ export default class Tokens extends Component {
       profileModalVisible: false,
       tokenModalVisible: false,
       transactionModalVisible: false,
-      address: ''
+      cameraModalVisible: false,
+      address: '',
+      addressStatus: 'unresolved',
+      inputAddress: ''
     };
 
   }
@@ -72,8 +76,8 @@ export default class Tokens extends Component {
   };
 
   openTokenModal = (tokenInfo, token) => {
-    this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenInfo, token})
-    // this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
+    // this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenInfo, token})
+    this.setState({ tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
   };
 
   closeTokenModal = () => {
@@ -96,9 +100,40 @@ export default class Tokens extends Component {
 
   };
 
+  resolveAddress = async (ensUsername) => {
+    if (!ensUsername) {
+      this.setState({addressStatus: 'unresolved', inputAddress: ensUsername});
+      return;
+    }
+    this.setState({inputAddress: ensUsername});
+    const address = await ENS.resolve(ensUsername);
+    console.log('ADDRESS RETURNED FROM ENS: ', address);
+    if (address === "0x0000000000000000000000000000000000000000") {
+      this.setState({addressStatus: 'invalid', addressChecked: true});
+    } else if (ENS.isPublicAddress(address)) {
+      console.log('returning verifies', address);
+      this.setState({addressStatus: 'valid', addressChecked: true});
+    }
+  };
+
+  _addressScan =  async (address) => {
+    const resolve = await this.resolveAddress(address);
+    if (resolve) this.setState({ inputAddress: address });
+  }
+
+  renderVerification = () => {
+    if (this.state.addressStatus === 'valid') {
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/green-verify.png')} />
+    } else if (this.state.addressStatus === 'invalid') {
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/grey-verify.png')} />
+    } else if (this.state.addressStatus === 'unresolved'){
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/grey-verify.png')} />
+    }
+  };
+
   render() {
     console.log('ADDRESS: ', this.state.address);
-    const { transactionModalVisible } = this.state;
+    const { transactionModalVisible, cameraModalVisible } = this.state;
     return (
       <View style={styles.container}>
         <View style={{
@@ -107,8 +142,8 @@ export default class Tokens extends Component {
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
             <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
-            <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Activity')}>
+            <Image source={require('../../AliceAssets/hamburger.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
         </View>
         <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}}>
@@ -120,8 +155,8 @@ export default class Tokens extends Component {
               <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
             )
           })}
-          <Text style={{fontWeight: '600', fontSize: 18}}>Unique Tokens</Text>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between'}}>
+          <Text style={{fontWeight: '600', fontSize: 18, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
             {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
               if (nft.collection) {
                 return (
@@ -131,6 +166,7 @@ export default class Tokens extends Component {
             })}
           </View>
         </ScrollView>
+        {/*      ---------       Transaction Modal         ---------------           */}
         <Modal
           isVisible={this.state.tokenModalVisible}
           onBackdropPress={this.closeTokenModal}
@@ -148,13 +184,17 @@ export default class Tokens extends Component {
             </ScrollView>
           </View>
           <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
-            <TextInput placeholder="Enter address or ENS"/>
-            <TouchableOpacity>
-              <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 20, resizeMode: 'contain'}}/>
-            </TouchableOpacity>
+            <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <TouchableOpacity onPress={() => this.setState({cameraModalVisible: !cameraModalVisible})}>
+                <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
+              </TouchableOpacity>
+              <TextInput autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
+              {this.renderVerification()}
+            </View>
           </View>
 
         </Modal>
+        {/*      ---------       Transaction Modal         ---------------           */}
         <Modal
           isVisible={this.state.profileModalVisible}
           onBackdropPress={this.toggleModal}
@@ -165,7 +205,6 @@ export default class Tokens extends Component {
               value={`${this.state.address}`}
             />
             <Text style={{color: 'black'}}>{this.state.address}</Text>
-
           </View>
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <TouchableOpacity onPress={() => Clipboard.getString(this.state.address)} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
@@ -179,6 +218,7 @@ export default class Tokens extends Component {
           </View>
         </Modal>
         <TransactionModal isVisible={transactionModalVisible} modalControl={() => this.setState({transactionModalVisible: !transactionModalVisible})}/>
+        <CameraModal isVisible={cameraModalVisible} modalControl={() => this.setState({cameraModalVisible: !cameraModalVisible})} addressScan={this._addressScan}/>
       </View>
     );
   }

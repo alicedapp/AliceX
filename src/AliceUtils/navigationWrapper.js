@@ -38,6 +38,8 @@ export const backAction = key => _container.dispatch(NavigationActions.back({
   key,
 }));
 
+export const goBack = () => _container.dispatch(NavigationActions.back());
+
 export const setParamsAction = (screen, params) => _container.dispatch(NavigationActions.setParams({
   params,
   key: screen,

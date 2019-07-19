@@ -159,7 +159,6 @@ export default class ExampleHome extends React.Component {
         <TouchableOpacity onPress={this.contractRead} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Read From Contract</Text>
         </TouchableOpacity>
-        <Text>Render Modal</Text>
         <Text>Get Balance: {this.state.balance}</Text>
         <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Get Balance</Text>
