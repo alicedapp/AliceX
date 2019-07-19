@@ -194,4 +194,4 @@ Please be sure to include your operating system, device, version number, and
 steps to reproduce reported bugs.
 
 ## Open source acknowledgment
-Alice has decided upon the MIT License due to the nature of it's existence as a platform and it's ownership of proprietary code and third-party assets associated with it's platform. This doesn't mean that all code existing within Alice's platform will be licensed under the MIT License. Your application can exist within our platform with it's own license and only adhere to the rules and guidelines of the Alice platform. 
+Alice has decided upon the MIT License due to the nature of it's existence as a platform and it's ownership of proprietary code and third-party assets associated with it's platform. This doesn't mean that all code existing within Alice's platform will be licensed under the MIT License. Your application can exist within our platform with it's own license and only adhere to the rules and guidelines of the Alice platform.
