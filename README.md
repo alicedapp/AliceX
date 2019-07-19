@@ -44,7 +44,7 @@ The app is fully functioning in the iOS version
 ### iOS
 4. run `cd ios && pod install`
 5. Open the `AliceX.xcworkspace` file in xcode
-6. 
+6. Run the project and start to build your app
 
 `COMING SOON`
 4. `./install.ios.sh`
