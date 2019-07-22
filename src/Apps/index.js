@@ -20,6 +20,7 @@ export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
+export { default as DAOstack } from './DAOstack';
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 const options = {
@@ -46,58 +47,22 @@ export const AppRegistry = [
     icon: require('../AliceAssets/fork-logo.png')
   },
   {
-    appName: 'Radar',
-    backgroundColor: '#43fd9c',
-    homeRoute: 'RadarRelay',
-    icon: require('../AliceAssets/radar-black.png')
-  },
-  {
     appName: '#BUIDL',
     backgroundColor: '#ffffff',
     homeRoute: 'Test',
     icon: require('./Example/Assets/buidler.png')
   },
   {
-    appName: 'Cryptokitties',
-    backgroundColor: '#ffd6f7',
-    homeRoute: 'Cryptokitties',
-    icon: require('../AliceAssets/cryptokitties.png')
-  },
-  {
-    appName: 'UniSwap',
-    backgroundColor: '#faa8ff',
-    homeRoute: 'Uniswap',
-    icon: require('../AliceAssets/uniswap.png')
-  },
-  {
-    appName: 'Mintbase',
-    backgroundColor: '#587280',
-    homeRoute: 'Uniswap',
-    icon: require('./Mintbase/Assets/logo.png')
-  },
-  {
-    appName: 'localethereum',
-    backgroundColor: '#dbe0ff',
-    homeRoute: 'LocalEthereum',
-    icon: require('../AliceAssets/localethereum.png')
+    appName: 'DAOstack',
+    backgroundColor: '#ffffff',
+    homeRoute: 'DAOstack',
+    icon: require('./DAOstack/Assets/daostack.png')
   },
   {
     appName: 'Foam',
     backgroundColor: '#ffffff',
     homeRoute: 'Foam',
     icon: require('../AliceAssets/foam.png')
-  },
-  {
-    appName: 'Foam',
-    backgroundColor: '#5A28C6',
-    homeRoute: 'Foam',
-    icon: require('../AliceAssets/bounties.png')
-  },
-  {
-    appName: 'Gitcoin',
-    backgroundColor: '#0D023B',
-    homeRoute: 'Gitcoin',
-    icon: require('../AliceAssets/gitcoin.png')
   },
 ];
 

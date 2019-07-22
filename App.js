@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps, {Foam, Fork, Mintbase, Test} from './src/Apps'
+import Apps, {Foam, Fork, Mintbase, Test, DAOstack} from './src/Apps'
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -67,7 +67,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
   Tokens: {
     screen: Tokens,
     navigationOptions: {
-      tabBarLabel: 'Settings',
+      tabBarLabel: 'Tokens',
       tabBarIcon: ({ focused }) => (
         focused ? <Image source={require('./src/AliceAssets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
         : <Image source={require('./src/AliceAssets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
@@ -117,6 +117,7 @@ const MainApp = createStackNavigator({
   Apps: { screen: AppTabNavigator },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
+  DAOstack: { screen: DAOstack },
   Test: { screen: Test },
   Mintbase: { screen: Mintbase },
 }, {

@@ -47,7 +47,7 @@ export default class Token extends Component<Props> {
           }
           <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
             <Text>{tokenInfo.name}</Text>
-            <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(2)} {tokenInfo.symbol.substring(0, 4)}</Text>
+            <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(4)} {tokenInfo.symbol.substring(0, 4)}</Text>
           </View>
         </Animated.View>
       </TouchableWithoutFeedback>

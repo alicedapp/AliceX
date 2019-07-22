@@ -9,7 +9,8 @@ import {
   Image,
   View,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated
 } from "react-native";
 import React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
@@ -46,7 +47,10 @@ export default class Tokens extends Component {
       cameraModalVisible: false,
       address: '',
       addressStatus: 'unresolved',
-      inputAddress: ''
+      inputAddress: '',
+      ethBalance: 0,
+      animatePress: new Animated.Value(1),
+      amount: 0
     };
 
   }
@@ -55,7 +59,15 @@ export default class Tokens extends Component {
     this.getTokenInfo();
     this.getNFTInfo();
     this.setState({address: await Wallet.getAddress()})
+    this.getBalance()
   }
+
+  getBalance = async () => {
+    const ethBalance = await Wallet.getBalance();
+    this.setState({ethBalance})
+  }
+
+
 
   getTokenInfo = async () => {
     let data = null;
@@ -83,6 +95,10 @@ export default class Tokens extends Component {
   closeTokenModal = () => {
     this.setState({tokenModalVisible: !this.state.tokenModalVisible})
   };
+
+  setTokenAmount = (amount) => {
+    this.setState({amount})
+  }
 
   getNFTInfo = async () => {
     let data = null;
@@ -148,7 +164,23 @@ export default class Tokens extends Component {
         </View>
         <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}}>
           <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
-          {this.state.tokens.length > 0 && this.state.tokens.map((token, i) => {
+          <TouchableWithoutFeedback>
+            <Animated.View  style={{...styles.tokenBox, transform: [
+                {
+                  scale: this.state.animatePress
+                }
+              ]}}>
+              <View style={styles.tokenContainer}>
+                <Image source={require('../../AliceAssets/ethereum.png')} style={styles.tokenImage}/>
+              </View>
+
+              <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
+                <Text>Ethereum</Text>
+                <Text>{parseFloat(this.state.ethBalance).toFixed(4)} ETH</Text>
+              </View>
+            </Animated.View>
+          </TouchableWithoutFeedback>
+          {this.state.tokens && this.state.tokens.map((token, i) => {
             const {tokenInfo} = token;
             if (tokenInfo.name === "") return;
             return (
@@ -184,12 +216,15 @@ export default class Tokens extends Component {
             </ScrollView>
           </View>
           <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
-            <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+            <View style={{width: '100%', height: 50, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <TouchableOpacity onPress={() => this.setState({cameraModalVisible: !cameraModalVisible})}>
                 <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
               </TouchableOpacity>
-              <TextInput autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
+              <TextInput autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
               {this.renderVerification()}
+            </View>
+            <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <TextInput keyboardType={'numeric'} autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter amount to send" onChangeText={this.setTokenAmount} value={this.state.amount}/>
             </View>
           </View>
 
@@ -248,6 +283,33 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: 'white',
     borderRadius: 25,
-  }
+  },
+  tokenBox: {
+    flexDirection: 'row',
+    width: '100%',
+    margin: 8,
 
+  },
+  tokenContainer: {
+    backgroundColor: '#ffffff',
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    shadowColor: '#212121',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
+
+  },
+  tokenImage: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain',
+  },
 });

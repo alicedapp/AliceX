@@ -23,7 +23,7 @@ const getBalance = async () => {
 
 const sendTransaction = async ({to, value, data}) => {
   try {
-    return await NativeModules.WalletModule.sendTransaction(to, value, data);
+    return await NativeModules.WalletModule.sendTransaction(to, '0x11e7ee486f8003', '0x454a2ab300000000000000000000000000000000000000000000000000000000000d4f2a');
   } catch(e) {
     return "Send transaction failed with error: " + e
   }
@@ -31,7 +31,7 @@ const sendTransaction = async ({to, value, data}) => {
 
 const sendTransactionWithDapplet = async ({to, value, data}) => {
   try {
-    return await NativeModules.WalletModule.sendTransactionWithDapplet(to, value, data);
+    return await NativeModules.WalletModule.sendTransactionWithDapplet(to, ethers.utils.formatBytes32String(value), ethers.utils.formatBytes32String(data));
   } catch(e) {
     return "Send transaction failed with error: " + e
   }
@@ -39,7 +39,8 @@ const sendTransactionWithDapplet = async ({to, value, data}) => {
 
 const signTransaction = async ({to, value, data}) => {
   try {
-    return await NativeModules.WalletModule.signTransaction(to, value, data);
+    console.log(to);
+    return await NativeModules.WalletModule.signTransaction(to, '0x11e7ee486f8003', '0x454a2ab300000000000000000000000000000000000000000000000000000000000d4f2a');
   } catch(e) {
     return "Sign transaction failed with error: " + e
   }
@@ -63,7 +64,7 @@ const sendToken = () => {
 
 const write = async ({contractAddress, abi, functionName, parameters, value, data}) => {
   try {
-    return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, value, data);
+    return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, ethers.utils.formatBytes32String(value), ethers.utils.formatBytes32String(data));
   } catch(e) {
     return "Write to contract failed with error: " + e
   }
