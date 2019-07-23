@@ -10,6 +10,7 @@ export const Activity = ({
                     isFetchingActivity,
                     feedByAddress,
                     otherProfileActivity,
+                    currentAddress
                   }) => {
   return (
     <View>
@@ -23,22 +24,27 @@ export const Activity = ({
         </Text>
         <View style={{flex: 1}}>
           {(feedByAddress && feedByAddress.length > 0)
-            ? feedByAddress.map((feedAddress, i) => (
-              <View style={{flex: 1}} key={i}>
-                <FeedTileTXS
-                  currentAddress={'currentAddress'}
-                  item={feedAddress}
-                  key={i}
-                  metaDataName={feedAddress.metaData
-                  && (feedAddress.metaData.name
-                    || (feedAddress.metaData.contractDetails
-                      && (feedAddress.metaData.contractDetails.name.charAt(0).toUpperCase() + feedAddress.metaData.contractDetails.name.slice(1)).replace(/([A-Z])/g, ' $1').trim()))}
-                  isFromProfile={item.from.toLowerCase() === currentAddress.toLowerCase()}
-                  contractImg={feedAddress.metaData && feedAddress.metaData.contractImg && feedAddress.metaData.contractImg.src}
-                  name={name}
-                />);
-              </View>
-            ))
+            ? feedByAddress.map((feedAddress, i) => {
+              console.log('feed Address: ', feedAddress)
+              if (feedAddress.from) {
+                return (
+                  <View style={{flex: 1}} key={i}>
+                    <FeedTileTXS
+                      currentAddress={'currentAddress'}
+                      item={feedAddress}
+                      key={i}
+                      metaDataName={feedAddress.metaData
+                      && (feedAddress.metaData.name
+                        || (feedAddress.metaData.contractDetails
+                          && (feedAddress.metaData.contractDetails.name.charAt(0).toUpperCase() + feedAddress.metaData.contractDetails.name.slice(1)).replace(/([A-Z])/g, ' $1').trim()))}
+                      isFromProfile={feedAddress.from.toLowerCase() === currentAddress.toLowerCase()}
+                      contractImg={feedAddress.metaData && feedAddress.metaData.contractImg && feedAddress.metaData.contractImg.src}
+                      name={name}
+                    />
+                  </View>
+                )
+              }
+            })
             : (!isFetchingActivity && !otherProfileActivity.length)
             && (
               <View style={{flex: 1}}>

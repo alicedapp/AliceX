@@ -56,7 +56,7 @@ export default class ExampleHome extends React.Component {
 
   sendTransaction = async () => {
     try {
-      const txHash = await Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
+      const txHash = await Wallet.sendTransaction({to: '0x09cabEC1eAd1c0Ba254B09efb3EE13841712bE14', value: '0.001', data: '0xf39b5b9b000000000000000000000000000000000000000000000000030f99456eb540f8000000000000000000000000000000000000000000000000000000005d356fb1'})
       console.log('txHash: ', txHash);
       this.setState({txHash})
     } catch(e) {

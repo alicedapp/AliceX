@@ -1,11 +1,18 @@
 import {Component} from "react";
-import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
+import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions, RefreshControl} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
 import {addDataType} from "../../AliceUtils";
 import { Activity } from "../Components/Activity";
-import {Settings} from "../../AliceSDK/Web3";
+import {Settings, Wallet} from "../../AliceSDK/Web3";
 import {goBack, navigate} from "../../AliceUtils/navigationWrapper";
+import { timeSince } from '../../AliceUtils/time';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false
+};
 
 const { height, width } = Dimensions.get('window');
 
@@ -22,7 +29,8 @@ export default class ActivityClass extends Component {
       activity: {},
       categorizedActivity: [],
       fetching: true,
-      feed: {}
+      feed: {},
+      publicAddress: '',
     };
 
   }
@@ -30,10 +38,19 @@ export default class ActivityClass extends Component {
     this.getTokenInfo()
   }
 
+  _refresh = () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
+    this.getTokenInfo();
+  }
+
   getTokenInfo = async () => {
+    console.log('fetching')
+    this.setState({fetching: true});
     let activity;
     try {
-      activity = await ThreeBoxActivity.get('0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB');
+      const publicAddress = await Wallet.getAddress();
+      this.setState({publicAddress})
+      activity = await ThreeBoxActivity.get(publicAddress);
       console.log('ACTIVITY: ', activity)
       const categorizedActivity = await addDataType(activity);
       let feed = categorizedActivity.internal
@@ -51,30 +68,10 @@ export default class ActivityClass extends Component {
 
       // order feed chronologically
       feed.sort((a, b) => b.timeStamp - a.timeStamp);
+      console.log('feed: ', feed)
 
-      // order feed by address
-      let feedByAddress = [];
-      feed.forEach((item) => {
-        // group feed by 3box or counterparty address activity
-        if (feedByAddress.length > 0 &&
-          Object.keys(feedByAddress[feedByAddress.length - 1])[0] === othersAddress) {
-          feedByAddress[feedByAddress.length - 1][othersAddress].push(item);
-        } else if (feedByAddress.length > 0 && Object.keys(feedByAddress[feedByAddress.length - 1])[0] === 'threeBox' && !item.spaceName && (item.dataType === 'Public' || item.dataType === 'Private')) {
-          feedByAddress[feedByAddress.length - 1].threeBox.push(item);
-        } else if (feedByAddress.length > 0 && Object.keys(feedByAddress[feedByAddress.length - 1])[0] === item.spaceName) {
-          feedByAddress[feedByAddress.length - 1][item.spaceName].push(item);
-        } else if (item.spaceName) {
-          feedByAddress.push({
-            [item.spaceName]: [item],
-          });
-        } else if ((item.dataType === 'Public' || item.dataType === 'Private') && !item.spaceName) {
-          feedByAddress.push({
-            threeBox: [item],
-          });
-        } else {
-          console.log('meh others address')
-        }
-      });
+      console.log({activity, fetching: false, categorizedActivity, feed})
+
 
       this.setState({activity, fetching: false, categorizedActivity, feed});
     } catch(e) {
@@ -88,7 +85,7 @@ export default class ActivityClass extends Component {
   };
 
   render() {
-    console.log('STATE: ', this.state)
+    console.log('STATE: ', this.state);
     return (
       <View style={styles.container}>
         <View style={{
@@ -101,6 +98,30 @@ export default class ActivityClass extends Component {
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.fetching}
+            onRefresh={this._refresh}
+          />
+        }>
+          {this.state.feed.length > 0 && this.state.feed.map((item, i) => (
+            <View key={i}>
+              <View style={{backgroundColor: 'rgba(0,0,0,0.1)', margin: 5, borderRadius: 15, padding: 5, flexDirection: 'row' }}>
+                <View style={styles.tokenContainer}>
+                  <Text style={{fontWeight: '600'}} >{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>
+                </View>
+                <View style={{flex: 1, justifyContent: 'space-around'}}>
+                  <Text numberOfLines={1}> {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? item.to : item.from}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Text> {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? 'Sent' : 'Received'} {(item.value/10e17).toFixed(4)} {item.tokenName ? item.tokenName : 'Ethereum'}</Text>
+                    <Text>{timeSince(item.timeStamp * 1000)}</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          ))}
+          {/*<Activity currentAddress={this.state.publicAddress} isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed}/>*/}
+        </ScrollView>
       </View>
     );
   }
@@ -116,4 +137,22 @@ const styles = StyleSheet.create({
     width: '100%',
     margin: 8
   },
+  tokenContainer: {
+    backgroundColor: '#ffffff',
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    shadowColor: '#212121',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
+
+  },
 });
+

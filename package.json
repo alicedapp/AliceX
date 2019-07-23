@@ -9,10 +9,14 @@
   "dependencies": {
     "3box-activity": "^0.0.9",
     "@react-native-mapbox-gl/maps": "^7.0.0-rc3",
+    "apollo-boost": "^0.4.3",
     "ethers": "^4.0.31",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
     "lodash": "^4.17.14",
     "moment": "^2.24.0",
     "react": "16.8.3",
+    "react-apollo": "^2.5.8",
     "react-native": "0.59.9",
     "react-native-camera": "^2.10.1",
     "react-native-code-push": "^5.6.0",
@@ -23,7 +27,10 @@
     "react-native-onesignal": "^3.2.14",
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-svg": "^9.5.1",
-    "react-navigation": "^3.11.0"
+    "react-navigation": "^3.11.0",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

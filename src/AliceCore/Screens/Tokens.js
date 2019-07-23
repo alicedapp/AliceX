@@ -10,7 +10,8 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
-  Animated
+  Animated,
+  RefreshControl
 } from "react-native";
 import React from "react";
 import MapboxGL from "@react-native-mapbox-gl/maps";
@@ -27,6 +28,13 @@ import AppIcon from "../../AliceComponents/AppIcon";
 import {AppRegistry} from "../../Apps";
 import TransactionModal from '../../AliceComponents/TransactionModal'
 import CameraModal from "../../AliceComponents/TransactionModal/CameraModal";
+import Camera from "../../AliceComponents/Camera";
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false
+};
 
 //TODO: needs api key
 
@@ -41,16 +49,20 @@ export default class Tokens extends Component {
       tokens: [],
       ethereum: {},
       nfts: [],
+      fetching: true,
       profileModalVisible: false,
       tokenModalVisible: false,
       transactionModalVisible: false,
       cameraModalVisible: false,
+      cameraMode: false,
       address: '',
       addressStatus: 'unresolved',
       inputAddress: '',
       ethBalance: 0,
       animatePress: new Animated.Value(1),
-      amount: 0
+      amount: 0,
+      tokenAmount: 0,
+      canSend: false
     };
 
   }
@@ -67,15 +79,23 @@ export default class Tokens extends Component {
     this.setState({ethBalance})
   }
 
+  _refresh = () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
+    this.getTokenInfo();
+    this.getNFTInfo();
+  }
 
 
   getTokenInfo = async () => {
+    this.setState({fetching: true})
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => this.setState({tokenInfo: data, tokens: data.tokens});
+    const finishedFetching = () => this.setState({fetching: false})
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         onData(JSON.parse(this.responseText));
+        finishedFetching();
       }
     });
     xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/"+await Wallet.getAddress()+"?apiKey=freekey");
@@ -89,14 +109,20 @@ export default class Tokens extends Component {
 
   openTokenModal = (tokenInfo, token) => {
     // this.setState({transactionModalVisible: !this.state.transactionModalVisible, tokenInfo, token})
-    this.setState({ tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token})
+
+    this.setState({ tokenModalVisible: !this.state.tokenModalVisible, tokenInfo, token, tokenAmount: (parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(4)});
   };
 
   closeTokenModal = () => {
-    this.setState({tokenModalVisible: !this.state.tokenModalVisible})
+    this.setState({tokenModalVisible: !this.state.tokenModalVisible, amount: '', inputAddress: '', addressStatus: 'invalid'})
   };
 
   setTokenAmount = (amount) => {
+    if (parseInt(amount) > this.state.tokenAmount) {
+      this.setState({amountColor: '#cc2538', canSend: false})
+    } else {
+      this.setState({amountColor: '#000000', canSend: true})
+    }
     this.setState({amount})
   }
 
@@ -133,6 +159,7 @@ export default class Tokens extends Component {
   };
 
   _addressScan =  async (address) => {
+    console.log('ADDRESS: ', address);
     const resolve = await this.resolveAddress(address);
     if (resolve) this.setState({ inputAddress: address });
   }
@@ -148,114 +175,128 @@ export default class Tokens extends Component {
   };
 
   render() {
-    console.log('ADDRESS: ', this.state.address);
-    const { transactionModalVisible, cameraModalVisible } = this.state;
+    const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
     return (
-      <View style={styles.container}>
-        <View style={{
-          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-        }}>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
-            <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Activity')}>
-            <Image source={require('../../AliceAssets/hamburger.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
-          </TouchableOpacity>
-        </View>
-        <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}}>
-          <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
-          <TouchableWithoutFeedback>
-            <Animated.View  style={{...styles.tokenBox, transform: [
-                {
-                  scale: this.state.animatePress
-                }
-              ]}}>
-              <View style={styles.tokenContainer}>
-                <Image source={require('../../AliceAssets/ethereum.png')} style={styles.tokenImage}/>
-              </View>
-
-              <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
-                <Text>Ethereum</Text>
-                <Text>{parseFloat(this.state.ethBalance).toFixed(4)} ETH</Text>
-              </View>
-            </Animated.View>
-          </TouchableWithoutFeedback>
-          {this.state.tokens && this.state.tokens.map((token, i) => {
-            const {tokenInfo} = token;
-            if (tokenInfo.name === "") return;
-            return (
-              <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
-            )
-          })}
-          <Text style={{fontWeight: '600', fontSize: 18, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
-            {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
-              if (nft.collection) {
-                return (
-                  <NFT iterator={i} key={i} nft={nft}/>
-                )
-              }
-            })}
+      <View style={{flex: 1}}>
+        {cameraMode === false ? <View style={styles.container}>
+          <View style={{
+            width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+          }}>
+            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
+              <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Activity')}>
+              <Image source={require('../../AliceAssets/hamburger.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-        {/*      ---------       Transaction Modal         ---------------           */}
-        <Modal
-          isVisible={this.state.tokenModalVisible}
-          onBackdropPress={this.closeTokenModal}
-          style={styles.modal}
-        >
-          <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
-            <Token tokenInfo={this.state.tokenInfo} token={this.state.token} />
-          </View>
-          <View style={{height: 100, width: '100%'}}>
-            <ScrollView horizontal>
-              {AppRegistry.map((app, i) => {
-                return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
-              })
-              }
-            </ScrollView>
-          </View>
-          <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
-            <View style={{width: '100%', height: 50, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <TouchableOpacity onPress={() => this.setState({cameraModalVisible: !cameraModalVisible})}>
-                <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
-              </TouchableOpacity>
-              <TextInput autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
-              {this.renderVerification()}
-            </View>
-            <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-              <TextInput keyboardType={'numeric'} autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter amount to send" onChangeText={this.setTokenAmount} value={this.state.amount}/>
-            </View>
-          </View>
-
-        </Modal>
-        {/*      ---------       Transaction Modal         ---------------           */}
-        <Modal
-          isVisible={this.state.profileModalVisible}
-          onBackdropPress={this.toggleModal}
-          style={styles.modal}
-        >
-          <View style={styles.modalBox}>
-            <QRCode
-              value={`${this.state.address}`}
+          <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}} refreshControl={
+            <RefreshControl
+              refreshing={this.state.fetching}
+              onRefresh={this._refresh}
             />
-            <Text style={{color: 'black'}}>{this.state.address}</Text>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            <TouchableOpacity onPress={() => Clipboard.getString(this.state.address)} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
-              <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/copy.png')}/>
-              <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Copy</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ ...styles.buttons, borderTopRightRadius: 20, borderTopLeftRadius: 7, borderBottomRightRadius: 20, borderBottomLeftRadius: 7 }}>
-              <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/share.png')}/>
-              <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Share</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-        <TransactionModal isVisible={transactionModalVisible} modalControl={() => this.setState({transactionModalVisible: !transactionModalVisible})}/>
-        <CameraModal isVisible={cameraModalVisible} modalControl={() => this.setState({cameraModalVisible: !cameraModalVisible})} addressScan={this._addressScan}/>
-      </View>
-    );
+          }>
+            <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
+            <TouchableWithoutFeedback>
+              <Animated.View  style={{...styles.tokenBox, transform: [
+                  {
+                    scale: this.state.animatePress
+                  }
+                ]}}>
+                <View style={styles.tokenContainer}>
+                  <Image source={require('../../AliceAssets/ethereum.png')} style={styles.tokenImage}/>
+                </View>
+
+                <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
+                  <Text>Ethereum</Text>
+                  <Text>{parseFloat(this.state.ethBalance).toFixed(4)} ETH</Text>
+                </View>
+              </Animated.View>
+            </TouchableWithoutFeedback>
+            {this.state.tokens && this.state.tokens.map((token, i) => {
+              const {tokenInfo} = token;
+              if (tokenInfo.name === "") return;
+              return (
+                <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
+              )
+            })}
+            <Text style={{fontWeight: '600', fontSize: 18, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
+            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
+              {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
+                if (nft.collection) {
+                  return (
+                    <NFT iterator={i} key={i} nft={nft}/>
+                  )
+                }
+              })}
+            </View>
+          </ScrollView>
+          {/*      ---------       Transaction Modal         ---------------           */}
+          <Modal
+            isVisible={this.state.tokenModalVisible}
+            onBackdropPress={this.closeTokenModal}
+            style={styles.modal}
+          >
+            <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
+              <Token tokenInfo={this.state.tokenInfo} token={this.state.token} />
+            </View>
+            <View style={{height: 100, width: '100%'}}>
+              <ScrollView horizontal>
+                {AppRegistry.map((app, i) => {
+                  return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
+                })
+                }
+              </ScrollView>
+            </View>
+            <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{width: '100%', height: 50, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                <TouchableOpacity onPress={() => this.setState({cameraMode: true})}>
+                  <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
+                </TouchableOpacity>
+                <TextInput autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
+                {this.renderVerification()}
+              </View>
+              <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, paddingLeft: 10, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                <TextInput keyboardType={'numeric'} autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5, color: this.state.amountColor}} placeholder="Enter amount to send" onChangeText={this.setTokenAmount} value={this.state.amount}/>
+                <TouchableOpacity style={{backgroundColor: '#26a1ff', padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} onPress={() => this.setState({amount: this.state.tokenAmount})}>
+                  <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>Max</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{width: '100%', height: 50, padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                <Text numberOfLines={1} style={{color: 'grey', fontSize: 14, fontWeight: '700'}}>Price: {this.state.tokenInfo.price ? (this.state.amount * this.state.tokenInfo.price.rate).toFixed(2) : 0.00} USD</Text>
+              </View>
+              <View style={{width: '100%', height: 50, padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity style={{backgroundColor: '#333333', padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} onPress={() => this.state.canSend && this.state.addressStatus === 'valid' &&  Wallet.sendTransaction({to: this.state.inputAddress, value: this.state.amount })}>
+                  <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>SEND</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+          </Modal>
+          {/*      ---------       Transaction Modal         ---------------           */}
+          <Modal
+            isVisible={this.state.profileModalVisible}
+            onBackdropPress={this.toggleModal}
+            style={styles.modal}
+          >
+            <View style={styles.modalBox}>
+              <QRCode
+                value={`${this.state.address}`}
+              />
+              <Text style={{color: 'black'}}>{this.state.address}</Text>
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <TouchableOpacity onPress={() => Clipboard.getString(this.state.address)} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
+                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/copy.png')}/>
+                <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Copy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ ...styles.buttons, borderTopRightRadius: 20, borderTopLeftRadius: 7, borderBottomRightRadius: 20, borderBottomLeftRadius: 7 }}>
+                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/share.png')}/>
+                <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Share</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        </View> : <Camera close={() => this.setState({cameraMode: false})} onBarCodeRead={this._addressScan}/> }
+      </View>)
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tokenToData from '../../../AliceUtils/tokenToData.json';
+import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 
 import Save from '../../../AliceAssets/share.png';
 import FeedTileContext from './FeedTileContext';
@@ -45,7 +46,7 @@ export const FeedTileActivity = ({ item, verifiedGithub, verifiedTwitter, verifi
 
               {typeof item.value === 'string' && item.key !== 'emoji' && (item.key !== 'proof_github' && item.key !== 'proof_twitter' && item.key !== 'proof_email')
                 ? item.value : ''}
-            </Text>) : ''}
+            </Text>) : <Text></Text>}
         </Text>
       </View>
       <FeedTileContext item={item} />
@@ -268,24 +269,25 @@ export const FeedTileTXS = ({ item, name, onOtherProfilePage, metaDataName, isFr
       <View style={{flex: 1}}>
         {(item.tokenSymbol && (
           ((tokenToData[item.tokenSymbol])
-            ? <View style={{width: 20, height: 20, backgroundColor: 'blue'}} />
+            ? <View style={{width: 20, height: 20, backgroundColor: 'blue'}} >
+              <Text>item.tokenSymbol</Text>
+            </View>
             : <View style={{width: 20, height: 20, backgroundColor: 'green'}} />)
         ))}
 
-        {(item.value === '0' && contractImg)
-        && <View style={{width: 20, height: 20, backgroundColor: 'pink'}} />
+        {(item.value === '0' && contractImg) ? <View style={{width: 20, height: 20, backgroundColor: 'pink'}} /> : <></>
         }
 
         {(item.value === '0' && !contractImg)
-        && (
+        ? (
           <Text style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: 'purple'}}>
             0x
           </Text>
-        )
+        ) : <></>
         }
 
         {(item.value !== '0' && !item.tokenSymbol)
-        && <View style={{width: 20, height: 20, backgroundColor: 'orange'}} />
+        ? <View style={{width: 20, height: 20, backgroundColor: 'orange'}} /> : <></>
         }
         <View>
           <Text>

@@ -3,6 +3,7 @@ import {
   Dimensions, Image, Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, NativeModules
 } from 'react-native';
 import abi from "../Contracts/abi";
+import {Contract} from "../../../AliceSDK/Web3";
 
 const { width, height } = Dimensions.get('window');
 
@@ -73,7 +74,7 @@ export default class Menu extends React.Component {
   }
 
   sendOrder = async (foodItem) => {
-    NativeModules.WalletModule.smartContract('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', 'setOrder', JSON.stringify(abi), [foodItem, 'Mark'], (txHash) => {
+    Contract.write('0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', 'setOrder', JSON.stringify(abi), [foodItem, 'Mark'], (txHash) => {
       this.props.navigation.navigate('Apps');
       alert(txHash);
     })
