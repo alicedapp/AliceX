@@ -106,6 +106,16 @@ export default class ExampleHome extends React.Component {
     }
   };
 
+  transfer = async () => {
+    try {
+      const result = await Wallet.transfer({to: '0x56519083C3cfeAE833B93a93c843C993bE1D74EA', value: '0.01'})
+      console.log('Call transfer', result)
+      // this.setState({tokenHash})
+    } catch(e) {
+      console.log(e)
+    }
+  };
+
   contractSend = async () => {
     try {
       const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.0', data: '0x0'})
@@ -137,6 +147,10 @@ export default class ExampleHome extends React.Component {
         <Text>Address: {this.state.address}</Text>
         <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
           <Text>Get Address</Text>
+        </TouchableOpacity>
+        <Text>Transfer</Text>
+        <TouchableOpacity onPress={this.transfer} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+          <Text>Transfer</Text>
         </TouchableOpacity>
         <Text>TransactionHash: {this.state.txHash}</Text>
         <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>

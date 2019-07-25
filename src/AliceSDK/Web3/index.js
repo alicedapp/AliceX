@@ -53,6 +53,14 @@ const signMessage = async (message) => {
   }
 };
 
+const transfer = async ({to="", value=""}) => {
+  try {
+    return await NativeModules.WalletModule.transfer(to, ethers.utils.parseEther(value).toHexString());
+  } catch(e) {
+    return "Transfer failed with error: " + e
+  }
+}
+
 const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 
 const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
@@ -138,7 +146,8 @@ export const Wallet = {
   signMessage,
   sendToken,
   walletChangeEvent,
-  sendTransactionWithDapplet
+  sendTransactionWithDapplet,
+  transfer
 };
 
 export const Contract = {
