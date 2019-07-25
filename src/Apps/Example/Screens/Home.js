@@ -56,9 +56,9 @@ export default class ExampleHome extends React.Component {
 
   sendTransaction = async () => {
     try {
-      const txHash = await Wallet.sendTransaction({to: '0x09cabEC1eAd1c0Ba254B09efb3EE13841712bE14', value: '0.001', data: '0xf39b5b9b000000000000000000000000000000000000000000000000030f99456eb540f8000000000000000000000000000000000000000000000000000000005d356fb1'})
-      console.log('txHash: ', txHash);
-      this.setState({txHash})
+      const tokenTxHash = await Wallet.sendTransaction({to: '0x09cabEC1eAd1c0Ba254B09efb3EE13841712bE14', value: '0.001', data: '0xf39b5b9b000000000000000000000000000000000000000000000000030f99456eb540f8000000000000000000000000000000000000000000000000000000005d356fb1'})
+      console.log('tokenTxHash: ', tokenTxHash);
+      this.setState({tokenTxHash})
     } catch(e) {
       console.log(e);
     }
@@ -95,8 +95,15 @@ export default class ExampleHome extends React.Component {
 
   };
 
-  sendToken = () => {
+  sendToken = async () => {
+    try {
+      const tokenHash = await Wallet.sendToken({tokenAddress: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359', to: '0x56519083C3cfeAE833B93a93c843C993bE1D74EA', value: '1.0', data:"0x0"})
+      console.log('txHash: ', tokenHash);
+      this.setState({tokenHash})
 
+    } catch(e) {
+      console.log(e)
+    }
   };
 
   contractSend = async () => {
