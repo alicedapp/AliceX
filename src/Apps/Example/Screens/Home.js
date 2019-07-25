@@ -101,7 +101,7 @@ export default class ExampleHome extends React.Component {
 
   contractSend = async () => {
     try {
-      const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.001', data: ''})
+      const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.0', data: '0x0'})
       console.log('contractTxHash: ', contractTxHash);
       this.setState({contractTxHash})
 
