@@ -21,7 +21,6 @@ const getBalance = async () => {
   }
 };
 
-
 const sendTransaction = async ({to, value, data}) => {
   try {
     return await NativeModules.WalletModule.sendTransaction(to, ethers.utils.parseEther(value).toHexString(),data);
@@ -58,11 +57,15 @@ const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 
 const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
 
-const sendToken = () => {
-  return "Coming Soon!"
+const sendToken = async ({tokenAddress, to, value, data = "0x0"}) => {
+  try {
+    return await NativeModules.WalletModule.sendToken(tokenAddress, to, ethers.utils.parseEther(value).toHexString(), data);
+  } catch(e) {
+    return "Send transaction failed with error: " + e
+  }
 };
 
-const write = async ({contractAddress, abi, functionName, parameters, value, data = "0x0"}) => {
+const write = async ({contractAddress, abi, functionName, parameters, value = "0", data = "0x0"}) => {
   try {
     return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, ethers.utils.parseEther(value).toHexString(), ethers.utils.hashMessage(data));
   } catch(e) {

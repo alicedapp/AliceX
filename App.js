@@ -111,10 +111,10 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
     showIcon: true
   },
-})
+});
 
 const MainApp = createStackNavigator({
-  Apps: { screen: E2E },
+  Apps: { screen: AppTabNavigator },
   E2E: { screen: E2E },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
