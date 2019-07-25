@@ -1,6 +1,7 @@
 import { NativeModules, NativeEventEmitter } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
+let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 
 
 // const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
@@ -69,13 +70,24 @@ const write = async ({contractAddress, abi, functionName, parameters, value, dat
   }
 };
 
-const read = async ({contractAddress, abi, functionName, parameters}) => {
-  const contract = new EthersContract(contractAddress, abi, infuraProvider);
-  if (parameters.length === 0) {
-    return contract[functionName]();
-  } else if (parameters.length > 0) {
-    return contract[functionName](...parameters);
+const read = async ({contractAddress, abi, functionName, parameters, network}) => {
+  if (network === "ropsten") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else {
+    const contract = new EthersContract(contractAddress, abi, infuraProvider);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
   }
+
 };
 
 const resolve = async (ensName) => {

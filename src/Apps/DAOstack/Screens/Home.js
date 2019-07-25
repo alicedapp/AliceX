@@ -1,11 +1,30 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Icon from "../../../AliceComponents/IconComponent";
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import { ApolloProvider, Query, graphql } from 'react-apollo';
 
-export default class ExampleHome extends React.Component {
+import gql from "graphql-tag";
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://subgraph.daostack.io/subgraphs/name/v23',
+    fetchOptions: {
+      mode: 'no-cors'
+    }
+    // headers: {
+    //   authorization: 'YOUR_TOKEN' // on production you need to store token
+    //   //in storage or in redux persist, for demonstration purposes we do this like that
+    // }
+  }),
+  cache: new InMemoryCache()
+});
+
+
+export default class DAOstackHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
@@ -16,157 +35,56 @@ export default class ExampleHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
-      contractInfo: '',
-      contractTxHash: '',
-      signedMessage: '',
-      signedTransaction: '',
-      tokenTxHash: '',
-      txHash: '',
-      balance: ''
+      dao: {}
     };
 
     this.child = React.createRef();
 
   }
 
-  componentDidMount() {
-
+  async componentDidMount() {
+    try {
+      const res = await client.query({query: gql`
+  query { 
+	dao(id: ${this.props.navigation.state.params.dao.id}) {
+	  id
+    name
+    proposals {
+      id
+      title
+      closingAt
+      votesFor
+      votesAgainst
+      
+    }
+    
+	} 
+}
+`});
+      if (res.data.daos) {
+        console.log('DATA: ', res.data)
+        this.setState({daos: res.data.dao});
+      }
+    } catch (e) {
+      console.log('QUERY ERROR: ', e)
+    }
   }
-
-  getAddress = async () => {
-    try {
-      const address = await Wallet.getAddress();
-      console.log('address: ', address);
-      this.setState({ address })
-    } catch(e) {
-      console.log(e);
-    }
-
-  };
-
-  getBalance = async () => {
-    try {
-      const balance = await Wallet.getBalance();
-      console.log('balance: ', balance);
-      this.setState({ balance })
-
-    } catch(e) {
-      console.log(e)
-    }
-
-
-  };
-
-  sendTransaction = async () => {
-    try {
-      const txHash = await Wallet.sendTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
-      console.log('txHash: ', txHash);
-      this.setState({txHash})
-    } catch(e) {
-      console.log(e);
-    }
-  };
-
-  openDapplet = async () => {
-    try {
-      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
-      console.log('txHash: ', txHash);
-      this.setState({txHash})
-    } catch(e) {
-      console.log(e);
-    }
-  };
-
-  signTransaction = async () => {
-    try {
-      const signedTransaction = await Wallet.signTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01', data: 'Hello'});
-      console.log('signedMessage: ', signedTransaction);
-      this.setState({signedTransaction})
-    } catch(e) {
-      console.log(e);
-    }
-  };
-
-  signMessage = async () => {
-    try {
-      const signedMessage = await Wallet.signMessage('Hello World');
-      console.log('signedMessage: ', signedMessage);
-      this.setState({signedMessage})
-    } catch(e) {
-      console.log(e)
-    }
-
-  };
-
-  sendToken = () => {
-
-  };
-
-  contractSend = async () => {
-    try {
-      const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.001', data: ''})
-      console.log('contractTxHash: ', contractTxHash);
-      this.setState({contractTxHash})
-
-    } catch(e) {
-      console.log(e)
-    }
-  };
-
-  contractRead = async () => {
-    try {
-      const result = await Contract.read({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'getOrder', parameters: [] });
-      console.log('RESULT: ', result);
-      this.setState({contractInfo: result});
-
-    } catch(e) {
-      console.log(e)
-    }
-  };
-
 
   render() {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-        <NavigationBar/>
-        <Text>Address: {this.state.address}</Text>
-        <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Get Address</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.txHash}</Text>
-        <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Transaction</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.txHash}</Text>
-        <TouchableOpacity onPress={this.openDapplet} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Transaction with Dapplet</Text>
-        </TouchableOpacity>
-        <Text>Signed Transaction: {this.state.signedTransaction}</Text>
-        <TouchableOpacity onPress={this.signTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Sign Transaction</Text>
-        </TouchableOpacity>
-        <Text>Signed Message: {this.state.signedMessage}</Text>
-        <TouchableOpacity onPress={this.signMessage} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Sign Message</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.tokenTxHash}</Text>
-        <TouchableOpacity onPress={this.sendToken} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Token</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.contractTxHash}</Text>
-        <TouchableOpacity onPress={this.contractSend} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send To Contract</Text>
-        </TouchableOpacity>
-        <Text>Result: {this.state.contractInfo}</Text>
-        <TouchableOpacity onPress={this.contractRead} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Read From Contract</Text>
-        </TouchableOpacity>
-        <Text>Get Balance: {this.state.balance}</Text>
-        <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Get Balance</Text>
-        </TouchableOpacity>
+        <ApolloProvider client={client}>
+          <View style={{flex: 1, paddingTop: 50}}>
+            <NavigationBar/>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: 15}}>
+              <Text style={{fontSize: 30, fontWeight: '700'}}>DAOs</Text>
+              <View style={{height: 30, width: 30, borderRadius: 15, backgroundColor: '#aaff90'}}/>
+            </View>
+            <ScrollView>
+            </ScrollView>
+          </View>
+        </ApolloProvider>
       </View>
     );
   }

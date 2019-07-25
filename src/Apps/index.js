@@ -21,6 +21,7 @@ export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
 export { default as DAOstack } from './DAOstack';
+export { default as E2E } from './E2E';
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 const options = {
@@ -63,6 +64,12 @@ export const AppRegistry = [
     backgroundColor: '#ffffff',
     homeRoute: 'Foam',
     icon: require('../AliceAssets/foam.png')
+  },
+  {
+    appName: 'E2E',
+    backgroundColor: '#000',
+    homeRoute: 'E2E',
+    icon: require('./E2E/Assets/e2e-logo.png')
   },
 ];
 

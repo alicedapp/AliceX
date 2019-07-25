@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, ScrollView, TouchableOpacity, StyleSheet, View } from "react-native";
+import {Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions} from "react-native";
 
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query, graphql } from 'react-apollo';
@@ -8,6 +8,8 @@ import gql from 'graphql-tag';
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+
+const { height, width } = Dimensions.get('window');
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -68,7 +70,7 @@ export default class DAOstackApp extends Component {
     try {
       const res = await client.query({ query: daosQuery });
       if (res.data.daos) {
-
+        console.log('DATA: ', res.data)
         this.setState({daos: res.data.daos});
       }
     } catch(e) {
@@ -91,11 +93,22 @@ export default class DAOstackApp extends Component {
             <View style={styles.container}>
               {this.state.daos && this.state.daos.map((dao, i) => {
                 return (
-                  <View key={i} style={styles.daoBox}>
-                    <View>
-                      <Text>{dao.name}</Text>
+                  <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('DAOstackHome', {dao})} style={styles.daoBox}>
+                    <View style={{width: '100%', padding: 30, paddingTop: 50, paddingBottom: 50, borderTopLeftRadius: 15, borderTopRightRadius: 15, backgroundColor: '#6e3099'}}>
+                      <Text style={{color: 'white', fontSize: 20, fontWeight: '700'}}>{dao.name}</Text>
                     </View>
-                  </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                      <View style={{alignItems: 'center', justifyContent: 'space-around', margin: 17}}>
+                        <Text style={{color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700'}}>Reputation Holders</Text>
+                        <Text style={{fontSize: 25, fontWeight: '700'}}>{dao.reputationHoldersCount}</Text>
+                      </View>
+                      <View style={{height: 50, width: 1, backgroundColor: '#c9c9c9'}}/>
+                      <View style={{alignItems: 'center', justifyContent: 'space-around', margin: 17}}>
+                        <Text style={{color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700'}}>Open Proposals</Text>
+                        <Text style={{fontSize: 25, fontWeight: '700'}}>{dao.proposals.length}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 )
               })
               }
@@ -124,6 +137,8 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   daoBox: {
+    width: width - 20,
+    marginBottom: 10,
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
     shadowColor: '#000000',

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps, {Foam, Fork, Mintbase, Test, DAOstack} from './src/Apps'
+import Apps, {Foam, Fork, Mintbase, Test, DAOstack, E2E} from './src/Apps'
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -114,7 +114,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 })
 
 const MainApp = createStackNavigator({
-  Apps: { screen: AppTabNavigator },
+  Apps: { screen: E2E },
+  E2E: { screen: E2E },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
   DAOstack: { screen: DAOstack },
