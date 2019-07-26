@@ -124,7 +124,11 @@ export default class Tokens extends Component {
       this.setState({amountColor: '#000000', canSend: true})
     }
     this.setState({amount})
-  }
+  };
+
+  copyAddress = async () => {
+    return await Clipboard.getString(this.state.address)
+  };
 
   getNFTInfo = async () => {
     let data = null;
@@ -285,7 +289,7 @@ export default class Tokens extends Component {
               <Text style={{color: 'black'}}>{this.state.address}</Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: 10}}>
-              <TouchableOpacity onPress={() => Clipboard.getString(this.state.address)} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
+              <TouchableOpacity onPress={this.copyAddress} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
                 <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/copy.png')}/>
                 <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Copy</Text>
               </TouchableOpacity>

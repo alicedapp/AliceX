@@ -155,8 +155,14 @@ class App extends Component {
 
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
-    navigate('FoamMap', {poi: challengedPOI});
-    console.log('Data: ', openResult.notification.payload.additionalData);
+    if (openResult.notification.payload.title === "FOAM") {
+      navigate('FoamMap', {poi: challengedPOI});
+    }
+
+    if (openResult.notification.payload.title === "E2E") {
+      navigate('E2E');
+    }
+    console.log('Data: ', openResult.notification.payload.title);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
   }

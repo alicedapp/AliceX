@@ -2,8 +2,16 @@ import React, {Component} from 'react';
 import {RNCamera as Camera} from 'react-native-camera';
 import Modal from '../Components/Modal';
 import {Text, TouchableOpacity} from 'react-native';
+import Icon from "../../../AliceComponents/IconComponent";
 
 export default class CameraComponent extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { navigate } = navigation;
+    return {
+      title: 'Home',
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/chat.png')} size={30}/>,
+    };
+  };
 
   state = {
     isVisible: false,

@@ -7,6 +7,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import Modalize from "../Components/Modalize";
+import Icon from "../../../AliceComponents/IconComponent";
 
 const ANNOTATION_SIZE = 10;
 
@@ -15,6 +16,10 @@ export default class MapComponent extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
+    return {
+      title: 'Home',
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/accounts.png')} size={30}/>,
+    };
   };
 
   constructor(props) {
