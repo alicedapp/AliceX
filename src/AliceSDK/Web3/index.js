@@ -65,6 +65,14 @@ const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 
 const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
 
+const qrScanner = async () => {
+  try {
+    return await NativeModules.NativeVCModule.qrScanner();
+  } catch(e) {
+    return "Scan QR code failed with error: " + e
+  }
+}
+
 const sendToken = async ({tokenAddress, to, value, data = "0x0"}) => {
   try {
     return await NativeModules.WalletModule.sendToken(tokenAddress, to, ethers.utils.parseEther(value).toHexString(), data);
@@ -135,7 +143,8 @@ const walletChangeEvent = () => {
 
 export const Settings = {
   settingsPopUp,
-  openBrowser
+  openBrowser,
+  qrScanner
 };
 
 export const Wallet = {
