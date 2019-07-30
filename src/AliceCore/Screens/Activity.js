@@ -44,14 +44,12 @@ export default class ActivityClass extends Component {
   }
 
   getTokenInfo = async () => {
-    console.log('fetching')
     this.setState({fetching: true});
     let activity;
     try {
       const publicAddress = await Wallet.getAddress();
       this.setState({publicAddress})
       activity = await ThreeBoxActivity.get(publicAddress);
-      console.log('ACTIVITY: ', activity)
       const categorizedActivity = await addDataType(activity);
       let feed = categorizedActivity.internal
           .concat(categorizedActivity.txs)
@@ -68,11 +66,6 @@ export default class ActivityClass extends Component {
 
       // order feed chronologically
       feed.sort((a, b) => b.timeStamp - a.timeStamp);
-      console.log('feed: ', feed)
-
-      console.log({activity, fetching: false, categorizedActivity, feed})
-
-
       this.setState({activity, fetching: false, categorizedActivity, feed});
     } catch(e) {
       console.log('ACTIVITY ERROR: ', e);
@@ -98,13 +91,14 @@ export default class ActivityClass extends Component {
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
+        <Text style={{fontWeight: '600', fontSize: 18, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
         <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.fetching}
             onRefresh={this._refresh}
           />
         }>
-          {this.state.feed.length > 0 && this.state.feed.map((item, i) => (
+          {this.state.feed.length > 0 && this.state.feed.tokens.map((item, i) => (
             <View key={i}>
               <View style={{backgroundColor: 'rgba(0,0,0,0.1)', margin: 5, borderRadius: 15, padding: 5, flexDirection: 'row' }}>
                 <View style={styles.tokenContainer}>

@@ -25,7 +25,7 @@ import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
 import {ENS, Wallet} from '../../AliceSDK/Web3'
 import AppIcon from "../../AliceComponents/AppIcon";
-import {AppRegistry} from "../../Apps";
+import {AppRegistry} from "../../Apps/AppRegistry";
 import TransactionModal from '../../AliceComponents/TransactionModal'
 import CameraModal from "../../AliceComponents/TransactionModal/CameraModal";
 import Camera from "../../AliceComponents/Camera";
@@ -180,6 +180,9 @@ export default class Tokens extends Component {
 
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
+    console.log('TOKENS: ', this.state.tokens)
+    console.log('NFTS: ', this.state.nfts)
+    console.log('APP REGISTRY: ', AppRegistry)
     return (
       <View style={{flex: 1}}>
         {cameraMode === false ? <View style={styles.container}>

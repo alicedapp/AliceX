@@ -13,7 +13,9 @@ import {
 } from 'react-native';
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps, {Foam, Fork, Mintbase, Test, DAOstack, E2E} from './src/Apps'
+import Apps from './src/Apps'
+import {Foam, Fork, Mintbase, Test, DAOstack, E2E} from './src/Apps/AppRegistry'
+
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
