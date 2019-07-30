@@ -170,10 +170,10 @@ export default class E2EHome extends React.Component {
   sortMessages =  async (messages) => {
 
       await Promise.all(messages.map( async (message, i) => {
-        if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
-          messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
-        }
-        return messageList;
+        // if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
+        //   messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
+        // }
+        // return messageList;
 
         try {
           let timestamp = await this.getBlockData(message.blockHash);

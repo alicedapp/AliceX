@@ -55,6 +55,7 @@ export default class ActivityClass extends Component {
           .concat(categorizedActivity.txs)
           .concat(categorizedActivity.token);
       // if timestamp is undefined, give it the timestamp of the previous entry
+      console.log('FEEED: ', feed)
       feed.map((item, i) => {
         const feedItem = item;
         if (!feedItem.timeStamp) {
@@ -98,7 +99,7 @@ export default class ActivityClass extends Component {
             onRefresh={this._refresh}
           />
         }>
-          {this.state.feed.length > 0 && this.state.feed.tokens.map((item, i) => (
+          {this.state.feed.length > 0 && this.state.feed.map((item, i) => (
             <View key={i}>
               <View style={{backgroundColor: 'rgba(0,0,0,0.1)', margin: 5, borderRadius: 15, padding: 5, flexDirection: 'row' }}>
                 <View style={styles.tokenContainer}>
