@@ -46,16 +46,16 @@ const challengedPOI = {
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const AppTabNavigator = createMaterialTopTabNavigator({
-  Home: {
-    screen: CameraScreen,
-    navigationOptions: {
-      tabBarLabel: 'Home',
-      tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
-      )
-    }
-  },
+  // Home: {
+  //   screen: CameraScreen,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Home',
+  //     tabBarIcon: ({ focused }) => (
+  //       focused ? <Image source={require('./src/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+  //         : <Image source={require('./src/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+  //     )
+  //   }
+  // },
   Apps: {
     screen: Apps,
     navigationOptions: {
@@ -81,15 +81,16 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Settings',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceAssets/notif-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceAssets/notif-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceAssets/activity-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceAssets/activity-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
 
     }
   }
 }, {
   initialRouteName: 'Tokens',
-  order: ['Home', 'Apps', 'Tokens', 'Activity'],
+  // order: ['Home', 'Apps', 'Tokens', 'Activity'],
+  order: ['Apps', 'Tokens', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {
@@ -182,8 +183,16 @@ class App extends Component {
     walletChangedEventEmitter.addListener(
       "walletChangedEvent",
       (walletInfo) => {
-        console.log('walletINFO: ', walletInfo, walletInfo.address);
-        this.setState({ wallet: walletInfo.address});
+        console.log('EVENT TRIGGERED: ')
+        if (walletInfo.address) {
+          console.log('walletINFO: ', walletInfo, walletInfo.address);
+          this.setState({ wallet: walletInfo.address});
+        }
+
+        if (walletInfo.network) {
+          console.log('NETWORK CHANGED: ', walletInfo, walletInfo.network);
+          this.setState({ wallet: walletInfo.network});
+        }
       }
     );
   }

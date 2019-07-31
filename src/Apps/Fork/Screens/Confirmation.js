@@ -19,7 +19,7 @@ export default class Restaurants extends React.Component {
           margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <TouchableOpacity style={{ width: 25, height: 25 }} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{ width: 35, height: 35 }} onPress={() => navigation.navigate('Camera')}>
 

@@ -89,7 +89,7 @@ export default class Menu extends React.Component {
           margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent',
         }}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
         </View>
         <View style={{ margin: 20, marginBottom: 0, backgroundColor: 'transparent' }}>

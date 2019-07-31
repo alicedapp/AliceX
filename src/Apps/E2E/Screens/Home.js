@@ -3,7 +3,7 @@ import {Text, ScrollView, TouchableOpacity, View, Image, TextInput, StyleSheet} 
 import {Wallet, Contract, ENS} from "../../../AliceSDK/Web3";
 import {E2EABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
 import {FoodContractABI} from "../../Example/ABI";
 import Icon from "../../../AliceComponents/IconComponent";
@@ -31,67 +31,27 @@ export default class E2EHome extends React.Component {
     super(props);
     this.state = {
       address: '',
+      walletAddress: '',
       addressModalVisible: false,
       cameraMode: false,
       inputAddress: '',
       addressStatus: 'invalid',
       addressChecked: false,
       validAddress: '',
-      contractInfo: '',
-      contractTxHash: '',
-      signedMessage: '',
-      signedTransaction: '',
-      tokenTxHash: '',
-      txHash: '',
-      balance: '',
       messageList: [],
       logs: [],
       messages: [],
-      recipientAddress: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB'
     };
 
     this.child = React.createRef();
   }
 
-  closeAddressModal = () => {
-    this.setState({addressModalVisible: !this.state.addressModalVisible, inputAddress: '', addressStatus: 'invalid'})
-  };
-
-
-  onSend(messages = []) {
-    console.log('msg : ', messages);
-    this.sendMessage(this.state.recipientAddress, messages[0].text);
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }))
+  async componentDidMount() {
+    contracts.on("Message", async(from, to, newValue, event) => {
+      this.onReceivedMessage(event);
+    });
+    this.getLogs();
   }
-
-  sendMessage = async (recipient, message) => {
-    try {
-      const contractTxHash = await Contract.write({contractAddress: ROPSTEN.address, abi: E2EABI, functionName: 'send', parameters: [recipient, message]})
-      console.log('contractTxHash: ', contractTxHash);
-      this.setState({contractTxHash})
-
-    } catch(e) {
-      console.log(e)
-    }
-  };
-
-  resolveAddress = async (ensUsername) => {
-    if (!ensUsername) {
-      this.setState({addressStatus: 'unresolved', inputAddress: ensUsername});
-      return;
-    }
-    this.setState({inputAddress: ensUsername});
-    const address = await ENS.resolve(ensUsername);
-    console.log('ADDRESS RETURNED FROM ENS: ', address);
-    if (address === "0x0000000000000000000000000000000000000000") {
-      this.setState({addressStatus: 'invalid', addressChecked: true});
-    } else if (ENS.isPublicAddress(address)) {
-      console.log('returning verifies', address);
-      this.setState({addressStatus: 'valid', addressChecked: true, validAddress: address});
-    }
-  };
 
   onReceivedMessage = async (message) => {
 
@@ -116,26 +76,6 @@ export default class E2EHome extends React.Component {
 
   };
 
-  componentWillMount() {
-    this.getAddress();
-  }
-
-  async componentDidMount() {
-    contracts.on("Message", async(from, to, newValue, event) => {
-      this.onReceivedMessage(event);
-      console.log('EVENT = ', event);
-    });
-    this.contractRead();
-    this.getLogs();
-    this.getBlockData()
-
-  }
-
-  getBlockData = async (blockHash) => {
-    const {timestamp} = await infuraProviderRopsten.getBlock(blockHash);
-    return new Date(timestamp*1000);
-  };
-
   getLogs = async () => {
     let logInfo = {
       address: ROPSTEN.address,
@@ -146,7 +86,6 @@ export default class E2EHome extends React.Component {
 
     try {
       const logs = await infuraProviderRopsten.getLogs(logInfo);
-      console.log(logs);
       const messageList = this.sortMessageList(logs);
       const messages = await this.sortMessages(logs);
       // messages.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -156,14 +95,36 @@ export default class E2EHome extends React.Component {
     }
   };
 
+  sortMessages =  async (messages) => {
+
+    await Promise.all(messages.map( async (message, i) => {
+      try {
+        let timestamp = await this.getBlockData(message.blockHash);
+        let user = ethers.utils.hexStripZeros(message.topics[2]);
+        return {
+          _id: message.transactionHash,
+          text: ethers.utils.toUtf8String(message.data),
+          createdAt: timestamp,
+          user: {
+            _id: user,
+            name: user,
+            avatar: 'https://placeimg.com/140/140/any',
+          },
+        }
+
+      } catch(e) {
+        console.log('sort messages error: ', e)
+      }
+    }));
+  };
+
   sortMessageList = (messages) => {
     let messageList = [];
     messages.map((message, i) => {
       if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
         messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
       }
-    })
-    console.log('messagelist: ', messageList);
+    });
     this.setState({messageList});
   }
 
@@ -174,7 +135,7 @@ export default class E2EHome extends React.Component {
         //   messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
         // }
         // return messageList;
-
+        //
         try {
           let timestamp = await this.getBlockData(message.blockHash);
           let user = ethers.utils.hexStripZeros(message.topics[2]);
@@ -194,46 +155,32 @@ export default class E2EHome extends React.Component {
       }));
   };
 
-  getAddress = async () => {
-    try {
-
-      const address = await Wallet.getAddress();
-      let options = {
-        address: 'mark@email.com',
-        parameters: { "size": "200", "d": "mm" },
-        secure: true
-      };
-      const gravatarURL = await gravatarApi.imageUrl(options);
-      console.log('address: ', address);
-      this.setState({ address, gravatarURL })
-    } catch(e) {
-      console.log(e);
-    }
-
+  getBlockData = async (blockHash) => {
+    const {timestamp} = await infuraProviderRopsten.getBlock(blockHash);
+    return new Date(timestamp*1000);
   };
-
-  contractRead = async () => {
-    try {
-      const result = await Contract.read({contractAddress: ROPSTEN.address, abi: E2EABI, functionName: 'balanceOf', parameters: ['0x0eA61087d2e37260c936185B21b10aeA96bE7fd8'], network: 'ropsten' });
-      console.log('RESULT: ', result.toString());
-      this.setState({contractInfo: JSON.stringify(result.toString())});
-    } catch(e) {
-      console.log(e)
-    }
-  };
-
-  _onBarcodeRead = (address) => {
-
-  }
 
   _addressScan = (address) => {
-    // _.debounce(() => this._onBarcodeRead(address), 2000, {
-    //   'leading': true,
-    //   'trailing': false
-    // });
     this.resolveAddress(address.data);
     this.setState({cameraMode: false});
   }
+
+  resolveAddress = async (ensUsername) => {
+    if (!ensUsername) {
+      this.setState({addressStatus: 'unresolved', inputAddress: ensUsername});
+      return;
+    }
+    this.setState({inputAddress: ensUsername});
+    const address = await ENS.resolve(ensUsername);
+    console.log('ADDRESS RETURNED FROM ENS: ', address);
+    if (address === "0x0000000000000000000000000000000000000000") {
+      this.setState({addressStatus: 'invalid', addressChecked: true});
+    } else if (ENS.isPublicAddress(address)) {
+      console.log('returning verifies', address);
+      this.setState({addressStatus: 'valid', addressChecked: true, validAddress: address});
+    }
+  };
+
 
   newChat = async () => {
     this.setState({ addressModalVisible: !this.state.addressModalVisible});
@@ -273,8 +220,8 @@ export default class E2EHome extends React.Component {
                 )
               })}
             </ScrollView>
-            <TouchableOpacity onPress={this.newChat} style={{position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: 'black', height: 50, width: 50, borderRadius: 25, bottom: 30, right: 12, zIndex: 1000 }}>
-              <Text style={{fontSize: 30, color: 'white'}}>+</Text>
+            <TouchableOpacity onPress={this.newChat} style={{...styles.buttonContainer, position: 'absolute', bottom: 30, right: 12, zIndex: 1000 }}>
+              <Image style={{resizeMode: 'contain', width: 17, height: 17}} source={require('../Assets/plus.png')} />
             </TouchableOpacity>
             <Modal
               isVisible={this.state.addressModalVisible}
@@ -286,7 +233,7 @@ export default class E2EHome extends React.Component {
                   <TouchableOpacity onPress={() => this.setState({cameraMode: true})}>
                     <Image source={require('../../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
                   </TouchableOpacity>
-                  <TextInput autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
+                  <TextInput autoCorrect={false} autoCapitalize={'none'} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
                   {this.renderVerification()}
                 </View>
                 <View style={{width: '100%', height: 50, padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
@@ -335,21 +282,21 @@ const styles = StyleSheet.create({
     margin: 8,
 
   },
-  tokenContainer: {
-    backgroundColor: '#ffffff',
+  buttonContainer: {
+    backgroundColor: '#000000',
     height: 50,
     width: 50,
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
-    shadowColor: '#212121',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 3,
     },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOpacity: 0.4,
 
   },
   tokenImage: {

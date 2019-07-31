@@ -68,17 +68,16 @@ export default class AppsScreen extends Component<Props> {
   }
 
   render() {
-    console.log('AppREgisttry', AppRegistry)
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
         <View style={{
           width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
-            <Image source={require('../AliceAssets/cam-icon-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
+            <Image source={require('../AliceAssets/camera-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
             <Image source={require('../AliceAssets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>

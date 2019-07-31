@@ -18,6 +18,7 @@ export default class ExampleHome extends React.Component {
       signedMessage: '',
       signedTransaction: '',
       tokenTxHash: '',
+      transferHash: '',
       txHash: '',
       balance: ''
     };
@@ -109,8 +110,7 @@ export default class ExampleHome extends React.Component {
   transfer = async () => {
     try {
       const result = await Wallet.transfer({to: '0x56519083C3cfeAE833B93a93c843C993bE1D74EA', value: '0.01'})
-      console.log('Call transfer', result)
-      // this.setState({tokenHash})
+      this.setState({transferHash})
     } catch(e) {
       console.log(e)
     }

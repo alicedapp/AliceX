@@ -26,40 +26,25 @@ export default class E2EChat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
-      contractInfo: '',
+      walletAddress: '',
       contractTxHash: '',
-      signedMessage: '',
-      signedTransaction: '',
-      tokenTxHash: '',
-      txHash: '',
-      balance: '',
       logs: [],
       messages: [],
-      recipientAddress: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB'
     };
-
     this.child = React.createRef();
   }
 
-  onSend(messages = []) {
-    console.log('msg : ', messages)
-    this.sendMessage(this.props.navigation.state.params.sender, messages[0].text)
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }))
+  async componentWillMount() {
+    this.setState({walletAddress: await Wallet.getAddress()})
   }
 
-  sendMessage = async (recipient, message) => {
-    try {
-      const contractTxHash = await Contract.write({contractAddress: ROPSTEN.address, abi: E2EABI, functionName: 'send', parameters: [recipient, message]})
-      console.log('contractTxHash: ', contractTxHash);
-      this.setState({contractTxHash})
-
-    } catch(e) {
-      console.log(e)
-    }
-  };
+  async componentDidMount() {
+    contracts.on("Message", async(from, to, newValue, event) => {
+      this.onReceivedMessage(event);
+      console.log('EVENT = ', event);
+    });
+    this.getLogs();
+  }
 
   onReceivedMessage = async (message) => {
     let timestamp = await this.getBlockData(message.blockHash);
@@ -81,26 +66,6 @@ export default class E2EChat extends React.Component {
     }))
   };
 
-  componentWillMount() {
-    this.getAddress();
-  }
-
-  async componentDidMount() {
-    contracts.on("Message", async(from, to, newValue, event) => {
-      this.onReceivedMessage(event);
-      console.log('EVENT = ', event);
-    });
-    this.contractRead();
-    this.getLogs();
-    this.getBlockData()
-
-  }
-
-  getBlockData = async (blockHash) => {
-    const {timestamp} = await infuraProviderRopsten.getBlock(blockHash);
-    return new Date(timestamp*1000);
-  };
-
   getLogs = async () => {
     let logInfo = {
       address: ROPSTEN.address,
@@ -108,7 +73,6 @@ export default class E2EChat extends React.Component {
       fromBlock: ROPSTEN.startBlockNumber,
       toBlock: 'latest'
     };
-
     try {
       const logs = await infuraProviderRopsten.getLogs(logInfo);
       console.log(logs);
@@ -125,19 +89,28 @@ export default class E2EChat extends React.Component {
   sortMessages =  async (messages) => {
     return await Promise.all(messages.map( async (message, i) => {
       try {
+        let timestamp = await this.getBlockData(message.blockHash);
         let user = ethers.utils.hexStripZeros(message.topics[2]);
-        let newObj = {};
-        if (user === this.props.navigation.state.params.sender) {
-          let timestamp = await this.getBlockData(message.blockHash);
-          newObj["_id"] = message.transactionHash;
-          newObj["text"] = ethers.utils.toUtf8String(message.data);
-          newObj["createdAt"] = timestamp;
-          newObj["user"] = {};
-          newObj["user"]["_id"] = user;
-          newObj["user"]["name"] = user;
-          newObj["user"]["avatar"] = this.state.gravatarURL;
+        let receiver = ethers.utils.hexStripZeros(message.topics[1]);
+        console.log("USER: ", user);
+        console.log("RECEIVER: ", receiver);
+        console.log("USER COMPARE: ", this.props.navigation.state.params.sender);
+        console.log('is it true? ', user === this.props.navigation.state.params.sender);
+        console.log('well then this must be the opposite: ', user === this.state.walletAddress);
+        let newObj;
+        if (user === this.props.navigation.state.params.sender || user === this.state.walletAddress) {
+          newObj = {
+            _id: message.transactionHash,
+            text: ethers.utils.toUtf8String(message.data),
+            createdAt: timestamp,
+            user: {
+              _id: user === this.props.navigation.state.params.sender ? 1 : 2,
+              name: user,
+              avatar: 'https://placeimg.com/140/140/any',
+            },
+          }
         }
-        if (!_.isEmpty(newObj)) {
+        if (newObj) {
           return newObj;
         }
       } catch(e) {
@@ -148,34 +121,28 @@ export default class E2EChat extends React.Component {
     }));
   };
 
-  getAddress = async () => {
-    try {
+  onSend(messages = []) {
+    console.log('msg : ', messages);
+    this.sendMessage(this.props.navigation.state.params.sender, messages[0].text)
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages),
+    }))
+  }
 
-      const address = await Wallet.getAddress();
-      let options = {
-        address: 'mark@email.com',
-        parameters: { "size": "200", "d": "mm" },
-        secure: true
-      };
-      const gravatarURL = await gravatarApi.imageUrl(options);
-      console.log('address: ', address);
-      this.setState({ address, gravatarURL })
+  sendMessage = async (recipient, message) => {
+    try {
+      const contractTxHash = await Contract.write({contractAddress: ROPSTEN.address, abi: E2EABI, functionName: 'send', parameters: [recipient, message]});
+      console.log('contractTxHash: ', contractTxHash);
+      this.setState({contractTxHash});
     } catch(e) {
       console.log(e);
     }
-
   };
 
-  contractRead = async () => {
-    try {
-      const result = await Contract.read({contractAddress: ROPSTEN.address, abi: E2EABI, functionName: 'balanceOf', parameters: ['0x0eA61087d2e37260c936185B21b10aeA96bE7fd8'], network: 'ropsten' });
-      console.log('RESULT: ', result.toString());
-      this.setState({contractInfo: JSON.stringify(result.toString())});
-    } catch(e) {
-      console.log(e)
-    }
+  getBlockData = async (blockHash) => {
+    const {timestamp} = await infuraProviderRopsten.getBlock(blockHash);
+    return new Date(timestamp*1000);
   };
-
 
   render() {
     const { navigation } = this.props;
@@ -186,7 +153,7 @@ export default class E2EChat extends React.Component {
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
           user={{
-            _id: this.state.address,
+            _id: this.state.walletAddress,
           }}
         />
       </View>

@@ -49,6 +49,7 @@ export default class Tokens extends Component {
       tokens: [],
       ethereum: {},
       nfts: [],
+      transferHash: '',
       fetching: true,
       profileModalVisible: false,
       tokenModalVisible: false,
@@ -83,6 +84,7 @@ export default class Tokens extends Component {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.getTokenInfo();
     this.getNFTInfo();
+    this.getBalance()
   }
 
 
@@ -127,7 +129,8 @@ export default class Tokens extends Component {
   };
 
   copyAddress = async () => {
-    return await Clipboard.getString(this.state.address)
+    console.log(this.state.address);
+    return await Clipboard.setString(this.state.address)
   };
 
   getNFTInfo = async () => {
@@ -178,6 +181,16 @@ export default class Tokens extends Component {
     }
   };
 
+  sendEther = async () => {
+    try {
+      const result = await Wallet.transfer({to: '0x56519083C3cfeAE833B93a93c843C993bE1D74EA', value: '0.01'})
+      this.setState({transferHash})
+    } catch(e) {
+      console.log(e)
+    }
+  };
+
+
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
     console.log('TOKENS: ', this.state.tokens)
@@ -187,14 +200,12 @@ export default class Tokens extends Component {
       <View style={{flex: 1}}>
         {cameraMode === false ? <View style={styles.container}>
           <View style={{
-            width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+            width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'
           }}>
-            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
-              <Image source={require('../../AliceAssets/avatar-black.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
+              <Image source={require('../../AliceAssets/avatar.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
             </TouchableOpacity>
-            <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={() => navigate('Activity')}>
-              <Image source={require('../../AliceAssets/hamburger.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
-            </TouchableOpacity>
+
           </View>
           <ScrollView style={{flex: 1, width: '100%', padding: 10, backgroundColor: 'transparent'}} refreshControl={
             <RefreshControl
@@ -203,7 +214,7 @@ export default class Tokens extends Component {
             />
           }>
             <Text style={{fontWeight: '600', fontSize: 18}}>Tokens</Text>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={this.sendEther}>
               <Animated.View  style={{...styles.tokenBox, transform: [
                   {
                     scale: this.state.animatePress
@@ -259,11 +270,11 @@ export default class Tokens extends Component {
                 <TouchableOpacity onPress={() => this.setState({cameraMode: true})}>
                   <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
                 </TouchableOpacity>
-                <TextInput autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
+                <TextInput autoCorrect={false} autoCapitalize={'none'} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
                 {this.renderVerification()}
               </View>
               <View style={{width: '100%', height: 50, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, paddingLeft: 10, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <TextInput keyboardType={'numeric'} autoCorrect={false} autoCapitalize={false} style={{flex: 1, paddingRight: 5, color: this.state.amountColor}} placeholder="Enter amount to send" onChangeText={this.setTokenAmount} value={this.state.amount}/>
+                <TextInput keyboardType={'numeric'} autoCorrect={false} autoCapitalize={'none'} style={{flex: 1, paddingRight: 5, color: this.state.amountColor}} placeholder="Enter amount to send" onChangeText={this.setTokenAmount} value={this.state.amount}/>
                 <TouchableOpacity style={{backgroundColor: '#26a1ff', padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} onPress={() => this.setState({amount: this.state.tokenAmount})}>
                   <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>Max</Text>
                 </TouchableOpacity>

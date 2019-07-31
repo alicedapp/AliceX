@@ -83,16 +83,13 @@ export default class ActivityClass extends Component {
     return (
       <View style={styles.container}>
         <View style={{
-          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+          width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
         }}>
-          <TouchableOpacity style={{width: 34, height: 34, alignItems: 'center', justifyContent: 'center'}} onPress={goBack}>
-            <Image source={require('../../AliceAssets/back-arrow.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
-        <Text style={{fontWeight: '600', fontSize: 18, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
+        <Text style={{fontWeight: '600', fontSize: 18, margin: 10}}>Transactions</Text>
         <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.fetching}

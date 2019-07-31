@@ -80,7 +80,7 @@ export default class TakeAway extends React.Component {
       <View style={{flex: 1}}>
         <View style={{margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent'}}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../AliceAssets/back-button.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
           <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10 }}>Swap</Text>
         </View>
