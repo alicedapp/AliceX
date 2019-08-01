@@ -102,7 +102,6 @@ export default class ExampleHome extends React.Component {
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
-      console.log('address: ', address);
       this.setState({ address })
     } catch(e) {
       console.log(e);

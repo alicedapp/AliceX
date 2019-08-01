@@ -70,7 +70,7 @@ export default class AppsScreen extends Component<Props> {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
+        <>
         <View style={{
           width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
@@ -89,42 +89,7 @@ export default class AppsScreen extends Component<Props> {
             }
           </View>
         </View>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            style={{backgroundColor: 'blue'}}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={{flex: 1, borderRadius: 100, marginTop: 100}}>
-            <WebView
-              source={{uri: 'https://github.com/facebook/react-native'}}
-              style={{flex: 1, paddingBottom: 60, alignItems: 'center', justifyContent: 'center', padding: 20}}
-              ref={WEBVIEW}
-              onMessage={(e) => console.log('message: ', e.nativeEvent.data)}
-              injectedJavaScript="window.onscroll=(e) => {window.postMessage('hello')};"
-              // injectedJavaScript={'(function(){return "Send me back!"}());'}
-              // injectedJavaScript="window.onscroll=function(e){window.postMessage(e)}';"
-            >
-            </WebView>
-            <View style={{position: 'absolute', bottom: 10, left: 0, width: width - 40, padding: 20, margin: 20, borderRadius: 20, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'yellow'}}>
-              <TouchableOpacity onPress={this.back}>
-                <Text>{'<'}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.forward}>
-                <Text>{'>'}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.reload}>
-                <Text>C</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.toggleWebView}>
-                <Text>X</Text>
-              </TouchableOpacity>
-            </View>
-            </View>
-          </Modal>
-        </View>
+        </>
       </TouchableWithoutFeedback>
     );
   }

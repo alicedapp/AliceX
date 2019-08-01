@@ -55,7 +55,6 @@ export default class ActivityClass extends Component {
           .concat(categorizedActivity.txs)
           .concat(categorizedActivity.token);
       // if timestamp is undefined, give it the timestamp of the previous entry
-      console.log('FEEED: ', feed)
       feed.map((item, i) => {
         const feedItem = item;
         if (!feedItem.timeStamp) {
@@ -79,7 +78,6 @@ export default class ActivityClass extends Component {
   };
 
   render() {
-    console.log('STATE: ', this.state);
     return (
       <View style={styles.container}>
         <View style={{
@@ -89,7 +87,7 @@ export default class ActivityClass extends Component {
             <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
-        <Text style={{fontWeight: '600', fontSize: 18, margin: 10}}>Transactions</Text>
+        <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10}}>Transactions</Text>
         <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.fetching}
@@ -97,20 +95,26 @@ export default class ActivityClass extends Component {
           />
         }>
           {this.state.feed.length > 0 && this.state.feed.map((item, i) => (
-            <View key={i}>
-              <View style={{backgroundColor: 'rgba(0,0,0,0.1)', margin: 5, borderRadius: 15, padding: 5, flexDirection: 'row' }}>
+            <TouchableOpacity onPress={() => Settings.openBrowser('https://etherscan.io/tx/'+item.hash)} key={i}>
+              <View style={{margin: 5, borderRadius: 15, padding: 5, paddingLeft: 10, paddingRight: 10, flexDirection: 'row' }}>
                 <View style={styles.tokenContainer}>
                   <Text style={{fontWeight: '600'}} >{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>
                 </View>
                 <View style={{flex: 1, justifyContent: 'space-around'}}>
-                  <Text numberOfLines={1}> {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? item.to : item.from}</Text>
                   <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Text> {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? 'Sent' : 'Received'} {(item.value/10e17).toFixed(4)} {item.tokenName ? item.tokenName : 'Ethereum'}</Text>
-                    <Text>{timeSince(item.timeStamp * 1000)}</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? <Image source={require('../../AliceAssets/sent-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/> : <Image source={require('../../AliceAssets/received-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/>}
+                      <Text style={{fontSize: 14, fontWeight: '500'}}>{item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? 'Sent' : 'Received'} {item.tokenName ? item.tokenName : 'Ethereum'}</Text>
+                    </View>
+                    <Text style={{fontSize: 14, fontWeight: '500'}}>{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Text style={{color: '#848484'}}>{timeSince(item.timeStamp * 1000)}</Text>
+                    <Text style={{color: item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? 'black' : '#29c954'}}>{parseFloat(item.value/10e17).toFixed(4)} </Text>
                   </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
           {/*<Activity currentAddress={this.state.publicAddress} isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed}/>*/}
         </ScrollView>
@@ -123,6 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
+    padding: 10
   },
   tokenBox: {
     flexDirection: 'row',
@@ -130,21 +135,21 @@ const styles = StyleSheet.create({
     margin: 8
   },
   tokenContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#EAEDEF',
     height: 50,
     width: 50,
-    borderRadius: 25,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
-    shadowColor: '#212121',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
-
+    // shadowColor: '#212121',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowRadius: 10,
+    // shadowOpacity: 0.1,
+    //
   },
 });
 

@@ -25,7 +25,6 @@ export const Activity = ({
         <View style={{flex: 1}}>
           {(feedByAddress && feedByAddress.length > 0)
             ? feedByAddress.map((feedAddress, i) => {
-              console.log('feed Address: ', feedAddress)
               if (feedAddress.from) {
                 return (
                   <View style={{flex: 1}} key={i}>

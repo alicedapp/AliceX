@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, ScrollView, View } from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
@@ -142,48 +142,50 @@ export default class ExampleHome extends React.Component {
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
         <NavigationBar/>
-        <Text>Address: {this.state.address}</Text>
-        <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Get Address</Text>
-        </TouchableOpacity>
-        <Text>Transfer</Text>
-        <TouchableOpacity onPress={this.transfer} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+        <ScrollView contentContainerStyle={{marginTop:50}}>
+          <Text>Address: {this.state.address}</Text>
+          <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Get Address</Text>
+          </TouchableOpacity>
           <Text>Transfer</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.txHash}</Text>
-        <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Transaction</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.txHash}</Text>
-        <TouchableOpacity onPress={this.openDapplet} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Transaction with Dapplet</Text>
-        </TouchableOpacity>
-        <Text>Signed Transaction: {this.state.signedTransaction}</Text>
-        <TouchableOpacity onPress={this.signTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Sign Transaction</Text>
-        </TouchableOpacity>
-        <Text>Signed Message: {this.state.signedMessage}</Text>
-        <TouchableOpacity onPress={this.signMessage} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Sign Message</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.tokenTxHash}</Text>
-        <TouchableOpacity onPress={this.sendToken} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send Token</Text>
-        </TouchableOpacity>
-        <Text>TransactionHash: {this.state.contractTxHash}</Text>
-        <TouchableOpacity onPress={this.contractSend} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Send To Contract</Text>
-        </TouchableOpacity>
-        <Text>Result: {this.state.contractInfo}</Text>
-        <TouchableOpacity onPress={this.contractRead} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Read From Contract</Text>
-        </TouchableOpacity>
-        <Text>Get Balance: {this.state.balance}</Text>
-        <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
-          <Text>Get Balance</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={this.transfer} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Transfer</Text>
+          </TouchableOpacity>
+          <Text>TransactionHash: {this.state.txHash}</Text>
+          <TouchableOpacity onPress={this.sendTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Send Transaction</Text>
+          </TouchableOpacity>
+          <Text>TransactionHash: {this.state.txHash}</Text>
+          <TouchableOpacity onPress={this.openDapplet} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Send Transaction with Dapplet</Text>
+          </TouchableOpacity>
+          <Text>Signed Transaction: {this.state.signedTransaction}</Text>
+          <TouchableOpacity onPress={this.signTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Sign Transaction</Text>
+          </TouchableOpacity>
+          <Text>Signed Message: {this.state.signedMessage}</Text>
+          <TouchableOpacity onPress={this.signMessage} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Sign Message</Text>
+          </TouchableOpacity>
+          <Text>TransactionHash: {this.state.tokenTxHash}</Text>
+          <TouchableOpacity onPress={this.sendToken} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Send Token</Text>
+          </TouchableOpacity>
+          <Text>TransactionHash: {this.state.contractTxHash}</Text>
+          <TouchableOpacity onPress={this.contractSend} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Send To Contract</Text>
+          </TouchableOpacity>
+          <Text>Result: {this.state.contractInfo}</Text>
+          <TouchableOpacity onPress={this.contractRead} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Read From Contract</Text>
+          </TouchableOpacity>
+          <Text>Get Balance: {this.state.balance}</Text>
+          <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Get Balance</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }

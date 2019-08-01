@@ -200,7 +200,6 @@ class App extends Component {
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
-      console.log('ADDRESS: ', address)
     } catch(e) {
       console.log(e);
     }
