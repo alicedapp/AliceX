@@ -1,7 +1,6 @@
 # ![banner](https://github.com/alicedapp/AliceX/blob/master/src/AliceAssets/alice-banner.png)
 
-[![Build Status](https://travis-ci.com/AlphaWallet/alpha-wallet-ios.svg?branch=master)](https://travis-ci.com/AlphaWallet/alpha-wallet-ios.svg?branch=master)
-[![License](https://img.shields.io/badge/license-GPL3-green.svg?style=flat)](https://github.com/fastlane/fastlane/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/fastlane/fastlane/blob/master/LICENSE)
 
 Alice is a cryptocurrency wallet that allows anyone to build native apps inside of it. What does this mean? It means your app gets access to native features that don't exist in the current mobile browser paradigm that we are all used to with cryptocurrency wallets today.
 
