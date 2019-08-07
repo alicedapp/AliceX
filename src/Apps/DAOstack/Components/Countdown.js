@@ -13,15 +13,14 @@ export default class Countdown extends React.Component {
   componentDidMount() {
     this.interval = setInterval(() => {
       const { timeTillDate } = this.props;
-      const then = moment(timeTillDate);
+      const date = moment(parseInt(timeTillDate)).unix();
+      const then = moment(date);
       const now = moment();
       const countdown = moment(then - now);
       const days = countdown.format('D');
       const hours = countdown.format('HH');
       const minutes = countdown.format('mm');
-      const seconds = countdown.format('ss');
-
-      this.setState({ days, hours, minutes, seconds });
+      this.setState({ days, hours, minutes });
     }, 1000);
   }
 
@@ -34,19 +33,8 @@ export default class Countdown extends React.Component {
   render() {
     const { days, hours, minutes, seconds } = this.state;
     return (
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{color: this.props.color, fontSize: this.props.fontSize, fontFamily: 'Menlo-Regular'}}>{days}</Text>
-        <View>
-          <Text style={{
-            color: this.props.color,
-            fontSize: 10,
-            fontStyle: 'italic',
-            fontFamily: 'Menlo-Regular',
-            paddingLeft: 2,
-            paddingRight: 3
-          }}>D</Text>
-        </View>
-        <Text style={{color: this.props.color, fontSize: this.props.fontSize, fontFamily: 'Menlo-Regular'}}>{hours}:{minutes}.{seconds}</Text>
+      <View style={{flexDirection: 'row', ...this.props.style}}>
+        <Text style={{color: '#A9C6E8', fontSize: this.props.fontSize,}}>{days}d : {hours}h : {minutes}m</Text>
       </View>
     );
   }

@@ -17,6 +17,7 @@ import Home from './Screens/Home'
 import Holders from './Screens/Holders'
 import History from './Screens/History'
 import DAOstack from './Screens/DAOs'
+import NewProposal from './Screens/NewProposal'
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query, graphql } from 'react-apollo';
 import React, {Component} from "react";
@@ -51,7 +52,8 @@ const DAOHomePage =  createBottomTabNavigator({
 
 const App = createStackNavigator({
   DAOstack: DAOstack,
-	DAOHomePage: DAOHomePage
+	DAOHomePage: DAOHomePage,
+  NewProposal: NewProposal
 })
 
 const AppContainer = createAppContainer(App);
