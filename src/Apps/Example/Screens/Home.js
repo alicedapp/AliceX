@@ -17,6 +17,7 @@ export default class ExampleHome extends React.Component {
       contractTxHash: '',
       signedMessage: '',
       signedTransaction: '',
+      signedTransactionObject: '',
       tokenTxHash: '',
       transferHash: '',
       txHash: '',
@@ -80,6 +81,16 @@ export default class ExampleHome extends React.Component {
       const signedTransaction = await Wallet.signTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01', data: 'Hello'});
       console.log('signedMessage: ', signedTransaction);
       this.setState({signedTransaction})
+    } catch(e) {
+      console.log(e);
+    }
+  };
+
+  signTransactionReturnObject = async () => {
+    try {
+      const signedTransactionObject = await Wallet.signTransaction({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01', data: 'Hello', detailObject: true});
+      console.log('signedMessage: ', signedTransactionObject);
+      this.setState({signedTransactionObject})
     } catch(e) {
       console.log(e);
     }
@@ -164,6 +175,10 @@ export default class ExampleHome extends React.Component {
           <Text>Signed Transaction: {this.state.signedTransaction}</Text>
           <TouchableOpacity onPress={this.signTransaction} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Sign Transaction</Text>
+          </TouchableOpacity>
+          <Text>Signed Transaction Object: {this.state.signedTransactionObject}</Text>
+          <TouchableOpacity onPress={this.signTransactionReturnObject} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Sign Transaction return Object</Text>
           </TouchableOpacity>
           <Text>Signed Message: {this.state.signedMessage}</Text>
           <TouchableOpacity onPress={this.signMessage} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
