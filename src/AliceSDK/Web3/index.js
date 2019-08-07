@@ -48,7 +48,8 @@ const sendTransactionWithDapplet = async ({to, value, data = "0x0"}) => {
 
 const signTransaction = async ({to, value, data = "0x0", detailObject = false}) => {
   try {
-    return await NativeModules.WalletModule.signTransaction(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data), detailObject);
+    const signedTransaction = await NativeModules.WalletModule.signTransaction(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data), detailObject);
+    return typeof signedTransaction === 'string' ? signedTransaction : JSON.parse(signedTransaction);
   } catch(e) {
     return "Sign transaction failed with error: " + e
   }
