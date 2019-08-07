@@ -128,32 +128,32 @@ export default class E2EHome extends React.Component {
     this.setState({messageList});
   }
 
-  sortMessages =  async (messages) => {
-
-      await Promise.all(messages.map( async (message, i) => {
-        // if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
-        //   messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
-        // }
-        // return messageList;
-        //
-        try {
-          let timestamp = await this.getBlockData(message.blockHash);
-          let user = ethers.utils.hexStripZeros(message.topics[2]);
-          let newObj = {};
-          newObj["_id"] = message.transactionHash;
-          newObj["text"] = ethers.utils.toUtf8String(message.data);
-          newObj["createdAt"] = timestamp;
-          newObj["user"] = {};
-          newObj["user"]["_id"] = user;
-          newObj["user"]["name"] = user;
-          newObj["user"]["avatar"] = this.state.gravatarURL;
-          return newObj;
-
-        } catch(e) {
-          console.log('sort messages error: ', e)
-        }
-      }));
-  };
+  // sortMessages =  async (messages) => {
+  //
+  //     await Promise.all(messages.map( async (message, i) => {
+  //       // if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
+  //       //   messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
+  //       // }
+  //       // return messageList;
+  //       //
+  //       try {
+  //         let timestamp = await this.getBlockData(message.blockHash);
+  //         let user = ethers.utils.hexStripZeros(message.topics[2]);
+  //         let newObj = {};
+  //         newObj["_id"] = message.transactionHash;
+  //         newObj["text"] = ethers.utils.toUtf8String(message.data);
+  //         newObj["createdAt"] = timestamp;
+  //         newObj["user"] = {};
+  //         newObj["user"]["_id"] = user;
+  //         newObj["user"]["name"] = user;
+  //         newObj["user"]["avatar"] = this.state.gravatarURL;
+  //         return newObj;
+  //
+  //       } catch(e) {
+  //         console.log('sort messages error: ', e)
+  //       }
+  //     }));
+  // };
 
   getBlockData = async (blockHash) => {
     const {timestamp} = await infuraProviderRopsten.getBlock(blockHash);
@@ -183,6 +183,10 @@ export default class E2EHome extends React.Component {
 
 
   newChat = async () => {
+    this.setState({ addressModalVisible: !this.state.addressModalVisible});
+  };
+
+  closeAddressModal = async () => {
     this.setState({ addressModalVisible: !this.state.addressModalVisible});
   };
 

@@ -8,7 +8,7 @@ export default class CameraComponent extends Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/holders.png')} size={30}/>,
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/holders.png')} size={20}/>,
     };
   };
 

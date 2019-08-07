@@ -45,6 +45,7 @@ export default class Tokens extends Component {
 
     this.state = {
       tokenInfo: '',
+      addressStart: '',
       token: '',
       tokens: [],
       ethereum: {},
@@ -62,10 +63,11 @@ export default class Tokens extends Component {
       walletAddress: '',
       addressStatus: 'unresolved',
       inputAddress: '',
-      ethBalance: 0,
+      ethBalance: '',
       animatePress: new Animated.Value(1),
-      amount: 0,
-      tokenAmount: 0,
+      amount: '',
+      network: '',
+      tokenAmount: '',
       canSend: false,
       revealAddress: false
     };
@@ -75,16 +77,25 @@ export default class Tokens extends Component {
   async componentWillMount() {
     const address = await Wallet.getAddress();
     const addressEnd = address.slice(-4);
-    const addressArray = address.slice(2).match(/.{6}/g);
+    const addressStart = address.substr(0,8);
+    const addressArray = address.slice(8).match(/.{6}/g);
 
-    this.setState({address, addressEnd, addressArray})
+    this.setState({address, addressEnd, addressStart, addressArray})
   }
 
   async componentDidMount() {
+    this.getNetwork();
     this.getTokenInfo();
     this.getNFTInfo();
     this.getBalance()
   }
+
+  getNetwork = async () => {
+    const network = await Wallet.getNetwork();
+    console.log('NETWORK: ', network);
+    this.setState({network})
+  };
+
 
   getBalance = async () => {
     const ethBalance = await Wallet.getBalance();
@@ -307,12 +318,12 @@ export default class Tokens extends Component {
                   value={`${this.state.address}`}
                 />
               </View>
-              <TouchableOpacity onPressIn={() => this.setState({revealAddress: true})} onPressOut={() => this.setState({revealAddress: false})} >
+              <TouchableOpacity onPress={() => this.setState({revealAddress: !this.state.revealAddress})}>
                 {!this.state.revealAddress ? <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={{color: '#b2c1c1', marginRight: 5}}>0x</Text>
+                  <Text style={{color: '#b2c1c1', marginRight: 5}}>{this.state.addressStart}</Text>
                   <View style={{ flex:1, flexDirection: 'row', height: 20, borderRadius:  5}}>
                     {this.state.addressArray.map((hex, i) => {
-                      return (<View key={i} style={{backgroundColor: '#' + hex, flex: 1, borderTopLeftRadius: i === 0 ? 5 : 0, borderBottomLeftRadius: i === 0 ? 5 : 0, borderTopRightRadius: i === 5  ? 5 : 0, borderBottomRightRadius: i === 5 ? 5 : 0, }}/>)
+                      return (<View key={i} style={{backgroundColor: '#' + hex, flex: 1, borderTopLeftRadius: i === 0 ? 5 : 0, borderBottomLeftRadius: i === 0 ? 5 : 0, borderTopRightRadius: i === 4  ? 5 : 0, borderBottomRightRadius: i === 4 ? 5 : 0, }}/>)
                     })}
                   </View>
                   <Text style={{color: '#b2c1c1', marginLeft: 5}}>{this.state.addressEnd}</Text>

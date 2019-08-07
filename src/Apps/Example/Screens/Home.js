@@ -144,7 +144,7 @@ export default class ExampleHome extends React.Component {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
         <NavigationBar/>
-        <ScrollView contentContainerStyle={{marginTop:50}}>
+        <ScrollView contentContainerStyle={{marginTop:50, alignItems: 'center', justifyContent: 'center',}}>
           <Text>Address: {this.state.address}</Text>
           <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Address</Text>

@@ -16,7 +16,7 @@ export default class MapComponent extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/redemption.png')} size={30}/>,
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/redemption.png')} size={20}/>,
     };
   };
 

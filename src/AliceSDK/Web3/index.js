@@ -21,6 +21,15 @@ const getBalance = async () => {
   }
 };
 
+const getNetwork = async () => {
+  try {
+    const network = await NativeModules.WalletModule.getNetwork();
+    return JSON.parse(network);
+  } catch(e) {
+    return "Get network failed with error: " + e
+  }
+};
+
 const sendTransaction = async ({to, value, data}) => {
   try {
     return await NativeModules.WalletModule.sendTransaction(to, ethers.utils.parseEther(value).toHexString(),data);
@@ -39,7 +48,7 @@ const sendTransactionWithDapplet = async ({to, value, data = "0x0"}) => {
 
 const signTransaction = async ({to, value, data = "0x0"}) => {
   try {
-    return await NativeModules.WalletModule.signTransaction(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data));
+    return await NativeModules.WalletModule.signTransaction(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data), true);
   } catch(e) {
     return "Sign transaction failed with error: " + e
   }
@@ -150,6 +159,7 @@ export const Settings = {
 export const Wallet = {
   getAddress,
   getBalance,
+  getNetwork,
   sendTransaction,
   signTransaction,
   signMessage,

@@ -1,4 +1,5 @@
 /*        ExampleMaps Export Section */
+export { default as CheezeWizards } from './CheezeWizards';
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
@@ -45,5 +46,11 @@ export const AppRegistry = [
     backgroundColor: '#000',
     homeRoute: 'E2E',
     icon: require('./E2E/Assets/e2e-logo.png')
+  },
+  {
+    appName: 'Cheeze Wizards',
+    backgroundColor: '#fdef5d',
+    homeRoute: 'CheezeWizards',
+    icon: require('./CheezeWizards/Assets/logo.png')
   },
 ];

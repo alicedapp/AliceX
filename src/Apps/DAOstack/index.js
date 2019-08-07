@@ -11,12 +11,26 @@
 * Please see the documentation for more info on how to build out more features into Alice.
 * */
 
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import Redemptions from './Screens/Redemptions'
 import Home from './Screens/Home'
 import Holders from './Screens/Holders'
 import History from './Screens/History'
-import DAOstack from './Screens'
+import DAOstack from './Screens/DAOs'
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import { ApolloProvider, Query, graphql } from 'react-apollo';
+import React, {Component} from "react";
+import {NavigationBar} from "../../AliceComponents/NavigationBar";
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://subgraph.daostack.io/subgraphs/name/v24',
+    fetchOptions: {
+      mode: "no-cors",
+    },
+  }),
+  cache: new InMemoryCache()
+});
 
 const DAOHomePage =  createBottomTabNavigator({
   // Your ExampleMaps's Tab Navigator's names are defined here as a default
@@ -32,12 +46,22 @@ const DAOHomePage =  createBottomTabNavigator({
         borderTopColor: 'transparent',
       },
       showLabel: false,
-    }
+    },
   });
 
-
-export default createStackNavigator({
+const App = createStackNavigator({
   DAOstack: DAOstack,
 	DAOHomePage: DAOHomePage
 })
 
+const AppContainer = createAppContainer(App);
+
+export default class DAOstackContainer extends Component {
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <AppContainer/>
+      </ApolloProvider>
+    );
+  }
+}

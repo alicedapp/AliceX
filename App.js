@@ -14,7 +14,7 @@ import {
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
 import Apps from './src/Apps'
-import {Foam, Fork, Mintbase, Test, DAOstack, E2E} from './src/Apps/AppRegistry'
+import {Foam, Fork, Mintbase, Test, DAOstack, E2E, CheezeWizards} from './src/Apps/AppRegistry'
 
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
@@ -118,6 +118,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
 const MainApp = createStackNavigator({
   Apps: { screen: AppTabNavigator },
+  CheezeWizards: { screen: CheezeWizards },
   E2E: { screen: E2E },
   Fork: { screen: Fork },
   Foam: { screen: Foam },
