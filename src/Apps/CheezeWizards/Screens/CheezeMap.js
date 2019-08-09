@@ -1,13 +1,10 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Alert, View} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import sheet from '../styles/sheet';
-import exampleIcon from '../Assets/example.png';
-
-import BaseExamplePropTypes from './common/BaseExamplePropTypes';
-import Page from './common/Page';
-import Bubble from './common/Bubble';
+import {onSortOptions} from '../Utils/index';
+import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import exampleIcon from "../Assets/wzrd-1.png";
 
 const styles = {
   icon: {
@@ -16,17 +13,35 @@ const styles = {
   },
 };
 
-class CustomIcon extends React.Component {
+class CheezeMap extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const { navigate } = navigation;
+    return {
+      tabBarVisible: false,
+    };
+  };
+
   static propTypes = {
-    ...BaseExamplePropTypes,
+
   };
 
   constructor(props) {
     super(props);
 
+    this._mapOptions = Object.keys(MapboxGL.StyleURL)
+      .map(key => {
+        return {
+          label: key,
+          data: MapboxGL.StyleURL[key],
+        };
+      })
+      .sort(onSortOptions);
+
     this.state = {
+      styleURL: this._mapOptions[0].data,
       featureCollection: MapboxGL.geoUtils.makeFeatureCollection(),
     };
+
   }
 
   onPress = async (e) => {
@@ -46,19 +61,31 @@ class CustomIcon extends React.Component {
     console.log('You pressed a layer here is your feature', feature); // eslint-disable-line
   }
 
+  componentDidMount() {
+    MapboxGL.locationManager.start();
+  }
+
+  componentWillUnmount() {
+    MapboxGL.locationManager.dispose();
+  }
+
+  onMapChange = (index, styleURL) => {
+    this.setState({styleURL});
+  }
+
+  onUserMarkerPress = () => {
+    Alert.alert('You pressed on the user location annotation');
+  }
+
   render() {
     return (
-      <Page {...this.props}>
         <MapboxGL.MapView
-          ref={c => (this._map = c)}
+          styleURL={'mapbox://styles/markpereir/cjz2mknyj0vke1cmzo00bs951'}
           onPress={this.onPress}
-          style={sheet.matchParent}
+          style={{flex: 1}}
         >
-          <MapboxGL.Camera
-            zoomLevel={9}
-            centerCoordinate={[-73.970895, 40.723279]}
-          />
-
+          <NavigationBar/>
+          <MapboxGL.Camera followZoomLevel={12} followUserLocation />
           <MapboxGL.ShapeSource
             id="symbolLocationSource"
             hitbox={{width: 20, height: 20}}
@@ -71,14 +98,11 @@ class CustomIcon extends React.Component {
               style={styles.icon}
             />
           </MapboxGL.ShapeSource>
-        </MapboxGL.MapView>
 
-        <Bubble>
-          <Text>Tap to add an icon</Text>
-        </Bubble>
-      </Page>
+          <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
+        </MapboxGL.MapView>
     );
   }
 }
 
-export default CustomIcon;
+export default CheezeMap;

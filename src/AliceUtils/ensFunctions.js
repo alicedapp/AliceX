@@ -116,7 +116,7 @@
 //     "gas": 40000,
 //     "gasPrice": 500000000000, // converts the gwei price to wei
 //     "chainId": 3,
-//     "data": web3.utils.toHex(data)
+//     "data": web3.Utils.toHex(data)
 //   };
 //
 //   const tx = new Tx(rawTx);

@@ -44,7 +44,7 @@ const publicAddress = "0xb78197a43836e084bE4ff1F4c84d7557EA11F214";
 // import { transferEtherNoReward, transferTokensNoReward, transferTokensWithTokenReward, transferEtherWithEtherReward } from 'tenzorum'
 import {Wallet} from "../../AliceSDK";
 import {ENS} from "../../AliceSDK/Web3";
-// import {getBalance, getTenzBalance} from "../../utils/ether";
+// import {getBalance, getTenzBalance} from "../../Utils/ether";
 
 
 const cryptoCurrencies = [

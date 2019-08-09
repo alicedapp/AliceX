@@ -62,7 +62,6 @@ export default class DAOs extends Component {
               <>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: 15}}>
                   <Text style={{fontSize: 30, fontWeight: '700'}}>DAOs</Text>
-                  <View style={{height: 30, width: 30, borderRadius: 15, backgroundColor: '#aaff90'}}/>
                 </View>
 
                 <ScrollView>
@@ -115,6 +114,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5
+  },
+  roundedProfileImage: {
+    width:100, height:100, borderWidth:3,
+    borderColor:'white', borderRadius:50
   },
   daoBox: {
     width: width - 20,

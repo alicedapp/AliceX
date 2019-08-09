@@ -131,17 +131,17 @@ export default class E2EHome extends React.Component {
   // sortMessages =  async (messages) => {
   //
   //     await Promise.all(messages.map( async (message, i) => {
-  //       // if(messageList.indexOf(ethers.utils.hexStripZeros(message.topics[2])) === -1) {
-  //       //   messageList.push(ethers.utils.hexStripZeros(message.topics[2]));
+  //       // if(messageList.indexOf(ethers.Utils.hexStripZeros(message.topics[2])) === -1) {
+  //       //   messageList.push(ethers.Utils.hexStripZeros(message.topics[2]));
   //       // }
   //       // return messageList;
   //       //
   //       try {
   //         let timestamp = await this.getBlockData(message.blockHash);
-  //         let user = ethers.utils.hexStripZeros(message.topics[2]);
+  //         let user = ethers.Utils.hexStripZeros(message.topics[2]);
   //         let newObj = {};
   //         newObj["_id"] = message.transactionHash;
-  //         newObj["text"] = ethers.utils.toUtf8String(message.data);
+  //         newObj["text"] = ethers.Utils.toUtf8String(message.data);
   //         newObj["createdAt"] = timestamp;
   //         newObj["user"] = {};
   //         newObj["user"]["_id"] = user;
