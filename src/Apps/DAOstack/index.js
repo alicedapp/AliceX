@@ -13,11 +13,13 @@
 
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import Redemptions from './Screens/Redemptions'
-import Home from './Screens/Home'
+import Proposals from './Screens/Proposals'
 import Holders from './Screens/Holders'
 import History from './Screens/History'
 import DAOstack from './Screens/DAOs'
 import NewProposal from './Screens/NewProposal'
+import ReputationRequest from "./Screens/ReputationRequest";
+import RequestComplete from "./Screens/RequestComplete";
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query, graphql } from 'react-apollo';
 import React, {Component} from "react";
@@ -35,7 +37,7 @@ const client = new ApolloClient({
 
 const DAOHomePage =  createBottomTabNavigator({
   // Your ExampleMaps's Tab Navigator's names are defined here as a default
-  DAOstackHome: Home,
+  DAOstackHome: Proposals,
   DAOstackRedemptions: Redemptions,
   DAOstackHolders: Holders,
   DAOstackHistory: History
@@ -50,10 +52,17 @@ const DAOHomePage =  createBottomTabNavigator({
     },
   });
 
+DAOHomePage.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
 const App = createStackNavigator({
   DAOstack: DAOstack,
 	DAOHomePage: DAOHomePage,
-  NewProposal: NewProposal
+  NewProposal: NewProposal,
+  ReputationRequest: ReputationRequest,
+  RequestComplete: RequestComplete,
 })
 
 const AppContainer = createAppContainer(App);

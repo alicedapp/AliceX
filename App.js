@@ -14,7 +14,7 @@ import {
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
 import Apps from './src/Apps'
-import {Foam, Fork, Mintbase, Test, DAOstack, E2E, CheezeWizards} from './src/Apps/AppRegistry'
+import {Foam, Fork, Mintbase, Test, DAOstack, E2E, CheezeWizards, LocalEthereum, Map} from './src/Apps/AppRegistry'
 
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
@@ -51,8 +51,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
   //   navigationOptions: {
   //     tabBarLabel: 'Home',
   //     tabBarIcon: ({ focused }) => (
-  //       focused ? <Image source={require('./src/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-  //         : <Image source={require('./src/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+  //       focused ? <Image source={require('./src2/AliceAssets/cam-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+  //         : <Image source={require('./src2/AliceAssets/cam-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
   //     )
   //   }
   // },
@@ -125,6 +125,8 @@ const MainApp = createStackNavigator({
   DAOstack: { screen: DAOstack },
   Test: { screen: Test },
   Mintbase: { screen: Mintbase },
+  LocalEthereum: { screen: LocalEthereum },
+  Map: { screen: Map },
 }, {
   headerMode: 'none',
 });

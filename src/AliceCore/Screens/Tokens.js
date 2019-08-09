@@ -14,20 +14,15 @@ import {
   RefreshControl
 } from "react-native";
 import React from "react";
-import MapboxGL from "@react-native-mapbox-gl/maps";
-import {onSortOptions} from "../../Apps/Foam/utils";
 const { height, width } = Dimensions.get('window');
 const cols = 2, rows = 2;
 import NFT from '../../AliceComponents/NFT'
 import Token from '../../AliceComponents/Token'
-import {navigate} from "../../AliceUtils/navigationWrapper";
 import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
 import {ENS, Wallet} from '../../AliceSDK/Web3'
 import AppIcon from "../../AliceComponents/AppIcon";
 import {AppRegistry} from "../../Apps/AppRegistry";
-import TransactionModal from '../../AliceComponents/TransactionModal'
-import CameraModal from "../../AliceComponents/TransactionModal/CameraModal";
 import Camera from "../../AliceComponents/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
@@ -44,7 +39,7 @@ export default class Tokens extends Component {
     super(props);
 
     this.state = {
-      tokenInfo: '',
+      tokenInfo: [],
       addressStart: '',
       token: '',
       tokens: [],
@@ -114,7 +109,11 @@ export default class Tokens extends Component {
     this.setState({fetching: true})
     let data = null;
     var xhr = new XMLHttpRequest();
-    const onData = (data) => this.setState({tokenInfo: data, tokens: data.tokens});
+    const onData = (data) => {
+      if (data.tokens.length > 0) {
+        this.setState({tokenInfo: data, tokens: data.tokens});
+      }
+    }
     const finishedFetching = () => this.setState({fetching: false})
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
@@ -158,14 +157,16 @@ export default class Tokens extends Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      this.setState({nftInfo: data, nfts: data.assets});
+      if (data.assets) {
+        this.setState({nftInfo: data, nfts: data.assets});
+      }
     }
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         onData(JSON.parse(this.responseText));
       }
     });
-    xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress());
+    xhr.open("GET", "https://api.opensea.io/api/v1/Assets?owner="+await Wallet.getAddress());
     xhr.send(data);
 
   };
@@ -210,7 +211,9 @@ export default class Tokens extends Component {
 
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
-    console.log('TOKEN INFO: ', this.state.tokenInfo);
+    console.log('TOKEN INFO: ', this.state.tokenInfo, typeof this.state.tokenInfo);
+    console.log('TOKENs: ', this.state.tokens, typeof this.state.tokens);
+    console.log('NFTs: ', this.state.nfts, typeof this.state.nfts);
     return (
       <View style={{flex: 1}}>
         {cameraMode === false ? <View style={styles.container}>

@@ -1,7 +1,7 @@
 /*
  * This is the ExampleMaps Registrar for Alice
  * Register your app by:
- * 1. Creating a folder in the src/Apps directory which contains your React Native app
+ * 1. Creating a folder in the src2/Apps directory which contains your React Native app
  * 2. Exporting your app in the ExampleMaps Export Section
  * 3. Adding your app to the list of apps in the Apps List Section
 */

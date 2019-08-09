@@ -1,10 +1,10 @@
 import {Image, TouchableOpacity, View} from "react-native";
 import React from "react";
-import {navigate, backAction} from "../AliceUtils/navigationWrapper";
+import {navigate, goBack} from "../AliceUtils/navigationWrapper";
 
 export const NavigationBar = () => (
   <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 1000 }}>
-    <TouchableOpacity style={{ padding: 3 }} onPress={() => backAction(null)}>
+    <TouchableOpacity style={{ padding: 3 }} onPress={() => goBack()}>
       <Image source={require('../AliceAssets/back.png')} style={{
         resizeMode: 'contain',
         width: 28,

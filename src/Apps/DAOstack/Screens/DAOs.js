@@ -4,6 +4,7 @@ import {Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image}
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo'
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {DAOcolors} from "../Utils";
 
 const { height, width } = Dimensions.get('window');
 
@@ -20,7 +21,7 @@ const DAOS_QUERY = gql`
         }
     }`;
 
-export default class DAOstackApp extends Component {
+export default class DAOs extends Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
@@ -67,10 +68,11 @@ export default class DAOstackApp extends Component {
                 <ScrollView>
                   <View style={styles.container}>
                     {data.daos.map((dao, i) => {
+                      let {backgroundColor, color} = DAOcolors[i];
                       return (
-                        <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('DAOstackHome', {dao})} style={styles.daoBox}>
-                          <View style={{width: '100%', padding: 30, paddingTop: 50, paddingBottom: 50, borderTopLeftRadius: 15, borderTopRightRadius: 15, backgroundColor: '#6e3099'}}>
-                            <Text style={{color: 'white', fontSize: 20, fontWeight: '700'}}>{dao.name}</Text>
+                        <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('DAOstackHome', {dao, backgroundColor})} style={styles.daoBox}>
+                          <View style={{width: '100%', padding: 30, paddingTop: 50, paddingBottom: 50, borderTopLeftRadius: 15, borderTopRightRadius: 15, backgroundColor }}>
+                            <Text style={{color, fontSize: 20, fontWeight: '700'}}>{dao.name}</Text>
                           </View>
                           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
                             <View style={{alignItems: 'center', justifyContent: 'space-around', margin: 17}}>

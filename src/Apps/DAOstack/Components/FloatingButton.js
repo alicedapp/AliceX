@@ -30,15 +30,12 @@ export default class FloatingButton extends Component<Props> {
     const {tokenInfo, iterator, token} = this.props;
     return (
       <TouchableWithoutFeedback {...this.props} key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
-        <Animated.View  style={{...styles.button, position: 'absolute', bottom: 30, right: 12, zIndex: 1000, transform: [
+        <Animated.View  style={{...styles.button, ...this.props.style, position: 'absolute', bottom: 30, right: 12, zIndex: 1000, transform: [
             {
               scale: this.state.animatePress
             }
           ]}}>
-          <Image source={require('../Assets/plus.png')} style={{
-            height: 29,
-            resizeMode: 'contain',
-          }}/>
+          {this.props.children}
         </Animated.View>
       </TouchableWithoutFeedback>
     )
@@ -46,18 +43,11 @@ export default class FloatingButton extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  tokenBox: {
-    flexDirection: 'row',
-    width: '100%',
-    margin: 8,
-
-  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 17,
-    height: 50,
-    width: 50,
+    padding: 12,
     backgroundColor: '#3078CA',
     shadowColor: '#000000',
     shadowOffset: {

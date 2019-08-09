@@ -6,6 +6,8 @@ export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
 export { default as DAOstack } from './DAOstack';
 export { default as E2E } from './E2E';
+export { default as LocalEthereum } from './LocalEthereum';
+export { default as Map } from './Map';
 
 export const AppRegistry = [
   // // Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )
@@ -52,5 +54,11 @@ export const AppRegistry = [
     backgroundColor: '#fdef5d',
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
+  },
+  {
+    appName: 'localethereum',
+    backgroundColor: '#dbe0ff',
+    homeRoute: 'Map',
+    icon: require('./LocalEthereum/Assets/localethereum.png')
   },
 ];

@@ -1,5 +1,6 @@
 import {Animated, Text, StyleSheet, View, TouchableWithoutFeedback, Image, TextInput} from "react-native";
 import React, {Component} from "react";
+import Button from '../Components/Button';
 import Icon from "../../../AliceComponents/IconComponent";
 
 export default class NewProposal extends Component<Props> {
@@ -38,14 +39,21 @@ export default class NewProposal extends Component<Props> {
   render() {
     const {tokenInfo, iterator, token} = this.props;
     return (
-      <View style={{padding: 20}}>
-        <Text style={{ fontWeight: '700'}}>Title</Text>
-        <TextInput style={{ padding: 10, width: '100%', ...styles.input, height: 50}} placeHolder={'e.g. Reputation Request'}/>
-        <Text style={{ fontWeight: '700'}}>Description</Text>
-        <TextInput style={{ padding: 10, width: '100%', ...styles.input, height: 200}} placeHolder={"Describe the reason you're joining this DAO"}/>
-        <Text style={{ fontWeight: '700'}}>Attachment URL</Text>
-        <TextInput style={{ padding: 10, width: '100%', ...styles.input, height: 50}} placeHolder={'Add a link for more details'}/>
-
+      <View style={{flex: 1, padding: 20, alignItems: 'flex-start',}}>
+        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20}}>Title</Text>
+        <TextInput style={{ padding: 10, width: '100%', ...styles.input, height: 50, fontWeight: '600', fontSize: 15}} placeholder={'e.g. Reputation Request'}/>
+        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20}}>Description</Text>
+        <TextInput multiline={true} style={{ padding: 10, paddingTop: 15, width: '100%', ...styles.input, height: 200, fontWeight: '600', fontSize: 15}} placeholder={"Describe the reason you're joining this DAO"}/>
+        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20}}>Attachment URL</Text>
+        <TextInput  style={{ padding: 10, width: '100%', ...styles.input, height: 50, fontWeight: '600', fontSize: 15}} placeholder={'Add a link for more details'}/>
+        <Button onPress={() => this.props.navigation.navigate('ReputationRequest')} style={{alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', width: 250, paddingVertical: 15, position: 'absolute', bottom: 50, zIndex: 1000,}}>
+          <View/>
+          <Text style={{ color: 'white', fontWeight: '600', fontSize: 15}}>Next Step</Text>
+          <Image source={require('../Assets/forward-button-white.png')} style={{
+            height: 25,
+            resizeMode: 'contain',
+          }}/>
+        </Button>
       </View>
     )
   }
@@ -56,22 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     margin: 8,
-
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    height: 50,
-    width: 50,
-    backgroundColor: '#3078CA',
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
 
   },
   input: {
