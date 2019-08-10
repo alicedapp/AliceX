@@ -3,6 +3,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import sheet from '../styles/sheet';
 import exampleIcon from '../Assets/example.png';
+import yea from '../Assets/location.png';
 
 import BaseExamplePropTypes from './common/BaseExamplePropTypes';
 import Page from './common/Page';
@@ -30,11 +31,11 @@ const featureCollection = {
       type: 'Feature',
       id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
       properties: {
-        icon: 'example',
+        icon: exampleIcon,
       },
       geometry: {
         type: 'Point',
-        coordinates: [-117.20611157485, 52.180961084261],
+        coordinates: [151.227028, -33.882250],
       },
     },
     {
@@ -45,21 +46,30 @@ const featureCollection = {
       },
       geometry: {
         type: 'Point',
-        coordinates: [-117.205908, 52.180843],
+        coordinates: [151.279411,   -33.856762],
       },
     },
     {
       type: 'Feature',
       id: '9d10456e-bdda-4aa9-9269-04c1667d4552',
       properties: {
-        icon: 'pin',
+        icon: yea,
       },
       geometry: {
         type: 'Point',
-        coordinates: [-117.206562, 52.180797],
+        coordinates: [151.235588, -33.897822],
       },
     },
   ],
+};
+
+const feature = {
+  type: 'Feature',
+  id: '4',
+  geometry: {
+    type: 'Point',
+    coordinates: [ 151.2596, -33.9100],
+  },
 };
 
 class ShapeSourceIcon extends React.Component {
@@ -72,15 +82,14 @@ class ShapeSourceIcon extends React.Component {
       <Page {...this.props}>
         <MapboxGL.MapView style={sheet.matchParent}>
           <MapboxGL.Camera
-            zoomLevel={17}
-            centerCoordinate={[-117.20611157485, 52.180961084261]}
+            zoomLevel={12}
+            centerCoordinate={[151.2215, -33.9107]}
           />
-          <MapboxGL.Images images={{example: exampleIcon, assets: ['pin']}} />
           <MapboxGL.ShapeSource
             id="exampleShapeSource"
             shape={featureCollection}
           >
-            <MapboxGL.SymbolLayer id="exampleIconName" style={styles.icon} />
+            <MapboxGL.SymbolLayer id={'2'} style={{ iconSize: 1 }} />
           </MapboxGL.ShapeSource>
         </MapboxGL.MapView>
       </Page>

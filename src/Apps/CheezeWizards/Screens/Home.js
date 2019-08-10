@@ -69,6 +69,7 @@ export default class MapComponent extends React.Component {
   };
 
   fight = async () => {
+    this.setState({pressed: !this.state.pressed});
     try {
       const contractTxHash = await Contract.write({contractAddress: '0x108FC97479Ec5E0ab8e68584b3Ea9518BE78BeB4', abi: BasicTournament.abi, functionName: 'onseSidedCommit', parameters: ['3961', ...this.state.actionList], value: '0.0', data: '0x0'})
       console.log('contractTxHash: ', contractTxHash);
@@ -177,7 +178,7 @@ export default class MapComponent extends React.Component {
 
               </View>
               <View>
-                <TouchableWithoutFeedback {...this.props} onPress={this.fight} onPressIn={this.animate} onPressOut={this.animate}>
+                <TouchableWithoutFeedback {...this.props} onPressIn={this.animate} onPressOut={this.fight}>
                   {this.state.pressed ? <Image source={require('../Assets/pressed-cheeze-button.png')} style={{
                     resizeMode: 'contain',
                     width: 100,

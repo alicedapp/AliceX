@@ -14,8 +14,7 @@ import {
 
 import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
 import Apps from './src/Apps'
-import {Foam, Fork, Mintbase, Test, DAOstack, E2E, CheezeWizards, LocalEthereum, Map} from './src/Apps/AppRegistry'
-
+const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry');
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -118,15 +117,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
 const MainApp = createStackNavigator({
   Apps: { screen: AppTabNavigator },
-  CheezeWizards: { screen: CheezeWizards },
-  E2E: { screen: E2E },
-  Fork: { screen: Fork },
-  Foam: { screen: Foam },
-  DAOstack: { screen: DAOstack },
-  Test: { screen: Test },
-  Mintbase: { screen: Mintbase },
-  LocalEthereum: { screen: LocalEthereum },
-  Map: { screen: Map },
+  ...MiniDapps,
 }, {
   headerMode: 'none',
 });

@@ -33,7 +33,6 @@ const options = {
 
 //TODO: needs api key
 
-
 export default class Tokens extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +81,7 @@ export default class Tokens extends Component {
     this.getNetwork();
     this.getTokenInfo();
     this.getNFTInfo();
-    this.getBalance()
+    this.getBalance();
   }
 
   getNetwork = async () => {
