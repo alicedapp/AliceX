@@ -45,4 +45,4 @@ cd ios
 pod install
 open AliceX.xcworkspace
 cd ..
-npm start
+open .
