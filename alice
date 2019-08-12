@@ -28,7 +28,7 @@ fi
 
 RED='\033[0;31m'
 NC='\033[0m'
-if [ -x "$(command -v react-native)" ]; 
+if ! [ -x "$(command -v react-native)" ]; 
 then
 	echo 'Error: react-native-cli is not installed.' >&2
 	echo -e "To install react-native-cli, simply run${RED} npm install -g react-native-cli${NC}." >&2
