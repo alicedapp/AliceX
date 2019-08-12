@@ -26,12 +26,6 @@ If we don't get back to you immediately there will be many other resources out t
 - [React-Native](https://www.npmjs.com/package/react-native)
 - [Cocoapod](https://cocoapods.org)
 
-### iOS
-The app is fully functioning in the iOS version
-
-### Android
-// Work in progress
-
 ## Getting Started
 
 1. Run following command in your terminal:<br/>
