@@ -29,12 +29,27 @@ If we don't get back to you immediately there will be many other resources out t
 ## Getting Started
 
 1. Run following command in your terminal:<br/>
-`sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/install.ios.sh)"`
 
-2. Run the project in Xcode. 🎉
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/install.ios.sh)"
+```
+
+2. Ready to go 🎉. After installing, you can use `./alice` to run and test alice.
+
+   | ./alice <options> | Alice command tool                                           |
+   | ----------------- | ------------------------------------------------------------ |
+   | -i                | Run alice in iOS simulator.                                  |
+   | -a                | Run alice in android simulator.                              |
+   | -u                | Update all submodule in Alice, inculding iOS and android submodules. |
+   | -h                | See all avaliable option                                     |
+
+   
 
 ### Android
+
 `COMING SOON`
+
+
 
 # Building your app in Alice
 Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons

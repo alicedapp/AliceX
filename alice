@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if test $# != 1
+then
+	echo "Usage: ./alice [ -i | -a | -u | -h | ios | android | help]"
+	exit 1
+fi
+
+
+if [ "$1" == "help" ] || [ "$1" == "-h" ];
+then
+	cat <<-'EOF'
+		Usage: ./alice [ -i | -a | -u | -h | ios | android | help]
+		
+		[ -i | 	 ios   |   iOS   ]	Run alice wallet in iOS simulator.
+		[ -a | android | Android ] 	Run alice wallet in android simulator.
+		[ -u |      update       ]	Update all submodule in Alice, inculding iOS and android submodules.
+		[ -h |       help        ]	See all avaliable option
+	EOF
+	exit 1
+fi
+
+if [ "$1" == "update" ] || [ "$1" == "-u" ];
+then
+	git submodule update --remote --merge
+fi
+
+
+RED='\033[0;31m'
+NC='\033[0m'
+if [ -x "$(command -v react-native)" ]; 
+then
+	echo 'Error: react-native-cli is not installed.' >&2
+	echo -e "To install react-native-cli, simply run${RED} npm install -g react-native-cli${NC}." >&2
+	exit 1
+fi
+
+if [ "$1" == "iOS" ] || [ "$1" == "ios" ] || [ "$1" == "-i" ];
+then
+	echo 'Building iOS version in simulator ...'
+	react-native run-ios >/dev/null
+fi
+
+if [ "$1" == "Android" ] || [ "$1" == "android" ] || [ "$1" == "-a" ];
+then
+	echo 'Building android'
+	react-native run-android
+fi
