@@ -657,10 +657,6 @@ export default class MapComponent extends React.Component {
           onRegionDidChange={this.onRegionDidChange}
           onRegionIsChanging={this.onRegionIsChanging}
         >
-          <MapboxGL.Camera
-            zoomLevel={12}
-            centerCoordinate={this.state.coordinates}
-          />
           {this.state.finishedRendering === false ? <View style={{
             flex: 1,
             justifyContent: 'center',
@@ -689,27 +685,32 @@ export default class MapComponent extends React.Component {
               </View>
             </View>
           </View>}
+          <MapboxGL.Camera
+            zoomLevel={12}
+            centerCoordinate={this.state.coordinates}
+          />
+
           {this.renderSignals()}
           {this.renderPOIs()}
           {this.renderNotification()}
           {this.renderSelectedPoint()}
-          <Modalize
-            ref={this.poiModal}
-            HeaderComponent={this.renderHeader}
-            height={165}
-          >
-            <View style={styles.innerModalBox}>
-              {this.renderContent()}
-            </View>
-          </Modalize>
-          <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
-            <View style={styles.innerModalBox}>
-              {this.renderCreatePOI()}
-            </View>
-          </Modalize>
-        </MapboxGL.MapView>
-      </View>
 
+        </MapboxGL.MapView>
+        <Modalize
+          ref={this.poiModal}
+          HeaderComponent={this.renderHeader}
+          height={165}
+        >
+          <View style={styles.innerModalBox}>
+            {this.renderContent()}
+          </View>
+        </Modalize>
+        <Modalize ref={this.modalRef} handlePosition="outside" adjustToContentHeight style={{backgroundColor: 'white'}}>
+          <View style={styles.innerModalBox}>
+            {this.renderCreatePOI()}
+          </View>
+        </Modalize>
+      </View>
     );
   }
 }

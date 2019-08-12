@@ -6,7 +6,7 @@ import React from "react";
 
 let {height, width} = Dimensions.get('window');
 
-export default class AppsScreen extends Component<Props> {
+class ModalComp extends Component<Props> {
   state = {
     isVisible: false
   };
@@ -73,6 +73,8 @@ export default class AppsScreen extends Component<Props> {
   }
 
 }
+
+export const ModalComponent = ModalComp;
 const styles = StyleSheet.create({
   modal: {
     margin: 0,

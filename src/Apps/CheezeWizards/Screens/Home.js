@@ -12,7 +12,7 @@ import {
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import {Contract, Settings} from "../../../AliceSDK/Web3";
+import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 
@@ -71,12 +71,11 @@ export default class MapComponent extends React.Component {
   fight = async () => {
     this.setState({pressed: !this.state.pressed});
     try {
-      const contractTxHash = await Contract.write({contractAddress: '0x108FC97479Ec5E0ab8e68584b3Ea9518BE78BeB4', abi: BasicTournament.abi, functionName: 'onseSidedCommit', parameters: ['3961', ...this.state.actionList], value: '0.0', data: '0x0'})
-      console.log('contractTxHash: ', contractTxHash);
-      this.setState({contractTxHash})
-
+      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
+      console.log('txHash: ', txHash);
+      this.setState({txHash})
     } catch(e) {
-      console.log(e)
+      console.log(e);
     }
   };
 

@@ -31,6 +31,7 @@ class CustomIcon extends React.Component {
 
   onPress = async (e) => {
     const feature = MapboxGL.geoUtils.makeFeature(e.geometry);
+    console.log('feature: ', feature)
     feature.id = `${Date.now()}`;
 
     this.setState({
@@ -39,12 +40,12 @@ class CustomIcon extends React.Component {
         feature,
       ),
     });
-  }
+  };
 
   onSourceLayerPress = (e) => {
     const feature = e.nativeEvent.payload;
     console.log('You pressed a layer here is your feature', feature); // eslint-disable-line
-  }
+  };
 
   render() {
     return (
