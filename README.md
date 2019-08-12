@@ -34,25 +34,13 @@ The app is fully functioning in the iOS version
 
 ## Getting Started
 
-1. Download or Clone this repository. `git clone https://github.com/alicedapp/AliceX.git`
+1. Run following command in your terminal:<br/>
+`sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/install.ios.sh)"`
 
-2. cd into the repository and run `yarn` or `npm install` depending if you are using either.
-
-3. run `git submodule init && git submodule update` to install the ios directory
-
-### iOS
-4. run `cd ios && pod install`
-5. Open the `AliceX.xcworkspace` file in xcode
-6. Run the project and start to build your app
-
-`COMING SOON`
-4. `./install.ios.sh`
-5. Run the project in Xcode. 🎉
+2. Run the project in Xcode. 🎉
 
 ### Android
 `COMING SOON`
-4. `./install.android.sh`
-5. Run the project in Android Simulator. 🎉
 
 # Building your app in Alice
 Now this is the juicy stuff. Hopefully you navigated through that setup process with ease because of one of two reasons
@@ -91,7 +79,7 @@ If you do wish to have a javascript package added to your app you will have to p
 - [x] Send Transaction
 - [x] Sign Transaction
 - [x] Sign Message
-- [ ] Send Token
+- [x] Send Token
 
 #### Smart Contract Functions
 - [x] Contract Write
