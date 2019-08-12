@@ -77,19 +77,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/in
 
 下面是一些  React Native 的基础与控件文档：
 
-​		官方文档：
-
-- https://facebook.github.io/react-native/
-  导航栏:
-- https://reactnavigation.org/docs/en/getting-started.html
+​		官方文档:
+- https://facebook.github.io/react-native/<br/>
+  导航栏:<br/>
+- https://reactnavigation.org/docs/en/getting-started.html<br/>
   地图文档:
-- https://github.com/nitaliano/react-native-mapbox-gl/tree/master/docs
+- https://github.com/nitaliano/react-native-mapbox-gl/tree/master/docs<br/>
   相机文档:
-- https://react-native-community.github.io/react-native-camera/docs/rncamera
+- https://react-native-community.github.io/react-native-camera/docs/rncamera<br/>
   Web3 文档:
-- https://github.com/alicedapp/AliceX/wiki
-
-
+- https://github.com/alicedapp/AliceX/wiki<br/>
 
 
 ## 小程序限制
