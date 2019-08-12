@@ -2,6 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/fastlane/fastlane/blob/master/LICENSE)
 
+[中文说明](./README_CN.md)
+
 Alice is a cryptocurrency wallet that allows anyone to build native apps inside of it. What does this mean? It means your app gets access to native features that don't exist in the current mobile browser paradigm that we are all used to with cryptocurrency wallets today.
 
 Features you get access to:

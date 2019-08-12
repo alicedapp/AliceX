@@ -43,6 +43,6 @@ fi
 
 if [ "$1" == "Android" ] || [ "$1" == "android" ] || [ "$1" == "-a" ];
 then
-	echo 'Building android'
+	echo 'Building android ...'
 	react-native run-android
 fi
