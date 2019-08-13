@@ -45,7 +45,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/in
    | -u                | Update all submodule in Alice, inculding iOS and android submodules. |
    | -h                | See all avaliable option                                     |
 
-   
+
 
 ### Android
 
@@ -95,6 +95,13 @@ If you do wish to have a javascript package added to your app you will have to p
 #### Smart Contract Functions
 - [x] Contract Write
 - [x] Contract Read
+
+#### EventFunctions
+- [x] Network Change
+- [x] Wallet Change
+- [x] Rotation Change
+
+
 
 ```js
 import {Wallet, Contract} from '../../SDK';

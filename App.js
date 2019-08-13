@@ -128,7 +128,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wallet: ''
+      wallet: '',
+      network: '',
+      rotation: '',
     };
 
     OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
@@ -175,17 +177,20 @@ class App extends Component {
 
     const walletChangedEventEmitter = Wallet.walletChangeEvent()
     walletChangedEventEmitter.addListener(
-      "walletChangedEvent",
-      (walletInfo) => {
+      "aliceEvent",
+      (event) => {
         console.log('EVENT TRIGGERED: ')
-        if (walletInfo.address) {
-          console.log('walletINFO: ', walletInfo, walletInfo.address);
-          this.setState({ wallet: walletInfo.address});
+        if (event.address) {
+          console.log('walletINFO: ', event, event.address);
+          this.setState({ wallet: event.address});
         }
-
-        if (walletInfo.network) {
-          console.log('NETWORK CHANGED: ', walletInfo, walletInfo.network);
-          this.setState({ wallet: walletInfo.network});
+        if (event.network) {
+          console.log('NETWORK CHANGED: ', event, event.network);
+          this.setState({ network: event.network});
+        }
+        if (event.rotation) {
+          console.log('NETWORK CHANGED: ', event, event.rotation);
+          this.setState({ rotation: event.rotation});
         }
       }
     );
