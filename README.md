@@ -60,7 +60,7 @@ Now this is the juicy stuff. Hopefully you navigated through that setup process 
 
 Welcome to the rabbit hole, it's now your choice to enter or not. You can turn back now and act like none of this happened. OR you can enter into wonderland and you'll experience how deep the rabbit hole goes.
 
-Now that you're in the repo you will want to navigate to the `src2/Apps` folder in Alice. In the folder you will see an Example app which you can use as a guide or boilerplate for your project.
+Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see an Example app which you can use as a guide or boilerplate for your project.
 As a buidler in Alice you will have access to Camera Features, Map Features, Navigation Features and Web3 features (the ability to prompt a user to send transactions in your application).
 
 Building your React Native app in Alice will be very similar to building a regular React Native app, if you're familiar with the process.
