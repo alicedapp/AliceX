@@ -113,11 +113,13 @@ export default class Tokens extends Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      if (data.tokens.length > 0) {
+      if (data.tokens && data.tokens.length > 0) {
         this.setState({tokenInfo: data, tokens: data.tokens});
       }
     };
-    const finishedFetching = () => this.setState({fetching: false})
+
+    const finishedFetching = () => this.setState({fetching: false});
+
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         if (this.responseText){
@@ -219,10 +221,6 @@ export default class Tokens extends Component {
 
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
-    console.log('STATE INFO: ', this.state);
-    console.log('TOKEN INFO: ', this.state.tokenInfo, typeof this.state.tokenInfo);
-    console.log('TOKENs: ', this.state.tokens, typeof this.state.tokens);
-    console.log('NFTs: ', this.state.nfts, typeof this.state.nfts);
     return (
       <View style={{flex: 1}}>
         {cameraMode === false ? <View style={styles.container}>

@@ -1,7 +1,7 @@
 /*
  * This is the ExampleMaps Registrar for Alice
  * Register your app by:
- * 1. Creating a folder in the src2/Apps directory which contains your React Native app
+ * 1. Creating a folder in the src/Apps directory which contains your React Native app
  * 2. Exporting your app in the ExampleMaps Export Section
  * 3. Adding your app to the list of apps in the Apps List Section
 */
@@ -11,7 +11,6 @@ import {
   StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, Modal, Dimensions, WebView,
 } from 'react-native';
 import Icon from '../AliceComponents/IconComponent';
-import {navigate} from "../AliceUtils/navigationWrapper";
 import AppIcon from "../AliceComponents/AppIcon";
 import {Settings} from "../AliceSDK/Web3";
 import {AppRegistry} from "./AppRegistry";
@@ -23,7 +22,6 @@ const options = {
   ignoreAndroidSystemSettings: false
 };
 
-const WEBVIEW = 'WEBVIEW';
 
 const { height, width } = Dimensions.get('window');
 
@@ -54,19 +52,6 @@ export default class AppsScreen extends Component<Props> {
     }
   };
 
-  back = () => {
-    this.refs[WEBVIEW].goBack()
-  }
-  forward = () => {
-    this.refs[WEBVIEW].goForward()
-  }
-  reload = () => {
-    this.refs[WEBVIEW].reload()
-  }
-  stopLoading = () => {
-    this.refs[WEBVIEW].stopLoading()
-  }
-
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -96,11 +81,6 @@ export default class AppsScreen extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  H1: {
-    fontWeight: 'bold',
-    color: 'black',
-    fontSize: 17,
-  },
   appIcon: {
     alignItems: 'center',
     height: 84,

@@ -139,7 +139,7 @@ class App extends Component {
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
-    OneSignal.configure(); 	// triggers the ids event
+    OneSignal.configure();
   }
 
   componentWillUnmount() {
