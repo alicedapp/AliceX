@@ -24,7 +24,7 @@ MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0
 import NavigatorService, {navigate} from './src/AliceUtils/navigationWrapper';
 import Icon from "./src/AliceComponents/IconComponent";
 import Activity from "./src/AliceCore/Screens/Activity";
-import {Wallet} from './src/AliceSDK/Web3'
+import {Settings, Wallet} from './src/AliceSDK/Web3'
 import OneSignal from 'react-native-onesignal'; // Import package from node modules
 import CodePush from "react-native-code-push";
 
@@ -172,11 +172,10 @@ class App extends Component {
 
   componentDidMount() {
     // navigate('FoamMap', {poi: challengedPOI});
-
     this.getAddress();
-
-    const walletChangedEventEmitter = Wallet.walletChangeEvent()
-    walletChangedEventEmitter.addListener(
+    this.getOrientation();
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
       "aliceEvent",
       (event) => {
         console.log('EVENT TRIGGERED: ')
@@ -188,9 +187,9 @@ class App extends Component {
           console.log('NETWORK CHANGED: ', event, event.network);
           this.setState({ network: event.network});
         }
-        if (event.rotation) {
-          console.log('NETWORK CHANGED: ', event, event.rotation);
-          this.setState({ rotation: event.rotation});
+        if (event.orientation) {
+          console.log('ROTATION CHANGED: ', event, event.orientation);
+          this.setState({ orientation: event.orientation});
         }
       }
     );
@@ -199,6 +198,15 @@ class App extends Component {
   getAddress = async () => {
     try {
       const address = await Wallet.getAddress();
+    } catch(e) {
+      console.log(e);
+    }
+
+  };
+
+  getOrientation = async () => {
+    try {
+      console.log('ORIENTATION: ', await Settings.getOrientation());
     } catch(e) {
       console.log(e);
     }

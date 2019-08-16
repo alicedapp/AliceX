@@ -94,7 +94,7 @@ export default class ActivityClass extends Component {
             onRefresh={this._refresh}
           />
         }>
-          {this.state.feed.length > 0 && this.state.feed.map((item, i) => (
+          {this.state.feed.length > 0 ? this.state.feed.map((item, i) => (
             <TouchableOpacity onPress={() => Settings.openBrowser('https://etherscan.io/tx/'+item.hash)} key={i}>
               <View style={{margin: 5, borderRadius: 15, padding: 5, paddingLeft: 10, paddingRight: 10, flexDirection: 'row' }}>
                 <View style={styles.tokenContainer}>
@@ -115,7 +115,20 @@ export default class ActivityClass extends Component {
                 </View>
               </View>
             </TouchableOpacity>
-          ))}
+          )) : <View style={{margin: 5, borderRadius: 15, padding: 5, paddingLeft: 10, paddingRight: 10, flexDirection: 'row' }}>
+              <View style={styles.tokenContainer}>
+                <Text style={{fontWeight: '600'}} >{''}</Text>
+              </View>
+              <View style={{flex: 1, justifyContent: 'space-around'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <View style={{height: 14, width: '100%', backgroundColor: '#cecece', borderRadius: 7}}></View>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <View style={{backgroundColor: '#d6d6d6', width: '100%', height: 10, borderRadius: 5}}></View>
+                </View>
+              </View>
+            </View>
+          }
           {/*<Activity currentAddress={this.state.publicAddress} isFetchingActivity={this.state.fetching} feedByAddress={this.state.feed}/>*/}
         </ScrollView>
       </View>

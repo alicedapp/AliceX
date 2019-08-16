@@ -101,8 +101,6 @@ If you do wish to have a javascript package added to your app you will have to p
 - [x] Wallet Change
 - [x] Rotation Change
 
-
-
 ```js
 import {Wallet, Contract} from '../../SDK';
 
@@ -189,6 +187,32 @@ Contract.read({
 }) -> []
 
 ```
+
+** EventFunctions **
+
+```js
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
+      "aliceEvent",
+      (event) => {
+        console.log('EVENT TRIGGERED: ')
+        if (event.address) {
+          console.log('walletINFO: ', event, event.address); -> "landscapeLeft", "landscapeRight", "portrait", "portraitUpsideDown"
+          this.setState({ wallet: event.address});
+        }
+        if (event.network) {
+          console.log('NETWORK CHANGED: ', event, event.network);
+          this.setState({ network: event.network});
+        }
+        if (event.rotation) {
+          console.log('NETWORK CHANGED: ', event, event.rotation);
+          this.setState({ rotation: event.rotation});
+        }
+      }
+    );
+```
+
+
 
 # Contributing
 Alice is open source and open source for a reason, we want everyone to join in on the fun. There is an ongoing list of key features that we have to implement before launch on the App Store and Google Play Store.

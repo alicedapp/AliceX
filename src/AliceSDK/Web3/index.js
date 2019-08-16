@@ -4,12 +4,11 @@ let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 
 
-// const getAddress = (cb) => NativeModules.WalletModule.getAddress(cb);
 const getAddress = async () => {
   try {
     return await NativeModules.WalletModule.getAddress();
   } catch(e) {
-    return "Wallet fetch failed"
+    throw "Wallet fetch failed: " + e;
   }
 };
 
@@ -17,7 +16,7 @@ const getBalance = async () => {
   try {
     return await NativeModules.WalletModule.getBalance();
   } catch(e) {
-    return "Get balance failed with error: " + e
+    throw "Get balance failed with error: " + e;
   }
 };
 
@@ -26,7 +25,7 @@ const getNetwork = async () => {
     const network = await NativeModules.WalletModule.getNetwork();
     return JSON.parse(network);
   } catch(e) {
-    return "Get network failed with error: " + e
+    throw "Get network failed with error: " + e
   }
 };
 
@@ -34,7 +33,7 @@ const sendTransaction = async ({to, value, data}) => {
   try {
     return await NativeModules.WalletModule.sendTransaction(to, ethers.utils.parseEther(value).toHexString(),data);
   } catch(e) {
-    return "Send transaction failed with error: " + e
+    throw "Send transaction failed with error: " + e
   }
 };
 
@@ -42,7 +41,7 @@ const sendTransactionWithDapplet = async ({to, value, data = "0x0"}) => {
   try {
     return await NativeModules.WalletModule.sendTransactionWithDapplet(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data));
   } catch(e) {
-    return "Send transaction failed with error: " + e
+    throw "Send transaction failed with error: " + e
   }
 };
 
@@ -51,7 +50,7 @@ const signTransaction = async ({to, value, data = "0x0", detailObject = false}) 
     const signedTransaction = await NativeModules.WalletModule.signTransaction(to, ethers.utils.parseEther(value).toHexString(), ethers.utils.formatBytes32String(data), detailObject);
     return typeof signedTransaction === 'string' ? signedTransaction : JSON.parse(signedTransaction);
   } catch(e) {
-    return "Sign transaction failed with error: " + e
+    throw "Sign transaction failed with error: " + e
   }
 };
 
@@ -59,7 +58,7 @@ const signMessage = async (message) => {
   try {
     return await NativeModules.WalletModule.signMessage(ethers.utils.formatBytes32String(message));
   } catch(e) {
-    return "Sign message failed with error: " + e
+    throw "Sign message failed with error: " + e
   }
 };
 
@@ -67,11 +66,14 @@ const transfer = async ({to="", value=""}) => {
   try {
     return await NativeModules.WalletModule.transfer(to, ethers.utils.parseEther(value).toHexString());
   } catch(e) {
-    return "Transfer failed with error: " + e
+    throw "Transfer failed with error: " + e
   }
 }
 
 const settingsPopUp = () => NativeModules.NativeVCModule.setting();
+
+const getOrientation = async () => await NativeModules.NativeVCModule.getOrientation();
+
 
 const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
 
@@ -79,7 +81,7 @@ const qrScanner = async () => {
   try {
     return await NativeModules.NativeVCModule.qrScanner();
   } catch(e) {
-    return "Scan QR code failed with error: " + e
+    throw "Scan QR code failed with error: " + e
   }
 }
 
@@ -87,7 +89,7 @@ const sendToken = async ({tokenAddress, to, value, data = "0x0"}) => {
   try {
     return await NativeModules.WalletModule.sendToken(tokenAddress, to, ethers.utils.parseEther(value).toHexString(), data);
   } catch(e) {
-    return "Send transaction failed with error: " + e
+    throw "Send transaction failed with error: " + e
   }
 };
 
@@ -95,7 +97,7 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
   try {
     return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, ethers.utils.parseEther(value).toHexString(), ethers.utils.hashMessage(data));
   } catch(e) {
-    return "Write to contract failed with error: " + e
+    throw "Write to contract failed with error: " + e
   }
 };
 
@@ -130,7 +132,7 @@ const resolve = async (ensName) => {
     try {
       return await infuraProvider.resolveName(ensName);
     } catch (e) {
-      return "ENS resolver error: " + e;
+      throw "ENS resolver error: " + e;
     }
   } else {
     return "0x0000000000000000000000000000000000000000";
@@ -147,14 +149,15 @@ const isPublicAddress = (ensName) => {
   }
 };
 
-const walletChangeEvent = () => {
+const aliceEvent = () => {
   return new NativeEventEmitter(NativeModules.CallRNModule);
 };
 
 export const Settings = {
   settingsPopUp,
   openBrowser,
-  qrScanner
+  qrScanner,
+  getOrientation
 };
 
 export const Wallet = {
@@ -165,7 +168,7 @@ export const Wallet = {
   signTransaction,
   signMessage,
   sendToken,
-  walletChangeEvent,
+  aliceEvent,
   sendTransactionWithDapplet,
   transfer
 };

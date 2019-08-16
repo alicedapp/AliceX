@@ -57,7 +57,7 @@ export default class Tokens extends Component {
       walletAddress: '',
       addressStatus: 'unresolved',
       inputAddress: '',
-      ethBalance: '',
+      ethBalance: 0,
       animatePress: new Animated.Value(1),
       amount: '',
       network: '',
@@ -92,8 +92,12 @@ export default class Tokens extends Component {
 
 
   getBalance = async () => {
-    const ethBalance = await Wallet.getBalance();
-    this.setState({ethBalance})
+    try {
+      const ethBalance = await Wallet.getBalance();
+      this.setState({ethBalance})
+    } catch(e) {
+      console.log('GET BALANCE ERROR: ', e)
+    }
   }
 
   _refresh = () => {
@@ -112,11 +116,14 @@ export default class Tokens extends Component {
       if (data.tokens.length > 0) {
         this.setState({tokenInfo: data, tokens: data.tokens});
       }
-    }
+    };
     const finishedFetching = () => this.setState({fetching: false})
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
-        onData(JSON.parse(this.responseText));
+        if (this.responseText){
+          onData(JSON.parse(this.responseText));
+          finishedFetching();
+        }
         finishedFetching();
       }
     });
@@ -162,7 +169,9 @@ export default class Tokens extends Component {
     }
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
-        onData(JSON.parse(this.responseText));
+        if (this.responseText){
+          onData(JSON.parse(this.responseText));
+        }
       }
     });
     xhr.open("GET", "https://api.opensea.io/api/v1/Assets?owner="+await Wallet.getAddress());
@@ -210,6 +219,7 @@ export default class Tokens extends Component {
 
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
+    console.log('STATE INFO: ', this.state);
     console.log('TOKEN INFO: ', this.state.tokenInfo, typeof this.state.tokenInfo);
     console.log('TOKENs: ', this.state.tokens, typeof this.state.tokens);
     console.log('NFTs: ', this.state.nfts, typeof this.state.nfts);
@@ -256,13 +266,26 @@ export default class Tokens extends Component {
             })}
             <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
             <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
-              {this.state.nfts.length > 0 && this.state.nfts.map((nft, i) => {
+              {this.state.nfts.length > 0 ? this.state.nfts.map((nft, i) => {
                 if (nft.collection) {
                   return (
                     <NFT iterator={i} key={i} nft={nft}/>
                   )
                 }
-              })}
+              }) : <View style={{width: '100%', marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center'}}>
+                <View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                  <View style={{...styles.nftContainer, backgroundColor: '#d9d9d9'}}>
+                    <View style={{width: 100, height: 100, backgroundColor: 'transparent'}}>
+                      <Text>No Unique Tokens</Text>
+                    </View>
+                  </View>
+                  <View style={{width: 140, backgroundColor: 'transparent', padding: 5}}>
+                    <View style={{marginBottom: 3, height: 15, width: '100%', borderRadius: 7,  backgroundColor: '#e0e0e0' }}/>
+                    <View style={{ height: 14, width: '100%', borderRadius: 7, backgroundColor: '#eaeaea'}}/>
+                  </View>
+                </View>
+              </View>
+              }
             </View>
           </ScrollView>
           {/*      ---------       Transaction Modal         ---------------           */}
@@ -376,6 +399,21 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  nftContainer: {
+    marginBottom: 5,
+    borderRadius: 15,
+    height: 140,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#212121',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
   },
   tokenBox: {
     flexDirection: 'row',
