@@ -231,9 +231,15 @@ export default class E2EChat extends React.Component {
   };
 
 
-  vote = (vote) => {
-    console.log('state: ', this.state.selectedProposal.id)
-    Contract.write({contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, true, 0, "0x0"], value: '0.0', data: '0x0'})
+  vote = async (vote) => {
+    try {
+      console.log('state: ', {contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, 1, 0, "0x0000000000000000000000000000000000000000"], data: '0x0'});
+      const txHash = await Contract.write({contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], data: '0x0'})
+      console.log('tx: ', txHash)
+
+    } catch(e) {
+      console.log('ERROR: ', e);
+    }
   };
 
   render() {
@@ -250,6 +256,7 @@ export default class E2EChat extends React.Component {
                 const messages = this.sortMessages(data);
                 console.log('MESSAGES: ', messages);
                 return (
+
                   <Query client={DAOstackClient} query={GET_DHACK_PROPOSALS}>
                     {({ loading, error, data }) => {
                       if (loading) return <Text>Loading...</Text>;
