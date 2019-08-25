@@ -18,7 +18,7 @@ export const NavigationBar = () => (
         height: 28,
       }}/>
     </TouchableOpacity>
-    <TouchableOpacity style={{ padding: 3 }} onPress={() => backAction(null)}>
+    <TouchableOpacity style={{ padding: 3 }}>
       <Image source={require('../AliceAssets/pin.png')} style={{
         resizeMode: 'contain',
         width: 28,

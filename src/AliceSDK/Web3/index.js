@@ -3,6 +3,9 @@ import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 
+const url = "https://eth-mainnet.alchemyapi.io/jsonrpc/J5dtZ15uh9UBfyGUwicNlNbjXvN-aog0";
+const provider = new ethers.providers.JsonRpcProvider(url);
+
 
 const getAddress = async () => {
   try {
@@ -103,7 +106,7 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
 
 const read = async ({contractAddress, abi, functionName, parameters, network}) => {
   if (network === "ropsten") {
-    const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
+    const contract = new EthersContract(contractAddress, abi, providerRopsten);
     if (parameters.length === 0) {
       return contract[functionName]();
     } else if (parameters.length > 0) {
@@ -111,7 +114,7 @@ const read = async ({contractAddress, abi, functionName, parameters, network}) =
     }
 
   } else {
-    const contract = new EthersContract(contractAddress, abi, infuraProvider);
+    const contract = new EthersContract(contractAddress, abi, provider);
     if (parameters.length === 0) {
       return contract[functionName]();
     } else if (parameters.length > 0) {
@@ -130,7 +133,7 @@ const resolve = async (ensName) => {
     }
   } else if (ensName.slice(-4) === '.eth' || ensName.slice(-4) === '.xyz') {
     try {
-      return await infuraProvider.resolveName(ensName);
+      return await provider.resolveName(ensName);
     } catch (e) {
       throw "ENS resolver error: " + e;
     }

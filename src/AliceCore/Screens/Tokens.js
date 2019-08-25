@@ -25,13 +25,14 @@ import AppIcon from "../../AliceComponents/AppIcon";
 import {AppRegistry} from "../../Apps/AppRegistry";
 import Camera from "../../AliceComponents/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import env from '../../../env.json';
+
+
 
 const options = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false
 };
-
-//TODO: needs api key
 
 export default class Tokens extends Component {
   constructor(props) {
@@ -79,9 +80,10 @@ export default class Tokens extends Component {
 
   async componentDidMount() {
     this.getNetwork();
-    this.getTokenInfo();
+    this.getTokenList();
     this.getNFTInfo();
     this.getBalance();
+
   }
 
   getNetwork = async () => {
@@ -102,19 +104,48 @@ export default class Tokens extends Component {
 
   _refresh = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
-    this.getTokenInfo();
+    this.getTokenList();
     this.getNFTInfo();
     this.getBalance()
+  };
+
+  getTokenMetaData = async (address) => {
+    try {
+      const metadata = await fetch("https://eth-mainnet.alchemyapi.io/jsonrpc/J5dtZ15uh9UBfyGUwicNlNbjXvN-aog0", {
+        body: JSON.stringify({ "jsonrpc":"2.0", "method":"alchemy_getTokenMetadata", "params": [address.toString()], "id": 1}),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST"
+      });
+
+      return await metadata.json()
+
+    } catch(e) {
+      console.log('metadata error: ', e)
+    }
+
   }
 
+  getTokenInfo = async (tokenList) => {
+    let tokens = [];
+    tokenList.forEach( async (token) => {
+      let tokenObject = token;
+      let metadata = await this.getTokenMetaData(token.tokenInfo.address);
+      tokenObject.tokenInfo.image = metadata.result.logo;
+      tokens.push(tokenObject);
+    });
+    return tokens;
+  };
 
-  getTokenInfo = async () => {
-    this.setState({fetching: true})
-    let data = null;
+  getTokenList = async () => {
+    this.setState({fetching: true});
     var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      if (data.tokens && data.tokens.length > 0) {
-        this.setState({tokenInfo: data, tokens: data.tokens});
+    const data = "";
+    const onData = async (result) => {
+      if (result.tokens && result.tokens.length > 0) {
+        const tokens = await this.getTokenInfo(result.tokens);
+        this.setState({tokens});
       }
     };
 
@@ -123,13 +154,14 @@ export default class Tokens extends Component {
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         if (this.responseText){
+          console.log('TOKENS: ', JSON.parse(this.responseText))
           onData(JSON.parse(this.responseText));
           finishedFetching();
         }
         finishedFetching();
       }
     });
-    xhr.open("GET", "https://api.ethplorer.io/getAddressInfo/"+await Wallet.getAddress()+"?apiKey=freekey");
+    xhr.open("GET", "http://api.ethplorer.io/getAddressInfo/" + await Wallet.getAddress() + "?apiKey=freekey");
     xhr.send(data);
 
   };
@@ -165,10 +197,11 @@ export default class Tokens extends Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
+      console.log('NFT DATA: ', data);
       if (data.assets) {
         this.setState({nftInfo: data, nfts: data.assets});
       }
-    }
+    };
     xhr.addEventListener("readystatechange",  function()  {
       if (this.readyState === this.DONE) {
         if (this.responseText){
@@ -176,7 +209,8 @@ export default class Tokens extends Component {
         }
       }
     });
-    xhr.open("GET", "https://api.opensea.io/api/v1/Assets?owner="+await Wallet.getAddress());
+    xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress());
+    xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
 
   };
@@ -212,8 +246,8 @@ export default class Tokens extends Component {
 
   sendEther = async () => {
     try {
-      const result = await Wallet.transfer({to: '0x56519083C3cfeAE833B93a93c843C993bE1D74EA', value: '0.01'})
-      this.setState({transferHash})
+      const result = await Wallet.transfer({to: '', value: '0.0'})
+      this.setState({transferHash: result})
     } catch(e) {
       console.log(e)
     }
@@ -263,7 +297,7 @@ export default class Tokens extends Component {
               )
             })}
             <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
-            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
+            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: width - 50, justifyContent: 'flex-start'}}>
               {this.state.nfts.length > 0 ? this.state.nfts.map((nft, i) => {
                 if (nft.collection) {
                   return (

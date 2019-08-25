@@ -1,14 +1,25 @@
-/*        ExampleMaps Export Section */
+/*
+ * This is the Apps Registrar for Alice
+ * Register your app by:
+ * 1. Creating a folder in the src/Apps directory which contains your React Native app
+ * 2. Exporting your app in the Apps Export Section
+ * 3. Adding your app to the list of apps in the Apps Registry Section containing the appName, backgroundColor of icon, the homeRoute, and image icon
+*/
+
+/*        Apps Export Section           */
 export { default as CheezeWizards } from './CheezeWizards';
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as Mintbase } from './Mintbase';
 export { default as DAOstack } from './DAOstack';
+export { default as BridgeWater } from './BridgeWater';
 export { default as E2E } from './E2E';
 export { default as LocalEthereum } from './LocalEthereum';
 export { default as Map } from './Map';
 
+
+/*      App Registry Section            */
 export const AppRegistry = [
   // // Your ExampleMaps ( uncomment the code below this line & delete this entire line of code )
   // {
@@ -19,12 +30,12 @@ export const AppRegistry = [
   //   // your apps icon has to contain the require function to be rendered -> require('../Assets/your_app_logo.png')
   //   icon: require('../Assets/your_app_logo.png')
   // },
-  {
-    appName: 'Fork',
-    backgroundColor: '#8e00ff',
-    homeRoute: 'Fork',
-    icon: require('../AliceAssets/fork-logo.png')
-  },
+  // {
+  //   appName: 'Fork',
+  //   backgroundColor: '#8e00ff',
+  //   homeRoute: 'Fork',
+  //   icon: require('../AliceAssets/fork-logo.png')
+  // },
   {
     appName: '#BUIDL',
     backgroundColor: '#ffffff',
@@ -50,15 +61,21 @@ export const AppRegistry = [
     icon: require('./E2E/Assets/e2e-logo.png')
   },
   {
+    appName: 'BridgeWater',
+    backgroundColor: '#FFF',
+    homeRoute: 'BridgeWater',
+    icon: require('./BridgeWater/Assets/bridgewater.png')
+  },
+  {
     appName: 'Cheeze Wizards',
     backgroundColor: '#fdef5d',
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
-  {
-    appName: 'localethereum',
-    backgroundColor: '#dbe0ff',
-    homeRoute: 'Map',
-    icon: require('./LocalEthereum/Assets/localethereum.png')
-  },
+  // {
+  //   appName: 'localethereum',
+  //   backgroundColor: '#dbe0ff',
+  //   homeRoute: 'Map',
+  //   icon: require('./LocalEthereum/Assets/localethereum.png')
+  // },
 ];

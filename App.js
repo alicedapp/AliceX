@@ -18,8 +18,8 @@ const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry');
 import CameraScreen from './src/AliceCore/Screens/Camera';
 import Tokens from './src/AliceCore/Screens/Tokens';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-MapboxGL.setAccessToken('pk.eyJ1IjoibWFya3BlcmVpciIsImEiOiJjancwNDg4eWswNzk1NGJ0Z3V5OGtxZWltIn0.gZ7ev6fQETAFa4J9kao10w');
-//TODO: change API key on release to TestFlight
+import env from './env.json';
+MapboxGL.setAccessToken(env.mapbox);
 
 import NavigatorService, {navigate} from './src/AliceUtils/navigationWrapper';
 import Icon from "./src/AliceComponents/IconComponent";
@@ -116,7 +116,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  Apps: { screen: AppTabNavigator },
+  // Apps: { screen: AppTabNavigator },
+  Apps: { screen: MiniDapps.BridgeWater },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -133,8 +134,7 @@ class App extends Component {
       rotation: '',
     };
 
-    OneSignal.init("04726983-9720-41b1-894a-eff5aec84c17");
-    //TODO: change API key on release to TestFlight
+    OneSignal.init(env.onesignal);
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
@@ -161,6 +161,10 @@ class App extends Component {
     if (openResult.notification.payload.title === "E2E") {
       navigate('E2E');
     }
+    if (openResult.notification.payload.title === "BridgeWater") {
+      navigate('BridgeWater');
+    }
+
     console.log('Data: ', openResult.notification.payload.title);
     console.log('isActive: ', openResult.notification.isAppInFocus);
     console.log('openResult: ', openResult);
@@ -180,7 +184,7 @@ class App extends Component {
       (event) => {
         console.log('EVENT TRIGGERED: ')
         if (event.address) {
-          console.log('walletINFO: ', event, event.address);
+          console.log('WALLET INFO: ', event, event.address);
           this.setState({ wallet: event.address});
         }
         if (event.network) {

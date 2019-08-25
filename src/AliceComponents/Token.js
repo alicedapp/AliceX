@@ -10,7 +10,6 @@ export default class Token extends Component<Props> {
     this.state = {
       animatePress: new Animated.Value(1)
     };
-
   }
 
   animateIn = () => {
@@ -25,7 +24,6 @@ export default class Token extends Component<Props> {
       toValue: 1,
       duration: 100
     }).start();
-
   };
 
   render() {
@@ -37,17 +35,25 @@ export default class Token extends Component<Props> {
               scale: this.state.animatePress
             }
           ]}}>
-          {tokenInfo.image ?
-            <View style={styles.tokenContainer}>
-              <Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>
-            </View> :
-            <View style={styles.tokenContainer}>
-              <Text style={{fontWeight: '600'}} >{tokenInfo.symbol.substring(0, 4)}</Text>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row'}}>
+              {tokenInfo.image ?
+                <View style={styles.tokenContainer}>
+                  <Image source={{uri: tokenInfo.image}} style={styles.tokenImage}/>
+                </View> :
+                <View style={styles.tokenContainer}>
+                  <Text style={{fontWeight: '600'}} >{tokenInfo.symbol.substring(0, 4)}</Text>
+                </View>
+              }
+              <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
+                <Text>{tokenInfo.name}</Text>
+                <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(4)} {tokenInfo.symbol.substring(0, 4)}</Text>
+              </View>
             </View>
-          }
-          <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
-            <Text>{tokenInfo.name}</Text>
-            <Text>{(parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(4)} {tokenInfo.symbol.substring(0, 4)}</Text>
+            <View>
+              <Text>{tokenInfo.price.rate && (((parseInt(token.balance)/Math.pow(10, parseInt(tokenInfo.decimals))).toFixed(4))*tokenInfo.price.rate).toFixed(2)} {tokenInfo.price.currency}</Text>
+              <Text>{tokenInfo.price.diff ? tokenInfo.price.diff + '%' : ''}</Text>
+            </View>
           </View>
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -58,7 +64,7 @@ export default class Token extends Component<Props> {
 const styles = StyleSheet.create({
   tokenBox: {
     flexDirection: 'row',
-    width: '100%',
+    width: width - 50,
     margin: 8,
 
   },

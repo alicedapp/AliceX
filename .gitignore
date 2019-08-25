@@ -29,6 +29,8 @@ build/
 .gradle
 local.properties
 *.iml
+#ENV
+env.json
 
 # node.js
 #

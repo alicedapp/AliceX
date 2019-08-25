@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "3box-activity": "^0.0.9",
+    "@apollo/react-hooks": "^3.0.1",
     "@mapbox/mapbox-sdk": "^0.6.0",
     "@react-native-mapbox-gl/maps": "^7.0.0-rc3",
     "add": "^2.0.6",
     "apollo-boost": "^0.4.3",
+    "apollo-link-ws": "^1.0.18",
     "blueimp-md5": "^2.11.0",
     "ethers": "^4.0.31",
     "graphql": "^14.4.2",
@@ -37,6 +39,7 @@
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "subscriptions-transport-ws": "^0.9.16",
     "yarn": "^1.17.3"
   },
   "devDependencies": {
