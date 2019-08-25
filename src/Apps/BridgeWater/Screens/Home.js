@@ -198,7 +198,8 @@ export default class E2EChat extends React.Component {
   };
 
   sortInformation = (messages, proposals) => {
-    let information = messages.concat(proposals);
+    messages = messages || [];
+    let information = messages.concat(proposals || []);
     information = information.filter(n => n);
     return information.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
   };
