@@ -69,7 +69,7 @@ import gql from "graphql-tag";
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://10.0.6.22:4000/graphql',
+    uri: 'https://e971ba1e.ngrok.io/graphql',
   }),
   cache: new InMemoryCache()
 });
@@ -79,8 +79,6 @@ const client = new ApolloClient({
 const App = createBottomTabNavigator({
   // Your ExampleMaps's Tab Navigator's names are defined here as a default
   Home: Home,
-  Maps: Map,
-  Camera: Camera
 });
 
 const AppContainer = createAppContainer(App);

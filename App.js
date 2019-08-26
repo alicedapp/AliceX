@@ -116,8 +116,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  // Apps: { screen: AppTabNavigator },
-  Apps: { screen: MiniDapps.BridgeWater },
+  Apps: { screen: AppTabNavigator },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -161,7 +160,7 @@ class App extends Component {
     if (openResult.notification.payload.title === "E2E") {
       navigate('E2E');
     }
-    if (openResult.notification.payload.title === "BridgeWater") {
+    if (openResult.notification.payload.title === "VotezUp") {
       navigate('BridgeWater');
     }
 

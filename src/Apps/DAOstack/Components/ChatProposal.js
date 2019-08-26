@@ -34,7 +34,7 @@ export default class DAOstackApp extends Component {
     return (
       <View key={key} onPress={() => this.props.navigation.navigate('DAOstackHome')} style={styles.daoBox}>
         <View style={{width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15,}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', width: width - 70, marginBottom: 10}}>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', width: width - 70, marginBottom: 10}}>
             <Text numberOfLines={1} style={{ fontWeight: '700'}}>{proposal.title}</Text>
             <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
               <Image source={require('../Assets/link-icon.png')} style={{

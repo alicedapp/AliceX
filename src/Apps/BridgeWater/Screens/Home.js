@@ -14,6 +14,7 @@ import OneSignal from "react-native-onesignal";
 import {ApolloClient, HttpLink, InMemoryCache} from "apollo-boost";
 import Proposal from '../../DAOstack/Components/ChatProposal'
 import Modal from "react-native-modal";
+import {FoodContractABI} from "../../Example/ABI";
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:5000/`,
   options: {
@@ -231,9 +232,19 @@ export default class E2EChat extends React.Component {
   };
 
 
-  vote = (vote) => {
-    console.log('state: ', this.state.selectedProposal.id)
-    Contract.write({contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, true, 0, "0x0"], value: '0.0', data: '0x0'})
+  vote = async (vote) => {
+    console.log('state: ', this.state.selectedProposal.id);
+    try {
+      if (vote === 'yes') {
+        const txHash = await Contract.write({contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, 1, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
+      }
+      if (vote === 'no') {
+        Contract.write({contractAddress: this.state.selectedProposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.state.selectedProposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
+      }
+    } catch (e) {
+
+    }
+
   };
 
   render() {
@@ -277,10 +288,10 @@ export default class E2EChat extends React.Component {
                           >
                             <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
                               <View style={{width: '100%', height: 50, padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                                <TouchableOpacity onPress={() => this.vote(true)} style={{backgroundColor: '#333333', padding: 10, marginRight: 15, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} >
+                                <TouchableOpacity onPress={() => this.vote('yes')} style={{backgroundColor: '#333333', padding: 10, marginRight: 15, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} >
                                   <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>YES</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => this.vote(false)} style={{backgroundColor: '#333333', padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} >
+                                <TouchableOpacity onPress={() => this.vote('no')} style={{backgroundColor: '#333333', padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 12}} >
                                   <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>NO</Text>
                                 </TouchableOpacity>
                               </View>

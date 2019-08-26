@@ -61,7 +61,7 @@ export const AppRegistry = [
     icon: require('./E2E/Assets/e2e-logo.png')
   },
   {
-    appName: 'BridgeWater',
+    appName: 'VotezUp',
     backgroundColor: '#FFF',
     homeRoute: 'BridgeWater',
     icon: require('./BridgeWater/Assets/bridgewater.png')
