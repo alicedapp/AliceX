@@ -6,7 +6,8 @@
  * 3. Adding your app to the list of apps in the Apps Registry Section containing the appName, backgroundColor of icon, the homeRoute, and image icon
 */
 
-/*        Apps Export Section           */
+/*        Apps Export Section          */
+/*        This is your Main Route Name          */
 export { default as CheezeWizards } from './CheezeWizards';
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
@@ -16,7 +17,7 @@ export { default as DAOstack } from './DAOstack';
 export { default as BridgeWater } from './BridgeWater';
 export { default as E2E } from './E2E';
 export { default as LocalEthereum } from './LocalEthereum';
-export { default as Map } from './Map';
+export { default as CryptoHub } from './CryptoHub';
 
 
 /*      App Registry Section            */
@@ -60,22 +61,28 @@ export const AppRegistry = [
     homeRoute: 'E2E',
     icon: require('./E2E/Assets/e2e-logo.png')
   },
+  // {
+  //   appName: 'VotezUp',
+  //   backgroundColor: '#FFF',
+  //   homeRoute: 'BridgeWater',
+  //   icon: require('./BridgeWater/Assets/bridgewater.png')
+  // },
   {
-    appName: 'VotezUp',
-    backgroundColor: '#FFF',
-    homeRoute: 'BridgeWater',
-    icon: require('./BridgeWater/Assets/bridgewater.png')
-  },
-  {
-    appName: 'Cheeze Wizards',
+    appName: 'CheezeWiza..',
     backgroundColor: '#fdef5d',
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
   // {
-  //   appName: 'localethereum',
+  //   appName: 'localeth..',
   //   backgroundColor: '#dbe0ff',
   //   homeRoute: 'Map',
   //   icon: require('./LocalEthereum/Assets/localethereum.png')
+  // },
+  // {
+  //   appName: 'CryptoHub',
+  //   backgroundColor: '#ffffff',
+  //   homeRoute: 'CryptoHub',
+  //   icon: require('./CryptoHub/Assets/logo.png')
   // },
 ];

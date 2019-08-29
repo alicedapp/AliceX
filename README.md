@@ -63,6 +63,14 @@ Welcome to the rabbit hole, it's now your choice to enter or not. You can turn b
 Now that you're in the repo you will want to navigate to the `src/Apps` folder in Alice. In the folder you will see an Example app which you can use as a guide or boilerplate for your project.
 As a buidler in Alice you will have access to Camera Features, Map Features, Navigation Features and Web3 features (the ability to prompt a user to send transactions in your application).
 
+
+ You will Register your app by:
+ 1. Creating a folder in the src/Apps directory which contains your React Native app
+ 2. Exporting your app in the Apps Export Section
+ 3. Adding your app to the list of apps in the Apps Registry Section containing the appName, backgroundColor of icon, the homeRoute, and image icon.
+ 4. Create a pull request with your app's name as the name of the branch containing only code change in the `/Apps`  Folder
+
+
 Building your React Native app in Alice will be very similar to building a regular React Native app, if you're familiar with the process.
 For Documentation on how to use React Native:
 - https://facebook.github.io/react-native/

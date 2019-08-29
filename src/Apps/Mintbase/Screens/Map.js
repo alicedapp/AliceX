@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
 });
 
-{ /* <View style={styles.whiteBox}> */ }
+{ /* <View style={Styles.whiteBox}> */ }
 { /* <View style={{}}> */ }
 { /* <Text style={{ */ }
 { /* fontSize: 20, */ }

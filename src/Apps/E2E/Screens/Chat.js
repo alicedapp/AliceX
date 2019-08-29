@@ -5,10 +5,7 @@ import {E2EABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import {ethers} from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
-import {FoodContractABI} from "../../Example/ABI";
 import Icon from "../../../AliceComponents/IconComponent";
-const gravatarApi = require('gravatar-api');
-import _ from 'lodash'
 
 const ROPSTEN = { address: "0xF5D9E79FA73BF0ff34c5EC16Ca4BbC7eee5c69a0", startBlockNumber: '0x36d224' };
 const infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');

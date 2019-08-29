@@ -13,6 +13,7 @@ import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
+import env from '../../../../env'
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 
@@ -36,16 +37,16 @@ export default class MapComponent extends React.Component {
     super(props);
 
     this.state = {
-      // loading: false,
+      loading: false,
+      // loading: true,
       pressed: false,
       actionList: [],
-      loading: true,
     };
 
   }
 
   componentDidMount() {
-    this.fetchWizard();
+    this.fetchWizards();
   }
 
   animate = () => {
@@ -53,7 +54,29 @@ export default class MapComponent extends React.Component {
     this.setState({pressed: !this.state.pressed});
   }
 
-  fetchWizard = () => {
+  fetchWizards = async () => {
+    let data = null;
+    var xhr = new XMLHttpRequest();
+    const onData = (data) => {
+      console.log('NFT DATA: ', data);
+      if (data.assets) {
+        this.setState({nftInfo: data, nfts: data.assets});
+      }
+    };
+    xhr.addEventListener("readystatechange",  function()  {
+      if (this.readyState === this.DONE) {
+        if (this.responseText){
+          onData(JSON.parse(this.responseText));
+        }
+      }
+    });
+    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
+    xhr.setRequestHeader("Content-Type","application/json")
+    xhr.setRequestHeader("x-api-token", env.cheezeWizard)
+    xhr.setRequestHeader("x-email","mark@alicedapp.com")
+
+
+    xhr.send(data);
     setTimeout(() => this.setState({loading: false}), 2000);
   };
 
@@ -85,7 +108,6 @@ export default class MapComponent extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
-
           {this.state.loading === true ? <View style={{
             flex: 1,
             justifyContent: 'center',

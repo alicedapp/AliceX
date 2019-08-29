@@ -69,7 +69,7 @@ import gql from "graphql-tag";
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://e971ba1e.ngrok.io/graphql',
+    uri: 'https://236e58ca.ngrok.io/graphql',
   }),
   cache: new InMemoryCache()
 });

@@ -1,17 +1,21 @@
 import React from 'react';
 import {
-  StyleSheet, Text, TouchableOpacity, View,
+  StyleSheet, Image, TouchableOpacity, View,
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import Modalize from "../Components/Modalize";
+import {createStackNavigator} from "react-navigation";
+import Icon from "../../../AliceComponents/IconComponent";
+import App from "../App";
+import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 
 const ANNOTATION_SIZE = 10;
 
 
-export default class MapComponent extends React.Component {
+class MapComponent extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -85,6 +89,10 @@ export default class MapComponent extends React.Component {
     });
   };
 
+  openExamples = () => {
+    this.props.navigation.navigate('MapExamples');
+  }
+
   render() {
     const { navigation } = this.props;
     return (
@@ -93,33 +101,32 @@ export default class MapComponent extends React.Component {
           styleURL={this.state.styleURL}
           style={{flex: 1}}
         >
+          <NavigationBar/>
           <MapboxGL.Camera followZoomLevel={12} followUserLocation />
-          {/*ref={c => (this._map = c)}*/}
-          {/*centerCoordinate={this.state.coordinates[0]}*/}
-          {/*showUserLocation={true}*/}
-          {/*zoomLevel={12}*/}
-          {/*userTrackingMode={MapboxGL.UserTrackingModes.Follow}*/}
-          {/*styleURL={this.state.styleURL}*/}
-          {/*style={{flex: 1}}*/}
-          {/*onDidFinishLoadingMap={this.onDidFinishLoadingMap}*/}
-          {/*onRegionWillChange={this.onRegionWillChange}*/}
-          {/*onRegionDidChange={this.onRegionDidChange}*/}
-          {/*onRegionIsChanging={this.onRegionIsChanging}*/}
-        {/*>*/}
-          {/*<View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>*/}
-            {/*<TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>*/}
-              {/*<Text>Press me</Text>*/}
-            {/*</TouchableOpacity>*/}
-            {/*{this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}*/}
-          {/*</View>*/}
-          {/*<Modalize ref={this.child}>*/}
-
-          {/*</Modalize>*/}
+          <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end', padding: 20}}>
+            <TouchableOpacity onPress={this.openExamples} style={{backgroundColor: 'white', height: 50, width: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
+              <Image source={require('../Assets/burger.png')} style={{resizeMode: 'contain', height: 20}}/>
+            </TouchableOpacity>
+          </View>
         </MapboxGL.MapView>
       </View>
     );
   }
 }
+
+const MapStack = createStackNavigator({
+    Home: {
+      screen: MapComponent,
+    },
+    MapExamples: {
+      screen: App,
+    },
+  },
+  {
+    headerMode: 'none',
+  });
+
+export default MapStack
 
 const MapBoxStyles = StyleSheet.create({
   tip: {
@@ -195,18 +202,3 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
   },
 });
-
-{ /* <View style={styles.whiteBox}> */ }
-{ /* <View style={{}}> */ }
-{ /* <Text style={{ */ }
-{ /* fontSize: 20, */ }
-{ /* color: 'black', */ }
-{ /* }}>Add a POI or Signal for Location Services</Text> */ }
-{ /* <Text style={{ fontSize: 14 }}>Click anywhere on the map to start.</Text> */ }
-{ /* </View> */ }
-{ /* <View style={{}}> */ }
-{ /* <TouchableOpacity onPress={() => this.toggleBox(1)}> */ }
-{ /* <Text style={{ fontSize: 20 }}>X</Text> */ }
-{ /* </TouchableOpacity> */ }
-{ /* </View> */ }
-{ /* </View> */ }

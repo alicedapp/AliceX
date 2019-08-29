@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {RNCamera as Camera} from 'react-native-camera';
 import Modal from '../Components/Modal';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 
 export default class CameraComponent extends Component {
 
@@ -25,6 +26,7 @@ export default class CameraComponent extends Component {
   render() {
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onBarCodeRead={this.read} type={this.state.cameraType}>
+        <NavigationBar/>
         <TouchableOpacity onPress={this.switchCamera}>
           <Text style={{color: 'white'}}>Switch Camera</Text>
         </TouchableOpacity>

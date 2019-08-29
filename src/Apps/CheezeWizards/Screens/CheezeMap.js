@@ -7,7 +7,6 @@ import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
 import wzrd1Icon from "../Assets/wzrd-1.png";
 import wzrd2Icon from "../Assets/wzrd-2.png";
-import yea from "../../Map/Assets/location.png";
 
 const { height, width } = Dimensions.get('window');
 
@@ -157,7 +156,7 @@ class CheezeMap extends React.Component {
         feature,
       ),
     });
-  }
+  };
 
   onSourceLayerPress = (e) => {
     const feature = e.nativeEvent.payload;
@@ -192,10 +191,10 @@ class CheezeMap extends React.Component {
       <MapboxGL.MapView
         styleURL={'mapbox://styles/markpereir/cjz2mknyj0vke1cmzo00bs951'}
         onPress={this.onPress}
-        style={{flex: 1}}
+        style={{flex: 1,}}
       >
-        <NavigationBar/>
         <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+        <NavigationBar/>
         <MapboxGL.ShapeSource
           id="exampleShapeSource"
           shape={featureCollection}
@@ -204,20 +203,25 @@ class CheezeMap extends React.Component {
           <MapboxGL.SymbolLayer id={'12341'} style={{ iconSize: 1, iconImage: wzrd2Icon  }} />
         </MapboxGL.ShapeSource>
         <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
-        <Modal isVisible={this.state.modalVisible} backdropOpacity={0.3} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', paddingTop: 200}}>
-          <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
-            <Image source={require('../Assets/tournament.png')} style={{
-              height: width - 11,
-              width: width - 81,
-              resizeMode: 'contain',
-            }}/>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30}}>
+          <View style={{height: 50, marginTop: 40, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+            <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>CHEEZYVERSE</Text>
           </View>
-          <Button onPress={this.toggleModal} style={{flex: 1}}>
-            <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>New Tournament</Text>
+          <Modal isVisible={this.state.modalVisible} backdropOpacity={0.3} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', paddingTop: 200}}>
+            <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
+              <Image source={require('../Assets/tournament.png')} style={{
+                height: width - 11,
+                width: width - 81,
+                resizeMode: 'contain',
+              }}/>
             </View>
-          </Button>
-        </Modal>
+            <Button onPress={this.toggleModal} style={{flex: 1}}>
+              <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>New Tournament</Text>
+              </View>
+            </Button>
+          </Modal>
+        </View>
       </MapboxGL.MapView>
     );
   }

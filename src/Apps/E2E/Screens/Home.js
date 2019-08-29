@@ -5,14 +5,10 @@ import {E2EABI} from "../ABI";
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import { ethers } from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
-import {FoodContractABI} from "../../Example/ABI";
 import Icon from "../../../AliceComponents/IconComponent";
 import Modal from "react-native-modal";
-import Token from "../../../AliceComponents/Token";
 import {AppRegistry} from "../../index";
-import _ from 'lodash'
 import Camera from "../../../AliceComponents/Camera";
-const gravatarApi = require('gravatar-api');
 
 const ROPSTEN = { address: "0xF5D9E79FA73BF0ff34c5EC16Ca4BbC7eee5c69a0", startBlockNumber: '0x36d224' };
 const infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');

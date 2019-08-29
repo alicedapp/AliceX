@@ -38,7 +38,7 @@ const fontSize = {
 
 
 
-// text styles
+// text Styles
 const text = {
   greySmall: {
     fontFamily: 'DIN Condensed',
