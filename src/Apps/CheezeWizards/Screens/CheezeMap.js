@@ -194,7 +194,6 @@ class CheezeMap extends React.Component {
         style={{flex: 1,}}
       >
         <MapboxGL.Camera followZoomLevel={12} followUserLocation />
-        <NavigationBar/>
         <MapboxGL.ShapeSource
           id="exampleShapeSource"
           shape={featureCollection}
@@ -222,6 +221,7 @@ class CheezeMap extends React.Component {
             </Button>
           </Modal>
         </View>
+        <NavigationBar/>
       </MapboxGL.MapView>
     );
   }

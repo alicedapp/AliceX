@@ -36,7 +36,27 @@ If we don't get back to you immediately there will be many other resources out t
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/install.ios.sh)"
 ```
 
-2. Ready to go 🎉. After installing, you can use `./alice` to run and test alice.
+2. You will need to add a `env.json` file in the root of the AliceX project to with API keys to run the project.
+    Replace the below fake keys with real ones from the respected websites.
+    * = required
+    - *https://www.mapbox.com/
+    - *https://opensea.io/
+    - https://etherscan.io/
+    - https://onesignal.com/
+    - https://alchemyapi.io/
+```js
+{
+  "mapbox": "pk.534967796345.807345023845",
+  "alchemy": "384259834528074235-897342",
+  "onesignal":"3245342-543-5534-435-53434525",
+  "opensea":"324523525425432453543",
+  "etherscan": "23542354234523452345",
+  "cheezeWizard": "523542345235245-532543253253",
+}
+
+```
+
+3. Ready to go 🎉. After installing, you can use `./alice` to run and test alice.
 
    | ./alice <options> | Alice command tool                                           |
    | ----------------- | ------------------------------------------------------------ |

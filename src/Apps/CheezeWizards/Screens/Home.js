@@ -14,6 +14,8 @@ import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import env from '../../../../env'
+import { SvgUri } from 'react-native-svg';
+
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 
@@ -41,12 +43,14 @@ export default class MapComponent extends React.Component {
       // loading: true,
       pressed: false,
       actionList: [],
+      wizards: []
     };
 
   }
 
   componentDidMount() {
     this.fetchWizards();
+    this.getNFTInfo();
   }
 
   animate = () => {
@@ -55,6 +59,32 @@ export default class MapComponent extends React.Component {
   }
 
   fetchWizards = async () => {
+    let data = null;
+    var xhr = new XMLHttpRequest();
+    const onData = (data) => {
+      console.log('WIZARDS:  ', data);
+      if (data.wizards) {
+        this.setState({wizards: data.wizards});
+      }
+    };
+    xhr.addEventListener("readystatechange",  function()  {
+      if (this.readyState === this.DONE) {
+        if (this.responseText){
+          onData(JSON.parse(this.responseText));
+        }
+      }
+    });
+    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
+    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.setRequestHeader("x-api-token", env.cheezeWizard);
+    xhr.setRequestHeader("x-email","mark@alicedapp.com");
+
+
+    xhr.send(data);
+    setTimeout(() => this.setState({loading: false}), 2000);
+  };
+
+  getNFTInfo = async () => {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
@@ -70,14 +100,10 @@ export default class MapComponent extends React.Component {
         }
       }
     });
-    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json")
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard)
-    xhr.setRequestHeader("x-email","mark@alicedapp.com")
-
-
+    xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0xd3d2Cc1a89307358DB3e81Ca6894442b2DB36CE8");
+    xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
+
   };
 
   openMap = () => {
@@ -132,7 +158,7 @@ export default class MapComponent extends React.Component {
                   }}/>
                 </Button>
                 <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>MARK PEREIRA</Text>
+                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
                 </View>
                 <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
                   <Image source={require('../Assets/settings-icon.png')} style={{
@@ -142,104 +168,17 @@ export default class MapComponent extends React.Component {
                   }}/>
                 </Button>
               </View>
-              <View style={{width: width -40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <View>
-                  <Image source={require('../Assets/water-wizard.png')} style={{
-                    resizeMode: 'contain',
-                    width: 200,
-                    height: 300
-                  }}/>
-                  <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>WINS 0</Text>
-                  <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>LOSSES 0</Text>
-                </View>
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                  <ImageBackground source={require('../Assets/cheeze-board-vertical.png')}
-                                   imageStyle={{resizeMode: 'contain'}}
-                                   style={{alignItems: 'center', justifyContent: 'flex-start', width: 70, height: 400, paddingTop: 40}}>
-                    {this.state.actionList.map((action, i) => {
-                      if (action === 'fire') {
-                        return (
-                          <Image source={require('../Assets/fire-list.png')} key={i} style={{
-                            resizeMode: 'contain',
-                            width: 40,
-                            height: 40,
-                            marginVertical: 30
-                          }}/>
-                        )
-                      } else if (action === 'water') {
-                        return (
-                          <Image source={require('../Assets/water-list.png')} key={i} style={{
-                            resizeMode: 'contain',
-                            width: 40,
-                            height: 40,
-                            marginVertical: 30
-                          }}/>
-                        )
-                      } else if (action === 'earth') {
-                        return (
-                          <Image source={require('../Assets/earth-list.png')} key={i} style={{
-                            resizeMode: 'contain',
-                            width: 40,
-                            height: 40,
-                            marginVertical: 30
-                          }}/>
-                        )
-                      } else if (action === 'neutral') {
-                        return (
-                          <Image source={require('../Assets/neutral-list.png')} key={i} style={{
-                            resizeMode: 'contain',
-                            width: 40,
-                            height: 40,
-                          }}/>
-                        )
-                      }
-                    })}
-                  </ImageBackground>
-                </View>
-
-              </View>
-              <View>
-                <TouchableWithoutFeedback {...this.props} onPressIn={this.animate} onPressOut={this.fight}>
-                  {this.state.pressed ? <Image source={require('../Assets/pressed-cheeze-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 100,
-                    height: 100
-                  }}/> : <Image source={require('../Assets/cheeze-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 100,
-                    height: 100
-                  }}/>}
-                </TouchableWithoutFeedback>
-              </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-                <Button onPress={() => this.actionPress('fire')}>
-                  <Image source={require('../Assets/fire-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
-                <Button onPress={() => this.actionPress('water')}>
-                  <Image source={require('../Assets/water-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
-                <Button onPress={() => this.actionPress('earth')}>
-                  <Image source={require('../Assets/earth-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
-                <Button onPress={() => this.actionPress('neutral')}>
-                  <Image source={require('../Assets/neutral-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
+              <View style={{width: width -40, justifyContent: 'space-between', alignItems: 'center'}}>
+                {this.state.wizards.map((wizard, i) => {
+                  return (
+                    <View key={i} style={{flexDirection: 'column'}}>
+                      <Image style={{resizeMode: 'contain', height: 100}} source={require('../Assets/mold-wizard-1.png')}/>
+                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>Affinity {wizard.affinity}</Text>
+                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>id {wizard.id}</Text>
+                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>Power {wizard.power}</Text>
+                    </View>
+                  )
+                })}
               </View>
             </View>
           </View>}
