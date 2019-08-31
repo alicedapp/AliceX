@@ -11,59 +11,13 @@
 * Please see the documentation for more info on how to build out more features into Alice.
 * */
 
-import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
-import Redemptions from './Screens/Redemptions'
-import Proposals from './Screens/Proposals'
-import Holders from './Screens/Holders'
-import History from './Screens/History'
-import DAOstack from './Screens/DAOs'
-import NewProposal from './Screens/NewProposal'
-import ReputationRequest from "./Screens/ReputationRequest";
-import RequestComplete from "./Screens/RequestComplete";
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import React, { Component } from "react";
 import { ApolloProvider, Query, graphql } from 'react-apollo';
-import React, {Component} from "react";
-import {NavigationBar} from "../../AliceComponents/NavigationBar";
+import { createAppContainer } from 'react-navigation';
 
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'https://subgraph.daostack.io/subgraphs/name/v24',
-    fetchOptions: {
-      mode: "no-cors",
-    },
-  }),
-  cache: new InMemoryCache()
-});
-
-const DAOHomePage =  createBottomTabNavigator({
-  // Your ExampleMaps's Tab Navigator's names are defined here as a default
-  DAOstackHome: Proposals,
-  DAOstackRedemptions: Redemptions,
-  DAOstackHolders: Holders,
-  DAOstackHistory: History
-},
-  {
-    tabBarOptions: {
-      style: {
-        backgroundColor: '#3078CA',
-        borderTopColor: 'transparent',
-      },
-      showLabel: false,
-    },
-  });
-
-DAOHomePage.navigationOptions = {
-  // Hide the header from AppNavigator stack
-  header: null,
-};
-
-const App = createStackNavigator({
-  DAOstack: DAOstack,
-	DAOHomePage: DAOHomePage,
-  NewProposal: NewProposal,
-  ReputationRequest: ReputationRequest,
-  RequestComplete: RequestComplete,
-})
+import { App } from './Navigation';
+import { ApolloClientConfig as client } from './Config'
+import { NavigationBar } from '../../AliceComponents';
 
 const AppContainer = createAppContainer(App);
 
