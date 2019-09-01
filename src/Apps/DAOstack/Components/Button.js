@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Animated, Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 
-
 export default class FloatingButton extends Component<Props> {
   constructor(props) {
     super(props);
