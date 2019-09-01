@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-var gravatarApi = require('gravatar-api');
+import gravatarApi from ('gravatar-api');
 
 export default class Gravatar extends Component {
 

@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Image} from "react-native";
+import React, { Component } from "react";
+import { Image } from "react-native";
 
 type Props = {};
 export default class Icon extends Component<Props> {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Modal from 'react-native-modalize';
 
 export default class Modalize extends Component<Props> {

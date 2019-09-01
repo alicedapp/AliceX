@@ -1,9 +1,17 @@
-import {Animated, Text, StyleSheet, View, TouchableWithoutFeedback, Image, TextInput, Dimensions} from "react-native";
-import React, {Component} from "react";
-import Button from '../Components/Button';
-import Icon from "../../../AliceComponents/IconComponent";
-import FloatingButton from "../Components/FloatingButton";
+import React, { Component } from "react";
+import {
+  Animated,
+  Text,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Image,
+  TextInput,
+  Dimensions
+} from "react-native";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import { Button, FloatingButton } from '../Components';
+import Icon from "../../../AliceComponents/IconComponent";
 
 const options = {
   enableVibrateFallback: true,

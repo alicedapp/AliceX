@@ -1,10 +1,17 @@
-import {Component} from "react";
-import Camera from "../AliceSDK/Camera";
-import {StyleSheet, Text, View, TouchableOpacity, Image, Dimensions} from "react-native";
-import React from "react";
-import {goBack} from "../AliceUtils/navigationWrapper";
-const { height, width } = Dimensions.get('window');
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions
+} from "react-native";
 
+import { goBack } from "../AliceUtils/navigationWrapper";
+import Camera from "../AliceSDK/Camera";
+
+const { height, width } = Dimensions.get('window');
 
 export default class CameraScreen extends Component {
   constructor(props) {

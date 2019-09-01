@@ -4,5 +4,5 @@ const NetworkGreen = 'NetworkGreen';
 const NetworkYellow = 'NetworkYellow';
 const NetworkRed = 'NetworkRed';
 
-const networkArray = [NetworkBlue, NetworkPurple, NetworkGreen, NetworkYellow, NetworkRed];
-export default networkArray;
+export const networkArray = [NetworkBlue, NetworkPurple, NetworkGreen, NetworkYellow, NetworkRed];
+export default networkArray; // Currently we cant export default arrays, only Objects, Functions and Classes.

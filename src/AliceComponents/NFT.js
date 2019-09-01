@@ -1,5 +1,14 @@
-import {Animated, Image, Text, StyleSheet, Dimensions, TouchableOpacity, View} from "react-native";
-import React, {Component} from "react";
+import React, { Component } from "react";
+import {
+  Animated,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  View
+} from "react-native";
+
 const { height, width } = Dimensions.get('window');
 const cols = 2, rows = 3;
 

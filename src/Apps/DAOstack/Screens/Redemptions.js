@@ -1,13 +1,15 @@
 import React from 'react';
 import {
-  StyleSheet, Text, TouchableOpacity, View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-
-import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
-import Modalize from "../Components/Modalize";
+import { Modalize } from "../Components";
 import Icon from "../../../AliceComponents/IconComponent";
+import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 
 const ANNOTATION_SIZE = 10;
 

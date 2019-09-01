@@ -1,6 +1,15 @@
-import {Animated, Text, StyleSheet, View, TouchableWithoutFeedback, Image, TextInput} from "react-native";
-import React, {Component} from "react";
-import Button from '../Components/Button';
+import React, { Component } from "react";
+import {
+  Animated,
+  Text,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Image,
+  TextInput
+} from "react-native";
+
+import { Button } from '../Components';
 import Icon from "../../../AliceComponents/IconComponent";
 
 export default class NewProposal extends Component<Props> {

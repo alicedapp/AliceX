@@ -15,7 +15,6 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native';
-
 import Modal from 'react-native-modal';
 // import FeatherIcon from 'react-native-vector-icons/Feather'
 // import MaterialCommIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -27,25 +26,21 @@ import Modal from 'react-native-modal';
 // web3.setProvider(new web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
 import Input from './Input'
-import {color} from "../../AliceUtils/themes";
-import {addressResolver, checkSubdomainOwner, newSubdomain} from "../../AliceUtils/ensFunctions";
-
+import { color, shadow, text } from "../../AliceUtils/themes";
+import { addressResolver, checkSubdomainOwner, newSubdomain } from "../../AliceUtils/ensFunctions";
 // import QrModal from './QrModal';
 import CameraModal from './CameraModal';
-import {shadow, text} from "../../AliceUtils/themes";
-import {navigate} from "../../AliceUtils/navigationWrapper";
+import { navigate } from "../../AliceUtils/navigationWrapper";
+// import { transferEtherNoReward, transferTokensNoReward, transferTokensWithTokenReward, transferEtherWithEtherReward } from 'tenzorum'
+import { Wallet } from "../../AliceSDK";
+import { ENS } from "../../AliceSDK/Web3";
+// import {getBalance, getTenzBalance} from "../../Utils/ether";
 
 const personalWalletAddress = "0xf8894138aa4d7b54b7d49afa9d5600cdb5178721";
 
 const emptyAddress = '0x0000000000000000000000000000000000000000';
 
 const publicAddress = "0xb78197a43836e084bE4ff1F4c84d7557EA11F214";
-
-// import { transferEtherNoReward, transferTokensNoReward, transferTokensWithTokenReward, transferEtherWithEtherReward } from 'tenzorum'
-import {Wallet} from "../../AliceSDK";
-import {ENS} from "../../AliceSDK/Web3";
-// import {getBalance, getTenzBalance} from "../../Utils/ether";
-
 
 const cryptoCurrencies = [
   { name: 'Tenzorum', symbol: 'TENZ', abi: [], imageUrl: require('../../AliceAssets/localethereum.png'), type: "token", balance: 0, address: "0xB07C36074b8333B01e38A307df804FDc6c37e0eC", },
@@ -55,7 +50,7 @@ const cryptoCurrencies = [
   { name: 'Akropolis', symbol: 'AKR', abi: [], imageUrl: require('../../AliceAssets/localethereum.png'), type: "token", balance: 0, },
 ];
 
-let {height, width} = Dimensions.get('window');
+let { height, width } = Dimensions.get('window');
 
 type Props = {};
 export default class TransactionModal extends Component<Props> {
