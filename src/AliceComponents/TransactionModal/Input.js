@@ -12,8 +12,7 @@ import {
   View,
 } from 'react-native';
 
-
-let {height, width} = Dimensions.get('window');
+let { height, width } = Dimensions.get('window');
 
 export default class Input extends Component {
   constructor() {
@@ -85,4 +84,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

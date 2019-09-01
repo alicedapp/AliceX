@@ -1,10 +1,18 @@
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Image,
+  TouchableHighlight,
+  TouchableOpacity
+} from "react-native";
 import Modal from "react-native-modal";
-import {Component} from "react";
-import Icon from "./IconComponent";
-import {View, Text, Dimensions, StyleSheet, Image, TouchableHighlight, TouchableOpacity} from "react-native";
-import React from "react";
 
-let {height, width} = Dimensions.get('window');
+import Icon from "./IconComponent";
+
+let { height, width } = Dimensions.get('window');
 
 export default class AppsScreen extends Component<Props> {
   state = {

@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import {
   Clipboard,
   StyleSheet,
@@ -10,6 +9,7 @@ import {
 } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import Modal from 'react-native-modal'
+import PropTypes from 'prop-types'
 
 export default class QrModal extends Component {
   static propTypes = {
