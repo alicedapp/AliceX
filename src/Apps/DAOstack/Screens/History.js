@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {RNCamera as Camera} from 'react-native-camera';
-import Modal from '../Components/Modal';
-import {Text, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import { RNCamera as Camera} from 'react-native-camera';
+
+import { Modal } from '../Components';
 import Icon from "../../../AliceComponents/IconComponent";
 
 export default class CameraComponent extends Component {

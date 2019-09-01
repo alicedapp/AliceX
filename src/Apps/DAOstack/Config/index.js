@@ -1,4 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+
 const apolloClientConfig = {
   link: new HttpLink({
     uri: 'https://subgraph.daostack.io/subgraphs/name/v24',
@@ -8,4 +9,5 @@ const apolloClientConfig = {
   }),
   cache: new InMemoryCache()
 }
+
 export const ApolloClientConfig = new ApolloClient(apolloClientConfig);

@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image} from "react-native";
-
-import gql from 'graphql-tag';
+import React, { Component } from "react";
+import { Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image } from "react-native";
 import { Query } from 'react-apollo'
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
-import {DAOcolors} from "../Utils";
+import gql from 'graphql-tag';
+
+import { NavigationBar } from "../../../AliceComponents";
+import { DAOcolors } from "../Utils";
 
 const { height, width } = Dimensions.get('window');
 
