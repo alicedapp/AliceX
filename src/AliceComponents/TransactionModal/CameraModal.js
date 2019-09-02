@@ -1,11 +1,15 @@
 'use strict';
-
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native'
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text
+} from 'react-native'
 import Modal from "react-native-modal";
-import {RNCamera as Camera} from 'react-native-camera'
+import { RNCamera as Camera } from 'react-native-camera'
 import ReactNativeHaptic from 'react-native-haptic-feedback';
+import PropTypes from 'prop-types'
 import _ from "lodash";
 // const Web3 = require('web3');
 // const web3 = new Web3();
@@ -110,5 +114,3 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent'
     }
   })
-
-

@@ -1,6 +1,7 @@
-import {Image, TouchableOpacity, View} from "react-native";
 import React from "react";
-import {navigate, goBack} from "../AliceUtils/navigationWrapper";
+import { Image, TouchableOpacity, View } from "react-native";
+
+import { navigate, goBack } from "../AliceUtils/navigationWrapper";
 
 export const NavigationBar = () => (
   <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 1000 }}>

@@ -1,10 +1,12 @@
-import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Countdown from "./Countdown";
-import {Settings} from "../../../AliceSDK/Web3";
-import {AnimatedCircularProgress} from "react-native-circular-progress";
-import React, {Component} from "react";
-import Icon from "../../../AliceComponents/IconComponent";
+import React, { Component } from "react";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+
+import Icon from "../../../AliceComponents/IconComponent";
+import Countdown from "./Countdown";
+import { Settings } from "../../../AliceSDK/Web3";
+
 const { height, width } = Dimensions.get('window');
 
 export default class DAOstackApp extends Component {
@@ -127,5 +129,3 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
 });
-
-

@@ -1,6 +1,6 @@
 import React, { Component,  Children, cloneElement } from 'react';
-import PropTypes from 'prop-types';
 import { Animated, TouchableHighlight, View } from 'react-native';
+import PropTypes from 'prop-types';
 
 import LightboxOverlay from './LightboxOverlay';
 

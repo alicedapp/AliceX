@@ -1,14 +1,27 @@
-import React, {Component} from "react";
-import {Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image, Animated} from "react-native";
+import React, { Component } from "react";
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  Animated
+} from "react-native";
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
-import Modal from '../Components/Modal';
-import Proposal from '../Components/Proposal'
+
+import {
+  Modal,
+  Proposal,
+  FloatingButton,
+  Button
+} from '../Components';
+import { NavigationBar } from "../../../AliceComponents/NavigationBar";
 import Icon from "../../../AliceComponents/IconComponent";
-import FloatingButton from '../Components/FloatingButton'
-import Button from "../Components/Button";
-import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+
 
 const options = {
   enableVibrateFallback: true,
@@ -45,7 +58,7 @@ const PROPOSALS_QUERY = gql`
                   externalToken
                   externalTokenReward
               }
-          } 
+          }
         }
     }`;
 

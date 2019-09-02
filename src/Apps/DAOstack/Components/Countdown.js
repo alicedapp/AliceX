@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 import moment from 'moment';
 
 export default class Countdown extends React.Component {

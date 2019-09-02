@@ -1,6 +1,6 @@
-import Modal from "react-native-modal";
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { StyleSheet } from "react-native";
+import Modal from "react-native-modal";
 
 export default class ModalComponent extends Component<Props> {
   state = {
