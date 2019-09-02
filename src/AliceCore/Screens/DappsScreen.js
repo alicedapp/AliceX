@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, Modal, Dimensions, WebView,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Image,
+  View,
+  Dimensions,
 } from 'react-native';
 import AppIcon from "../Components/AppIcon";
 import {Settings} from "../../AliceSDK/Web3";

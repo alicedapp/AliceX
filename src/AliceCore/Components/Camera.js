@@ -1,17 +1,10 @@
-import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Dimensions
-} from "react-native";
-
-import { goBack } from "../Utils/navigationWrapper";
+import {Component} from "react";
 import Camera from "../../AliceSDK/Camera/index";
-
+import {StyleSheet, Text, View, TouchableOpacity, Image, Dimensions} from "react-native";
+import React from "react";
+import {goBack} from "../Utils/navigationWrapper";
 const { height, width } = Dimensions.get('window');
+
 
 export default class CameraScreen extends Component {
   constructor(props) {
@@ -19,40 +12,47 @@ export default class CameraScreen extends Component {
 
     this.state = {
       flash: false,
-      cameraType: 'back'
+      cameraType: 'back',
+      backgroundColor: 'transparent'
     };
 
   }
 
-  toggleTorch = () => this.setState({flash: !this.state.flash});
+  toggleTorch = () => {
+    this.setState({flash: !this.state.flash});
+    if (this.state.cameraType === 'front') {
+      this.state.backgroundColor ===  'transparent' ? this.setState({backgroundColor: 'rgba(255,255,255,0.7)'}) : this.setState({backgroundColor: 'transparent'});
+    }
+  };
 
   toggleCamera = () => {
-    this.state.cameraType === 'back' ? this.setState({cameraType: 'front'}) : this.setState({cameraType: 'back'});
+    this.state.cameraType === 'back' ? this.setState({cameraType: 'front', flash: false}) : this.setState({cameraType: 'back', flash: false});
   };
 
   render() {
     return (
-      <Camera {...this.props} style={styles.container} type={this.state.cameraType} flashMode={this.state.flash ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
-        <View style={{
-          width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
-        }}>
-          <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center'}} onPress={this.props.close}>
-            <Image source={require('../Assets/back-arrow-camera.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
-          </TouchableOpacity>
-        </View>
-        <View style={{width: width-20, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-          <View style={{ alignItems: 'center', justifyContent: 'flex-end'}}>
-            <TouchableOpacity onPress={this.toggleCamera} style={styles.cameraButtonsContainer}>
-              <Image source={require('../Assets/rotate-camera.png')} style={styles.buttonIcon}/>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cameraButtonsContainer}>
-              <Image source={require('../Assets/wallet-connect.png')} style={styles.buttonIcon}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.toggleTorch} style={styles.cameraButtonsContainer}>
-              <Image source={require('../Assets/camera-flash.png')} style={styles.buttonIcon}/>
+      <Camera style={styles.container} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
+        <View style={{flex:  1, backgroundColor: this.state.backgroundColor, borderRadius: 15, marginTop: 20, }}>
+          <View style={{
+            width: '100%', padding: 20, marginTop: -10, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+          }}>
+            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center'}} onPress={() => goBack()}>
+              <Image source={require('../Assets/back-arrow-camera.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
             </TouchableOpacity>
           </View>
-
+          <View style={{width: width-20, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
+            <View style={{ alignItems: 'center', justifyContent: 'flex-end'}}>
+              <TouchableOpacity onPress={this.toggleCamera} style={styles.cameraButtonsContainer}>
+                <Image source={require('../Assets/rotate-camera.png')} style={styles.buttonIcon}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cameraButtonsContainer}>
+                <Image source={require('../Assets/wallet-connect.png')} style={styles.buttonIcon}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.toggleTorch} style={styles.cameraButtonsContainer}>
+                <Image source={require('../Assets/camera-flash.png')} style={styles.buttonIcon}/>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </Camera>
     );
