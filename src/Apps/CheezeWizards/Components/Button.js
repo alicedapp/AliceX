@@ -19,6 +19,7 @@ export default class FloatingButton extends Component<Props> {
   };
 
   animateOut = () => {
+    this.props.onPress()
     Animated.timing(this.state.animatePress, {
       toValue: 1,
       duration: 50
@@ -29,7 +30,7 @@ export default class FloatingButton extends Component<Props> {
   render() {
     const {tokenInfo, iterator, token} = this.props;
     return (
-      <TouchableWithoutFeedback {...this.props} key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
+      <TouchableWithoutFeedback key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
         <Animated.View  style={{...styles.button, ...this.props.style, transform: [
             {
               scale: this.state.animatePress

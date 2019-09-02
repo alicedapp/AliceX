@@ -1,4 +1,5 @@
 import {Platform} from 'react-native';
+export { default as colors } from './colors';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const DEFAULT_CENTER_COORDINATE = [-77.036086, 38.910233];
@@ -15,3 +16,6 @@ export function onSortOptions(a, b) {
 
   return 0;
 }
+
+export const switchcase = cases => key =>
+  cases.hasOwnProperty(key) ? cases[key] : undefined;

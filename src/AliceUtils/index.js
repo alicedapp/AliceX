@@ -49,3 +49,6 @@ export const updateFeed = (otherProfileAddress, feedByAddress, addressData, isCo
     }
   });
 };
+
+export const switchcase = cases => defaultCase => key =>
+  cases.hasOwnProperty(key) ? cases[key] : defaultCase;

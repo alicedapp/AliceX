@@ -13,7 +13,8 @@ import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
-import env from '../../../../env'
+import env from '../../../../env';
+import WizardCard from '../Components/WizardCard'
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 
@@ -106,6 +107,7 @@ export default class MapComponent extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    const {wizard} = this.props.navigation.state.params;
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
@@ -119,13 +121,14 @@ export default class MapComponent extends React.Component {
             width,
             resizeMode: 'contain',
           }}/>
-        </View> : <View style={{ flex: 1, backgroundColor: '#000', alignItems: 'center', }}>
+        </View> : <View style={{flex: 1, backgroundColor: '#000', alignItems: 'center',}}>
           <Image source={require('../Assets/melting-cheese.png')} style={{
             resizeMode: 'contain',
             height: 250,
             width
           }}/>
-          <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
               <Button onPress={this.openMap} style={{flex: 1}}>
                 <Image source={require('../Assets/location.png')} style={{
@@ -134,8 +137,17 @@ export default class MapComponent extends React.Component {
                   height: 45
                 }}/>
               </Button>
-              <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>MARK PEREIRA</Text>
+              <View style={{
+                flex: 5,
+                height: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingHorizontal: 15,
+                borderWidth: 1,
+                borderColor: 'black',
+                backgroundColor: 'white', ...styles.sharpShadow
+              }}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}></Text>
               </View>
               <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
@@ -145,97 +157,13 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-            <View style={{width: width -40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View
+              style={{width: width - 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
               <View>
-                <Image source={require('../Assets/water-wizard.png')} style={{
-                  resizeMode: 'contain',
-                  width: 200,
-                  height: 300
-                }}/>
+                <WizardCard wizard={wizard}/>
                 <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>WINS 0</Text>
                 <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>LOSSES 0</Text>
               </View>
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <ImageBackground source={require('../Assets/cheeze-board-vertical.png')}
-                                 imageStyle={{resizeMode: 'contain'}}
-                                 style={{alignItems: 'center', justifyContent: 'flex-start', width: 70, height: 400, paddingTop: 40}}>
-                  {this.state.actionList.map((action, i) => {
-                    if (action === 'fire') {
-                      return (
-                        <Image source={require('../Assets/fire-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'water') {
-                      return (
-                        <Image source={require('../Assets/water-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'earth') {
-                      return (
-                        <Image source={require('../Assets/earth-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'neutral') {
-                      return (
-                        <Image source={require('../Assets/neutral-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                        }}/>
-                      )
-                    }
-                  })}
-                </ImageBackground>
-              </View>
-
-            </View>
-            <View>
-              <TouchableWithoutFeedback {...this.props} onPressIn={this.animate} onPressOut={this.fight}>
-                {this.state.pressed ? <Image source={require('../Assets/pressed-cheeze-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 100,
-                  height: 100
-                }}/> : <Image source={require('../Assets/cheeze-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 100,
-                  height: 100
-                }}/>}
-              </TouchableWithoutFeedback>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-              <Button onPress={() => this.actionPress('fire')}>
-                <Image source={require('../Assets/fire-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 55,
-                  height: 55
-                }}/>
-              </Button>
-              <Button onPress={() => this.actionPress('water')}>
-                <Image source={require('../Assets/water-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 55,
-                  height: 55
-                }}/>
-              </Button>
-              <Button onPress={() => this.actionPress('earth')}>
-                <Image source={require('../Assets/earth-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 55,
-                  height: 55
-                }}/>
-              </Button>
               <Button onPress={() => this.actionPress('neutral')}>
                 <Image source={require('../Assets/neutral-button.png')} style={{
                   resizeMode: 'contain',
@@ -245,10 +173,9 @@ export default class MapComponent extends React.Component {
               </Button>
             </View>
           </View>
-        </View>}
-      </View>
-
-    );
+        </View>
+        }
+      </View>)
   }
 }
 

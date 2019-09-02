@@ -81,6 +81,7 @@ export default class Tokens extends Component {
   async componentDidMount() {
     this.getNetwork();
     this.getTokenList();
+    this.amberFetch();
     this.getNFTInfo();
     this.getBalance();
 
@@ -161,8 +162,30 @@ export default class Tokens extends Component {
         finishedFetching();
       }
     });
-    xhr.open("GET", "http://api.ethplorer.io/getAddressInfo/" + await Wallet.getAddress() + "?apiKey=freekey");
+    xhr.open("GET", "https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances");
+    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.setRequestHeader("access-control-allow-credentials", "*");
+    xhr.setRequestHeader("x-api-key", env.amberdata);
     xhr.send(data);
+
+  };
+
+  amberFetch = async () => {
+    try {
+      let response = await fetch('"https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances"', {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': env.amberdata
+        }
+      })
+      console.log('AMBER RES: ', response);
+
+    } catch(e) {
+      console.log('AMBER ERR: ', e);
+
+    }
+
 
   };
 

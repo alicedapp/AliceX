@@ -55,3 +55,18 @@ export const decodeGeoHash = (geohash) => {
   lon[2] = (lon[0] + lon[1]) / 2;
   return { latitude: lat, longitude: lon };
 };
+
+
+const challengedPOI = {
+  "name":"Cape Cod National Seashore Visitor Center",
+  "stake":"0x0",
+  "address":"400 Nauset Road, Eastham, Massachusetts 02642, United States",
+  "longitude":-69.97270938009024,
+  "latitude":41.8372811190784,
+  "description":"National Park Office and National Seashore Museum with trailheads leading to the marshlands of the national seashore.  ",
+  "tags":["Government", "Attraction"],
+  "phone":"(508) 255-3421",
+  "web":"nps.gov",
+  "owner":"0x09527e337f3cccc1bd688037a66b8516b319e31d",
+  "loading":false
+};

@@ -5,8 +5,8 @@ import Modal from '../Components/Modal'
 import {onSortOptions} from '../Utils/index';
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
-import wzrd1Icon from "../Assets/wzrd-1.png";
-import wzrd2Icon from "../Assets/wzrd-2.png";
+import wzrd1Icon from "../Assets/wzrd-1-1.png";
+import wzrd2Icon from "../Assets/wzrd-2-1.png";
 
 const { height, width } = Dimensions.get('window');
 
@@ -17,35 +17,35 @@ const options = {
 
 const wzrd1 = {
   icon: {
-    iconImage: "../Assets/wzrd-1.png",
+    iconImage: "../Assets/wzrd-1-1-1.png",
     iconAllowOverlap: true,
   },
 };
 
 const wzrd2 = {
   icon: {
-    iconImage: "../Assets/wzrd-2.png",
+    iconImage: "../Assets/wzrd-2-1.png",
     iconAllowOverlap: true,
   },
 };
 
 const wzrd3 = {
   icon: {
-    iconImage: "../Assets/wzrd-3.png",
+    iconImage: "../Assets/wzrd-3-1.png",
     iconAllowOverlap: true,
   },
 };
 
 const wzrd4 = {
   icon: {
-    iconImage: "../Assets/wzrd-4.png",
+    iconImage: "../Assets/wzrd-4-1.png",
     iconAllowOverlap: true,
   },
 };
 
 const wzrd5 = {
   icon: {
-    iconImage: "../Assets/wzrd-5.png",
+    iconImage: "../Assets/wzrd-2-2.png",
     iconAllowOverlap: true,
   },
 };
@@ -57,7 +57,7 @@ const featureCollection = {
       type: 'Feature',
       id: '12340',
       properties: {
-        icon: "../Assets/wzrd-1.png",
+        icon: "../Assets/wzrd-1-1.png",
       },
       geometry: {
         type: 'Point',
@@ -68,7 +68,7 @@ const featureCollection = {
       type: 'Feature',
       id: '12341',
       properties: {
-        icon: "../Assets/wzrd-2.png",
+        icon: "../Assets/wzrd-2-1.png",
       },
       geometry: {
         type: 'Point',
@@ -79,7 +79,7 @@ const featureCollection = {
       type: 'Feature',
       id: '12342',
       properties: {
-        icon: "../Assets/wzrd-3.png",
+        icon: "../Assets/wzrd-3-1.png",
       },
       geometry: {
         type: 'Point',
@@ -90,7 +90,7 @@ const featureCollection = {
       type: 'Feature',
       id: '12343',
       properties: {
-        icon: "../Assets/wzrd-4.png",
+        icon: "../Assets/wzrd-4-1.png",
       },
       geometry: {
         type: 'Point',
@@ -102,7 +102,7 @@ const featureCollection = {
       id: '12344',
       properties: {
         icon: {
-          iconImage: "../Assets/wzrd-5.png",
+          iconImage: "../Assets/wzrd-2-2.png",
           iconAllowOverlap: true,
         },
       },
@@ -119,6 +119,7 @@ class CheezeMap extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
+      header: null,
       tabBarVisible: false,
     };
   };
@@ -147,15 +148,18 @@ class CheezeMap extends React.Component {
   }
 
   onPress = async (e) => {
-    const feature = MapboxGL.geoUtils.makeFeature(e.geometry);
-    feature.id = `${Date.now()}`;
-
-    this.setState({
-      featureCollection: MapboxGL.geoUtils.addToFeatureCollection(
+      const feature = MapboxGL.geoUtils.makeFeature(e.geometry);
+      feature.id = `${Date.now()}`;
+      console.log('FEAT: ', MapboxGL.geoUtils.addToFeatureCollection(
         this.state.featureCollection,
         feature,
-      ),
-    });
+      )).toString();
+      this.setState({
+        featureCollection: MapboxGL.geoUtils.addToFeatureCollection(
+          this.state.featureCollection,
+          feature,
+        ),
+      });
   };
 
   onSourceLayerPress = (e) => {
@@ -238,6 +242,5 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 0,
     shadowOpacity: 1,
-
   }
 });

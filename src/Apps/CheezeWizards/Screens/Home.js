@@ -4,6 +4,7 @@ import {
   Dimensions,
   ImageBackground,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -11,13 +12,15 @@ import {
 } from 'react-native';
 import {NavigationBar} from "../../../AliceComponents/NavigationBar";
 import Button from '../Components/Button'
+import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import {Settings, Wallet} from "../../../AliceSDK/Web3";
+import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
 import env from '../../../../env'
 import { SvgUri } from 'react-native-svg';
-
-import {FoodContractABI} from "../../Example/ABI";
-import {BasicTournament} from '../ABIs/BasicTournament';
+import ABIs from '../ABIs';
+import {GateKeeper} from '../Addresses/index'
+import {FoodContractABI} from '../../Example/ABI'
+import {switchcase} from "../Utils";
 
 const options = {
   enableVibrateFallback: true,
@@ -31,6 +34,7 @@ export default class MapComponent extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
+      header: null,
       tabBarVisible: false,
     };
   };
@@ -107,25 +111,32 @@ export default class MapComponent extends React.Component {
   };
 
   openMap = () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
     this.props.navigation.navigate('CheezeMap');
   };
 
-  actionPress = (action) => {
+  actionPress = async (_affinity) => {
     ReactNativeHapticFeedback.trigger("selection", options);
-    if (this.state.actionList.length < 3) {
-      this.setState({ actionList: [...this.state.actionList, action] })
+    const getAffinity = switchcase({
+      "neutral": 1,
+      "fire": 2,
+      "water": 3,
+      "wind": 4,
+    });
+    const affinity = getAffinity(_affinity);
+    console.log('AFFINITY: ', affinity)
+    try {
+      const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.InauguralGateKeeper.abi, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
+      console.log("TX HASH: ", txHash);
+    } catch(e) {
+      console.log('WIZARD PURCHASE ERROR: ', e);
     }
+
   };
 
-  fight = async () => {
-    this.setState({pressed: !this.state.pressed});
-    try {
-      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
-      console.log('txHash: ', txHash);
-      this.setState({txHash})
-    } catch(e) {
-      console.log(e);
-    }
+  enterDuelMode = wizard => {
+    ReactNativeHapticFeedback.trigger("selection", options);
+    this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard})
   };
 
 
@@ -147,6 +158,7 @@ export default class MapComponent extends React.Component {
           </View> : <View style={{ flex: 1, backgroundColor: '#000', alignItems: 'center', }}>
             <Image source={require('../Assets/melting-cheese.png')} style={{
               resizeMode: 'contain',
+              height: 250
             }}/>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -168,18 +180,43 @@ export default class MapComponent extends React.Component {
                   }}/>
                 </Button>
               </View>
-              <View style={{width: width -40, justifyContent: 'space-between', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+                <Button onPress={() => this.actionPress('fire')}>
+                  <Image source={require('../Assets/fire-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('water')}>
+                  <Image source={require('../Assets/water-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('wind')}>
+                  <Image source={require('../Assets/earth-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('neutral')}>
+                  <Image source={require('../Assets/neutral-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+              </View>
+              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center'}}>
                 {this.state.wizards.map((wizard, i) => {
                   return (
-                    <View key={i} style={{flexDirection: 'column'}}>
-                      <Image style={{resizeMode: 'contain', height: 100}} source={require('../Assets/mold-wizard-1.png')}/>
-                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>Affinity {wizard.affinity}</Text>
-                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>id {wizard.id}</Text>
-                      <Text style={{color: 'white', fontSize: 15, fontFamily: 'Exocet'}}>Power {wizard.power}</Text>
-                    </View>
+                    <WizardCard key={i} wizard={wizard} onPress={() => this.enterDuelMode(wizard)}/>
                   )
                 })}
-              </View>
+              </ScrollView>
             </View>
           </View>}
       </View>
