@@ -9,14 +9,9 @@
 /*        Apps Export Section          */
 /*        This is your Main Route Name          */
 export { default as CheezeWizards } from './CheezeWizards';
-export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
-export { default as BridgeWater } from './VotezUp';
-export { default as E2E } from './E2E';
-export { default as LocalEthereum } from './LocalEthereum';
-export { default as CryptoHub } from './CryptoHub';
 
 
 /*      App Registry Section            */
@@ -55,33 +50,9 @@ export const AppRegistry = [
     icon: require('../AliceCore/Assets/foam.png')
   },
   {
-    appName: 'E2E',
-    backgroundColor: '#000',
-    homeRoute: 'E2E',
-    icon: require('./E2E/Assets/e2e-logo.png')
-  },
-  {
-    appName: 'VotezUp',
-    backgroundColor: '#FFF',
-    homeRoute: 'BridgeWater',
-    icon: require('./VotezUp/Assets/bridgewater.png')
-  },
-  {
     appName: 'CheezeWiza..',
     backgroundColor: '#fdef5d',
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
-  },
-  {
-    appName: 'localeth..',
-    backgroundColor: '#dbe0ff',
-    homeRoute: 'Map',
-    icon: require('./LocalEthereum/Assets/localethereum.png')
-  },
-  {
-    appName: 'CryptoHub',
-    backgroundColor: '#ffffff',
-    homeRoute: 'CryptoHub',
-    icon: require('./CryptoHub/Assets/logo.png')
   },
 ];
