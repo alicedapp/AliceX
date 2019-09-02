@@ -4,7 +4,7 @@ import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 import Countdown from "./Countdown";
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 import { Settings } from "../../../AliceSDK/Web3";
 
 const { height, width } = Dimensions.get('window');

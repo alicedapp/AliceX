@@ -35,7 +35,7 @@ export const AppRegistry = [
   //   appName: 'Fork',
   //   backgroundColor: '#8e00ff',
   //   homeRoute: 'Fork',
-  //   icon: require('../AliceAssets/fork-logo.png')
+  //   icon: require('../Assets/fork-logo.png')
   // },
   {
     appName: '#BUIDL',
@@ -53,7 +53,7 @@ export const AppRegistry = [
     appName: 'Foam',
     backgroundColor: '#ffffff',
     homeRoute: 'Foam',
-    icon: require('../AliceAssets/foam.png')
+    icon: require('../AliceCore/Assets/foam.png')
   },
   {
     appName: 'E2E',

@@ -3,7 +3,7 @@ import {Alert, View, Image, StyleSheet, Dimensions, Text} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Modal from '../Components/Modal'
 import {onSortOptions} from '../Utils/index';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import wzrd1Icon from "../Assets/wzrd-1-1.png";
 import wzrd2Icon from "../Assets/wzrd-2-1.png";

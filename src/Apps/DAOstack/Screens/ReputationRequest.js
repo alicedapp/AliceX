@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Button, FloatingButton } from '../Components';
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 
 const options = {
   enableVibrateFallback: true,

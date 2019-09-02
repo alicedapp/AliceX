@@ -3,7 +3,7 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "rea
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 import Countdown from "./Countdown";
 import { Settings } from "../../../AliceSDK/Web3";
 

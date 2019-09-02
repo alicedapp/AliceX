@@ -16,7 +16,7 @@ import Map from './Screens/Map'
 import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 import Chat from './Screens/Chat'
-import Icon from "../../AliceComponents/IconComponent";
+import Icon from "../../AliceCore/Components/IconComponent";
 
 const E2EHome = createStackNavigator({
     Home: {

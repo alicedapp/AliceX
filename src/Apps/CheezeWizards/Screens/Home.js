@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";

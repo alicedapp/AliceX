@@ -2,7 +2,7 @@ import {Component} from "react";
 import Camera from "../../../AliceSDK/Camera";
 import {StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image, Dimensions} from "react-native";
 import React from "react";
-import {goBack} from "../../../AliceUtils/navigationWrapper";
+import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 const { height, width } = Dimensions.get('window');
 import _ from 'lodash';
 
@@ -66,13 +66,13 @@ export default class CameraScreen extends Component {
             <View style={{width: width-20, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
               <View style={{ alignItems: 'center', justifyContent: 'flex-end'}}>
                 <TouchableOpacity onPress={this.toggleCamera} style={styles.cameraButtonsContainer}>
-                  <Image source={require('../../../AliceAssets/rotate-camera.png')} style={styles.buttonIcon}/>
+                  <Image source={require('../../../AliceCore/Assets/rotate-camera.png')} style={styles.buttonIcon}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.cameraButtonsContainer}>
-                  <Image source={require('../../../AliceAssets/wallet-connect.png')} style={styles.buttonIcon}/>
+                  <Image source={require('../../../AliceCore/Assets/wallet-connect.png')} style={styles.buttonIcon}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.toggleTorch} style={styles.cameraButtonsContainer}>
-                  <Image source={require('../../../AliceAssets/camera-flash.png')} style={styles.buttonIcon}/>
+                  <Image source={require('../../../AliceCore/Assets/camera-flash.png')} style={styles.buttonIcon}/>
                 </TouchableOpacity>
               </View>
             </View>

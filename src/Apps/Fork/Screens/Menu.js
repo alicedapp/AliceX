@@ -16,7 +16,7 @@ const ForkDapplet = (food, price) => {
     if (food === "Hamburger") {
       return (
         <View style={[{ borderColor: '#afafaf' }, styles.inputContainer]} >
-          <Image source={require('../../../AliceAssets/emoji-hamburger.png')} style={styles.restaurantImage}/>
+          <Image source={require('../../../AliceCore/Assets/emoji-hamburger.png')} style={styles.restaurantImage}/>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>X1</Text>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>{price} DAI</Text>
         </View>
@@ -24,7 +24,7 @@ const ForkDapplet = (food, price) => {
     } else if (food === "Hot Dog") {
       return (
         <View style={[{ borderColor: '#afafaf' }, styles.inputContainer]} >
-          <Image source={require('../../../AliceAssets/hotdog.png')} style={styles.restaurantImage}/>
+          <Image source={require('../../../AliceCore/Assets/hotdog.png')} style={styles.restaurantImage}/>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>X1</Text>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>{price} DAI</Text>
         </View>
@@ -32,7 +32,7 @@ const ForkDapplet = (food, price) => {
     } else if (food === "Beer") {
       return (
         <View style={[{ borderColor: '#afafaf' }, styles.inputContainer]} >
-          <Image source={require('../../../AliceAssets/beer.png')} style={styles.restaurantImage}/>
+          <Image source={require('../../../AliceCore/Assets/beer.png')} style={styles.restaurantImage}/>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>X1</Text>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>{price} DAI</Text>
         </View>
@@ -40,7 +40,7 @@ const ForkDapplet = (food, price) => {
     } else if (food === "Fries") {
       return (
         <View style={[{ borderColor: '#afafaf' }, styles.inputContainer]} >
-          <Image source={require('../../../AliceAssets/fries.png')} style={styles.restaurantImage}/>
+          <Image source={require('../../../AliceCore/Assets/fries.png')} style={styles.restaurantImage}/>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>X1</Text>
           <Text style={{ color: '#727272', fontFamily: 'Avenir-Black', fontSize: 15 }}>{price} DAI</Text>
         </View>
@@ -52,7 +52,7 @@ const ForkDapplet = (food, price) => {
     <TouchableOpacity onPress={sendOrder} style={styles.kittyContainer}>
       <View style={{ alignItems: 'flex-start', flexDirection: 'column' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image source={require('../../../AliceAssets/fork-logo.png')} style={{
+          <Image source={require('../../../AliceCore/Assets/fork-logo.png')} style={{
             borderRadius: 20, height: 40, justifyContent: 'center', width: 40, resizeMode: 'contain',
           }}/>
           <Text style={{
@@ -89,7 +89,7 @@ export default class Menu extends React.Component {
           margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent',
         }}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../../AliceCore/Assets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
         </View>
         <View style={{ margin: 20, marginBottom: 0, backgroundColor: 'transparent' }}>
@@ -106,7 +106,7 @@ export default class Menu extends React.Component {
             <TouchableOpacity onPress={() => {this.sendOrder('Hamburger', '10')}} style={styles.kittyContainer}>
               <View style={[{ borderColor: this.state.borderColor }, styles.inputContainer]}>
                 <View>
-                  <Image source={require('../../../AliceAssets/emoji-hamburger.png')} style={styles.restaurantImage}/>
+                  <Image source={require('../../../AliceCore/Assets/emoji-hamburger.png')} style={styles.restaurantImage}/>
                   <Text style={{
                     color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10,
                   }}>Hamburger</Text>
@@ -123,7 +123,7 @@ export default class Menu extends React.Component {
             })} style={styles.kittyContainer}>
               <View style={[{ borderColor: this.state.borderColor }, styles.inputContainer]}>
                 <View>
-                  <Image source={require('../../../AliceAssets/fries.png')} style={styles.restaurantImage}/>
+                  <Image source={require('../../../AliceCore/Assets/fries.png')} style={styles.restaurantImage}/>
                   <Text style={{
                     color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10,
                   }}>Fries</Text>
@@ -140,7 +140,7 @@ export default class Menu extends React.Component {
             })} style={styles.kittyContainer}>
               <View style={[{ borderColor: this.state.borderColor }, styles.inputContainer]}>
                 <View>
-                  <Image source={require('../../../AliceAssets/hotdog.png')} style={styles.restaurantImage}/>
+                  <Image source={require('../../../AliceCore/Assets/hotdog.png')} style={styles.restaurantImage}/>
                   <Text style={{
                     color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10,
                   }}>Hot Dog</Text>
@@ -157,7 +157,7 @@ export default class Menu extends React.Component {
             })} style={styles.kittyContainer}>
               <View style={[{ borderColor: this.state.borderColor }, styles.inputContainer]}>
                 <View>
-                  <Image source={require('../../../AliceAssets/beer.png')} style={styles.restaurantImage}/>
+                  <Image source={require('../../../AliceCore/Assets/beer.png')} style={styles.restaurantImage}/>
                   <Text style={{
                     color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10,
                   }}>Beer</Text>

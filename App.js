@@ -7,21 +7,24 @@ import React, { Component } from 'react';
 import {
   Image,
 } from 'react-native';
-
-import { createAppContainer, createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation';
-import Apps from './src/Apps'
-const {...MiniDapps} = require('./src/Apps/AppRegistry');
-import Tokens from './src/AliceCore/Screens/Tokens';
-import MapboxGL from '@react-native-mapbox-gl/maps';
-import env from './env.json';
-MapboxGL.setAccessToken(env.mapbox);
-
-import NavigatorService, {navigate} from './src/AliceUtils/navigationWrapper';
-import Activity from "./src/AliceCore/Screens/Activity";
-import {Settings, Wallet} from './src/AliceSDK/Web3'
-import OneSignal from 'react-native-onesignal'; // Import package from node modules
+import {
+  createAppContainer,
+  createMaterialTopTabNavigator,
+  createStackNavigator
+} from 'react-navigation';
+import OneSignal from 'react-native-onesignal';
 import CodePush from "react-native-code-push";
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
+import env from './env.json';
+import Apps from './src/Apps'
+const {MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is requir
+import {Settings, Wallet} from './src/AliceSDK/Web3'
+import Tokens from './src/AliceCore/Screens/Tokens';
+import Activity from "./src/AliceCore/Screens/Activity";
+import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
+
+MapboxGL.setAccessToken(env.mapbox);
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const AppTabNavigator = createMaterialTopTabNavigator({
@@ -30,8 +33,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceAssets/dapps-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceAssets/dapps-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceCore/Assets/dapps-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceCore/Assets/dapps-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -40,8 +43,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Tokens',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceAssets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-        : <Image source={require('./src/AliceAssets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceCore/Assets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+        : <Image source={require('./src/AliceCore/Assets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
     }
   },
@@ -50,14 +53,14 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Settings',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceAssets/activity-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceAssets/activity-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceCore/Assets/activity-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
+          : <Image source={require('./src/AliceCore/Assets/activity-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
       )
 
     }
   }
 }, {
-  initialRouteName: 'Tokens',
+  initialRouteName: 'Apps',
   order: ['Apps', 'Tokens', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
@@ -113,7 +116,6 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.getAddress();
     this.getOrientation();
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(

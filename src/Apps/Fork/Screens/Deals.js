@@ -1,12 +1,12 @@
 import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Icon from '../../../AliceComponents/IconComponent';
+import Icon from '../../../AliceCore/Components/IconComponent';
 let { height, width } = Dimensions.get('window');
 export default class Deals extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
     return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../../../AliceAssets/money-bag.png')} size={30}/>,
+      tabBarIcon: ({ tintColor }) => <Icon icon={require('../../../AliceCore/Assets/money-bag.png')} size={30}/>,
     };
   };
 
@@ -32,7 +32,7 @@ export default class Deals extends React.Component {
       <View style={{flex: 1}}>
         <View style={{margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent'}}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-            <Image source={require('../../../AliceAssets/cryptokitties-tag.png')} style={{
+            <Image source={require('../../../AliceCore/Assets/cryptokitties-tag.png')} style={{
               resizeMode: 'contain', width: 20, height: 20, marginRight: 5,
             }}/>
             <Text style={{ color: '#9C9C9B', fontFamily: 'Avenir-Black', fontSize: 20, marginRight: 5, fontWeight: '700' }}>Buy</Text>

@@ -2,11 +2,11 @@ import React from "react";
 import { Text, ScrollView, View} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {E2EABI} from "../ABI";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {ethers} from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
 import {FoodContractABI} from "../../Example/ABI";
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 
 export default class E2EChat extends React.Component {
   static navigationOptions = ({ navigation }) => {

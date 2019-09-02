@@ -17,7 +17,7 @@ import { createAppContainer } from 'react-navigation';
 
 import { App } from './Navigation';
 import { ApolloClientConfig as client } from './Config'
-import { NavigationBar } from '../../AliceComponents';
+import { NavigationBar } from '../../AliceCore/Components/index';
 
 const AppContainer = createAppContainer(App);
 

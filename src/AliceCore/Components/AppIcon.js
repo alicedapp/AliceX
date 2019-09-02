@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import Icon from "./IconComponent";
-import { navigate } from "../AliceUtils/navigationWrapper";
+import { navigate } from "../Utils/navigationWrapper";
 
 export default class AppIcon extends Component<Props> {
   static navigationOptions = ({ navigation }) => {

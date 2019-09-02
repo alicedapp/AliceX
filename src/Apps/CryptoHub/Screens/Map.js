@@ -8,7 +8,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import Modalize from "../Components/Modalize";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const ANNOTATION_SIZE = 15;
 

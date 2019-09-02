@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import sheet from "../styles/sheet";
 import Modalize from "../Components/Modalize";
 import moment from "moment";

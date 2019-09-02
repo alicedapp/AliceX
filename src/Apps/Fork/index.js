@@ -10,13 +10,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from '../../AliceComponents/IconComponent';
+import Icon from '../../AliceCore/Components/IconComponent';
 import Deals from './Screens/Deals';
 import Menu from './Screens/Menu';
 import TakeAway from './Screens/TakeAway';
 import Restaurants from './Screens/Restaurants';
 import Confirmation from './Screens/Confirmation';
-import CameraComponent from '../../AliceComponents/Camera';
+import CameraComponent from '../../AliceCore/Components/Camera';
 
 let { height, width } = Dimensions.get('window');
 
@@ -37,7 +37,7 @@ const HomeScreen2 = createStackNavigator({
 {
   headerMode: 'none',
   navigationOptions: {
-    tabBarIcon: ({ tintColor }) => <Icon icon={require('../../AliceAssets/plate.png')} size={25}/>,
+    tabBarIcon: ({ tintColor }) => <Icon icon={require('../../AliceCore/Assets/plate.png')} size={25}/>,
   },
 });
 

@@ -2,13 +2,13 @@ import React from "react";
 import {Text, ScrollView, TouchableOpacity, View, Image, TextInput, StyleSheet} from "react-native";
 import {Wallet, Contract, ENS} from "../../../AliceSDK/Web3";
 import {E2EABI} from "../ABI";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import { ethers } from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 import Modal from "react-native-modal";
 import {AppRegistry} from "../../index";
-import Camera from "../../../AliceComponents/Camera";
+import Camera from "../../../AliceCore/Components/Camera";
 
 const ROPSTEN = { address: "0xF5D9E79FA73BF0ff34c5EC16Ca4BbC7eee5c69a0", startBlockNumber: '0x36d224' };
 const infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
@@ -193,11 +193,11 @@ export default class E2EHome extends React.Component {
 
   renderVerification = () => {
     if (this.state.addressStatus === 'valid') {
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceAssets/green-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceCore/Assets/green-verify.png')} />
     } else if (this.state.addressStatus === 'invalid') {
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceAssets/grey-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceCore/Assets/grey-verify.png')} />
     } else if (this.state.addressStatus === 'unresolved'){
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceAssets/grey-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../../AliceCore/Assets/grey-verify.png')} />
     }
   };
 
@@ -231,7 +231,7 @@ export default class E2EHome extends React.Component {
               <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
                 <View style={{width: '100%', height: 50, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                   <TouchableOpacity onPress={() => this.setState({cameraMode: true})}>
-                    <Image source={require('../../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
+                    <Image source={require('../../../AliceCore/Assets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
                   </TouchableOpacity>
                   <TextInput autoCorrect={false} autoCapitalize={'none'} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
                   {this.renderVerification()}

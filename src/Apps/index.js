@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, Modal, Dimensions, WebView,
 } from 'react-native';
-import Icon from '../AliceComponents/IconComponent';
-import AppIcon from "../AliceComponents/AppIcon";
+import Icon from '../AliceCore/Components/IconComponent';
+import AppIcon from "../AliceCore/Components/AppIcon";
 import {Settings} from "../AliceSDK/Web3";
 import {AppRegistry} from "./AppRegistry";
 
@@ -52,10 +52,10 @@ export default class AppsScreen extends Component<Props> {
           width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
         }}>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
-            <Image source={require('../AliceAssets/camera-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <Image source={require('../AliceCore/Assets/camera-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
-            <Image source={require('../AliceAssets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <Image source={require('../AliceCore/Assets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
         <View style={styles.container}>

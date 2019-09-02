@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const { height, width } = Dimensions.get('window');
 
@@ -14,15 +14,15 @@ export default class Restaurants extends React.Component {
   renderSwitch(restaurant) {
     switch (restaurant) {
       case 'japanese':
-        return <Image source={require('../../../AliceAssets/sushi.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceCore/Assets/sushi.png')} style={styles.restaurantImage}/>
       case 'american':
-        return <Image source={require('../../../AliceAssets/fries.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceCore/Assets/fries.png')} style={styles.restaurantImage}/>
       case 'mexican':
-        return <Image source={require('../../../AliceAssets/taco.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceCore/Assets/taco.png')} style={styles.restaurantImage}/>
       case 'italian':
-        return <Image source={require('../../../AliceAssets/pizza.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceCore/Assets/pizza.png')} style={styles.restaurantImage}/>
       case 'french':
-        return <Image source={require('../../../AliceAssets/croissant.png')} style={styles.restaurantImage}/>
+        return <Image source={require('../../../AliceCore/Assets/croissant.png')} style={styles.restaurantImage}/>
     }
   }
 
@@ -36,7 +36,7 @@ export default class Restaurants extends React.Component {
           margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center',
         }}>
           <TouchableOpacity style={{width: 35, height: 35}} onPress={() => navigation.navigate('Camera')}>
-            <Image source={require('../../../AliceAssets/camera-emoji.png')} style={{ resizeMode: 'contain', width: 30, height: 30 }}/>
+            <Image source={require('../../../AliceCore/Assets/camera-emoji.png')} style={{ resizeMode: 'contain', width: 30, height: 30 }}/>
           </TouchableOpacity>
         </View>
         <View style={{ margin: 20, marginBottom: 0, backgroundColor: 'transparent' }}>

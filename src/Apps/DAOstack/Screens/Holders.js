@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { RNCamera as Camera } from 'react-native-camera';
 
 import { Modal } from '../Components';
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 
 export default class CameraComponent extends Component {
   static navigationOptions = ({ navigation }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, TouchableOpacity, ScrollView, StyleSheet, View, Dimensions, Image} from "react-native";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {countries} from "../Assets/Flags";
 import Button from "../../CheezeWizards/Components/Button";
 

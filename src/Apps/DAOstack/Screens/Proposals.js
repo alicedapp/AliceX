@@ -19,8 +19,8 @@ import {
   FloatingButton,
   Button
 } from '../Components';
-import { NavigationBar } from "../../../AliceComponents/NavigationBar";
-import Icon from "../../../AliceComponents/IconComponent";
+import { NavigationBar } from "../../../AliceCore/Components/NavigationBar";
+import Icon from "../../../AliceCore/Components/IconComponent";
 
 
 const options = {

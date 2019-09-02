@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {RNCamera as Camera} from 'react-native-camera';
 import Modal from '../Components/Modal';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 export default class CameraComponent extends Component {
 

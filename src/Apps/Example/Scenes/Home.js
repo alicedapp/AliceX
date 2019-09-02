@@ -43,7 +43,7 @@ import GetZoom from '../Examples/GetZoom';
 import GetCenter from '../Examples/GetCenter';
 import UserLocationChange from '../Examples/UserLocationChange';
 import Heatmap from '../Examples/Heatmap';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const styles = StyleSheet.create({
   header: {

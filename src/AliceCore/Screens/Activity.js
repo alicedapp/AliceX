@@ -2,11 +2,11 @@ import {Component} from "react";
 import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions, RefreshControl} from "react-native";
 import React from "react";
 import ThreeBoxActivity from '3box-activity';
-import {addDataType} from "../../AliceUtils";
+import {addDataType} from "../Utils";
 import { Activity } from "../Components/Activity";
 import {Settings, Wallet} from "../../AliceSDK/Web3";
-import {goBack, navigate} from "../../AliceUtils/navigationWrapper";
-import { timeSince } from '../../AliceUtils/time';
+import {goBack, navigate} from "../Utils/navigationWrapper";
+import { timeSince } from '../Utils/time';
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 const options = {
@@ -84,7 +84,7 @@ export default class ActivityClass extends Component {
           width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
         }}>
           <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
-            <Image source={require('../../AliceAssets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <Image source={require('../Assets/settings-gear.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
           </TouchableOpacity>
         </View>
         <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10}}>Transactions</Text>
@@ -103,7 +103,7 @@ export default class ActivityClass extends Component {
                 <View style={{flex: 1, justifyContent: 'space-around'}}>
                   <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? <Image source={require('../../AliceAssets/sent-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/> : <Image source={require('../../AliceAssets/received-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/>}
+                      {item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? <Image source={require('../Assets/sent-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/> : <Image source={require('../Assets/received-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/>}
                       <Text style={{fontSize: 14, fontWeight: '500'}}>{item.from.toUpperCase() === this.state.publicAddress.toUpperCase() ? 'Sent' : 'Received'} {item.tokenName ? item.tokenName : 'Ethereum'}</Text>
                     </View>
                     <Text style={{fontSize: 14, fontWeight: '500'}}>{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>

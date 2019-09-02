@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, TouchableOpacity, ScrollView, TextInput, View, Dimensions} from "react-native";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {countries} from "../Assets/Flags";
 import {cities} from "../Assets/Cities";
 

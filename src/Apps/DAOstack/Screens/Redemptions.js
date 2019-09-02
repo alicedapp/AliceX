@@ -8,7 +8,7 @@ import {
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { Modalize } from "../Components";
-import Icon from "../../../AliceComponents/IconComponent";
+import Icon from "../../../AliceCore/Components/IconComponent";
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 
 const ANNOTATION_SIZE = 10;

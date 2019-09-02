@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import tokenToData from '../../../AliceUtils/tokenToData.json';
+import tokenToData from '../../Utils/tokenToData.json';
 import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 
-import Save from '../../../AliceAssets/share.png';
+import Save from '../../Assets/share.png';
 import FeedTileContext from './FeedTileContext';
-import Tokens from '../../../AliceAssets/status-logo.png';
+import Tokens from '../../Assets/status-logo.png';
 
 export const FeedTileActivity = ({ item, verifiedGithub, verifiedTwitter, verifiedEmail }) => (
   <View style={{flex: 1}}>

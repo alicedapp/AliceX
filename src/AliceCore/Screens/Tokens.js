@@ -16,14 +16,14 @@ import {
 import React from "react";
 const { height, width } = Dimensions.get('window');
 const cols = 2, rows = 2;
-import NFT from '../../AliceComponents/NFT'
-import Token from '../../AliceComponents/Token'
+import NFT from '../Components/NFT'
+import Token from '../Components/Token'
 import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
 import {ENS, Wallet} from '../../AliceSDK/Web3'
-import AppIcon from "../../AliceComponents/AppIcon";
+import AppIcon from "../Components/AppIcon";
 import {AppRegistry} from "../../Apps/AppRegistry";
-import Camera from "../../AliceComponents/Camera";
+import Camera from "../Components/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import env from '../../../env.json';
 
@@ -259,11 +259,11 @@ export default class Tokens extends Component {
 
   renderVerification = () => {
     if (this.state.addressStatus === 'valid') {
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/green-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../Assets/green-verify.png')} />
     } else if (this.state.addressStatus === 'invalid') {
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/grey-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../Assets/grey-verify.png')} />
     } else if (this.state.addressStatus === 'unresolved'){
-      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../../AliceAssets/grey-verify.png')} />
+      return <Image style={{resizeMode: 'contain', width: 30, height: 30}} source={require('../Assets/grey-verify.png')} />
     }
   };
 
@@ -285,7 +285,7 @@ export default class Tokens extends Component {
             width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
           }}>
             <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
-              <Image source={require('../../AliceAssets/avatar.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+              <Image source={require('../Assets/avatar.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
             </TouchableOpacity>
 
           </View>
@@ -303,7 +303,7 @@ export default class Tokens extends Component {
                   }
                 ]}}>
                 <View style={styles.tokenContainer}>
-                  <Image source={require('../../AliceAssets/ethereum.png')} style={styles.tokenImage}/>
+                  <Image source={require('../Assets/ethereum.png')} style={styles.tokenImage}/>
                 </View>
 
                 <View style={{alignItems: 'flex-start', justifyContent: 'space-around'}}>
@@ -363,7 +363,7 @@ export default class Tokens extends Component {
             <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 15, alignItems: 'center', justifyContent: 'center'}}>
               <View style={{width: '100%', height: 50, marginBottom: 10, backgroundColor: 'rgba(0,0,0,0.1)', padding: 5, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <TouchableOpacity onPress={() => this.setState({cameraMode: true})}>
-                  <Image source={require('../../AliceAssets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
+                  <Image source={require('../Assets/cam-icon-black.png')} style={{width: 30, resizeMode: 'contain', marginRight: 5}}/>
                 </TouchableOpacity>
                 <TextInput autoCorrect={false} autoCapitalize={'none'} style={{flex: 1, paddingRight: 5}} placeholder="Enter address or ENS" onChangeText={this.resolveAddress} value={this.state.inputAddress}/>
                 {this.renderVerification()}
@@ -414,11 +414,11 @@ export default class Tokens extends Component {
             </View>
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <TouchableOpacity onPress={this.copyAddress} style={{ ...styles.buttons, marginRight: 7, borderTopRightRadius: 7, borderTopLeftRadius: 20, borderBottomRightRadius: 7, borderBottomLeftRadius: 20 }}>
-                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/copy.png')}/>
+                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../Assets/copy.png')}/>
                 <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Copy</Text>
               </TouchableOpacity>
               <TouchableOpacity style={{ ...styles.buttons, borderTopRightRadius: 20, borderTopLeftRadius: 7, borderBottomRightRadius: 20, borderBottomLeftRadius: 7 }}>
-                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../../AliceAssets/share.png')}/>
+                <Image style={{width: 20, resizeMode: 'contain'}} source={require('../Assets/share.png')}/>
                 <Text style={{fontSize: 17, fontWeight: '700', color: 'white'}}>Share</Text>
               </TouchableOpacity>
             </View>

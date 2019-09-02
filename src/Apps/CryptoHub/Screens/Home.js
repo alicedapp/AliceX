@@ -2,7 +2,7 @@ import React from "react";
 import {Text, TouchableOpacity, ScrollView, TextInput, View, Dimensions} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {countries} from '../Assets/Flags'
 const { height, width } = Dimensions.get('window');
 

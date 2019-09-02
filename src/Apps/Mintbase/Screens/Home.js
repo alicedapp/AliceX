@@ -4,7 +4,7 @@ import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import Modalize from 'react-native-modalize'
 import {FoodContractABI, WETHABI} from "../../Example/ABI";
 import moment from 'moment';
-import {NavigationBar} from "../../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Countdown from "../../Foam/Components/Countdown";
 const ANNOTATION_SIZE = 10;
 const { height, width } = Dimensions.get('window');

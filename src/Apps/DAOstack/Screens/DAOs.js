@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import React, {Component} from "react";
 import {Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image, ImageBackground} from "react-native";
-
-import gql from 'graphql-tag';
-=======
-import React, { Component } from "react";
-import { Text, ScrollView, TouchableOpacity, StyleSheet, View, Dimensions, Image } from "react-native";
->>>>>>> 9d2d8235b314e8ece013914f50cbbb64d63c3e3b
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag';
 
-import { NavigationBar } from "../../../AliceComponents";
+import { NavigationBar } from "../../../AliceCore/Components";
 import { DAOcolors } from "../Utils";
 
 const { height, width } = Dimensions.get('window');

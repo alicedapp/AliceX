@@ -3,9 +3,7 @@ import {
   Text, View, StyleSheet
 } from 'react-native';
 
-
-
-export default class SimpleView extends React.Component{
+export default class EmbeddedView extends React.Component{
   render() {
     return (
       <View style={styles.container}>
@@ -16,7 +14,7 @@ export default class SimpleView extends React.Component{
   }
 };
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#9d48ff',

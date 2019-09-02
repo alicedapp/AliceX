@@ -33,7 +33,7 @@ import { createBottomTabNavigator, createStackNavigator, createAppContainer } fr
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query, graphql } from 'react-apollo';
 import React, {Component} from "react";
-import {NavigationBar} from "../../AliceComponents/NavigationBar";
+import {NavigationBar} from "../../AliceCore/Components/NavigationBar";
 import gql from "graphql-tag";
 // import { split } from 'apollo-link';
 // import { HttpLink } from 'apollo-link-http';

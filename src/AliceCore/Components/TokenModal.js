@@ -14,7 +14,7 @@ import Icon from "./IconComponent";
 
 let { height, width } = Dimensions.get('window');
 
-class ModalComp extends Component<Props> {
+export default class AppsScreen extends Component<Props> {
   state = {
     isVisible: false
   };
@@ -27,7 +27,7 @@ class ModalComp extends Component<Props> {
         <View style={styles.modalBox}>
           <View style={{width: '100%', height: 20, alignItems: 'flex-end', justifyContent: 'center'}}>
             <TouchableOpacity onPress={this.props.closeModal}>
-              <Image source={require('../AliceAssets/close.png')} style={{resizeMode: 'contain', height: 30, width: 30}}/>
+              <Image source={require('../Assets/close.png')} style={{resizeMode: 'contain', height: 30, width: 30}}/>
             </TouchableOpacity>
           </View>
           <View style={{padding: 10}}>
@@ -39,8 +39,8 @@ class ModalComp extends Component<Props> {
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginBottom: 15}}>
               {this.props.app === "ethereum" ?
-                <Image source={require('../AliceAssets/localethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/> :
-                <Image source={require('../AliceAssets/radar-black.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/>
+                <Image source={require('../Assets/localethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/> :
+                <Image source={require('../Assets/radar-black.png')} style={{resizeMode: 'contain', height: 20, width: 20}}/>
               }
               {this.props.app === "ethereum" ?
                 <Text style={{fontFamily: 'Menlo-Regular', fontSize: 17}}> LocalEthereum</Text> :
@@ -52,8 +52,8 @@ class ModalComp extends Component<Props> {
             </View>
             <View style={{width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', marginBottom: 15}}>
               {this.props.app === "ethereum" ?
-                <Image source={require('../AliceAssets/ethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/> :
-                <Image source={require('../AliceAssets/status-logo.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/>
+                <Image source={require('../Assets/ethereum.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/> :
+                <Image source={require('../Assets/status-logo.png')} style={{resizeMode: 'contain', height: 20, width: 20, marginRight: 5}}/>
               }
               {this.props.app === "ethereum" ?
                 <Text style={{fontFamily: 'Menlo-Regular', fontSize: 17}}>Ethereum</Text> :
@@ -81,8 +81,6 @@ class ModalComp extends Component<Props> {
   }
 
 }
-
-export const ModalComponent = ModalComp;
 const styles = StyleSheet.create({
   modal: {
     margin: 0,

@@ -31,8 +31,8 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation';
-import Icon from '../../AliceComponents/IconComponent';
-import Modal from '../../AliceComponents/Modal.js';
+import Icon from '../../AliceCore/Components/IconComponent';
+import Modal from '../../AliceCore/Components/Modal.js';
 
 
 const { height, width } = Dimensions.get('window');
@@ -65,7 +65,7 @@ class HomeScreen extends Component {
           height: 400, marginTop: -40, width: width + 175, resizeMode: 'contain', padding: 100, paddingTop: 90,
         }}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../AliceCore/Assets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
         </ImageBackground>
         <View style={{ width, flex: 1 }}>
@@ -129,7 +129,7 @@ class BuyScreen extends Component {
           height: 400, marginTop: -40, width: width + 175, resizeMode: 'contain', padding: 100, paddingTop: 90,
         }}>
           <TouchableOpacity style={{}} onPress={() => navigation.navigate('Apps')}>
-            <Image source={require('../../AliceAssets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
+            <Image source={require('../../AliceCore/Assets/back.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
           </TouchableOpacity>
         </ImageBackground>
         <View style={{
