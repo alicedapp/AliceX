@@ -1,9 +1,4 @@
 export {
-  addressResolver,
-  checkSubdomainOwner,
-  newSubdomain
-} from './ensFunctions';
-export {
   resetAction,
   resetWithStackAction,
   navigate,
