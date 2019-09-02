@@ -17,10 +17,10 @@ import CodePush from "react-native-code-push";
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import env from './env.json';
-import Apps from './src/Apps'
 const {MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is requir
 import {Settings, Wallet} from './src/AliceSDK/Web3'
 import Tokens from './src/AliceCore/Screens/Tokens';
+import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Activity from "./src/AliceCore/Screens/Activity";
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
 
@@ -28,8 +28,8 @@ MapboxGL.setAccessToken(env.mapbox);
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const AppTabNavigator = createMaterialTopTabNavigator({
-  Apps: {
-    screen: Apps,
+  DappsScreen: {
+    screen: DappsScreen,
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ focused }) => (
@@ -60,8 +60,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   }
 }, {
-  initialRouteName: 'Apps',
-  order: ['Apps', 'Tokens', 'Activity'],
+  initialRouteName: 'DappsScreen',
+  order: ['DappsScreen', 'Tokens', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   tabBarOptions: {
@@ -88,8 +88,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  Apps: { screen: AppTabNavigator },
-  // Apps: { screen: MiniDapps.Foam },
+  DappsScreen: { screen: AppTabNavigator },
+  // DappsScreen: { screen: MiniDapps.Foam },
   ...MiniDapps,
 }, {
   headerMode: 'none',

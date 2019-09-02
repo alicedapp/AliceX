@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import tokenToData from '../../Utils/tokenToData.json';
-import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import Save from '../../Assets/share.png';
 import FeedTileContext from './FeedTileContext';
