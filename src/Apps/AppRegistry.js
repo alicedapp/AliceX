@@ -12,7 +12,6 @@ export { default as CheezeWizards } from './CheezeWizards';
 export { default as Fork } from './Fork';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
-export { default as Mintbase } from './Mintbase';
 export { default as DAOstack } from './DAOstack';
 export { default as BridgeWater } from './VotezUp';
 export { default as E2E } from './E2E';

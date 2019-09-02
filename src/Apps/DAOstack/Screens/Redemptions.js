@@ -7,21 +7,12 @@ import {
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import { Modalize } from "../Components";
-import Icon from "../../../AliceCore/Components/IconComponent";
-import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
+import { onSortOptions } from '../../Foam/utils';
 
 const ANNOTATION_SIZE = 10;
 
 
 export default class MapComponent extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { navigate } = navigation;
-    return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/redemption.png')} size={20}/>,
-    };
-  };
-
 
   constructor(props) {
     super(props);

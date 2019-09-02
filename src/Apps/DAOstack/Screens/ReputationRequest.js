@@ -10,8 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import { Button, FloatingButton } from '../Components';
-import Icon from "../../../AliceCore/Components/IconComponent";
+import { Button } from '../Components';
 
 const options = {
   enableVibrateFallback: true,

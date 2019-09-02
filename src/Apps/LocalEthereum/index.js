@@ -31,20 +31,12 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation';
-import Icon from '../../AliceCore/Components/IconComponent';
-import Modal from '../../AliceCore/Components/Modal.js';
 
 
 const { height, width } = Dimensions.get('window');
 
 
 class HomeScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { navigate } = navigation;
-    return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('./Assets/search.png')} size={30}/>,
-    };
-  };
 
   state = {
     modalVisible: false,
@@ -96,7 +88,6 @@ class HomeScreen extends Component {
           }}>Find Buyers near me </Text>
           <Image source={require('./Assets/location.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }} />
         </TouchableOpacity>
-        <Modal app={'ethereum'} isVisible={this.state.modalVisible} onBackdropPress={this.closeModal} closeModal={this.closeModal}/>
       </View>
     );
   }

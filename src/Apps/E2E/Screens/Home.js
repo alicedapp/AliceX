@@ -5,7 +5,6 @@ import {E2EABI} from "../ABI";
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import { ethers } from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
-import Icon from "../../../AliceCore/Components/IconComponent";
 import Modal from "react-native-modal";
 import {AppRegistry} from "../../index";
 import Camera from "../../../AliceCore/Components/Camera";
@@ -19,7 +18,6 @@ export default class E2EHome extends React.Component {
     const { navigate } = navigation;
     return {
       title: 'Home',
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/messages.png')} size={30}/>,
     };
   };
 

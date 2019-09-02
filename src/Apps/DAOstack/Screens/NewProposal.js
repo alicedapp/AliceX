@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import { Button } from '../Components';
-import Icon from "../../../AliceCore/Components/IconComponent";
 
 export default class NewProposal extends Component<Props> {
   static navigationOptions = ({ navigation }) => {

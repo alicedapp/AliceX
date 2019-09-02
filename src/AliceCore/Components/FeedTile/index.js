@@ -5,7 +5,6 @@ import {StyleSheet, ScrollView, Text, TouchableOpacity, Image, View, Dimensions}
 
 import Save from '../../Assets/share.png';
 import FeedTileContext from './FeedTileContext';
-import Tokens from '../../Assets/status-logo.png';
 
 export const FeedTileActivity = ({ item, verifiedGithub, verifiedTwitter, verifiedEmail }) => (
   <View style={{flex: 1}}>
@@ -174,7 +173,7 @@ export const FeedTileToken = ({ item, name, onOtherProfilePage, metaDataName, is
         {
           (tokenToData[item.tokenSymbol])
             ? <img src={`/contractIcons/${tokenToData[item.tokenSymbol].logo}`} alt="token icon" />
-            : <img src={Tokens} alt="Token Transaction Icon" />
+            : <img src={contractImg} alt="Token Transaction Icon" />
         }
 
         {

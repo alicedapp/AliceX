@@ -2,15 +2,8 @@ import { createBottomTabNavigator, createStackNavigator } from 'react-navigation
 import React from 'react';
 import {
   Dimensions,
-  Image,
-  ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Text,
-  View,
 } from 'react-native';
-import Icon from '../../AliceCore/Components/IconComponent';
 import Deals from './Screens/Deals';
 import Menu from './Screens/Menu';
 import TakeAway from './Screens/TakeAway';
@@ -36,9 +29,6 @@ const HomeScreen2 = createStackNavigator({
 },
 {
   headerMode: 'none',
-  navigationOptions: {
-    tabBarIcon: ({ tintColor }) => <Icon icon={require('../../AliceCore/Assets/plate.png')} size={25}/>,
-  },
 });
 
 export default createBottomTabNavigator({

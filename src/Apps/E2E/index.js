@@ -16,8 +16,6 @@ import Map from './Screens/Map'
 import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 import Chat from './Screens/Chat'
-import Icon from "../../AliceCore/Components/IconComponent";
-
 const E2EHome = createStackNavigator({
     Home: {
       screen: Home,
@@ -37,7 +35,6 @@ const E2EHome = createStackNavigator({
         },
         showLabel: false,
       },
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('./Assets/messages.png')} size={25}/>,
     },
   });
 

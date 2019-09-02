@@ -20,8 +20,6 @@ import {
   Button
 } from '../Components';
 import { NavigationBar } from "../../../AliceCore/Components/NavigationBar";
-import Icon from "../../../AliceCore/Components/IconComponent";
-
 
 const options = {
   enableVibrateFallback: true,
@@ -68,7 +66,6 @@ export default class Proposals extends Component {
 
     return {
       header: null,
-      tabBarIcon: ({tintColor}) => <Icon icon={require('../Assets/home.png')} size={20}/>,
     }
   };
 

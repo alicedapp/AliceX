@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Image, View, Modal, Dimensions, WebView,
 } from 'react-native';
-import Icon from '../AliceCore/Components/IconComponent';
 import AppIcon from "../AliceCore/Components/AppIcon";
 import {Settings} from "../AliceSDK/Web3";
 import {AppRegistry} from "./AppRegistry";
@@ -19,13 +18,6 @@ const { height, width } = Dimensions.get('window');
 
 type Props = {};
 export default class AppsScreen extends Component<Props> {
-  static navigationOptions = ({ navigation }) => {
-    const { navigate } = navigation;
-    return {
-      tabBarIcon: ({ tintColor }) => <Icon icon="HomeGrey" size={45}/>,
-    };
-  };
-
   state = {
     modalVisible: false,
   };

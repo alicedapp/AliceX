@@ -9,19 +9,10 @@ import {
   Text,
   View,
 } from 'react-native';
-import Icon from '../../../AliceCore/Components/IconComponent';
-import Deals from './Deals'
 
 let { height, width } = Dimensions.get('window');
 
 export default class TakeAway extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    const { navigate } = navigation;
-    return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../../../AliceCore/Assets/red-car.png')} size={30}/>,
-    };
-  };
-
 
   componentDidMount() {
     this.getKitties();

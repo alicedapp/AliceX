@@ -3,15 +3,8 @@ import { Text, TouchableOpacity } from 'react-native';
 import { RNCamera as Camera } from 'react-native-camera';
 
 import { Modal } from '../Components';
-import Icon from "../../../AliceCore/Components/IconComponent";
 
 export default class CameraComponent extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { navigate } = navigation;
-    return {
-      tabBarIcon: ({ tintColor }) => <Icon icon={require('../Assets/holders.png')} size={20}/>,
-    };
-  };
 
   state = {
     isVisible: false,

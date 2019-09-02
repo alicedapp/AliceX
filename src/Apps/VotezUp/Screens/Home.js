@@ -6,7 +6,6 @@ import {VotingABI} from "../ABI";
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {ethers} from 'ethers';
 import {GiftedChat} from 'react-native-gifted-chat'
-import Icon from "../../../AliceCore/Components/IconComponent";
 import {Query, Mutation} from "react-apollo";
 import gql from "graphql-tag";
 import { WebSocketLink } from 'apollo-link-ws';
