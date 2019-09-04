@@ -1,4 +1,5 @@
-import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
+/* eslint-disable import/prefer-default-export */
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import {
   DAOstack,
@@ -8,15 +9,16 @@ import {
   Proposals,
   Redemptions,
   ReputationRequest,
-  RequestComplete
+  RequestComplete,
 } from '../Screens';
 
-const DAOHomePage =  createBottomTabNavigator({
-// Your ExampleMaps's Tab Navigator's names are defined here as a default
+const DAOHomePage = createBottomTabNavigator(
+  {
+    // Your ExampleMaps's Tab Navigator's names are defined here as a default
     DAOstackHome: Proposals,
     DAOstackRedemptions: Redemptions,
     DAOstackHolders: Holders,
-    DAOstackHistory: History
+    DAOstackHistory: History,
   },
   {
     tabBarOptions: {
@@ -26,7 +28,8 @@ const DAOHomePage =  createBottomTabNavigator({
       },
       showLabel: false,
     },
-  });
+  }
+);
 
 DAOHomePage.navigationOptions = {
   // Hide the header from AppNavigator stack
@@ -34,9 +37,9 @@ DAOHomePage.navigationOptions = {
 };
 
 export const App = createStackNavigator({
-  DAOstack: DAOstack,
-	DAOHomePage: DAOHomePage,
-  NewProposal: NewProposal,
-  ReputationRequest: ReputationRequest,
-  RequestComplete: RequestComplete,
+  DAOstack,
+  DAOHomePage,
+  NewProposal,
+  ReputationRequest,
+  RequestComplete,
 });
