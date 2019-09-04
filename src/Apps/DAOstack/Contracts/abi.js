@@ -1,120 +1,121 @@
+/* eslint-disable import/prefer-default-export */
 export const abi = [
   {
-    "constant": false,
-    "inputs": [],
-    "name": "cookingOrder",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    constant: false,
+    inputs: [],
+    name: 'cookingOrder',
+    outputs: [],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "finishOrder",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    constant: false,
+    inputs: [],
+    name: 'finishOrder',
+    outputs: [],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "constant": false,
-    "inputs": [
+    constant: false,
+    inputs: [
       {
-        "name": "_foodItem",
-        "type": "string"
+        name: '_foodItem',
+        type: 'string',
       },
       {
-        "name": "_name",
-        "type": "string"
-      }
+        name: '_name',
+        type: 'string',
+      },
     ],
-    "name": "setOrder",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'setOrder',
+    outputs: [],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "constant": false,
-    "inputs": [
+    constant: false,
+    inputs: [
       {
-        "name": "_orderStatus",
-        "type": "string"
-      }
+        name: '_orderStatus',
+        type: 'string',
+      },
     ],
-    "name": "setOrderStatus",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'setOrderStatus',
+    outputs: [],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "name": "foodItem",
-        "type": "string"
+        indexed: false,
+        name: 'foodItem',
+        type: 'string',
       },
       {
-        "indexed": false,
-        "name": "name",
-        "type": "string"
-      }
+        indexed: false,
+        name: 'name',
+        type: 'string',
+      },
     ],
-    "name": "FoodFinished",
-    "type": "event"
+    name: 'FoodFinished',
+    type: 'event',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "name": "foodItem",
-        "type": "string"
+        indexed: false,
+        name: 'foodItem',
+        type: 'string',
       },
       {
-        "indexed": false,
-        "name": "name",
-        "type": "string"
-      }
+        indexed: false,
+        name: 'name',
+        type: 'string',
+      },
     ],
-    "name": "OrderReceived",
-    "type": "event"
+    name: 'OrderReceived',
+    type: 'event',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "name": "orderStatus",
-        "type": "string"
-      }
+        indexed: false,
+        name: 'orderStatus',
+        type: 'string',
+      },
     ],
-    "name": "OrderStatus",
-    "type": "event"
+    name: 'OrderStatus',
+    type: 'event',
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "getOrder",
-    "outputs": [
+    constant: true,
+    inputs: [],
+    name: 'getOrder',
+    outputs: [
       {
-        "name": "",
-        "type": "string"
+        name: '',
+        type: 'string',
       },
       {
-        "name": "",
-        "type": "string"
+        name: '',
+        type: 'string',
       },
       {
-        "name": "",
-        "type": "string"
-      }
+        name: '',
+        type: 'string',
+      },
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  }
-]
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+];
