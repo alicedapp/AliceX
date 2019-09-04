@@ -17,8 +17,8 @@ import { createAppContainer } from 'react-navigation';
 
 import { App } from './Navigation';
 import { ApolloClientConfig as client } from './Config';
-// NavBar not used for now.
-// import { NavigationBar } from '../../AliceCore/Components/index';
+// eslint-disable-next-line no-unused-vars
+import { NavigationBar } from '../../AliceCore/Components/index';
 
 const AppContainer = createAppContainer(App);
 
