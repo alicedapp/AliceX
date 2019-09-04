@@ -5,7 +5,8 @@
 
 import React, { Component } from 'react';
 import {
-  Image,
+  Dimensions,
+  Image, View,
 } from 'react-native';
 import {
   createAppContainer,
@@ -17,13 +18,15 @@ import CodePush from "react-native-code-push";
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import env from './env.json';
-const {MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is requir
+const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is required
 import {Settings, Wallet} from './src/AliceSDK/Web3'
 import Tokens from './src/AliceCore/Screens/Tokens';
 import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Activity from "./src/AliceCore/Screens/Activity";
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
+import {switchcase} from "./src/AliceCore/Utils";
 
+const { height, width } = Dimensions.get('window');
 MapboxGL.setAccessToken(env.mapbox);
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
@@ -89,7 +92,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
 const MainApp = createStackNavigator({
   DappsScreen: { screen: AppTabNavigator },
-  // DappsScreen: { screen: MiniDapps.Foam },
+  // DappsScreen: { screen: MiniDapps.CheezeWizards },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -107,16 +110,15 @@ class App extends Component {
     };
 
     OneSignal.init(env.onesignal);
-
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
     OneSignal.configure();
   }
 
-
   componentDidMount() {
     this.getOrientation();
+    this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
@@ -128,7 +130,7 @@ class App extends Component {
         }
         if (event.network) {
           console.log('NETWORK CHANGED: ', event, event.network);
-          this.setState({ network: event.network});
+          this.setState({network: event.network.name, networkColor: event.network.color});
         }
         if (event.orientation) {
           console.log('ROTATION CHANGED: ', event, event.orientation);
@@ -137,6 +139,11 @@ class App extends Component {
       }
     );
   }
+
+  getNetwork = async () => {
+    const networkInfo = await Wallet.getNetwork();
+    this.setState({network: networkInfo.name, networkColor: networkInfo.color});
+  };
 
   componentWillUnmount() {
     OneSignal.removeEventListener('received', this.onReceived);
@@ -151,7 +158,7 @@ class App extends Component {
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
     if (openResult.notification.payload.title === "FOAM") {
-      navigate('FoamMap', {poi: challengedPOI});
+      navigate('FoamMap', {poi: ''});
     }
 
     if (openResult.notification.payload.title === "E2E") {
@@ -178,14 +185,21 @@ class App extends Component {
 
   render() {
     return (
-      <AliceMain
-        ref={navigatorRef => {
-          NavigatorService.setContainer(navigatorRef);
-        }}
-      />
+      <View style={{flex: 1}}>
+        {this.state.network !== 'main' && <View style={{ backgroundColor: this.state.networkColor, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, alignSelf: 'center', position: 'absolute', top:0, width:215, height: 35, zIndex: 9999}}/>}
+        <AliceMain
+          ref={navigatorRef => {
+            NavigatorService.setContainer(navigatorRef);
+          }}
+        >
+        </AliceMain>
+      </View>
     );
   }
 }
+
+
+
 
 export default CodePush({
   checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,

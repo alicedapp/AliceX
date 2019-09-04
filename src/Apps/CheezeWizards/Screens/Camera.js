@@ -2,8 +2,8 @@ import {Component} from "react";
 import Camera from "../../../AliceSDK/Camera";
 import {StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image, Dimensions} from "react-native";
 import React from "react";
-import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 const { height, width } = Dimensions.get('window');
+import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 import _ from 'lodash';
 
 

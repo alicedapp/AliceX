@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
+import Camera from "../../../AliceSDK/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import env from '../../../../env';
@@ -19,6 +20,10 @@ import QRCode from 'react-native-qrcode-svg'
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 import Modal from "../Components/Modal";
+import CardFlip from '../Components/CardFlip'
+import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
+import _ from 'lodash';
+
 
 const options = {
   enableVibrateFallback: true,
@@ -41,10 +46,13 @@ export default class MapComponent extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
-      // loading: true,
+      flash: false,
+      cameraType: 'back',
+      backgroundColor: 'transparent',
       pressed: false,
       actionList: [],
+      qrModalVisible: true,
+      arrowModalVisible: false
     };
 
   }
@@ -52,6 +60,32 @@ export default class MapComponent extends React.Component {
   componentDidMount() {
     this.fetchWizards();
   }
+
+  startDuel = (data) => {
+    let wizard = JSON.parse(data);
+    this.props.navigation.navigate('CheezeWizards/Duel', {wizard})
+  }
+
+  scan = (barcode) => {
+    const debouncedScan = _.debounce(() => this.startDuel(barcode.data), 2000, {
+      'leading': true,
+      'trailing': false
+    });
+    debouncedScan();
+  };
+
+  toggleTorch = () => {
+    this.setState({flash: !this.state.flash});
+    if (this.state.cameraType === 'front') {
+      this.state.backgroundColor ===  'transparent' ? this.setState({backgroundColor: 'rgba(255,255,255,0.7)'}) : this.setState({backgroundColor: 'transparent'});
+    }
+  };
+
+  toggleCamera = () => {
+    this.state.cameraType === 'back' ? this.setState({cameraType: 'front', flash: false}) : this.setState({cameraType: 'back', flash: false});
+  };
+
+
 
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
@@ -75,9 +109,9 @@ export default class MapComponent extends React.Component {
       }
     });
     xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json")
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard)
-    xhr.setRequestHeader("x-email","mark@alicedapp.com")
+    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.setRequestHeader("x-api-token", env.cheezeWizard);
+    xhr.setRequestHeader("x-email","mark@alicedapp.com");
 
 
     xhr.send(data);
@@ -85,11 +119,12 @@ export default class MapComponent extends React.Component {
   };
 
   openMap = () => {
-    this.props.navigation.navigate('CheezeMap');
+    this.props.navigation.navigate('CheezeWizards/Map');
   };
 
   toggleModal = () => {
-    this.setState({qrModalVisible: !this.state.qrModalVisible})
+    ReactNativeHapticFeedback.trigger("selection", options);
+    this.setState({qrModalVisible: !this.state.qrModalVisible, arrowModalVisible: !this.state.arrowModalVisible})
   }
 
   actionPress = (action) => {
@@ -115,27 +150,10 @@ export default class MapComponent extends React.Component {
     const { navigate } = this.props.navigation;
     const {wizard} = this.props.navigation.state.params;
     return (
-      <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
+      <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
         <NavigationBar/>
-        {this.state.loading === true ? <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-        }}>
-          <Image source={require('../Assets/landing.png')} style={{
-            width,
-            resizeMode: 'contain',
-          }}/>
-        </View> : <View style={{flex: 1, backgroundColor: '#000', alignItems: 'center',}}>
-          <Image source={require('../Assets/melting-cheese.png')} style={{
-            resizeMode: 'contain',
-            height: 250,
-            width
-          }}/>
-          <View
-            style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+        <ImageBackground source={require('../Assets/wizards-screen.png')} style={{flex: 1, width, alignItems: 'center',}}>
+            <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
               <Button onPress={this.openMap} style={{flex: 1}}>
                 <Image source={require('../Assets/location.png')} style={{
                   resizeMode: 'contain',
@@ -143,17 +161,8 @@ export default class MapComponent extends React.Component {
                   height: 45
                 }}/>
               </Button>
-              <View style={{
-                flex: 5,
-                height: 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingHorizontal: 15,
-                borderWidth: 1,
-                borderColor: 'black',
-                backgroundColor: 'white', ...styles.sharpShadow
-              }}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}></Text>
+              <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
               </View>
               <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
@@ -163,55 +172,36 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-            <View
-              style={{width: width - 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-              <View>
-                <WizardCard wizard={wizard}/>
-                <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>WINS 0</Text>
-                <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>LOSSES 0</Text>
-              </View>
-              <View>
-                <Button onPress={() => navigate('CheezeMap')}>
-                  <Image source={require('../Assets/location.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
-                <Button onPress={this.toggleModal}>
-                  <Image source={require('../Assets/qr-code-button.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
-                <Button onPress={() => navigate('CheezeWizards/Camera')}>
-                  <Image source={require('../Assets/cheeze-eye.png')} style={{
-                    resizeMode: 'contain',
-                    width: 55,
-                    height: 55
-                  }}/>
-                </Button>
+          <Modal swipeDirection='down' swipeThreshold={50} onSwipeComplete={this.toggleModal} isVisible={this.state.qrModalVisible} backdropOpacity={0} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', marginLeft: -5, marginTop: -50}}>
+            <CardFlip style={{height: width - 10, width: width-80}} ref={card => this.card = card}>
+              <Button onPress={() => this.card.flip()} style={{flex: 1}}>
+                <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
+              </Button>
+              <Button onPress={() => this.card.flip()} style={{flex: 1}}>
+                <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
+                  <QRCode
+                    size={200}
+                    value={JSON.stringify(wizard)}
+                  />
+                </View>
+              </Button>
+            </CardFlip>
+            {/*<Button onPress={this.toggleModal} style={{flex: 1}}>*/}
+            {/*<View style={{ height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>*/}
+            {/*<Text style={{fontSize: 20, fontFamily: 'Exocet'}}>x</Text>*/}
+            {/*</View>*/}
+            {/*</Button>*/}
 
-              </View>
-            </View>
-          </View>
-        </View>
-        }
-        <Modal isVisible={this.state.qrModalVisible} backdropOpacity={0.3} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', paddingTop: 200}}>
-          <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
-            <QRCode
-              size={200}
-              value={JSON.stringify(wizard)}
-            />
-          </View>
-          <Button onPress={this.toggleModal} style={{flex: 1}}>
-            <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>x</Text>
-            </View>
-          </Button>
-        </Modal>
-      </View>)
+          </Modal>
+          {this.state.arrowModalVisible && <Button onPress={this.toggleModal} style={{position: 'absolute', bottom: 30}}>
+            <Image source={require('../Assets/up-cheeze-arrow.png')} style={{
+              resizeMode: 'contain',
+              width: 65,
+              height: 65
+            }}/>
+          </Button> }
+        </ImageBackground>
+      </Camera>)
   }
 }
 

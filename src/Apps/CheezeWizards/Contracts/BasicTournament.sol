@@ -1773,7 +1773,7 @@ contract BasicTournament is TournamentInterface, TournamentTimeAbstract, WizardC
             // In Ascension Battles, if one Wizard is more powerful than the other Wizard by
             // more than double the current blue mold level, we cap the at-risk power of that
             // more powerful Wizard to match the power level of the weaker wizard. This probably
-            // isn't clear, so here are some Examples. In all of these Examples, the second wizard
+            // isn't clear, so here are some MapExamples. In all of these MapExamples, the second wizard
             // is more powerful than the first, but the logic is equivalent in both directions.
             // In each case, we assume the blue mold level is 100. (The non-intuitive lines are
             // marked with an arrow.)
@@ -2144,7 +2144,7 @@ contract BasicTournament is TournamentInterface, TournamentTimeAbstract, WizardC
     ///         It might seem like it would be tricky to split the pot one player at a time. Imagine that
     ///         there are just three winners, with power levels 20, 30, and 50. If the third player claims
     ///         first, they will get 50% of the (remaining) pot, but if they claim last, they will get
-    ///         100% of the remaining pot! If you run some Examples, you'll see that by decreasing the pot
+    ///         100% of the remaining pot! If you run some MapExamples, you'll see that by decreasing the pot
     ///         size by a value exactly proportional to the power of the removed Wizard, everyone gets
     ///         the same amount of winnings, regardless of the order in which they claim (plus or minus
     ///         a wei or two due to rounding).

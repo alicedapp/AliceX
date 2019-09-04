@@ -3,46 +3,46 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 
 // components
-import MapHeader from '../Examples/common/MapHeader';
+import MapHeader from '../MapExamples/common/MapHeader';
 
 // Styles
 import sheet from '../Styles/sheet';
 import colors from '../Styles/colors';
 
-// Examples
-import ShowMap from '../Examples/ShowMap';
-import SetPitch from '../Examples/SetPitch';
-import SetHeading from '../Examples/SetHeading';
-import ShowClick from '../Examples/ShowClick';
-import FlyTo from '../Examples/FlyTo';
-import FitBounds from '../Examples/FitBounds';
-import SetUserTrackingModes from '../Examples/SetUserTrackingModes';
-import SetUserLocationVerticalAlignment from '../Examples/SetUserLocationVerticalAlignment';
-import ShowRegionDidChange from '../Examples/ShowRegionDidChange';
-import CustomIcon from '../Examples/CustomIcon';
-import YoYo from '../Examples/YoYo';
-import EarthQuakes from '../Examples/EarthQuakes';
-import GeoJSONSource from '../Examples/GeoJSONSource';
-import WatercolorRasterTiles from '../Examples/WatercolorRasterTiles';
-import TwoByTwo from '../Examples/TwoByTwo';
-import IndoorBuilding from '../Examples/IndoorBuilding';
-import QueryAtPoint from '../Examples/QueryAtPoint';
-import QueryWithRect from '../Examples/QueryWithRect';
-import ShapeSourceIcon from '../Examples/ShapeSourceIcon';
-import CustomVectorSource from '../Examples/CustomVectorSource';
-import ShowPointAnnotation from '../Examples/ShowPointAnnotation';
-import CreateOfflineRegion from '../Examples/CreateOfflineRegion';
-import DriveTheLine from '../Examples/DriveTheLine';
-import ImageOverlay from '../Examples/ImageOverlay';
-import DataDrivenCircleColors from '../Examples/DataDrivenCircleColors';
-import ChoroplethLayerByZoomLevel from '../Examples/ChoroplethLayerByZoomLevel';
-import PointInMapView from '../Examples/PointInMapView';
-import TakeSnapshot from '../Examples/TakeSnapshot';
-import TakeSnapshotWithMap from '../Examples/TakeSnapshotWithMap';
-import GetZoom from '../Examples/GetZoom';
-import GetCenter from '../Examples/GetCenter';
-import UserLocationChange from '../Examples/UserLocationChange';
-import Heatmap from '../Examples/Heatmap';
+// MapExamples
+import ShowMap from '../MapExamples/ShowMap';
+import SetPitch from '../MapExamples/SetPitch';
+import SetHeading from '../MapExamples/SetHeading';
+import ShowClick from '../MapExamples/ShowClick';
+import FlyTo from '../MapExamples/FlyTo';
+import FitBounds from '../MapExamples/FitBounds';
+import SetUserTrackingModes from '../MapExamples/SetUserTrackingModes';
+import SetUserLocationVerticalAlignment from '../MapExamples/SetUserLocationVerticalAlignment';
+import ShowRegionDidChange from '../MapExamples/ShowRegionDidChange';
+import CustomIcon from '../MapExamples/CustomIcon';
+import YoYo from '../MapExamples/YoYo';
+import EarthQuakes from '../MapExamples/EarthQuakes';
+import GeoJSONSource from '../MapExamples/GeoJSONSource';
+import WatercolorRasterTiles from '../MapExamples/WatercolorRasterTiles';
+import TwoByTwo from '../MapExamples/TwoByTwo';
+import IndoorBuilding from '../MapExamples/IndoorBuilding';
+import QueryAtPoint from '../MapExamples/QueryAtPoint';
+import QueryWithRect from '../MapExamples/QueryWithRect';
+import ShapeSourceIcon from '../MapExamples/ShapeSourceIcon';
+import CustomVectorSource from '../MapExamples/CustomVectorSource';
+import ShowPointAnnotation from '../MapExamples/ShowPointAnnotation';
+import CreateOfflineRegion from '../MapExamples/CreateOfflineRegion';
+import DriveTheLine from '../MapExamples/DriveTheLine';
+import ImageOverlay from '../MapExamples/ImageOverlay';
+import DataDrivenCircleColors from '../MapExamples/DataDrivenCircleColors';
+import ChoroplethLayerByZoomLevel from '../MapExamples/ChoroplethLayerByZoomLevel';
+import PointInMapView from '../MapExamples/PointInMapView';
+import TakeSnapshot from '../MapExamples/TakeSnapshot';
+import TakeSnapshotWithMap from '../MapExamples/TakeSnapshotWithMap';
+import GetZoom from '../MapExamples/GetZoom';
+import GetCenter from '../MapExamples/GetCenter';
+import UserLocationChange from '../MapExamples/UserLocationChange';
+import Heatmap from '../MapExamples/Heatmap';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const styles = StyleSheet.create({

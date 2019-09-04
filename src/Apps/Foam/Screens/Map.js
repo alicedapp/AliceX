@@ -271,6 +271,7 @@ export default class MapComponent extends React.Component {
       swLng, swLat, neLat, neLng,
     } = this.state;
     if (swLng) {
+      console.log('FOAM CALL: ', `https://map-api-direct.foam.space/poi/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`);
       fetch(`https://map-api-direct.foam.space/poi/map?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}`)
         .then((response) => response.text())
         .then((pois) => {

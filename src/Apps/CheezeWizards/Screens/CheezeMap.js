@@ -50,6 +50,16 @@ const wzrd5 = {
   },
 };
 
+
+const layerStyles = {
+  singlePoint: {
+    iconImage: wzrd1Icon,
+    iconAllowOverlap: true,
+    iconSize: 0.5
+
+  },
+}
+
 const featureCollection = {
   type: 'FeatureCollection',
   features: [
@@ -199,11 +209,16 @@ class CheezeMap extends React.Component {
       >
         <MapboxGL.Camera followZoomLevel={12} followUserLocation />
         <MapboxGL.ShapeSource
-          id="exampleShapeSource"
+          id="earthquakes"
+          cluster
+          clusterRadius={50}
+          clusterMaxZoom={14}
           shape={featureCollection}
         >
-          {/*<MapboxGL.SymbolLayer id={'12340'} style={{ iconSize: 1, iconImage: wzrd1Icon  }} />*/}
-          <MapboxGL.SymbolLayer id={'12341'} style={{ iconSize: 1, iconImage: wzrd2Icon  }} />
+          <MapboxGL.SymbolLayer
+            id="pointCount"
+            style={layerStyles.singlePoint}
+          />
         </MapboxGL.ShapeSource>
         <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30}}>

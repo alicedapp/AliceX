@@ -1,16 +1,17 @@
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './Screens/Home'
 import Camera from './Screens/Camera'
-import CompetitorSearch from './Screens/CompetitorSearch'
 import Duel from './Screens/Duel'
 import CheezeMap from './Screens/CheezeMap'
+import Summon from './Screens/Summon'
 import WizardScreen from './Screens/WizardScreen'
 
 const App = createStackNavigator({
-  CheezeWizards: Home,
+  "CheezeWizards": Home,
   "CheezeWizards/Duel": Duel,
-  CheezeMap: CheezeMap,
+  "CheezeWizards/Map": CheezeMap,
   "CheezeWizards/Camera": Camera,
+  "CheezeWizards/Summon": Summon,
   "CheezeWizards/WizardScreen": WizardScreen,
 });
 

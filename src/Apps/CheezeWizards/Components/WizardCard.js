@@ -49,7 +49,7 @@ export default class WizardCard extends React.Component {
     const { wizard, key } = this.props;
     console.log('WIZARD: ', wizard);
     return (
-      <TouchableOpacity {...this.props} key={key} style={styles.cardContainer}>
+      <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
         <View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>
           <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{wizard.id}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center', height: 200, width: 200}}>
@@ -60,7 +60,7 @@ export default class WizardCard extends React.Component {
             {this.renderAffinity()}
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -89,4 +89,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
+  sharpShadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowRadius: 0,
+    shadowOpacity: 1,
+
+  }
 })

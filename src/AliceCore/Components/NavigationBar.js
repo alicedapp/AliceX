@@ -4,7 +4,7 @@ import { Image, TouchableOpacity, View } from "react-native";
 import { navigate, goBack } from "../Utils/navigationWrapper";
 
 export const NavigationBar = () => (
-  <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 1000 }}>
+  <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 9999 }}>
     <TouchableOpacity style={{ padding: 3 }} onPress={() => goBack()}>
       <Image source={require('../Assets/back.png')} style={{
         resizeMode: 'contain',

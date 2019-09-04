@@ -20,7 +20,6 @@ import env from '../../../../env'
 import { SvgUri } from 'react-native-svg';
 import ABIs from '../ABIs';
 import {GateKeeper} from '../Addresses/index'
-import {FoodContractABI} from '../../Example/ABI'
 import {switchcase} from "../Utils";
 
 const options = {
@@ -44,8 +43,8 @@ export default class MapComponent extends React.Component {
     super(props);
 
     this.state = {
-      // loading: false,
-      loading: true,
+      loading: false,
+      // loading: true,
       pressed: false,
       actionList: [],
       wizards: []
@@ -56,11 +55,6 @@ export default class MapComponent extends React.Component {
   componentDidMount() {
     this.fetchWizards();
     this.getNFTInfo();
-  }
-
-  animate = () => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.setState({pressed: !this.state.pressed});
   }
 
   fetchWizards = async () => {
@@ -146,60 +140,76 @@ export default class MapComponent extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
-          {this.state.loading === true ? <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#fff',
-          }}>
-            <Image source={require('../Assets/landing.png')} style={{
-              width,
-              resizeMode: 'contain',
-            }}/>
-          </View> : <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
-            <Image source={require('../Assets/melting-cheese.png')} style={{
-              resizeMode: 'contain',
-              height: 250,
-              position: 'absolute', top: 0
-            }}/>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
-              <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-                <Button onPress={this.openMap} style={{flex: 1}}>
-                  <Image source={require('../Assets/location.png')} style={{
-                    resizeMode: 'contain',
-                    width: 40,
-                    height: 45
-                  }}/>
-                </Button>
-                <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
-                </View>
-                <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
-                  <Image source={require('../Assets/settings-icon.png')} style={{
-                    resizeMode: 'contain',
-                    width: 50,
-                    height: 50
-                  }}/>
-                </Button>
-              </View>
-              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 200}}>
-                {this.state.wizards.map((wizard, i) => {
-                  return (
-                    <TouchableOpacity key={i} onPress={() => this.enterDuelMode(wizard)}>
-                      <WizardCard wizard={wizard}/>
-                    </TouchableOpacity>
-                  )
-                })}
-              </ScrollView>
-              <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, position: 'absolute', bottom: 20, right: 5, zIndex: 9999,}}>
-                <Image source={require('../Assets/udder.png')} style={{
+        {this.state.loading === true ? <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+        }}>
+          <Image source={require('../Assets/landing.png')} style={{
+            width,
+            resizeMode: 'contain',
+          }}/>
+        </View> : <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
+          <Image source={require('../Assets/melting-cheese.png')} style={{
+            resizeMode: 'contain',
+            height: 250,
+            position: 'absolute', top: 0
+          }}/>
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
+            <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+              <Button onPress={this.openMap} style={{flex: 1}}>
+                <Image source={require('../Assets/location.png')} style={{
                   resizeMode: 'contain',
                   width: 40,
                   height: 45
                 }}/>
               </Button>
+              <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
+              </View>
+              <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
+                <Image source={require('../Assets/settings-icon.png')} style={{
+                  resizeMode: 'contain',
+                  width: 50,
+                  height: 50
+                }}/>
+              </Button>
             </View>
-          </View>}
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', position: 'absolute', bottom: 70, zIndex: 9999,}}>
+                <Button onPress={() => this.actionPress('fire')}>
+                  <Image source={require('../Assets/fire-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('water')}>
+                  <Image source={require('../Assets/water-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('wind')}>
+                  <Image source={require('../Assets/earth-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+                <Button onPress={() => this.actionPress('neutral')}>
+                  <Image source={require('../Assets/neutral-button.png')} style={{
+                    resizeMode: 'contain',
+                    width: 55,
+                    height: 55
+                  }}/>
+                </Button>
+              </View>
+            </View>
+          </View>
+        </View>}
       </View>
 
     );
@@ -218,4 +228,5 @@ const styles = StyleSheet.create({
 
   }
 });
+
 

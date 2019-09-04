@@ -82,7 +82,7 @@ export default class MapComponent extends React.Component {
   };
 
   openMap = () => {
-    this.props.navigation.navigate('CheezeMap');
+    this.props.navigation.navigate('CheezeWizards/Map');
   };
 
   actionPress = (action) => {
