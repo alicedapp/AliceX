@@ -21,6 +21,8 @@ import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 import Modal from "../Components/Modal";
 import CardFlip from '../Components/CardFlip'
+import * as Animatable from 'react-native-animatable';
+
 import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 import _ from 'lodash';
 
@@ -42,6 +44,8 @@ export default class MapComponent extends React.Component {
     };
   };
 
+  handleViewRef = ref => this.view = ref;
+
   constructor(props) {
     super(props);
 
@@ -52,7 +56,8 @@ export default class MapComponent extends React.Component {
       pressed: false,
       actionList: [],
       qrModalVisible: true,
-      arrowModalVisible: false
+      arrowModalVisible: false,
+      scannedWizard: null
     };
 
   }
@@ -61,17 +66,24 @@ export default class MapComponent extends React.Component {
     this.fetchWizards();
   }
 
-  startDuel = (data) => {
-    let wizard = JSON.parse(data);
-    this.props.navigation.navigate('CheezeWizards/Duel', {wizard})
-  }
+  startDuel = (myWizard, challengedWizard) => {
+    this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard})
+  };
+
+  bounce = () => this.view.bounceIn(800).then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
+
+  onWizardScan = (wizard) => {
+    this.setState({scannedWizard: wizard, qrModalVisible: false, arrowModalVisible: true}, this.bounce)
+  };
 
   scan = (barcode) => {
-    const debouncedScan = _.debounce(() => this.startDuel(barcode.data), 2000, {
-      'leading': true,
-      'trailing': false
-    });
-    debouncedScan();
+    if (JSON.parse(barcode.data).id) {
+      const debouncedScan = _.debounce(() => this.onWizardScan(JSON.parse(barcode.data)), 5000, {
+        'leading': true,
+        'trailing': false
+      });
+      debouncedScan();
+    }
   };
 
   toggleTorch = () => {
@@ -96,7 +108,6 @@ export default class MapComponent extends React.Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      console.log('NFT DATA: ', data);
       if (data.assets) {
         this.setState({nftInfo: data, nfts: data.assets});
       }
@@ -138,7 +149,6 @@ export default class MapComponent extends React.Component {
     this.setState({pressed: !this.state.pressed});
     try {
       const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
-      console.log('txHash: ', txHash);
       this.setState({txHash})
     } catch(e) {
       console.log(e);
@@ -172,6 +182,15 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
+          {this.state.scannedWizard && <Animatable.View animation="bounceIn" delay={1000} style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+            <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
+            <Button onPress={() => this.startDuel(wizard, this.state.wizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
+            </Button>
+            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            </Button>
+          </Animatable.View>}
           <Modal swipeDirection='down' swipeThreshold={50} onSwipeComplete={this.toggleModal} isVisible={this.state.qrModalVisible} backdropOpacity={0} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', marginLeft: -5, marginTop: -50}}>
             <CardFlip style={{height: width - 10, width: width-80}} ref={card => this.card = card}>
               <Button onPress={() => this.card.flip()} style={{flex: 1}}>

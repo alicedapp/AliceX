@@ -44,8 +44,8 @@ export default class MapComponent extends React.Component {
     super(props);
 
     this.state = {
-      // loading: false,
-      loading: true,
+      loading: false,
+      // loading: true,
       pressed: false,
       actionList: [],
       wizards: []
@@ -67,7 +67,6 @@ export default class MapComponent extends React.Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      console.log('WIZARDS:  ', data);
       if (data.wizards) {
         this.setState({wizards: data.wizards});
       }
@@ -93,7 +92,6 @@ export default class MapComponent extends React.Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
-      console.log('NFT DATA: ', data);
       if (data.assets) {
         this.setState({nftInfo: data, nfts: data.assets});
       }
@@ -125,10 +123,8 @@ export default class MapComponent extends React.Component {
       "wind": 4,
     });
     const affinity = getAffinity(_affinity);
-    console.log('AFFINITY: ', affinity)
     try {
       const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.InauguralGateKeeper.abi, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
-      console.log("TX HASH: ", txHash);
     } catch(e) {
       console.log('WIZARD PURCHASE ERROR: ', e);
     }
@@ -182,11 +178,11 @@ export default class MapComponent extends React.Component {
                   }}/>
                 </Button>
               </View>
-              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 200}}>
+              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}}>
                 {this.state.wizards.map((wizard, i) => {
                   return (
-                    <TouchableOpacity key={i} onPress={() => this.enterDuelMode(wizard)}>
-                      <WizardCard wizard={wizard}/>
+                    <TouchableOpacity style={{marginVertical: 10}} key={i} onPress={() => this.enterDuelMode(wizard)}>
+                      <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
                     </TouchableOpacity>
                   )
                 })}

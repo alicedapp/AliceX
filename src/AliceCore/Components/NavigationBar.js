@@ -12,7 +12,7 @@ export const NavigationBar = () => (
         height: 35,
       }}/>
     </TouchableOpacity>
-    <TouchableOpacity style={{ padding: 3 }} onPress={() => navigate('Apps')}>
+    <TouchableOpacity style={{ padding: 3 }} onPress={() => navigate('DappsScreen')}>
       <Image source={require('../Assets/home.png')} style={{
         resizeMode: 'contain',
         width: 35,
