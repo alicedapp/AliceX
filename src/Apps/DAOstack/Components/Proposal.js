@@ -1,28 +1,35 @@
-import React, { Component } from "react";
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/prop-types */
+/* eslint-disable global-require */
+/* eslint-disable no-console */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-unused-state */
+/* eslint-disable no-unused-vars */
+import React, { Component } from 'react';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
-import Countdown from "./Countdown";
-import { Settings } from "../../../AliceSDK/Web3";
+import Countdown from './Countdown';
+import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
 
 export default class DAOstackApp extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      daos: []
+      daos: [],
     };
   }
 
   newProposal = () => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('NewProposal')
+    const options = {};
+    ReactNativeHapticFeedback.trigger('selection', options);
+    this.props.navigation.navigate('NewProposal');
   };
-
+  // We got to move this logic to an utils file maybe.
   contributionReward = (proposal) => {
     const contributionReward = proposal.contributionReward
     const reputationReward = () => {
@@ -30,7 +37,6 @@ export default class DAOstackApp extends Component {
         return `${contributionReward.reputationReward / 10e21} % Rep.`
       }
     }
-    console.log('contributionReward', contributionReward);
     if(contributionReward) {
       if(contributionReward.ethReward != 0) {
         return (
@@ -45,8 +51,8 @@ export default class DAOstackApp extends Component {
             case '0x543ff227f64aa17ea132bf9886cab5db55dcaddf':
               return 'GEN'
             break;
-            case '':
-              return 'USDC'
+            case '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359':
+              return 'DAI'
             break;
             default:
               return 'DAI'
@@ -107,13 +113,25 @@ export default class DAOstackApp extends Component {
               { proposal.proposer }
             </Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', width: width - 70, marginBottom: 10}}>
-            <Text numberOfLines={1} style={{ fontWeight: '700'}}>{proposal.title}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: width - 70,
+              marginBottom: 10,
+            }}
+          >
+            <Text numberOfLines={1} style={{ fontWeight: '700' }}>
+              {proposal.title}
+            </Text>
             <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
-              <Image source={require('../Assets/link-icon.png')} style={{
-                height: 10,
-                resizeMode: 'contain',
-              }}/>
+              <Image
+                source={require('../Assets/link-icon.png')}
+                style={{
+                  height: 10,
+                  resizeMode: 'contain',
+                }}
+              />
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', padding: 10, borderRadius: 7, borderWidth: 1, borderColor: '#c0c0c0', width: width - 70}}>
@@ -122,54 +140,74 @@ export default class DAOstackApp extends Component {
             { this.contributionBeneficiary(proposal) }
           </View>
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-          <View style={{alignItems: 'center', justifyContent: 'space-around', margin: 17}}>
-            <Text style={{color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700'}}>Voting Percentage</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center', }}>
+        <View
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}
+        >
+          <View style={{ alignItems: 'center', justifyContent: 'space-around', margin: 17 }}>
+            <Text style={{ color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700' }}>
+              Voting Percentage
+            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AnimatedCircularProgress
-                style={{marginRight: 15}}
+                style={{ marginRight: 15 }}
                 size={47}
                 width={3}
                 fill={80}
                 tintColor="#06BE90"
                 onAnimationComplete={() => console.log('onAnimationComplete')}
-                backgroundColor="#D8D8D8" >
-                {
-                  (fill) => (
-                    <Image source={require('../Assets/thumbs-up-green.png')} style={{
+                backgroundColor="#D8D8D8"
+              >
+                {fill => (
+                  <Image
+                    source={require('../Assets/thumbs-up-green.png')}
+                    style={{
                       height: 15,
                       resizeMode: 'contain',
-                    }}/>
-                  )
-                }
+                    }}
+                  />
+                )}
               </AnimatedCircularProgress>
               <View>
-                <View style={{flexDirection: 'row', alignItems: 'space-between', justifyContent: 'space-between'}}>
-                  <Image source={require('../Assets/thumbs-up-grey.png')} style={{
-                    height: 15,
-                    resizeMode: 'contain',
-                  }}/>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'space-between',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Image
+                    source={require('../Assets/thumbs-up-grey.png')}
+                    style={{
+                      height: 15,
+                      resizeMode: 'contain',
+                    }}
+                  />
                   <Text>6.49 %</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image source={require('../Assets/thumbs-down-grey.png')} style={{
-                    height: 15,
-                    resizeMode: 'contain',
-                  }}/>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={require('../Assets/thumbs-down-grey.png')}
+                    style={{
+                      height: 15,
+                      resizeMode: 'contain',
+                    }}
+                  />
                   <Text>6.49 %</Text>
                 </View>
               </View>
             </View>
           </View>
-          <View style={{height: 50, width: 1, backgroundColor: '#c9c9c9'}}/>
-          <View style={{alignItems: 'center', justifyContent: 'space-around', margin: 17}}>
-            <Text style={{color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700'}}>Votes</Text>
+          <View style={{ height: 50, width: 1, backgroundColor: '#c9c9c9' }} />
+          <View style={{ alignItems: 'center', justifyContent: 'space-around', margin: 17 }}>
+            <Text style={{ color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700' }}>
+              Votes
+            </Text>
             <Text style={{}}>Pass</Text>
             <Text style={{}}>Fail</Text>
           </View>
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -182,12 +220,12 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5
+    marginBottom: 5,
   },
   daoBox: {
     width: width - 20,

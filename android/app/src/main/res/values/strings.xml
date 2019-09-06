@@ -1,3 +1,4 @@
 <resources>
+	<string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">Q1ON7Z6vTppq15_sZwxzj_IFgfj7Syugq2-Zr</string>
     <string name="app_name">alice</string>
 </resources>

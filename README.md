@@ -1,4 +1,4 @@
-# ![banner](https://github.com/alicedapp/AliceX/blob/master/src/AliceAssets/alice-banner.png)
+# ![banner](https://github.com/alicedapp/AliceX/blob/master/src/AliceCore/Assets/alice-banner.png)
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/fastlane/fastlane/blob/master/LICENSE)
 
@@ -18,8 +18,8 @@ Roadmap Features
 -
 
 **When debugging**
-Our team are working around the clock to build you the best mobile developer experience and will be attending to your issues and comments as quickly as we can. However if we can't get to your issue immediately, we've chosen some of the most used open source frameworks and libraries so that support for the developert experience will be widely available on the internet.
-If we don't get back to you immediately there will be many other resources out there for React Native and JavaScript that
+Our team are working around the clock to build you the best mobile developer experience and will be attending to your issues and comments as quickly as we can. However if we can't get to your issue immediately, we've chosen some of the most used open source frameworks and libraries so that support for the developer experience will be widely available on the internet.
+If we don't get back to you immediately there will be many other resources *cough* Stack Overflow *cough* out there for React Native and JavaScript that will surely guide you along the path to enlightenment. How do you think we got this far? 💁🏼‍♀️
 
 ## Requirement
 
@@ -38,7 +38,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/in
 
 2. You will need to add a `env.json` file in the root of the AliceX project to with API keys to run the project.
     Replace the below fake keys with real ones from the respected websites.
-    * = required
+    - * = required
     - *https://www.mapbox.com/
     - *https://opensea.io/
     - https://etherscan.io/
@@ -86,20 +86,25 @@ As a buidler in Alice you will have access to Camera Features, Map Features, Nav
 
  You will Register your app by:
  1. Creating a folder in the src/Apps directory which contains your React Native app
- 2. Exporting your app in the Apps Export Section
+ 2. Exporting your app in the Apps Export Section in the `src/Apps/Appregistry.js`
  3. Adding your app to the list of apps in the Apps Registry Section containing the appName, backgroundColor of icon, the homeRoute, and image icon.
  4. Create a pull request with your app's name as the name of the branch containing only code change in the `/Apps`  Folder
 
 
 Building your React Native app in Alice will be very similar to building a regular React Native app, if you're familiar with the process.
+
 For Documentation on how to use React Native:
 - https://facebook.github.io/react-native/
+
 For Documentation on how to use the Navigation:
 - https://reactnavigation.org/docs/en/getting-started.html
+
 For Documentation on how to use the MapBox component:
 - https://github.com/nitaliano/react-native-mapbox-gl/tree/master/docs
+
 For Documentation on how to use the Camera:
 - https://react-native-community.github.io/react-native-camera/docs/rncamera
+
 For Documentation on how to use Web3:
 - https://github.com/alicedapp/AliceX/wiki
 

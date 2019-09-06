@@ -47,12 +47,12 @@ export default class WizardCard extends React.Component {
 
   render() {
     const { wizard, key } = this.props;
-    console.log('WIZARD: ', wizard);
+    // console.log('WIZARD: ', wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
         <View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>
           <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{wizard.id}</Text>
-          <View style={{alignItems: 'center', justifyContent: 'center', height: 200, width: 200}}>
+          <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
             {this.renderWizard()}
           </View>
           <View style={{...styles.cardFooter, backgroundColor: this.state.footerColor}}>
@@ -76,12 +76,17 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   innerContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
     flexDirection: 'column',
     backgroundColor: 'white',
     borderColor: 'black',
     borderWidth: 1,
   },
   cardFooter: {
+    width: '100%',
     borderTopColor: 'black',
     borderTopWidth: 1,
     padding: 5,
