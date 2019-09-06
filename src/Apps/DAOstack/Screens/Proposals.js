@@ -34,6 +34,10 @@ const PROPOSALS_QUERY = gql`
           id
           name
           reputationHoldersCount
+          nativeReputation {
+            id
+            totalSupply
+          }
           proposals {
               id
               stage
@@ -55,6 +59,7 @@ const PROPOSALS_QUERY = gql`
                   ethReward
                   externalToken
                   externalTokenReward
+                  reputationReward
               }
           }
         }
@@ -103,6 +108,7 @@ export default class Proposals extends Component {
         <NavigationBar/>
         <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
+            console.log('data', data);
             if (error) return <Text>Can't fetch Proposals</Text>;
             if (loading) return <View style={{
               flex: 1,

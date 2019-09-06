@@ -23,15 +23,89 @@ export default class DAOstackApp extends Component {
     this.props.navigation.navigate('NewProposal')
   };
 
+  contributionReward = (proposal) => {
+    const contributionReward = proposal.contributionReward
+    const reputationReward = () => {
+      if(contributionReward.reputationReward) {
+        return `${contributionReward.reputationReward / 10e21} % Rep.`
+      }
+    }
+    console.log('contributionReward', contributionReward);
+    if(contributionReward) {
+      if(contributionReward.ethReward != 0) {
+        return (
+          <Text numberOfLines={1} style={{}}>
+            { contributionReward.ethReward / 10e17 } ETH + { reputationReward() }
+          </Text>
+        )
+      }
+      else if (contributionReward.externalTokenReward != 0) {
+        const externalToken = () => {
+          switch (contributionReward.externalToken) {
+            case '0x543ff227f64aa17ea132bf9886cab5db55dcaddf':
+              return 'GEN'
+            break;
+            case '':
+              return 'USDC'
+            break;
+            default:
+              return 'DAI'
+          }
+        }
+        const externalTokenReward = () => {
+          const tokenReward = Math.ceil(contributionReward.externalTokenReward / 10e17)
+          if(tokenReward >= 1000) {
+            return tokenReward/1000 + 'k'
+          }
+          else {
+            return tokenReward
+          }
+        }
+        return (
+          <Text numberOfLines={1} style={{}}>
+            { externalTokenReward() } { externalToken() } + { reputationReward() }
+          </Text>
+        )
+      }
+    }
+  }
+
+  contributionBeneficiary = (proposal) => {
+    const contributionReward = proposal.contributionReward
+    if(contributionReward) {
+      return (
+        <Text numberOfLines={1} style={{}}>
+          { contributionReward && contributionReward.beneficiary.slice(0, 15) }...
+        </Text>
+      )
+    }
+  }
+
+  contributionToIcon = (proposal) => {
+    const contributionReward = proposal.contributionReward
+    if(contributionReward){
+      return (
+        <Image
+          source={require('../Assets/transfer-icon.png')}
+          style={{ height: 10, resizeMode: 'contain', }}
+        />
+      )
+    } else {
+      return <Text>No contribution reward</Text>
+    }
+  }
+
   render() {
-    const {proposal, key} = this.props;
+    const { proposal, key } = this.props;
     return (
       <View key={key} onPress={() => this.props.navigation.navigate('DAOstackHome')} style={styles.daoBox}>
         <View style={{width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15,}}>
           <Countdown style={{marginBottom: 7}} timeTillDate={proposal.closingAt}/>
           <View style={{flexDirection: 'row', marginBottom: 14}}>
             <View style={{height: 20, width: 20, backgroundColor: 'lightblue', borderRadius: 10, marginRight: 10}}/>
-            <Text style={{width: width/ 2, fontWeight: '700'}} numberOfLines={1}>{proposal.contributionReward && proposal.contributionReward.beneficiary}</Text>
+            <Text style={{width: width/ 2, fontWeight: '700'}} numberOfLines={1}>
+              { proposal.proposer }
+            </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', width: width - 70, marginBottom: 10}}>
             <Text numberOfLines={1} style={{ fontWeight: '700'}}>{proposal.title}</Text>
@@ -43,12 +117,9 @@ export default class DAOstackApp extends Component {
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center', padding: 10, borderRadius: 7, borderWidth: 1, borderColor: '#c0c0c0', width: width - 70}}>
-            {/*<Text numberOfLines={1} style={{}}>{(proposal.contributionReward && proposal.contributionReward.ethReward !== "0") && parseInt(proposal.contributionReward.ethReward)/10e17 + 'ETH'}{proposal.contributionReward.externalToken && proposal.contributionReward.externalTokenReward + proposal.contributionReward.externalToken}</Text>*/}
-            <Image source={require('../Assets/transfer-icon.png')} style={{
-              height: 10,
-              resizeMode: 'contain',
-            }}/>
-            <Text numberOfLines={1} style={{}}>{proposal.contributionReward && proposal.contributionReward.beneficiary}{}</Text>
+            { this.contributionReward(proposal) }
+            { this.contributionToIcon(proposal) }
+            { this.contributionBeneficiary(proposal) }
           </View>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
