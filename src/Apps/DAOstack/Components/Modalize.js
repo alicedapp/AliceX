@@ -1,15 +1,20 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-use-before-define */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Modalize from 'react-native-modalize';
 
 export default class ModalizeModal extends React.PureComponent {
-
   modal = React.createRef();
 
   renderContent = () => (
-    <View style={s.content}>
-      <Text style={s.content__heading}>Article title</Text>
-      <Text style={s.content__paragraph}>rkslajnf  ndg dnfgkjnsdkjgndlkjngdjkf ngjkd ngjkl ndflg jkndfj ngdlkj nglsdfkjn gfkdjn gjdkfn gkdjfn ldkjn fslkjndfgkjs ndklgjn dfkjn gkjdfn gkdjfn glkjdnf glkjsnglkjn slkj ngkj nsdfgkj nsdfkj gnkdfjn gkjdsn gkljsn gjkfdn glkj nsgjkldf ngsljk ndfg</Text>
+    <View style={styles.content}>
+      <Text style={styles.content__heading}>Article title</Text>
+      <Text style={styles.content__paragraph}>
+        rkslajnf ndg dnfgkjnsdkjgndlkjngdjkf ngjkd ngjkl ndflg jkndfj ngdlkj nglsdfkjn gfkdjn gjdkfn
+        gkdjfn ldkjn fslkjndfgkjs ndklgjn dfkjn gkjdfn gkdjfn glkjdnf glkjsnglkjn slkj ngkj nsdfgkj
+        nsdfkj gnkdfjn gkjdsn gkljsn gjkfdn glkj nsgjkldf ngsljk ndfg
+      </Text>
     </View>
   );
 
@@ -28,6 +33,7 @@ export default class ModalizeModal extends React.PureComponent {
   };
 
   render() {
+    const { children } = this.props;
     return (
       <Modalize
         ref={this.modal}
@@ -35,13 +41,13 @@ export default class ModalizeModal extends React.PureComponent {
         handlePosition="outside"
         adjustToContentHeight
       >
-        {this.props.children}
+        {children}
       </Modalize>
     );
   }
 }
 
-const s = StyleSheet.create({
+const styles = StyleSheet.create({
   content: {
     padding: 15,
   },

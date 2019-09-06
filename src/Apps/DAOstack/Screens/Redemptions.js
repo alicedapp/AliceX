@@ -1,19 +1,20 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable spaced-comment */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-unused-state */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import { onSortOptions } from '../../Foam/utils';
 
 const ANNOTATION_SIZE = 10;
 
-
 export default class MapComponent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -23,7 +24,7 @@ export default class MapComponent extends React.Component {
         data: MapboxGL.StyleURL[key],
       }))
       .sort(onSortOptions);
-    console.log('Map Options: ', this._mapOptions)
+    console.log('Map Options: ', this._mapOptions);
 
     this.state = {
       styleURL: this._mapOptions[5].data,
@@ -40,8 +41,7 @@ export default class MapComponent extends React.Component {
       backgroundColor: 'blue',
       coordinates: [[-73.99155, 40.73581]],
       pois: null,
-      showBox: false
-
+      showBox: false,
     };
 
     this.child = React.createRef();
@@ -54,42 +54,42 @@ export default class MapComponent extends React.Component {
   };
 
   onDidFinishLoadingMap = () => {
-    setTimeout(() => this.setState({finishedRendering: true}), 1500);
-  }
+    setTimeout(() => this.setState({ finishedRendering: true }), 1500);
+  };
 
-  onRegionWillChange = (regionFeature) => {
+  onRegionWillChange = regionFeature => {
     this.setState({ reason: 'will change', regionFeature });
-  }
+  };
 
-  onRegionDidChange = (regionFeature) => {
+  onRegionDidChange = regionFeature => {
     this.setState({ reason: 'did change', regionFeature });
-  }
+  };
 
-  onRegionIsChanging = (regionFeature) => {
+  onRegionIsChanging = regionFeature => {
     this.setState({ reason: 'is changing', regionFeature }, this.setBounds);
-  }
+  };
 
   onMapChange = (index, styleURL) => {
     this.setState({ styleURL });
-  }
+  };
 
   setBounds = () => {
     const { geometry, properties } = this.state.regionFeature;
     const [neLng, neLat] = properties.visibleBounds[0];
     const [swLng, swLat] = properties.visibleBounds[1];
     this.setState({
-      neLat: neLat.toPrecision(6), neLng: neLng.toPrecision(6), swLat: swLat.toPrecision(6), swLng: swLng.toPrecision(6),
+      neLat: neLat.toPrecision(6),
+      neLng: neLng.toPrecision(6),
+      swLat: swLat.toPrecision(6),
+      swLng: swLng.toPrecision(6),
     });
   };
 
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{flex: 1}}>
-        <MapboxGL.MapView
-          styleURL={this.state.styleURL}
-          style={{flex: 1}}
-        >
+      <View style={{ flex: 1 }}>
+        <MapboxGL.MapView styleURL={this.state.styleURL} style={{ flex: 1 }}>
           <MapboxGL.Camera followZoomLevel={12} followUserLocation />
           {/*ref={c => (this._map = c)}*/}
           {/*centerCoordinate={this.state.coordinates[0]}*/}
@@ -102,12 +102,12 @@ export default class MapComponent extends React.Component {
           {/*onRegionWillChange={this.onRegionWillChange}*/}
           {/*onRegionDidChange={this.onRegionDidChange}*/}
           {/*onRegionIsChanging={this.onRegionIsChanging}*/}
-        {/*>*/}
+          {/*>*/}
           {/*<View style={{ flex: 1, alignItems : 'center', justifyContent: 'center' }}>*/}
-            {/*<TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>*/}
-              {/*<Text>Press me</Text>*/}
-            {/*</TouchableOpacity>*/}
-            {/*{this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}*/}
+          {/*<TouchableOpacity onPress={this.onClick} style={{width: 400, height: 100, backgroundColor: 'yellow', alignItems: 'center', justifyContent: 'center'}}>*/}
+          {/*<Text>Press me</Text>*/}
+          {/*</TouchableOpacity>*/}
+          {/*{this.state.showBox ? <View style={{width: 20, height: 20, backgroundColor: 'black' }}/> : <></>}*/}
           {/*</View>*/}
           {/*<Modalize ref={this.child}>*/}
 
@@ -121,7 +121,7 @@ export default class MapComponent extends React.Component {
 const MapBoxStyles = StyleSheet.create({
   tip: {
     backgroundColor: 'black',
-  }
+  },
 });
 
 const styles = StyleSheet.create({
@@ -193,17 +193,45 @@ const styles = StyleSheet.create({
   },
 });
 
-{ /* <View style={Styles.whiteBox}> */ }
-{ /* <View style={{}}> */ }
-{ /* <Text style={{ */ }
-{ /* fontSize: 20, */ }
-{ /* color: 'black', */ }
-{ /* }}>Add a POI or Signal for Location Services</Text> */ }
-{ /* <Text style={{ fontSize: 14 }}>Click anywhere on the map to start.</Text> */ }
-{ /* </View> */ }
-{ /* <View style={{}}> */ }
-{ /* <TouchableOpacity onPress={() => this.toggleBox(1)}> */ }
-{ /* <Text style={{ fontSize: 20 }}>X</Text> */ }
-{ /* </TouchableOpacity> */ }
-{ /* </View> */ }
-{ /* </View> */ }
+{
+  /* <View style={Styles.whiteBox}> */
+}
+{
+  /* <View style={{}}> */
+}
+{
+  /* <Text style={{ */
+}
+{
+  /* fontSize: 20, */
+}
+{
+  /* color: 'black', */
+}
+{
+  /* }}>Add a POI or Signal for Location Services</Text> */
+}
+{
+  /* <Text style={{ fontSize: 14 }}>Click anywhere on the map to start.</Text> */
+}
+{
+  /* </View> */
+}
+{
+  /* <View style={{}}> */
+}
+{
+  /* <TouchableOpacity onPress={() => this.toggleBox(1)}> */
+}
+{
+  /* <Text style={{ fontSize: 20 }}>X</Text> */
+}
+{
+  /* </TouchableOpacity> */
+}
+{
+  /* </View> */
+}
+{
+  /* </View> */
+}

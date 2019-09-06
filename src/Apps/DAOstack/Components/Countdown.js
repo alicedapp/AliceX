@@ -1,14 +1,20 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable radix */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Text, View } from 'react-native';
 import moment from 'moment';
 
 export default class Countdown extends React.Component {
-  state = {
-    days: undefined,
-    hours: undefined,
-    minutes: undefined,
-    seconds: undefined
-  };
+  constructor() {
+    super();
+    this.state = {
+      days: undefined,
+      hours: undefined,
+      minutes: undefined,
+      seconds: undefined,
+    };
+  }
 
   componentDidMount() {
     this.interval = setInterval(() => {
@@ -32,9 +38,12 @@ export default class Countdown extends React.Component {
 
   render() {
     const { days, hours, minutes, seconds } = this.state;
+    const { style, fontSize } = this.props;
     return (
-      <View style={{flexDirection: 'row', ...this.props.style}}>
-        <Text style={{color: '#A9C6E8', fontSize: this.props.fontSize,}}>{days}d : {hours}h : {minutes}m</Text>
+      <View style={{ flexDirection: 'row', ...style }}>
+        <Text style={{ color: '#A9C6E8', fontSize }}>
+          {days}d : {hours}h : {minutes}m
+        </Text>
       </View>
     );
   }
