@@ -86,20 +86,25 @@ As a buidler in Alice you will have access to Camera Features, Map Features, Nav
 
  You will Register your app by:
  1. Creating a folder in the src/Apps directory which contains your React Native app
- 2. Exporting your app in the Apps Export Section
+ 2. Exporting your app in the Apps Export Section in the `src/Apps/Appregistry.js`
  3. Adding your app to the list of apps in the Apps Registry Section containing the appName, backgroundColor of icon, the homeRoute, and image icon.
  4. Create a pull request with your app's name as the name of the branch containing only code change in the `/Apps`  Folder
 
 
 Building your React Native app in Alice will be very similar to building a regular React Native app, if you're familiar with the process.
+
 For Documentation on how to use React Native:
 - https://facebook.github.io/react-native/
+
 For Documentation on how to use the Navigation:
 - https://reactnavigation.org/docs/en/getting-started.html
+
 For Documentation on how to use the MapBox component:
 - https://github.com/nitaliano/react-native-mapbox-gl/tree/master/docs
+
 For Documentation on how to use the Camera:
 - https://react-native-community.github.io/react-native-camera/docs/rncamera
+
 For Documentation on how to use Web3:
 - https://github.com/alicedapp/AliceX/wiki
 
