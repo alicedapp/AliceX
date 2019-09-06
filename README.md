@@ -18,8 +18,8 @@ Roadmap Features
 -
 
 **When debugging**
-Our team are working around the clock to build you the best mobile developer experience and will be attending to your issues and comments as quickly as we can. However if we can't get to your issue immediately, we've chosen some of the most used open source frameworks and libraries so that support for the developert experience will be widely available on the internet.
-If we don't get back to you immediately there will be many other resources out there for React Native and JavaScript that
+Our team are working around the clock to build you the best mobile developer experience and will be attending to your issues and comments as quickly as we can. However if we can't get to your issue immediately, we've chosen some of the most used open source frameworks and libraries so that support for the developer experience will be widely available on the internet.
+If we don't get back to you immediately there will be many other resources *cough* Stack Overflow *cough* out there for React Native and JavaScript that will surely guide you along the path to enlightenment. How do you think we got this far? 💁🏼‍♀️
 
 ## Requirement
 
