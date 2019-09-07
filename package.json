@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "dev": "./node_modules/react-native/scripts/launchPackager.command ; exit;"
   },
   "dependencies": {
     "3box-activity": "^0.0.9",
