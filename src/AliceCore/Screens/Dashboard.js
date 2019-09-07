@@ -172,7 +172,7 @@ export default class Tokens extends Component {
 
   amberFetch = async () => {
     try {
-      let response = await fetch('"https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances"', {
+      let response = await fetch("https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances", {
         method: 'GET',
         headers: {
           'content-type': 'application/json',

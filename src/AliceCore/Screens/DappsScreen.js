@@ -27,6 +27,10 @@ export default class AppsScreen extends Component<Props> {
     modalVisible: false,
   };
 
+  componentDidMount() {
+    Settings.openBrowser('twitter.com')
+  }
+
   openBrowser = () => {
     ReactNativeHapticFeedback.trigger("impactLight", options);
     Settings.openBrowser()

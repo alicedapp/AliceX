@@ -70,21 +70,20 @@ export default class MapComponent extends React.Component {
     this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard})
   };
 
-  bounce = () => this.view.bounceIn(800).then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
+  bounce = () => this.view.bounceIn().then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
   onWizardScan = (wizard) => {
+    console.log('Scanned and being debounced')
     this.setState({scannedWizard: wizard, qrModalVisible: false, arrowModalVisible: true}, this.bounce)
   };
 
   scan = (barcode) => {
     if (JSON.parse(barcode.data).id) {
-      const debouncedScan = _.debounce(() => this.onWizardScan(JSON.parse(barcode.data)), 5000, {
-        'leading': true,
-        'trailing': false
-      });
-      debouncedScan();
+      this.debouncedScan(barcode)
     }
   };
+
+  debouncedScan = _.debounce((barcode) => this.onWizardScan(JSON.parse(barcode.data)), 2000, {'leading':true,'trailing':false});
 
   toggleTorch = () => {
     this.setState({flash: !this.state.flash});
@@ -182,7 +181,7 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-          {this.state.scannedWizard && <Animatable.View animation="bounceIn" delay={1000} style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+          {this.state.scannedWizard && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
             <Button onPress={() => this.startDuel(wizard, this.state.wizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
                 <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
