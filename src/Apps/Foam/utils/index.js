@@ -57,7 +57,7 @@ export const decodeGeoHash = (geohash) => {
 };
 
 
-const challengedPOI = {
+export const challengedPOI = {
   "name":"Cape Cod National Seashore Visitor Center",
   "stake":"0x0",
   "address":"400 Nauset Road, Eastham, Massachusetts 02642, United States",

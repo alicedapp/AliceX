@@ -28,7 +28,7 @@ export default class AppsScreen extends Component<Props> {
   };
 
   componentDidMount() {
-    Settings.openBrowser('twitter.com')
+    // Settings.openBrowser('twitter.com')
   }
 
   openBrowser = () => {

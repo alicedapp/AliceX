@@ -22,9 +22,11 @@ const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry'); // AppReg
 import {Settings, Wallet} from './src/AliceSDK/Web3'
 import Tokens from './src/AliceCore/Screens/Tokens';
 import DappsScreen from './src/AliceCore/Screens/DappsScreen';
+import Dashboard from './src/AliceCore/Screens/Dashboard';
 import Activity from "./src/AliceCore/Screens/Activity";
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
 import {switchcase} from "./src/AliceCore/Utils";
+import {challengedPOI} from "./src/Apps/Foam/utils";
 
 const { height, width } = Dimensions.get('window');
 MapboxGL.setAccessToken(env.mapbox);
@@ -42,7 +44,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   },
   Tokens: {
-    screen: Tokens,
+    screen: Dashboard,
     navigationOptions: {
       tabBarLabel: 'Tokens',
       tabBarIcon: ({ focused }) => (
@@ -158,7 +160,7 @@ class App extends Component {
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
     if (openResult.notification.payload.title === "FOAM") {
-      navigate('FoamMap', {poi: ''});
+      navigate('FoamMap', {poi: challengedPOI});
     }
 
     if (openResult.notification.payload.title === "E2E") {
