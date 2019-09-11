@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, TouchableOpacity, ScrollView, View } from "react-native";
+import {Text, TouchableOpacity, ScrollView, View, Dimensions} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
+const { height, width } = Dimensions.get('window');
 
 export default class ExampleHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -15,6 +16,7 @@ export default class ExampleHome extends React.Component {
       address: '',
       contractInfo: '',
       contractTxHash: '',
+      network: '',
       signedMessage: '',
       signedTransaction: '',
       signedTransactionObject: '',
@@ -52,9 +54,20 @@ export default class ExampleHome extends React.Component {
     } catch(e) {
       console.log(e)
     }
-
-
   };
+
+  getNetwork = async () => {
+    try {
+      const network = JSON.stringify(await Wallet.getNetwork());
+      console.log('network: ', network);
+      this.setState({ network })
+
+    } catch(e) {
+      console.log(e)
+    }
+  };
+
+
 
   sendTransaction = async () => {
     try {
@@ -155,7 +168,7 @@ export default class ExampleHome extends React.Component {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
         <NavigationBar/>
-        <ScrollView contentContainerStyle={{marginTop:50, alignItems: 'center', justifyContent: 'center',}}>
+        <ScrollView contentContainerStyle={{width, marginTop:50, alignItems: 'center', justifyContent: 'center', paddingVertical: 100}}>
           <Text>Address: {this.state.address}</Text>
           <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Address</Text>
@@ -199,6 +212,10 @@ export default class ExampleHome extends React.Component {
           <Text>Get Balance: {this.state.balance}</Text>
           <TouchableOpacity onPress={this.getBalance} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Balance</Text>
+          </TouchableOpacity>
+          <Text>Get Network: {this.state.network}</Text>
+          <TouchableOpacity onPress={this.getNetwork} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Get Network</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
