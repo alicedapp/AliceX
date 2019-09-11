@@ -1,3 +1,6 @@
 [submodule "ios"]
 	path = ios
 	url = https://github.com/alicedapp/AliceX-iOS.git
+[submodule "android"]
+	path = android
+	url = https://github.com/alicedapp/Alice-Android.git
