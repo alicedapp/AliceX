@@ -7,3 +7,4 @@ export Modalize from './Modalize';
 export Proposal from './Proposal';
 export Proposer from './Proposer'
 export ContributionReward from './ContributionReward';
+export VoteBreakdown from './VoteBreakdown';
