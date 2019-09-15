@@ -49,6 +49,7 @@ const PROPOSALS_QUERY = gql`
         preBoostedAt
         closingAt
         title
+        totalRepWhenCreated
         votes {
           id
           voter
