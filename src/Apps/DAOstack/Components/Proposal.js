@@ -10,7 +10,7 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
-import Countdown from './Countdown';
+import { Countdown, Proposer, ContributionReward } from './'
 import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
@@ -31,7 +31,7 @@ export default class DAOstackApp extends Component {
   };
 
   render() {
-    const { proposal, key } = this.props;
+    const { proposal, key, proposer } = this.props;
     return (
       <View
         key={key}
@@ -52,9 +52,7 @@ export default class DAOstackApp extends Component {
                 marginRight: 10,
               }}
             />
-            <Text style={{ width: width / 2, fontWeight: '700' }} numberOfLines={1}>
-              {proposal.contributionReward && proposal.contributionReward.beneficiary}
-            </Text>
+          <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
           </View>
           <View
             style={{
@@ -88,18 +86,7 @@ export default class DAOstackApp extends Component {
               width: width - 70,
             }}
           >
-            {/* <Text numberOfLines={1} style={{}}>{(proposal.contributionReward && proposal.contributionReward.ethReward !== "0") && parseInt(proposal.contributionReward.ethReward)/10e17 + 'ETH'}{proposal.contributionReward.externalToken && proposal.contributionReward.externalTokenReward + proposal.contributionReward.externalToken}</Text> */}
-            <Image
-              source={require('../Assets/transfer-icon.png')}
-              style={{
-                height: 10,
-                resizeMode: 'contain',
-              }}
-            />
-            <Text numberOfLines={1} style={{}}>
-              {proposal.contributionReward && proposal.contributionReward.beneficiary}
-              {}
-            </Text>
+            <ContributionReward proposal={proposal}/>
           </View>
         </View>
         <View
