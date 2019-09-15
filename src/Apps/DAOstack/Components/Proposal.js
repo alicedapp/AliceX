@@ -11,6 +11,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import Countdown from './Countdown';
+import VoteBreakdown from './VoteBreakdown';
 import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
@@ -98,76 +99,10 @@ export default class DAOstackApp extends Component {
             />
             <Text numberOfLines={1} style={{}}>
               {proposal.contributionReward && proposal.contributionReward.beneficiary}
-              {}
             </Text>
           </View>
         </View>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}
-        >
-          <View style={{ alignItems: 'center', justifyContent: 'space-around', margin: 17 }}>
-            <Text style={{ color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700' }}>
-              Voting Percentage
-            </Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AnimatedCircularProgress
-                style={{ marginRight: 15 }}
-                size={47}
-                width={3}
-                fill={80}
-                tintColor="#06BE90"
-                onAnimationComplete={() => console.log('onAnimationComplete')}
-                backgroundColor="#D8D8D8"
-              >
-                {fill => (
-                  <Image
-                    source={require('../Assets/thumbs-up-green.png')}
-                    style={{
-                      height: 15,
-                      resizeMode: 'contain',
-                    }}
-                  />
-                )}
-              </AnimatedCircularProgress>
-              <View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'space-between',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Image
-                    source={require('../Assets/thumbs-up-grey.png')}
-                    style={{
-                      height: 15,
-                      resizeMode: 'contain',
-                    }}
-                  />
-                  <Text>6.49 %</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Image
-                    source={require('../Assets/thumbs-down-grey.png')}
-                    style={{
-                      height: 15,
-                      resizeMode: 'contain',
-                    }}
-                  />
-                  <Text>6.49 %</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={{ height: 50, width: 1, backgroundColor: '#c9c9c9' }} />
-          <View style={{ alignItems: 'center', justifyContent: 'space-around', margin: 17 }}>
-            <Text style={{ color: 'grey', fontSize: 10, marginBottom: 15, fontWeight: '700' }}>
-              Votes
-            </Text>
-            <Text style={{}}>Pass</Text>
-            <Text style={{}}>Fail</Text>
-          </View>
-        </View>
+        <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} />
       </View>
     );
   }
