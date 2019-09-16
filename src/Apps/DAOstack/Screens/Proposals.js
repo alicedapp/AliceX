@@ -48,6 +48,7 @@ const PROPOSALS_QUERY = gql`
         preBoostedAt
         closingAt
         title
+        totalRepWhenCreated
         votes {
           id
           voter
@@ -57,36 +58,11 @@ const PROPOSALS_QUERY = gql`
         url
         contributionReward {
           id
-          name
-          reputationHoldersCount
-          nativeReputation {
-            id
-            totalSupply
-          }
-          proposals {
-              id
-              stage
-              proposer
-              createdAt
-              preBoostedAt
-              closingAt
-              title
-              votes {
-                  id
-                  voter
-              }
-              votesFor
-              votesAgainst
-              url
-              contributionReward {
-                  id
-                  beneficiary
-                  ethReward
-                  externalToken
-                  externalTokenReward
-                  reputationReward
-              }
-          }
+          beneficiary
+          ethReward
+          externalToken
+          externalTokenReward
+          reputationReward
         }
       }
     }

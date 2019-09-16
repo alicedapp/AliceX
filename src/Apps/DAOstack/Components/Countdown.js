@@ -17,20 +17,30 @@ export default class Countdown extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => {
-      const { timeTillDate } = this.props;
-      const date = moment(parseInt(timeTillDate)).unix();
-      const then = moment(date);
-      const now = moment();
-      const countdown = moment(then - now);
-      const days = countdown.format('D');
-      const hours = countdown.format('HH');
-      const minutes = countdown.format('mm');
-      this.setState({ days, hours, minutes });
-    }, 1000);
+    this.countdown();
   }
 
   componentWillUnmount() {
+    this.countdownReset();
+  }
+
+  countdown(){
+    const { timeTillDate } = this.props;
+    const interval = (endDate) => {
+      const date = moment.unix(parseInt(endDate));
+      const now = moment();
+      const duration = date.diff(now);
+      const countdown = moment.duration(duration)
+      const days = countdown.days();
+      const hours = countdown.hours();
+      const minutes = countdown.minutes();
+      const seconds = countdown.seconds();
+      this.setState({ days, hours, minutes, seconds });
+    }
+    this.interval = setInterval(() => interval(timeTillDate), 1000);
+  }
+
+  countdownReset(){
     if (this.interval) {
       clearInterval(this.interval);
     }
@@ -42,7 +52,7 @@ export default class Countdown extends React.Component {
     return (
       <View style={{ flexDirection: 'row', ...style }}>
         <Text style={{ color: '#A9C6E8', fontSize }}>
-          {days}d : {hours}h : {minutes}m
+          {days}d : {hours}h : {minutes}m : {seconds}s
         </Text>
       </View>
     );
