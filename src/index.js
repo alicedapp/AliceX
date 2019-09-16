@@ -32,3 +32,42 @@ document.onreadystatechange = function () {
 
   }
 };
+
+
+
+// {
+//   type: 'Feature',
+//     id: '12342',
+//   properties: {
+//   icon: "../Assets/wzrd-3-1.png",
+// },
+//   geometry: {
+//     type: 'Point',
+//       coordinates: [151.259662, -33.910013],
+//   },
+// },
+// {
+//   type: 'Feature',
+//     id: '12343',
+//   properties: {
+//   icon: "../Assets/wzrd-4-1.png",
+// },
+//   geometry: {
+//     type: 'Point',
+//       coordinates: [151.279411,   -33.856762],
+//   },
+// },
+// {
+//   type: 'Feature',
+//     id: '12344',
+//   properties: {
+//   icon: {
+//     iconImage: "../Assets/wzrd-2-2.png",
+//       iconAllowOverlap: true,
+//   },
+// },
+//   geometry: {
+//     type: 'Point',
+//       coordinates: [151.235588, -33.897822],
+//   },
+// },

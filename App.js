@@ -16,6 +16,7 @@ import {
 import OneSignal from 'react-native-onesignal';
 import CodePush from "react-native-code-push";
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { isIphoneX } from 'react-native-iphone-x-helper'
 
 import env from './env.json';
 const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is required
@@ -44,7 +45,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     }
   },
   Tokens: {
-    screen: Dashboard,
+    screen: Tokens,
     navigationOptions: {
       tabBarLabel: 'Tokens',
       tabBarIcon: ({ focused }) => (
@@ -131,8 +132,9 @@ class App extends Component {
           this.setState({ wallet: event.address});
         }
         if (event.network) {
-          console.log('NETWORK CHANGED: ', event, event.network);
-          this.setState({network: event.network.name, networkColor: event.network.color});
+          const parsedEvent = JSON.parse(event.network);
+          console.log('NETWORK CHANGED: ', parsedEvent);
+          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
         }
         if (event.orientation) {
           console.log('ROTATION CHANGED: ', event, event.orientation);
@@ -169,6 +171,28 @@ class App extends Component {
     if (openResult.notification.payload.title === "VotezUp") {
       navigate('BridgeWater');
     }
+    if (openResult.notification.payload.title === "CheezeWizards") {
+      navigate('CheezeWizards/WizardScreen', {
+        notificationChallenge: {
+          affinity: 2,
+          createdBlockNumber: 5008913,
+          eliminatedBlockNumber: null,
+          id: "5982",
+          initialPower: "70364710415359",
+          owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
+          power: "70364710415359"
+        },
+        wizard: {
+          affinity: 3,
+          createdBlockNumber: 5041333,
+          eliminatedBlockNumber: null,
+          id: "5994",
+          initialPower: "71470282487405",
+          owner: "0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB",
+          power: "71470282487405"
+        }
+      });
+    }
 
   }
 
@@ -186,9 +210,10 @@ class App extends Component {
   };
 
   render() {
+    console.log('isiphonex: ', isIphoneX())
     return (
       <View style={{flex: 1}}>
-        {this.state.network !== 'main' && <View style={{ backgroundColor: this.state.networkColor, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, alignSelf: 'center', position: 'absolute', top:0, width:215, height: 35, zIndex: 9999}}/>}
+        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, alignSelf: 'center', position: 'absolute', top:0, width:215, height: isIphoneX() ? 35 : 7, zIndex: 9999}}/>}
         <AliceMain
           ref={navigatorRef => {
             NavigatorService.setContainer(navigatorRef);

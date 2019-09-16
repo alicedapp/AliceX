@@ -12,10 +12,16 @@ import {
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import {Settings, Wallet} from "../../../AliceSDK/Web3";
+import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
 import env from '../../../../env'
-import {FoodContractABI} from "../../Example/ABI";
-import {BasicTournament} from '../ABIs/BasicTournament';
+import {BasicTournament} from "../Addresses";
+import ABIs from "../ABIs";
+import DraggableArea from 'react-native-dnd-grid'
+import Pane from "../Components/pane"
+import {switchcase} from "../Utils";
+import {ethers} from 'ethers'
+import metrics from "../Utils/metrics";
+
 
 const options = {
   enableVibrateFallback: true,
@@ -41,7 +47,8 @@ export default class MapComponent extends React.Component {
       loading: false,
       // loading: true,
       pressed: false,
-      actionList: [],
+      items: [{name: 'wind', key: 1}],
+      itemsPerRow: 1
     };
 
   }
@@ -85,17 +92,21 @@ export default class MapComponent extends React.Component {
     this.props.navigation.navigate('CheezeWizards/Map');
   };
 
-  actionPress = (action) => {
+  actionPress = (name) => {
     ReactNativeHapticFeedback.trigger("selection", options);
-    if (this.state.actionList.length < 3) {
-      this.setState({ actionList: [...this.state.actionList, action] })
+    if (this.state.items.length === 0) {
+      this.setState({ items: [{name: name, key: this.state.items.length + 1}] })
+    }
+    if (this.state.items.length !== 0 && this.state.items.length < 5) {
+      this.setState({ items: [...this.state.items, {name: name, key: this.state.items.length + 1}] })
     }
   };
 
   fight = async () => {
     this.setState({pressed: !this.state.pressed});
+    const commitmentHash = ethers.utils.keccak256('0x0202020202')
     try {
-      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
+      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament.abi, functionName: 'oneSidedCommit', parameters: [799, 800, '0x0202020202'], value: '0', data: '0x0'})
       console.log('txHash: ', txHash);
       this.setState({txHash})
     } catch(e) {
@@ -103,9 +114,69 @@ export default class MapComponent extends React.Component {
     }
   };
 
+  onDraggablePress = draggable => {
+    console.log("onDraggablePress", draggable)
+  }
+
+  onDraggableRender = draggable => {
+    console.log("onDraggableRender", draggable)
+  }
+
+  onPressAddNewTag = () => {
+    alert("onPressAddNewTag")
+  }
+
+  removeItem = item => {
+    this.setState(state => {
+      const index = state.items.findIndex(({ key }) => key === item.key)
+      return {
+        items: [...state.items.slice(0, index), ...state.items.slice(index + 1)]
+      }
+    })
+  }
+
+  renderItem = (item, onPress) => {
+    const size = 60;
+    const i = this.state.items.length + 1;
+    return (
+      <Pane
+        isBeingDragged={item.isBeingDragged}
+        onPress={onPress}
+        width={size}
+        height={size}
+      >
+        {switchcase({
+          "fire": <Image source={require('../Assets/fire-list.png')} key={i} style={{
+            resizeMode: 'contain',
+            width: 40,
+            height: 40,
+            marginVertical: 10
+          }}/>,
+          "water": <Image source={require('../Assets/water-list.png')} key={i} style={{
+            resizeMode: 'contain',
+            width: 40,
+            height: 40,
+            marginVertical: 10
+          }}/>,
+          "wind": <Image source={require('../Assets/earth-list.png')} key={i} style={{
+            resizeMode: 'contain',
+            width: 40,
+            height: 40,
+            marginVertical: 10
+          }}/>,
+        })(item.name)}
+      </Pane>
+    )
+  }
+
+  handleOnDragEnd = items => {
+    console.log("items", items)
+  };
 
   render() {
     const { navigation } = this.props;
+    const { items } = this.state;
+    console.log('THIS>STATE>DUEL: ', this.state)
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
@@ -119,14 +190,14 @@ export default class MapComponent extends React.Component {
             width,
             resizeMode: 'contain',
           }}/>
-        </View> : <View style={{ flex: 1, backgroundColor: '#000', alignItems: 'center', }}>
+        </View> : <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
           <Image source={require('../Assets/melting-cheese.png')} style={{
             resizeMode: 'contain',
             height: 250,
-            width
+            position: 'absolute', top: 0
           }}/>
-          <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
+            <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
               <Button onPress={this.openMap} style={{flex: 1}}>
                 <Image source={require('../Assets/location.png')} style={{
                   resizeMode: 'contain',
@@ -135,7 +206,7 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
               <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>MARK PEREIRA</Text>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>DUEL</Text>
               </View>
               <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
@@ -145,7 +216,7 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-            <View style={{width: width -40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View style={{width: width -40, flexDirection: 'row', paddingTop: 130, justifyContent: 'space-between', alignItems: 'center'}}>
               <View>
                 <Image source={require('../Assets/water-wizard.png')} style={{
                   resizeMode: 'contain',
@@ -159,44 +230,17 @@ export default class MapComponent extends React.Component {
                 <ImageBackground source={require('../Assets/cheeze-board-vertical.png')}
                                  imageStyle={{resizeMode: 'contain'}}
                                  style={{alignItems: 'center', justifyContent: 'flex-start', width: 70, height: 400, paddingTop: 40}}>
-                  {this.state.actionList.map((action, i) => {
-                    if (action === 'fire') {
-                      return (
-                        <Image source={require('../Assets/fire-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'water') {
-                      return (
-                        <Image source={require('../Assets/water-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'earth') {
-                      return (
-                        <Image source={require('../Assets/earth-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                          marginVertical: 30
-                        }}/>
-                      )
-                    } else if (action === 'neutral') {
-                      return (
-                        <Image source={require('../Assets/neutral-list.png')} key={i} style={{
-                          resizeMode: 'contain',
-                          width: 40,
-                          height: 40,
-                        }}/>
-                      )
-                    }
-                  })}
+                  <DraggableArea
+                    items={items}
+                    animationDuration={10}
+                    onPressAddNew={console.log}
+                    onPress={this.removeItem}
+                    onRenderItem={this.onDraggableRender}
+                    onPressAddNewTag={this.onPressAddNewTag}
+                    onDragEnd={this.handleOnDragEnd}
+                    renderItem={this.renderItem}
+                    useKey="key"
+                  />
                 </ImageBackground>
               </View>
 
@@ -214,7 +258,7 @@ export default class MapComponent extends React.Component {
                 }}/>}
               </TouchableWithoutFeedback>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 50}}>
               <Button onPress={() => this.actionPress('fire')}>
                 <Image source={require('../Assets/fire-button.png')} style={{
                   resizeMode: 'contain',
@@ -229,15 +273,8 @@ export default class MapComponent extends React.Component {
                   height: 55
                 }}/>
               </Button>
-              <Button onPress={() => this.actionPress('earth')}>
+              <Button onPress={() => this.actionPress('wind')}>
                 <Image source={require('../Assets/earth-button.png')} style={{
-                  resizeMode: 'contain',
-                  width: 55,
-                  height: 55
-                }}/>
-              </Button>
-              <Button onPress={() => this.actionPress('neutral')}>
-                <Image source={require('../Assets/neutral-button.png')} style={{
                   resizeMode: 'contain',
                   width: 55,
                   height: 55

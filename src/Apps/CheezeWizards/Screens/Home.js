@@ -20,7 +20,6 @@ import env from '../../../../env'
 import { SvgUri } from 'react-native-svg';
 import ABIs from '../ABIs';
 import {GateKeeper} from '../Addresses/index'
-import {FoodContractABI} from '../../Example/ABI'
 import {switchcase} from "../Utils";
 
 const options = {
@@ -29,6 +28,8 @@ const options = {
 };
 
 const { height, width } = Dimensions.get('window');
+
+import db from '../../../AliceSDK/Socket'
 
 export default class MapComponent extends React.Component {
 
@@ -44,19 +45,52 @@ export default class MapComponent extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
-      // loading: true,
+      // loading: false,
+      loading: true,
       pressed: false,
       actionList: [],
-      wizards: []
+      wizards: [],
+      network: ''
     };
-
   }
 
   componentDidMount() {
     this.fetchWizards();
     this.getNFTInfo();
+    this.getUser();
+    this.getNetwork();
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
+      "aliceEvent",
+      (event) => {
+        if (event.network) {
+          const parsedEvent = JSON.parse(event.network);
+          console.log('NETWORK CHANGED: ', parsedEvent, parsedEvent);
+          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
+          console.log('parsedEvent network: ', parsedEvent.network)
+        }
+      }
+    );
   }
+
+  getNetwork = async () => {
+    const networkInfo = await Wallet.getNetwork();
+    this.setState({ network: networkInfo.name });
+  };
+
+  getUser = async () => {
+    db.collection("users")
+      .onSnapshot((snapshot) => {
+        let orders = [];
+        console.log('USERS: ', snapshot);
+        snapshot.forEach((doc) => {
+          console.log('user: ', doc.id)
+        });
+      });
+    db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
+      console.log('snapshot right: ', snapshot.data());
+    })
+  };
 
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
@@ -139,6 +173,8 @@ export default class MapComponent extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    console.log('network: ', this.state.network);
+
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
@@ -186,6 +222,26 @@ export default class MapComponent extends React.Component {
                     </TouchableOpacity>
                   )
                 })}
+                {this.state.network === 'Rinkeby' && this.state.wizards.length === 0 && <View style={{marginTop: 200}}>
+                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
+                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, zIndex: 9999, width: 40, height: 45}}>
+                    <Image source={require('../Assets/udder.png')} style={{
+                      resizeMode: 'contain',
+                      width: 40,
+                      height: 45
+                    }}/>
+                  </Button>
+                </View>}
+                {this.state.network !== 'Rinkeby' && <View style={{marginTop: 200}}>
+                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, unless you want to drain your wallet of some real cheddar then I suggest you tap on the Settings button, Click on Switch Network, and then tap Rinkeby.</Text>
+                  <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
+                    <Image source={require('../Assets/settings-icon.png')} style={{
+                      resizeMode: 'contain',
+                      width: 50,
+                      height: 50
+                    }}/>
+                  </Button>
+                </View>}
               </ScrollView>
               <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, position: 'absolute', bottom: 20, right: 5, zIndex: 9999,}}>
                 <Image source={require('../Assets/udder.png')} style={{

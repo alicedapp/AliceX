@@ -44,7 +44,6 @@ export default class MapComponent extends React.Component {
 
     this.state = {
       loading: false,
-      // loading: true,
       pressed: false,
       actionList: [],
       wizards: []
@@ -140,18 +139,8 @@ export default class MapComponent extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
-        {this.state.loading === true ? <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-        }}>
-          <Image source={require('../Assets/landing.png')} style={{
-            width,
-            resizeMode: 'contain',
-          }}/>
-        </View> : <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
-          <Image source={require('../Assets/melting-cheese.png')} style={{
+        <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
+          <Image source={require('../Assets/udder-background.png')} style={{
             resizeMode: 'contain',
             height: 250,
             position: 'absolute', top: 0
@@ -195,7 +184,7 @@ export default class MapComponent extends React.Component {
               </View>
             </View>
           </View>
-        </View>}
+        </View>
       </View>
 
     );

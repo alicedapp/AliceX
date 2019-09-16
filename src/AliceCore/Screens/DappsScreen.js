@@ -14,6 +14,7 @@ import {AppRegistry} from "../../Apps/AppRegistry";
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
+
 const options = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false
@@ -21,14 +22,55 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
+// var sdk = require("matrix-js-sdk");
+// var client = sdk.createClient({
+//   baseUrl: "https://matrix.org",
+//   accessToken: "",
+//   userId: "@markpereir:matrix.org"
+// });
+// client.publicRooms(function(err, data) {
+//   console.log("Public Rooms: %s", JSON.stringify(data));
+//   var content = {
+//     "body": "Test message from React Native app 🎉",
+//     "msgtype": "m.text"
+//   };
+//   // client.sendEvent("!QtykxKocfZaZOUrTwp:matrix.org", "m.room.message", content, "", (err, res) => {
+//   //   console.log(err);
+//   //   console.log('SMOETHING HAPPENED: ', res)
+//   // });
+// });
+
+//!QtykxKocfZaZOUrTwp:matrix.org
+
 type Props = {};
 export default class AppsScreen extends Component<Props> {
   state = {
     modalVisible: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     // Settings.openBrowser('twitter.com')
+    // await client.startClient({initialSyncLimit: 10});
+    // client.once('sync', function(state, prevState, res) {
+    //   if(state === 'PREPARED') {
+    //     console.log("prepared");
+    //     this.sendMessage()
+    //   } else {
+    //     console.log('STATE: ', state);
+    //     process.exit(1);
+    //   }
+    // });
+  }
+
+  sendMessage = async () => {
+    // var content = {
+    //   "body": "Test message from React Native app 🎉",
+    //   "msgtype": "m.text"
+    // };
+    // client.sendEvent("!QtykxKocfZaZOUrTwp:matrix.org", "m.room.message", content, "", (err, res) => {
+    //   console.log(err);
+    //   console.log('SMOETHING HAPPENED: ', res)
+    // });
   }
 
   openBrowser = () => {

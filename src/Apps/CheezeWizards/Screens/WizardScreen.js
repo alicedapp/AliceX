@@ -26,6 +26,7 @@ import * as Animatable from 'react-native-animatable';
 import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 import _ from 'lodash';
 
+import db from '../../../AliceSDK/Socket'
 
 const options = {
   enableVibrateFallback: true,
@@ -57,23 +58,40 @@ export default class MapComponent extends React.Component {
       actionList: [],
       qrModalVisible: true,
       arrowModalVisible: false,
-      scannedWizard: null
+      scannedWizard: null,
+      users: '',
+      wizard: {},
+      instantiated: false,
+      receivedChallenge: {}
     };
 
   }
 
   componentDidMount() {
     this.fetchWizards();
+    this.getAccountInfo();
+    if (this.props.navigation.state.params.notificationChallenge) {
+      this.setState({receivedChallenge: this.props.navigation.state.params.notificationChallenge, qrModalVisible: false,});
+    }
   }
 
-  startDuel = (myWizard, challengedWizard) => {
-    this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard})
+  getAccountInfo = async () => {
+    db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
+      !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data()})
+    })
+  }
+
+  startDuel = async (myWizard, challengedWizard) => {
+    this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard});
+    console.log('Challenged Wizard: ', challengedWizard);
+    db.collection("users").doc(challengedWizard.owner).set(myWizard);
   };
 
   bounce = () => this.view.bounceIn().then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
   onWizardScan = (wizard) => {
-    console.log('Scanned and being debounced')
+    console.log('Scanned and being debounced', wizard);
+    console.log('my wizard: ',this.props.navigation.state.params.wizard);
     this.setState({scannedWizard: wizard, qrModalVisible: false, arrowModalVisible: true}, this.bounce)
   };
 
@@ -96,12 +114,10 @@ export default class MapComponent extends React.Component {
     this.state.cameraType === 'back' ? this.setState({cameraType: 'front', flash: false}) : this.setState({cameraType: 'back', flash: false});
   };
 
-
-
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({pressed: !this.state.pressed});
-  }
+  };
 
   fetchWizards = async () => {
     let data = null;
@@ -122,7 +138,6 @@ export default class MapComponent extends React.Component {
     xhr.setRequestHeader("Content-Type","application/json");
     xhr.setRequestHeader("x-api-token", env.cheezeWizard);
     xhr.setRequestHeader("x-email","mark@alicedapp.com");
-
 
     xhr.send(data);
     setTimeout(() => this.setState({loading: false}), 2000);
@@ -154,10 +169,9 @@ export default class MapComponent extends React.Component {
     }
   };
 
-
   render() {
     const { navigate } = this.props.navigation;
-    const {wizard} = this.props.navigation.state.params;
+    const {wizard, notificationChallenge} = this.props.navigation.state.params;
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
         <NavigationBar/>
@@ -183,8 +197,17 @@ export default class MapComponent extends React.Component {
             </View>
           {this.state.scannedWizard && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
-            <Button onPress={() => this.startDuel(wizard, this.state.wizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+            <Button onPress={() => this.startDuel(wizard, this.state.scannedWizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
                 <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
+            </Button>
+            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            </Button>
+          </Animatable.View>}
+          {notificationChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+            <WizardCard style={{height: width - 10, width: width-80}} wizard={notificationChallenge}/>
+            <Button onPress={() => this.startDuel(wizard, notificationChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
             </Button>
             <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
               <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
@@ -209,7 +232,6 @@ export default class MapComponent extends React.Component {
             {/*<Text style={{fontSize: 20, fontFamily: 'Exocet'}}>x</Text>*/}
             {/*</View>*/}
             {/*</Button>*/}
-
           </Modal>
           {this.state.arrowModalVisible && <Button onPress={this.toggleModal} style={{position: 'absolute', bottom: 30}}>
             <Image source={require('../Assets/up-cheeze-arrow.png')} style={{

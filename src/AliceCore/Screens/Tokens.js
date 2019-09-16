@@ -319,29 +319,29 @@ export default class Tokens extends Component {
                 <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
               )
             })}
-            <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
-            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: width - 50, justifyContent: 'flex-start'}}>
-              {this.state.nfts.length > 0 ? this.state.nfts.map((nft, i) => {
-                if (nft.collection) {
-                  return (
-                    <NFT iterator={i} key={i} nft={nft}/>
-                  )
-                }
-              }) : <View style={{width: '100%', marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center'}}>
-                <View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                  <View style={{...styles.nftContainer, backgroundColor: '#d9d9d9'}}>
-                    <View style={{width: 100, height: 100, backgroundColor: 'transparent'}}>
-                      <Text>No Unique Tokens</Text>
-                    </View>
-                  </View>
-                  <View style={{width: 140, backgroundColor: 'transparent', padding: 5}}>
-                    <View style={{marginBottom: 3, height: 15, width: '100%', borderRadius: 7,  backgroundColor: '#e0e0e0' }}/>
-                    <View style={{ height: 14, width: '100%', borderRadius: 7, backgroundColor: '#eaeaea'}}/>
-                  </View>
-                </View>
-              </View>
-              }
-            </View>
+            {/*<Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>*/}
+            {/*<View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: width - 50, justifyContent: 'flex-start'}}>*/}
+              {/*{this.state.nfts.length > 0 ? this.state.nfts.map((nft, i) => {*/}
+                {/*if (nft.collection) {*/}
+                  {/*return (*/}
+                    {/*<NFT iterator={i} key={i} nft={nft}/>*/}
+                  {/*)*/}
+                {/*}*/}
+              {/*}) : <View style={{width: '100%', marginLeft: 15, alignItems: 'flex-start', justifyContent: 'center'}}>*/}
+                {/*<View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>*/}
+                  {/*<View style={{...styles.nftContainer, backgroundColor: '#d9d9d9'}}>*/}
+                    {/*<View style={{width: 100, height: 100, backgroundColor: 'transparent'}}>*/}
+                      {/*<Text>No Unique Tokens</Text>*/}
+                    {/*</View>*/}
+                  {/*</View>*/}
+                  {/*<View style={{width: 140, backgroundColor: 'transparent', padding: 5}}>*/}
+                    {/*<View style={{marginBottom: 3, height: 15, width: '100%', borderRadius: 7,  backgroundColor: '#e0e0e0' }}/>*/}
+                    {/*<View style={{ height: 14, width: '100%', borderRadius: 7, backgroundColor: '#eaeaea'}}/>*/}
+                  {/*</View>*/}
+                {/*</View>*/}
+              {/*</View>*/}
+              {/*}*/}
+            {/*</View>*/}
           </ScrollView>
           {/*      ---------       Transaction Modal         ---------------           */}
           <Modal

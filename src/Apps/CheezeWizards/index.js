@@ -8,8 +8,8 @@ import WizardScreen from './Screens/WizardScreen'
 
 const App = createStackNavigator({
   "CheezeWizards": Home,
-  "CheezeWizards/Duel": Duel,
   "CheezeWizards/Map": CheezeMap,
+  "CheezeWizards/Duel": Duel,
   "CheezeWizards/Camera": Camera,
   "CheezeWizards/Summon": Summon,
   "CheezeWizards/WizardScreen": WizardScreen,

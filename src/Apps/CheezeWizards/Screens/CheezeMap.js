@@ -7,6 +7,13 @@ import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import wzrd1Icon from "../Assets/wzrd-1-1.png";
 import wzrd2Icon from "../Assets/wzrd-2-1.png";
+import wzrd3Icon from "../Assets/wzrd-2-2.png";
+import wzrd4Icon from "../Assets/wzrd-3-1.png";
+import wzrd5Icon from "../Assets/wzrd-4-1.png";
+import mold1Icon from "../Assets/mold-wizard-1.png";
+import mold2Icon from "../Assets/mold-wizard-2.png";
+import tournament from "../Assets/tournament.png";
+import exampleIcon from '../Assets/example.png';
 
 const { height, width } = Dimensions.get('window');
 
@@ -53,12 +60,33 @@ const wzrd5 = {
 
 const layerStyles = {
   singlePoint: {
-    iconImage: wzrd1Icon,
+    iconImage: wzrd2Icon,
     iconAllowOverlap: true,
     iconSize: 0.5
 
   },
 }
+
+// const iconStyle = {
+//   icon: {
+//     iconImage: 'wizard',
+//     iconSize: 0.5
+//   },
+// };
+
+const iconStyle = {
+  icon:  {
+    // iconImage: 'wizard1',
+    // iconImage: 'wizard2',
+    // iconImage: 'wizard3',
+    // iconImage: 'wizard4',
+    // iconImage: 'wizard5',
+    iconImage: 'mold1',
+    // iconImage: 'mold2',
+    iconSize: 0.5
+  },
+};
+
 
 const featureCollection = {
   type: 'FeatureCollection',
@@ -66,8 +94,15 @@ const featureCollection = {
     {
       type: 'Feature',
       id: '12340',
+      icon: {
+        iconImage: 'example',
+        iconSize: 0.5
+      },
       properties: {
-        icon: "../Assets/wzrd-1-1.png",
+        icon: {
+          iconImage: 'example',
+          iconSize: 0.5
+        },
       },
       geometry: {
         type: 'Point',
@@ -78,51 +113,20 @@ const featureCollection = {
       type: 'Feature',
       id: '12341',
       properties: {
-        icon: "../Assets/wzrd-2-1.png",
+        icon: {
+          iconImage: 'wizard',
+          iconSize: 0.5
+        },
       },
       geometry: {
         type: 'Point',
         coordinates: [ 151.221550, -33.910745],
       },
     },
-    {
-      type: 'Feature',
-      id: '12342',
-      properties: {
-        icon: "../Assets/wzrd-3-1.png",
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [151.259662, -33.910013],
-      },
-    },
-    {
-      type: 'Feature',
-      id: '12343',
-      properties: {
-        icon: "../Assets/wzrd-4-1.png",
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [151.279411,   -33.856762],
-      },
-    },
-    {
-      type: 'Feature',
-      id: '12344',
-      properties: {
-        icon: {
-          iconImage: "../Assets/wzrd-2-2.png",
-          iconAllowOverlap: true,
-        },
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [151.235588, -33.897822],
-      },
-    },
+
   ],
 };
+
 
 
 class CheezeMap extends React.Component {
@@ -197,7 +201,7 @@ class CheezeMap extends React.Component {
 
   onMapChange = (index, styleURL) => {
     this.setState({styleURL});
-  }
+  };
 
 
   render() {
@@ -208,17 +212,12 @@ class CheezeMap extends React.Component {
         style={{flex: 1,}}
       >
         <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+        <MapboxGL.Images images={{mold1: mold1Icon, mold2: mold2Icon, wizard1: wzrd1Icon, wizard2: wzrd2Icon, wizard3: wzrd3Icon, wizard4: wzrd4Icon, wizard5: wzrd5Icon, }} />
         <MapboxGL.ShapeSource
-          id="earthquakes"
-          cluster
-          clusterRadius={50}
-          clusterMaxZoom={14}
+          id="wizards"
           shape={featureCollection}
         >
-          <MapboxGL.SymbolLayer
-            id="pointCount"
-            style={layerStyles.singlePoint}
-          />
+          <MapboxGL.SymbolLayer id="exampleIconName" style={iconStyle.icon} />
         </MapboxGL.ShapeSource>
         <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30}}>
