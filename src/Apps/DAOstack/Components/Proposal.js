@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import makeBlockie from 'ethereum-blockies-base64';
 
 import Countdown from './Countdown';
 import VoteBreakdown from './VoteBreakdown';
@@ -33,6 +34,7 @@ export default class DAOstackApp extends Component {
 
   render() {
     const { proposal, key } = this.props;
+    const gravatar = makeBlockie(proposal.proposer)
     return (
       <View
         key={key}
@@ -44,15 +46,7 @@ export default class DAOstackApp extends Component {
         >
           <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
-            <View
-              style={{
-                height: 20,
-                width: 20,
-                backgroundColor: 'lightblue',
-                borderRadius: 10,
-                marginRight: 10,
-              }}
-            />
+            <Image style={{width: 15, height: 15, marginRight: 5 }} source={{uri: gravatar}}/>
             <Text style={{ width: width / 2, fontWeight: '700' }} numberOfLines={1}>
               {proposal.contributionReward && proposal.contributionReward.beneficiary}
             </Text>
