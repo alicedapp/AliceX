@@ -12,6 +12,7 @@ export { default as CheezeWizards } from './CheezeWizards';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
+export { default as ditCraft } from './ditCraft';
 
 
 /*      App Registry Section            */
@@ -55,4 +56,10 @@ export const AppRegistry = [
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
+  {
+    appName: 'ditCraft',
+    backgroundColor: '#2f3f6d',
+    homeRoute: 'ditCraft',
+    icon: require('./ditCraft/Assets/logo.png')
+  }
 ];

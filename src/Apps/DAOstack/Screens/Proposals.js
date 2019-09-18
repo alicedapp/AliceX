@@ -150,10 +150,10 @@ export default class Proposals extends Component {
                   />
                 </View>
                 <ScrollView>
-                  <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                    Boosted Proposals({boostedAmount})
-                  </Text>
                   <View style={styles.container}>
+                    <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
+                      Boosted Proposals
+                    </Text>
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Boosted') {
                         boostedAmount += 1;
@@ -161,7 +161,7 @@ export default class Proposals extends Component {
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Pending Proposals({pendingAmount})
+                      Pending Proposals
                     </Text>
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
@@ -170,7 +170,7 @@ export default class Proposals extends Component {
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Regular Proposals({regularAmount})
+                      Regular Proposals
                     </Text>
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {

@@ -1,0 +1,812 @@
+[
+    {
+      "id": 1,
+      "knw_vote_id": 71,
+      "knw_label": "Programming/Solidity",
+      "repository": "0x7ff2392bf90ff6131b1bc363fe74c9ca3319336dc9878388f6a0b88eeadf813c",
+      "proposer": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+      "topic": "this is a cool feature",
+      "identifier": "sidebranch:bff1b61cebc804a207754866be651112af7fb0b9",
+      "creation_date": "2019-08-25T14:51:00+02:00",
+      "commit_phase_end": "2019-08-25T14:52:00+02:00",
+      "reveal_phase_end": "2019-08-25T14:53:00+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 0.6876,
+        "votes_against": 0.202,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+          "used_knw": 0.5,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.297
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 1.46,
+          "votes": 0.2208,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.54
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 1.78,
+          "votes": 0.2334,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.54
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0,
+          "votes": 0.1,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 1.78,
+          "votes": 0.2334,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.54
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.02,
+          "votes": 0.102,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.01
+        }
+      ],
+      "stake_per_participant": 0.1,
+      "total_stake": 0.6,
+      "total_minted_knw": 1.917
+    },
+    {
+      "id": 2,
+      "knw_vote_id": 70,
+      "knw_label": "Programming/Solidity",
+      "repository": "0x584fc269e51ea21a54087b0c4e9f2c0e7717f243bda35a17f7e2e47b8033fb62",
+      "proposer": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+      "topic": "2nd commit feature",
+      "identifier": "sidebranch:bf0cf437ff4409a3a891ce1aff46118f0dcf68cf",
+      "creation_date": "2019-08-24T15:20:35+02:00",
+      "commit_phase_end": "2019-08-24T15:21:35+02:00",
+      "reveal_phase_end": "2019-08-24T15:22:35+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 0.06222,
+        "votes_against": 0.0204,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+          "used_knw": 0.4,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.475
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0,
+          "votes": 0.01,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 0.96,
+          "votes": 0.0196,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.5
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 1.28,
+          "votes": 0.02131,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.5
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 1.28,
+          "votes": 0.02131,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.5
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.04,
+          "votes": 0.0104,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.02
+        }
+      ],
+      "stake_per_participant": 0.01,
+      "total_stake": 0.060000000000000005,
+      "total_minted_knw": 1.975
+    },
+    {
+      "id": 1,
+      "knw_vote_id": 69,
+      "knw_label": "Programming/Solidity",
+      "repository": "0x584fc269e51ea21a54087b0c4e9f2c0e7717f243bda35a17f7e2e47b8033fb62",
+      "proposer": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+      "topic": "hello world is my push",
+      "identifier": "sidebranch:c424b15ffe1dba0048bb4958d01a184103a8aca3",
+      "creation_date": "2019-08-24T15:12:35+02:00",
+      "commit_phase_end": "2019-08-24T15:13:35+02:00",
+      "reveal_phase_end": "2019-08-24T15:14:35+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 0.0526,
+        "votes_against": 0.0208,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x3Cc7Ae39C62847A5Af9d7733901B0e0e1190cFec",
+          "used_knw": 0,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.42
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 0.54,
+          "votes": 0.0154,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.42
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 0.86,
+          "votes": 0.0186,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.42
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0,
+          "votes": 0.01,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 0.86,
+          "votes": 0.0186,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.42
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.08,
+          "votes": 0.0108,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.04
+        }
+      ],
+      "stake_per_participant": 0.01,
+      "total_stake": 0.060000000000000005,
+      "total_minted_knw": 1.68
+    },
+    {
+      "id": 2,
+      "knw_vote_id": 68,
+      "knw_label": "Programming/Solidity",
+      "repository": "0x01a9e2be69d611adda3fda7149c16cfe7454a0bd89ecb98be9494d0e2e63dc44",
+      "proposer": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+      "topic": "Add a new app",
+      "identifier": "app:46d7062c55035d020e2f916301c9006b97e86e07",
+      "creation_date": "2019-08-24T11:21:00+02:00",
+      "commit_phase_end": "2019-08-24T11:22:00+02:00",
+      "reveal_phase_end": "2019-08-24T11:23:00+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 21.5,
+        "votes_against": 10.8,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+          "used_knw": 0.01,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.16
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 0.22,
+          "votes": 6.1,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 0.54,
+          "votes": 7.7,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0,
+          "votes": 5,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.16,
+          "votes": 5.8,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.08
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 0.54,
+          "votes": 7.7,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        }
+      ],
+      "stake_per_participant": 5,
+      "total_stake": 30,
+      "total_minted_knw": 1.1199999999999999
+    },
+    {
+      "id": 1,
+      "knw_vote_id": 67,
+      "knw_label": "Programming/Solidity",
+      "repository": "0x01a9e2be69d611adda3fda7149c16cfe7454a0bd89ecb98be9494d0e2e63dc44",
+      "proposer": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+      "topic": "Add a new awesome feature()",
+      "identifier": "feature:5fc7355c351f69be0230afd482ec573cf9f65c77",
+      "creation_date": "2019-08-24T11:10:15+02:00",
+      "commit_phase_end": "2019-08-24T11:11:15+02:00",
+      "reveal_phase_end": "2019-08-24T11:12:15+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 14.560000000000002,
+        "votes_against": 9.280000000000001,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+          "used_knw": 0.3,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.2046
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 0,
+          "votes": 4,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.22
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 0.32,
+          "votes": 5.28,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.22
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0,
+          "votes": 4,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 0.32,
+          "votes": 5.28,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.22
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.32,
+          "votes": 5.28,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.16
+        }
+      ],
+      "stake_per_participant": 4,
+      "total_stake": 24,
+      "total_minted_knw": 0.8646
+    },
+    {
+      "id": 1,
+      "knw_vote_id": 66,
+      "knw_label": "Programming/Go",
+      "repository": "0x2ac9c73fa42654f8cdbdcc8b18e643f068efd6a41a4c0f91e4fba75f1b2f2b9b",
+      "proposer": "0x4ba9b983217b0f6c3928cB733107768Bca40854f",
+      "topic": "Updated README",
+      "identifier": "feature:1d802e78ff5a084015ac7b00f34c3fa65be1ce0e",
+      "creation_date": "2019-08-22T16:28:25+02:00",
+      "commit_phase_end": "2019-08-22T16:29:25+02:00",
+      "reveal_phase_end": "2019-08-22T16:30:25+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 40.815,
+        "votes_against": 20.24,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x4ba9b983217b0f6c3928cB733107768Bca40854f",
+          "used_knw": 0.34,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.1696
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 2.7075,
+          "votes": 13.225,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 3.069,
+          "votes": 13.755,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 1.018,
+          "votes": 10.04,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.01
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 3.125,
+          "votes": 13.835,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 1.082,
+          "votes": 10.2,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.042
+        }
+      ],
+      "stake_per_participant": 5,
+      "total_stake": 30,
+      "total_minted_knw": 1.1296
+    },
+    {
+      "id": 1,
+      "knw_vote_id": 65,
+      "knw_label": "Programming/Go",
+      "repository": "0xc85aa2e32f64396345857d503b00e9ffa451656079a4421e55365cff23228e5f",
+      "proposer": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+      "topic": "Add a new function",
+      "identifier": "feature:1ae02e559be02c94ad528c295baa188c6dae12bc",
+      "creation_date": "2019-08-21T19:32:35+02:00",
+      "commit_phase_end": "2019-08-21T19:33:35+02:00",
+      "reveal_phase_end": "2019-08-21T19:34:35+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 34.5801,
+        "votes_against": 17.958,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+          "used_knw": 1,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.213
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 2.4075,
+          "votes": 11.17338,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.3
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 2.769,
+          "votes": 11.66832,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.3
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 1.038,
+          "votes": 8.83884,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.02
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 2.825,
+          "votes": 11.7384,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.3
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 1.171,
+          "votes": 9.11916,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.089
+        }
+      ],
+      "stake_per_participant": 4.38,
+      "total_stake": 26.279999999999998,
+      "total_minted_knw": 1.113
+    },
+    {
+      "id": 8,
+      "knw_vote_id": 64,
+      "knw_label": "Programming/Go",
+      "repository": "0x1488847b258dbbbf9b14505621414257f3788ef381550ca5e06c6b0814cdb736",
+      "proposer": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+      "topic": "testing a new feature",
+      "identifier": "future:3b0f95048d4fafd9e4f14fea5790096488d35458",
+      "creation_date": "2019-08-21T14:27:10+02:00",
+      "commit_phase_end": "2019-08-21T14:28:10+02:00",
+      "reveal_phase_end": "2019-08-21T14:29:10+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 9.5375,
+        "votes_against": 5.26125,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+          "used_knw": 1.12,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.2744
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 2.1275,
+          "votes": 3.0725,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.28
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 2.489,
+          "votes": 3.22125,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.28
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 1.078,
+          "votes": 2.5475,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.04
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 2.545,
+          "votes": 3.24375,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.28
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 1.373,
+          "votes": 2.71375,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.202
+        }
+      ],
+      "stake_per_participant": 1.25,
+      "total_stake": 7.5,
+      "total_minted_knw": 1.1144
+    },
+    {
+      "id": 7,
+      "knw_vote_id": 63,
+      "knw_label": "Programming/Go",
+      "repository": "0x1488847b258dbbbf9b14505621414257f3788ef381550ca5e06c6b0814cdb736",
+      "proposer": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+      "topic": "Add a vote() function",
+      "identifier": "feature:92b7b4dfff499ebfea5933b189c136e6cb8dcab4",
+      "creation_date": "2019-08-21T14:22:10+02:00",
+      "commit_phase_end": "2019-08-21T14:23:10+02:00",
+      "reveal_phase_end": "2019-08-21T14:24:10+02:00",
+      "finalized": true,
+      "accepted": true,
+      "votes": {
+        "participants_for": 3,
+        "participants_against": 2,
+        "participants_unrevealed": 0,
+        "votes_for": 8.424600000000002,
+        "votes_against": 5.07414,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x5ec20860d341eE2245A9934Bc0dc1f139e3Cb918",
+          "used_knw": 0.89,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.2376
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 1.8875,
+          "votes": 2.70522,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.24
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 2.249,
+          "votes": 2.84886,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.24
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 1.164,
+          "votes": 2.36892,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.086
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 2.305,
+          "votes": 2.87052,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.24
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 1.8875,
+          "votes": 2.70522,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.5145
+        }
+      ],
+      "stake_per_participant": 1.14,
+      "total_stake": 6.839999999999999,
+      "total_minted_knw": 0.9576
+    },
+    {
+      "id": 1,
+      "knw_vote_id": 62,
+      "knw_label": "Programming/JavaScript",
+      "repository": "0x2c60ff6d40256a22b41746533476d297f50af006c5134485099ed23a70c82384",
+      "proposer": "0x4ba9b983217b0f6c3928cB733107768Bca40854f",
+      "topic": "Updating the README",
+      "identifier": "feature:27f7e604e78ce74d40d35a55a07d7c2f952fbc25",
+      "creation_date": "2019-08-19T13:36:25+02:00",
+      "commit_phase_end": "2019-08-19T13:37:25+02:00",
+      "reveal_phase_end": "2019-08-19T13:38:25+02:00",
+      "finalized": true,
+      "accepted": false,
+      "votes": {
+        "participants_for": 2,
+        "participants_against": 3,
+        "participants_unrevealed": 0,
+        "votes_for": 16.1172,
+        "votes_against": 31.568399999999997,
+        "votes_unrevealed": 0
+      },
+      "participants": [
+        {
+          "address": "0x4ba9b983217b0f6c3928cB733107768Bca40854f",
+          "used_knw": 0,
+          "votes": 0,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0
+        },
+        {
+          "address": "0xAd316d8bf9E705745af387d0EB936a4Be05ee0Da",
+          "used_knw": 0.3,
+          "votes": 8.658,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.15
+        },
+        {
+          "address": "0xCE0038b60a5F4d24987103bcB44F73644cf4d496",
+          "used_knw": 0.72,
+          "votes": 11.4552,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0x665A4C87870E66c9190b7ABD106DBe60D60f6929",
+          "used_knw": 0.3,
+          "votes": 8.658,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0x4B883905DaA5D5cFd00A58eA1A8a2Beeb44e7983",
+          "used_knw": 0.72,
+          "votes": 11.4552,
+          "opened": true,
+          "finalized": true,
+          "voted_right": true,
+          "knw_difference": 0.32
+        },
+        {
+          "address": "0xd687848A2311a84Ec5CBC6f86D48c7f9a6f59878",
+          "used_knw": 0.12,
+          "votes": 7.4592,
+          "opened": true,
+          "finalized": true,
+          "voted_right": false,
+          "knw_difference": 0.06
+        }
+      ],
+      "stake_per_participant": 6.66,
+      "total_stake": 39.959999999999994,
+      "total_minted_knw": 0.96
+    }
+  ]

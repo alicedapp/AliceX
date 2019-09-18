@@ -95,7 +95,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
 const MainApp = createStackNavigator({
   DappsScreen: { screen: AppTabNavigator },
-  // DappsScreen: { screen: MiniDapps.CheezeWizards },
+  // DappsScreen: { screen: MiniDapps.ditCraft },
   ...MiniDapps,
 }, {
   headerMode: 'none',
