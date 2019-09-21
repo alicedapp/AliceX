@@ -104,7 +104,7 @@ export default class AppsScreen extends Component<Props> {
           <View style={styles.container}>
             <View style={styles.appsContainer}>
               {AppRegistry.map((app, i) => {
-                return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
+                return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} browserRoute={app.browserRoute} icon={app.icon} iterator={i} />)
               })
               }
             </View>

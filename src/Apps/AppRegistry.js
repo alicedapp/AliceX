@@ -55,4 +55,16 @@ export const AppRegistry = [
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
+  {
+    appName: 'Pool Toget..',
+    backgroundColor: '#2A1261',
+    browserRoute: 'https://pooltogether.us',
+    icon: require('./PoolTogether/Assets/logo.png')
+  },
+  {
+    appName: 'Crypto Twitter',
+    backgroundColor: '#F2F2F4',
+    browserRoute: 'https://twitter.com',
+    icon: require('./CryptoTwitter/Assets/crypto-twitter.png')
+  },
 ];
