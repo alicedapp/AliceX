@@ -145,13 +145,7 @@ class App extends Component {
         }
       }
     );
-    // Linking.addEventListener('url', console.log);
-    // Linking.getInitialURL().then((url) => {
-    //   if (url) {
-    //     console.log('Initial url is: ' + url);
-    //   }
-    // }).catch(err => console.error('An error occurred', err));
-
+    Linking.addEventListener('url', this.handleOpenURL);
   }
 
   handleOpenURL(event) {
