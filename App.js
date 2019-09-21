@@ -122,6 +122,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    Settings.openBrowser('https://twitter.com');
     this.getOrientation();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
@@ -144,7 +145,12 @@ class App extends Component {
         }
       }
     );
-    Linking.addEventListener('url', console.log);
+    // Linking.addEventListener('url', console.log);
+    // Linking.getInitialURL().then((url) => {
+    //   if (url) {
+    //     console.log('Initial url is: ' + url);
+    //   }
+    // }).catch(err => console.error('An error occurred', err));
 
   }
 
