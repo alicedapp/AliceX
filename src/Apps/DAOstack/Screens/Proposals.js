@@ -26,6 +26,7 @@ import { Query } from 'react-apollo';
 
 import { Modal, Proposal, FloatingButton, Button } from '../Components';
 import { NavigationBar } from '../../../AliceCore/Components/NavigationBar';
+import { getDAOStackAccounts } from '../Utils/http';
 
 const options = {
   enableVibrateFallback: true,
@@ -100,6 +101,18 @@ export default class Proposals extends Component {
     ReactNativeHapticFeedback.trigger('selection', options);
     this.setState({ modalVisible: !this.state.modalVisible });
   };
+  // Maybe this data we should store it in our state
+  getProfile = (ethereumAccountAddress) => {
+    let profile;
+    if(this.state.accounts.length > 0) {
+      profile = this.state.accounts.filter((account)=> account.ethereumAccountAddress === ethereumAccountAddress)[0]
+    }
+    return profile;
+  }
+
+  componentDidMount(){
+    getDAOStackAccounts().then(accounts => this.setState({ accounts }));
+  }
 
   render() {
     const { dao, backgroundColor } = this.props.navigation.state.params;
@@ -111,7 +124,6 @@ export default class Proposals extends Component {
         <NavigationBar />
         <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
-            console.log('data', data);
             if (error) return <Text>Can't fetch Proposals</Text>;
             if (loading)
               return (
@@ -157,7 +169,7 @@ export default class Proposals extends Component {
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Boosted') {
                         boostedAmount += 1;
-                        return <Proposal key={i} proposal={proposal} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
@@ -166,7 +178,7 @@ export default class Proposals extends Component {
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
                         pendingAmount += 1;
-                        return <Proposal key={i} proposal={proposal} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
@@ -175,7 +187,7 @@ export default class Proposals extends Component {
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {
                         regularAmount += 1;
-                        return <Proposal key={i} proposal={proposal} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
                       }
                     })}
                   </View>

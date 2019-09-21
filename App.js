@@ -6,7 +6,9 @@
 import React, { Component } from 'react';
 import {
   Dimensions,
-  Image, View,
+  Image,
+  Linking,
+  View,
 } from 'react-native';
 import {
   createAppContainer,
@@ -142,6 +144,15 @@ class App extends Component {
         }
       }
     );
+    Linking.addEventListener('url', console.log);
+
+  }
+
+  handleOpenURL(event) {
+    console.log('event: ');
+    console.log('event: ', event.url);
+    const route = event.url.replace(/.*?:\/\//g, '');
+    // do something with the url, in our case navigate(route)
   }
 
   getNetwork = async () => {
@@ -150,6 +161,7 @@ class App extends Component {
   };
 
   componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
     OneSignal.removeEventListener('ids', this.onIds);

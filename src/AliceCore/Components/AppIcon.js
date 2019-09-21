@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {Settings} from "../../AliceSDK/Web3";
 
 import { navigate } from "../Utils/navigationWrapper";
 
@@ -8,10 +9,17 @@ export default class AppIcon extends Component<Props> {
     const { navigate } = navigation;
   };
 
+  _navigate = () => {
+    if (this.props.browserRoute) {
+      Settings.openBrowser(this.props.browserRoute);
+    }
+    navigate(this.props.homeRoute);
+  };
+
   render() {
     return (
       <View key={this.props.iterator} style={styles.appIcon}>
-        <TouchableOpacity style={{...styles.appSquare, backgroundColor: this.props.backgroundColor}} onPress={() => navigate(this.props.homeRoute)}>
+        <TouchableOpacity style={{...styles.appSquare, backgroundColor: this.props.backgroundColor}} onPress={this._navigate}>
           <Image source={this.props.icon} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
         </TouchableOpacity>
         <Text style={styles.appText}>{this.props.appName}</Text>
