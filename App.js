@@ -122,7 +122,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    Settings.openBrowser('https://twitter.com');
+    // Settings.openBrowser('https://twitter.com');
     this.getOrientation();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()

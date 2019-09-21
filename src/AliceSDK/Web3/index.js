@@ -78,8 +78,8 @@ const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 const getOrientation = async () => await NativeModules.NativeVCModule.getOrientation();
 
 
-// const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
-const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('twitter.com');
+const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
+// const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('twitter.com');
 
 const qrScanner = async () => {
   try {
