@@ -13,7 +13,7 @@ export default class Proposer extends Component {
     return (
       <>
         <Text numberOfLines={1} style={{ width: width / 2, fontWeight: '700' }}>
-          { name ? name : `No profile found for ${proposal.proposer.slice(0,15)}` }
+          { name ? name : proposal.proposer }
         </Text>
       </>
     );
