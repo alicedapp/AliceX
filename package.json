@@ -16,6 +16,7 @@
     "apollo-link-ws": "^1.0.18",
     "buffer": "^5.4.2",
     "bn.js": "^5.0.0",
+    "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^4.0.31",
     "events": "^3.0.0",
     "firebase": "^6.6.0",
