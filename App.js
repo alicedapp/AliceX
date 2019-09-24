@@ -72,6 +72,12 @@ const AppTabNavigator = createMaterialTopTabNavigator({
   order: ['DappsScreen', 'Tokens', 'Activity'],
   tabBarPosition: 'bottom',
   animationEnabled: true,
+  header: {
+    style: {
+      elevation: 0,
+      shadowOpacity: 0,
+    }
+  },
   tabBarOptions: {
     showLabel: false,
     backgroundColor: 'white',
@@ -83,6 +89,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     activeTintColor: '#000',
     inactiveTintColor: '#fff',
     style: {
+      elevation: 0,
+      shadowOpacity: 0,
       backgroundColor: 'transparent',
       borderTopWidth: 0,
       position: 'absolute',
@@ -97,7 +105,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 
 const MainApp = createStackNavigator({
   DappsScreen: { screen: AppTabNavigator },
-  // DappsScreen: { screen: MiniDapps.CheezeWizards },
+  // DappsScreen: { screen: MiniDapps.PoolTogether },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -122,14 +130,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Settings.openBrowser('https://twitter.com');
+    // Settings.openBrowser('https://instagram.com');
     this.getOrientation();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
       (event) => {
-        console.log('EVENT TRIGGERED: ')
+        console.log('EVENT TRIGGERED: ', event)
         if (event.address) {
           console.log('WALLET INFO: ', event, event.address);
           this.setState({ wallet: event.address});
@@ -143,16 +151,19 @@ class App extends Component {
           console.log('ROTATION CHANGED: ', event, event.orientation);
           this.setState({ orientation: event.orientation});
         }
+        if (event.deeplink) {
+          console.log('DEEP LINK: ', event, event.deeplink);
+          this.handleOpenURL(event.deeplink)
+          this.setState({ deeplink: event.deeplink});
+        }
       }
     );
-    Linking.addEventListener('url', this.handleOpenURL);
   }
 
   handleOpenURL(event) {
-    console.log('event: ');
-    console.log('event: ', event.url);
-    const route = event.url.replace(/.*?:\/\//g, '');
-    // do something with the url, in our case navigate(route)
+    const route = event.replace(/.*?:\/\//g, '');
+    const {dapp, data} = JSON.parse(decodeURIComponent(route.substring(3)));
+    navigate(dapp, {data});
   }
 
   getNetwork = async () => {
@@ -161,7 +172,6 @@ class App extends Component {
   };
 
   componentWillUnmount() {
-    Linking.removeEventListener('url', this.handleOpenURL);
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
     OneSignal.removeEventListener('ids', this.onIds);
@@ -222,7 +232,7 @@ class App extends Component {
   };
 
   render() {
-    console.log('isiphonex: ', isIphoneX())
+    console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
         {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, alignSelf: 'center', position: 'absolute', top:0, width:215, height: isIphoneX() ? 35 : 7, zIndex: 9999}}/>}

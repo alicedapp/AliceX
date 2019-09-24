@@ -12,6 +12,7 @@ export { default as CheezeWizards } from './CheezeWizards';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
+export { default as PoolTogether } from './PoolTogether';
 
 
 /*      App Registry Section            */
@@ -56,9 +57,9 @@ export const AppRegistry = [
     icon: require('./CheezeWizards/Assets/logo.png')
   },
   {
-    appName: 'Pool Toget..',
+    appName: 'Pool Together',
     backgroundColor: '#2A1261',
-    browserRoute: 'https://pooltogether.us',
+    homeRoute: 'PoolTogether',
     icon: require('./PoolTogether/Assets/logo.png')
   },
   {
@@ -66,5 +67,11 @@ export const AppRegistry = [
     backgroundColor: '#F2F2F4',
     browserRoute: 'https://twitter.com',
     icon: require('./CryptoTwitter/Assets/crypto-twitter.png')
+  },
+  {
+    appName: 'CryptoGram',
+    backgroundColor: '#ffffff',
+    browserRoute: 'https://instagram.com',
+    icon: require('./CryptoGram/Assets/crypto-gram.png')
   },
 ];

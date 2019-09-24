@@ -10,15 +10,10 @@ export default class ModalComponent extends Component<Props> {
 
   render() {
     return (
-      <Modal isVisible={this.props.isVisible} onBackdropPress={this.props.onBackdropPress} style={styles.modal} animationIn={'slideInUp'} animationOut={'slideOutDown'}>
+      <Modal {...this.props} isVisible={this.props.isVisible} onBackdropPress={this.props.onBackdropPress} style={this.props.style} animationIn={'slideInUp'} animationOut={'slideOutDown'}>
         {this.props.children}
       </Modal>
     )
   }
 
 }
-const styles = StyleSheet.create({
-  modal: {
-    margin: 0,
-  },
-});
