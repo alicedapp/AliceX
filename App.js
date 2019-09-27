@@ -104,8 +104,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  DappsScreen: { screen: AppTabNavigator },
-  // DappsScreen: { screen: MiniDapps.PoolTogether },
+  // DappsScreen: { screen: AppTabNavigator },
+  DappsScreen: { screen: MiniDapps.CheezeWizards },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -155,6 +155,11 @@ class App extends Component {
           console.log('DEEP LINK: ', event, event.deeplink);
           this.handleOpenURL(event.deeplink)
           this.setState({ deeplink: event.deeplink});
+        }
+        if (event.walletconnect) {
+          console.log('WALLET CONNECT: ', event, event.walletconnect);
+          this.handleOpenURL(event.walletconnect)
+          this.setState({ walletconnect: event.walletconnect});
         }
       }
     );

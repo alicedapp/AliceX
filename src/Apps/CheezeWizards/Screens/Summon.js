@@ -62,6 +62,7 @@ export default class MapComponent extends React.Component {
     const onData = (data) => {
       console.log('WIZARDS:  ', data);
       if (data.wizards) {
+        console.log('WIZARDS: ', wizards);
         this.setState({wizards: data.wizards});
       }
     };
@@ -88,6 +89,7 @@ export default class MapComponent extends React.Component {
     const onData = (data) => {
       console.log('NFT DATA: ', data);
       if (data.assets) {
+
         this.setState({nftInfo: data, nfts: data.assets});
       }
     };
@@ -120,7 +122,7 @@ export default class MapComponent extends React.Component {
     const affinity = getAffinity(_affinity);
     console.log('AFFINITY: ', affinity)
     try {
-      const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.InauguralGateKeeper.abi, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
+      const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
       console.log("TX HASH: ", txHash);
     } catch(e) {
       console.log('WIZARD PURCHASE ERROR: ', e);

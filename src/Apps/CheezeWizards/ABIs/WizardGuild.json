@@ -1,6 +1,4 @@
-{
-  "contractName": "WizardGuild",
-  "abi": [
+[
     {
       "constant": true,
       "inputs": [],
@@ -817,4 +815,3 @@
       "type": "function"
     }
   ]
-}

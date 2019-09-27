@@ -56,6 +56,20 @@
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [],
+      "name": "WIZARD_PRESALE",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -113,6 +127,20 @@
         {
           "name": "elementalWizardIncrement",
           "type": "uint32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "WIZARD_GUILD",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
         }
       ],
       "payable": false,
@@ -201,6 +229,20 @@
       ],
       "name": "CFOTransferred",
       "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTournamentPowerScale",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": false,
@@ -377,6 +419,15 @@
       "constant": false,
       "inputs": [],
       "name": "destroy",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "destroyTournament",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",

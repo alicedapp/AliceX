@@ -1,6 +1,4 @@
-{
-  "contractName": "BasicTournament",
-  "abi": [
+[
     {
       "constant": true,
       "inputs": [],
@@ -18,7 +16,47 @@
     {
       "constant": true,
       "inputs": [],
+      "name": "getBlueMoldParameters",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
       "name": "ceoAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "GATE_KEEPER",
       "outputs": [
         {
           "name": "",
@@ -86,6 +124,68 @@
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [],
+      "name": "getTimeParameters",
+      "outputs": [
+        {
+          "name": "tournamentStartBlock",
+          "type": "uint256"
+        },
+        {
+          "name": "pauseEndedBlock",
+          "type": "uint256"
+        },
+        {
+          "name": "admissionDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "revivalDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "duelTimeoutDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "ascensionWindowStart",
+          "type": "uint256"
+        },
+        {
+          "name": "ascensionWindowDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "fightWindowStart",
+          "type": "uint256"
+        },
+        {
+          "name": "fightWindowDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "resolutionWindowStart",
+          "type": "uint256"
+        },
+        {
+          "name": "resolutionWindowDuration",
+          "type": "uint256"
+        },
+        {
+          "name": "cullingWindowStart",
+          "type": "uint256"
+        },
+        {
+          "name": "cullingWindowDuration",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -142,6 +242,20 @@
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [],
+      "name": "WIZARD_GUILD",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "name": "cooAddress_",
@@ -157,39 +271,39 @@
         },
         {
           "name": "tournamentStartBlock_",
-          "type": "uint256"
+          "type": "uint40"
         },
         {
           "name": "admissionDuration_",
-          "type": "uint256"
+          "type": "uint32"
         },
         {
           "name": "revivalDuration_",
-          "type": "uint256"
+          "type": "uint32"
         },
         {
           "name": "ascensionDuration_",
-          "type": "uint256"
+          "type": "uint24"
         },
         {
           "name": "fightDuration_",
-          "type": "uint256"
+          "type": "uint24"
         },
         {
           "name": "cullingDuration_",
-          "type": "uint256"
+          "type": "uint24"
         },
         {
           "name": "blueMoldBasePower_",
-          "type": "uint256"
+          "type": "uint88"
         },
         {
           "name": "sessionsBetweenMoldDoubling_",
-          "type": "uint256"
+          "type": "uint24"
         },
         {
           "name": "duelTimeoutBlocks_",
-          "type": "uint256"
+          "type": "uint24"
         }
       ],
       "payable": false,
@@ -228,6 +342,16 @@
           "indexed": false,
           "name": "isAscensionBattle",
           "type": "bool"
+        },
+        {
+          "indexed": false,
+          "name": "commit1",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "commit2",
+          "type": "bytes32"
         }
       ],
       "name": "DuelStart",
@@ -273,6 +397,72 @@
         }
       ],
       "name": "DuelEnd",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "committingWizardId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "otherWizardId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "committingWizardNonce",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "otherWizardNonce",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "commitment",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OneSidedCommitAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "wizardId",
+          "type": "uint256"
+        }
+      ],
+      "name": "OneSidedCommitCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "duelId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "committingWizardId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "otherWizardId",
+          "type": "uint256"
+        }
+      ],
+      "name": "OneSidedRevealAdded",
       "type": "event"
     },
     {
@@ -370,6 +560,28 @@
       "inputs": [
         {
           "indexed": false,
+          "name": "ascendingWizardId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "challengingWizardId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "commitment",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AscensionChallenged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
           "name": "wizId",
           "type": "uint256"
         },
@@ -426,7 +638,7 @@
       "inputs": [
         {
           "indexed": false,
-          "name": "pauseEndingBlock",
+          "name": "pauseEndedBlock",
           "type": "uint256"
         }
       ],
@@ -483,6 +695,34 @@
       ],
       "name": "CFOTransferred",
       "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getRemainingWizards",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAscendingWizardId",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "constant": true,
@@ -981,5 +1221,4 @@
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ],
-  }
+  ]

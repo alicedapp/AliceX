@@ -55,6 +55,7 @@ export default class WizardCard extends React.Component {
           <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
             {this.renderWizard()}
           </View>
+
           <View style={{...styles.cardFooter, backgroundColor: this.state.footerColor}}>
             <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{Math.round(wizard.power/10e10)}</Text>
             {this.renderAffinity()}

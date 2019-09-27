@@ -1,22 +1,22 @@
 {
   "WizardPresale": {
     "mainnet": "",
-    "rinkeby": "0xd8E4C31D8EB7baD28909a3D2E2dCa6AACDaB1563"
+    "rinkeby": "0x08C3217cAC413279a06525179E997a51831a72FC"
   },
   "WizardGuild": {
     "mainnet": "",
-    "rinkeby": "0xd3d2Cc1a89307358DB3e81Ca6894442b2DB36CE8"
+    "rinkeby": "0x51b08285ADbd35225444B56c1888c49a6bB2F664"
   },
   "GateKeeper": {
     "mainnet": "",
-    "rinkeby": "0xF46aEEF279A6d5A411E16D87D3767fDa0cEC320E"
+    "rinkeby": "0x29F7B14317e2D365D970D3B557aC763c907f75F1"
   },
   "BasicTournament": {
     "mainnet": "",
-    "rinkeby": "0xA90c237A6D68978a5cBD2e6dE375dbe242821698"
+    "rinkeby": "0x743204169B8aF6663fd890CE19b84766222a4A1b"
   },
-  "DuelResolver": {
+  "ThreeAffinityDuelResolver": {
     "mainnet": "",
     "rinkeby": "0xB789e4047f5DF6cf5Fdd035AF44205092a275d33"
-  },
+  }
 }

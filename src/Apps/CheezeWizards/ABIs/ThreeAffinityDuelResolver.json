@@ -1,6 +1,4 @@
-{
-  "contractName": "ThreeAffinityDuelResolver",
-  "abi": [
+[
     {
       "constant": true,
       "inputs": [
@@ -98,4 +96,3 @@
       "type": "function"
     }
   ]
-}

@@ -22,11 +22,12 @@ import {switchcase} from "../Utils";
 import {ethers} from 'ethers'
 import metrics from "../Utils/metrics";
 
-
 const options = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false
 };
+
+const salt = '0x3c384b5dc37b35b583bb7565a72ccd72d7926c34cd52af7ce8675816bedc3930';
 
 const { height, width } = Dimensions.get('window');
 
@@ -104,9 +105,12 @@ export default class MapComponent extends React.Component {
 
   fight = async () => {
     this.setState({pressed: !this.state.pressed});
-    const commitmentHash = ethers.utils.keccak256('0x0202020202')
+    // const commitmentHash = '011011011011011';
+    const commitmentHash = ethers.utils.keccak256('0x234230000000000000000000000000000x3c384b5dc37b35b583bb7565a72ccd72');
+    // const commitmentHash = ethers.utils.formatBytes32String('0x011011011011011');
+    console.log('COMMITMENT HASH: ', commitmentHash);
     try {
-      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament.abi, functionName: 'oneSidedCommit', parameters: [799, 800, '0x0202020202'], value: '0', data: '0x0'})
+      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [6091, 6091, commitmentHash], value: '0', data: '0x0'})
       console.log('txHash: ', txHash);
       this.setState({txHash})
     } catch(e) {

@@ -2,6 +2,7 @@ import { NativeModules, NativeEventEmitter } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
+let infuraProviderRinkeby = new ethers.providers.InfuraProvider('rinkeby');
 
 const url = "https://eth-mainnet.alchemyapi.io/jsonrpc/J5dtZ15uh9UBfyGUwicNlNbjXvN-aog0";
 const provider = new ethers.providers.JsonRpcProvider(url);
@@ -107,7 +108,15 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
 
 const read = async ({contractAddress, abi, functionName, parameters, network}) => {
   if (network === "ropsten") {
-    const contract = new EthersContract(contractAddress, abi, providerRopsten);
+    const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else if (network === "rinkeby") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderRinkeby);
     if (parameters.length === 0) {
       return contract[functionName]();
     } else if (parameters.length > 0) {
@@ -157,6 +166,15 @@ const aliceEvent = () => {
   return new NativeEventEmitter(NativeModules.CallRNModule);
 };
 
+const createConnection = () => {
+  NativeModules.WallectConnectModule.create()
+}
+
+const sendDataObject = (object) => {
+  NativeModules.WallectConnectModule.message({message: JSON.stringify(object)});
+
+}
+
 export const Settings = {
   settingsPopUp,
   openBrowser,
@@ -175,6 +193,11 @@ export const Wallet = {
   aliceEvent,
   sendTransactionWithDapplet,
   transfer
+};
+
+export const WalletConnect = {
+  createConnection,
+  sendDataObject
 };
 
 export const Contract = {

@@ -15,11 +15,11 @@ import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
+import { Settings, Wallet, Contract, WalletConnect } from "../../../AliceSDK/Web3";
 import env from '../../../../env'
 import { SvgUri } from 'react-native-svg';
 import ABIs from '../ABIs';
-import {GateKeeper} from '../Addresses/index'
+import {GateKeeper, BasicTournament, ThreeAffinityDuelResolver} from '../Addresses/index'
 import {switchcase} from "../Utils";
 
 const options = {
@@ -95,13 +95,71 @@ export default class MapComponent extends React.Component {
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({pressed: !this.state.pressed});
+  };
+
+  createWizardObject = () => {
+    const wizardFormat = {
+      affinity: 4,
+      createdBlockNumber: 5008913,
+      eliminatedBlockNumber: null,
+      id: "5982",
+      // initialPower: "70364710415359",
+      // owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
+      power: "70364710415359"
+    };
+
+    const wizardFormat2 = {
+      affinity: "0x01",
+      ascending: false,
+      ascensionOpponent: "0x00",
+      currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      maxPower: "0x3faa25226000",
+      molded: false,
+      nonce: "0x01",
+      power: "0x3faa25226000",
+      ready: true
+    };
+
+    const wizardObject = {
+
+    }
+
   }
 
   fetchWizards = async () => {
+
+    const wizardFormat = {
+      affinity: 4,
+      createdBlockNumber: 5008913,
+      eliminatedBlockNumber: null,
+      id: "5982",
+      // initialPower: "70364710415359",
+      // owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
+      power: "70364710415359"
+    };
+
+    const wizardFormat2 = {
+      affinity: "0x01",
+      ascending: false,
+      ascensionOpponent: "0x00",
+      currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      maxPower: "0x3faa25226000",
+      molded: false,
+      nonce: "0x01",
+      power: "0x3faa25226000",
+      ready: true
+    };
+
     let data = null;
     var xhr = new XMLHttpRequest();
+    const wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [6090], network: 'rinkeby'});
+    const isvalidMoveSet = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: ['0x0203030303000000000000000000000000000000000000000000000000000000'], network: 'rinkeby'});
+    console.log('WIZARD: ', wizard);
+    console.log('MOVESET: ', isvalidMoveSet);
     const onData = (data) => {
       if (data.wizards) {
+        console.log('WIZARDS: ', data.wizards);
+
         this.setState({wizards: data.wizards});
       }
     };
@@ -126,7 +184,9 @@ export default class MapComponent extends React.Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = (data) => {
+      console.log('NFT DATA: ', data);
       if (data.assets) {
+
         this.setState({nftInfo: data, nfts: data.assets});
       }
     };
@@ -137,32 +197,16 @@ export default class MapComponent extends React.Component {
         }
       }
     });
-    xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0xd3d2Cc1a89307358DB3e81Ca6894442b2DB36CE8");
+    xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
     xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
 
   };
 
+
   openMap = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.props.navigation.navigate('CheezeWizards/Map');
-  };
-
-  actionPress = async (_affinity) => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    const getAffinity = switchcase({
-      "neutral": 1,
-      "fire": 2,
-      "water": 3,
-      "wind": 4,
-    });
-    const affinity = getAffinity(_affinity);
-    try {
-      const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.InauguralGateKeeper.abi, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
-    } catch(e) {
-      console.log('WIZARD PURCHASE ERROR: ', e);
-    }
-
   };
 
   enterDuelMode = wizard => {
@@ -214,17 +258,12 @@ export default class MapComponent extends React.Component {
                   }}/>
                 </Button>
               </View>
+              <TouchableOpacity onPress={() => WalletConnect.createConnection()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>
+              <TouchableOpacity onPress={() => WalletConnect.sendDataObject({"bob": "trap"})} style={{backgroundColor: 'white', padding: 20}}><Text>SendDataObject</Text></TouchableOpacity>
               <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}}>
-                {this.state.wizards.map((wizard, i) => {
-                  return (
-                    <TouchableOpacity style={{marginVertical: 10}} key={i} onPress={() => this.enterDuelMode(wizard)}>
-                      <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
-                    </TouchableOpacity>
-                  )
-                })}
-                {this.state.network === 'Rinkeby' && this.state.wizards.length === 0 && <View style={{marginTop: 200}}>
+                {this.state.network === 'Rinkeby' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
-                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, zIndex: 9999, width: 40, height: 45}}>
+                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 20}}>
                     <Image source={require('../Assets/udder.png')} style={{
                       resizeMode: 'contain',
                       width: 40,
@@ -232,9 +271,9 @@ export default class MapComponent extends React.Component {
                     }}/>
                   </Button>
                 </View>}
-                {this.state.network !== 'Rinkeby' && <View style={{marginTop: 200}}>
+                {this.state.network !== 'Rinkeby' && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, unless you want to drain your wallet of some real cheddar then I suggest you tap on the Settings button, Click on Switch Network, and then tap Rinkeby.</Text>
-                  <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
+                  <Button onPress={Settings.settingsPopUp} style={{width: 40, height: 45, marginBottom: 20}}>
                     <Image source={require('../Assets/settings-icon.png')} style={{
                       resizeMode: 'contain',
                       width: 50,
@@ -242,6 +281,13 @@ export default class MapComponent extends React.Component {
                     }}/>
                   </Button>
                 </View>}
+                {this.state.wizards.map((wizard, i) => {
+                  return (
+                    <TouchableOpacity style={{marginVertical: 10}} key={i} onPress={() => this.enterDuelMode(wizard)}>
+                      <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
+                    </TouchableOpacity>
+                  )
+                })}
               </ScrollView>
               <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, position: 'absolute', bottom: 20, right: 5, zIndex: 9999,}}>
                 <Image source={require('../Assets/udder.png')} style={{

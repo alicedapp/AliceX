@@ -74,4 +74,10 @@ export const AppRegistry = [
     browserRoute: 'https://instagram.com',
     icon: require('./CryptoGram/Assets/crypto-gram.png')
   },
+  {
+    appName: 'DAOsaka',
+    backgroundColor: '#0F0EEF',
+    browserRoute: 'https://knownorigin.io',
+    icon: require('./DAOSaka/Assets/logo.png')
+  },
 ];

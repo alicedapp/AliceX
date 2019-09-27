@@ -1,6 +1,4 @@
-{
-  "contractName": "WizardPresale",
-  "abi": [
+[
     {
       "constant": true,
       "inputs": [
@@ -819,4 +817,3 @@
       "type": "function"
     }
   ]
-}
