@@ -31,7 +31,7 @@ const { height, width } = Dimensions.get('window');
 
 import db from '../../../AliceSDK/Socket'
 
-export default class MapComponent extends React.Component {
+export default class CheezeWizardsHome extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;

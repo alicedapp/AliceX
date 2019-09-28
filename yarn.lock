@@ -6398,6 +6398,11 @@ react-native-dnd-grid@^0.1.4:
   resolved "https://registry.yarnpkg.com/react-native-dnd-grid/-/react-native-dnd-grid-0.1.4.tgz#a3799f74bc046ca1a6ebc0486a327fbe4fa573ea"
   integrity sha512-cz9F2UKOZg/DKZ2Yc/70+JPIhi7RX+hFWe28T2vlkDCHU+I/u8hM8sddtwSnpDTbMJXhi9zzwOEj2smvhtmIPw==
 
+react-native-draggable-grid@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-draggable-grid/-/react-native-draggable-grid-1.1.1.tgz#954566a5dfa3ce809b31e57752d34ae3df4440ec"
+  integrity sha512-+JA+Y+0kSXalrzjNuy8u+Qq2ACb39wVTt0y71Mz2kNxMVWvswRaV/DUiV9hYxky6eG981l8SrekKsNT5DI9YxA==
+
 react-native-gesture-handler@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.3.0.tgz#d0386f565928ccc1849537f03f2e37fd5f6ad43f"
