@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
-import DropDownItem from "../../Components/DropDown/index";
+import DropDownItem from "../../Components/DropDown";
 
 const DOWN_ARROW = require('../Assets/down-white.png');
 const UP_ARROW = require('../Assets/up-white.png');
@@ -37,8 +37,8 @@ const Synthetix = () => {
         invisibleImage={DOWN_ARROW}
         visibleImage={UP_ARROW}
         header={
-          <View style={{...styles.header, backgroundColor: '#1DAB9A'}}>
-            <Image source={require('./maker-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
+          <View style={{...styles.header, backgroundColor: '#0a0817'}}>
+            <Image source={require('./synthetix-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
           </View>
         }
       >

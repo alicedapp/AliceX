@@ -37,8 +37,8 @@ const Synthetix = () => {
         invisibleImage={DOWN_ARROW}
         visibleImage={UP_ARROW}
         header={
-          <View style={{...styles.header, backgroundColor: '#1DAB9A'}}>
-            <Image source={require('./maker-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
+          <View style={{...styles.header, backgroundColor: '#0a0817'}}>
+            <Image source={require('../Synthetix/synthetix-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
           </View>
         }
       >
