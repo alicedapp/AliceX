@@ -6,13 +6,14 @@ import {
   TouchableWithoutFeedback,
   Image,
   View,
-  Dimensions,
-} from 'react-native';
+  Dimensions, Text
+} from "react-native";
 import AppIcon from "../Components/AppIcon";
 import {Settings} from "../../AliceSDK/Web3";
 import {AppRegistry} from "../../Apps/AppRegistry";
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import Button from "../../Apps/CheezeWizards/Components/Button";
 
 
 const options = {
@@ -79,6 +80,7 @@ export default class AppsScreen extends Component<Props> {
   };
 
   qrScanner = async () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
     try {
       const scannedCode = await Settings.qrScanner();
       console.log('scannedCode: ', scannedCode);
@@ -91,14 +93,12 @@ export default class AppsScreen extends Component<Props> {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
-          <View style={{
-            width: '100%', padding: 20, marginTop: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
-          }}>
-            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
-              <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+          <View style={{flexDirection: 'row', width: '100%', position: 'absolute', top: 50, paddingHorizontal: 20, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
+              <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', width: 22, height: 30 }}/>
             </TouchableOpacity>
-            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
-              <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
+              <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', width: 22, height: 30 }}/>
             </TouchableOpacity>
           </View>
           <View style={styles.container}>
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    marginTop: 100,
     padding: 20,
     flexDirection: 'column',
     justifyContent: 'flex-start',

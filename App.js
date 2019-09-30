@@ -23,10 +23,8 @@ import { isIphoneX } from 'react-native-iphone-x-helper'
 import env from './env.json';
 const {AppRegistry, ...MiniDapps} = require('./src/Apps/AppRegistry'); // AppRegistry is required
 import {Settings, Wallet} from './src/AliceSDK/Web3'
-import Tokens from './src/AliceCore/Screens/Tokens';
 import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Dashboard from './src/AliceCore/Screens/Dashboard';
-import Activity from "./src/AliceCore/Screens/Activity";
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
 import {switchcase} from "./src/AliceCore/Utils";
 import {challengedPOI} from "./src/Apps/Foam/utils";
@@ -41,35 +39,24 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceCore/Assets/dapps-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceCore/Assets/dapps-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceCore/Assets/dapps-tab-selected.png')} style={{resizeMode: 'contain', width: 42}}/>
+          : <Image source={require('./src/AliceCore/Assets/dapps-tab.png')} style={{resizeMode: 'contain', width: 42}}/>
       )
     }
   },
-  Tokens: {
-    screen: Tokens,
+  Dashboard: {
+    screen: Dashboard,
     navigationOptions: {
-      tabBarLabel: 'Tokens',
+      tabBarLabel: 'Dashboard',
       tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceCore/Assets/tokens-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-        : <Image source={require('./src/AliceCore/Assets/tokens-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
+        focused ? <Image source={require('./src/AliceCore/Assets/dashboard-selected.png')} style={{resizeMode: 'contain', width: 42}}/>
+        : <Image source={require('./src/AliceCore/Assets/dashboard-tab.png')} style={{resizeMode: 'contain', width: 42}}/>
       )
-    }
-  },
-  Activity: {
-    screen: Activity,
-    navigationOptions: {
-      tabBarLabel: 'Settings',
-      tabBarIcon: ({ focused }) => (
-        focused ? <Image source={require('./src/AliceCore/Assets/activity-icon-black.png')} style={{resizeMode: 'contain', width: 40}}/>
-          : <Image source={require('./src/AliceCore/Assets/activity-icon-grey.png')} style={{resizeMode: 'contain', width: 40}}/>
-      )
-
     }
   }
 }, {
-  initialRouteName: 'DappsScreen',
-  order: ['DappsScreen', 'Tokens', 'Activity'],
+  initialRouteName: 'Dashboard',
+  order: ['DappsScreen', 'Dashboard',],
   tabBarPosition: 'bottom',
   animationEnabled: true,
   header: {

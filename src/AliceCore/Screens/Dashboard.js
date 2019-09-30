@@ -20,19 +20,22 @@ import NFT from '../Components/NFT'
 import Token from '../Components/Token'
 import Modal from "react-native-modal";
 import QRCode from 'react-native-qrcode-svg';
-import {ENS, Wallet} from '../../AliceSDK/Web3'
+import { ENS, Settings, Wallet } from "../../AliceSDK/Web3";
 import AppIcon from "../Components/AppIcon";
+import Transactions  from '../Widgets/Transactions'
+import Compound  from '../Widgets/Compound'
+import Synthetix  from '../Widgets/Synthetix/index'
+import Maker  from '../Widgets/Maker/index'
+import Uniswap from "../Widgets/Uniswap";
 import {AppRegistry} from "../../Apps/AppRegistry";
 import Camera from "../Components/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import env from '../../../env.json';
 
-
-
 const options = {
   enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false
-};
+    ignoreAndroidSystemSettings: false
+}
 
 export default class Tokens extends Component {
   constructor(props) {
@@ -43,6 +46,7 @@ export default class Tokens extends Component {
       addressStart: '',
       token: '',
       tokens: [],
+      transactions: [],
       ethereum: {},
       nfts: [],
       transferHash: '',
@@ -64,7 +68,7 @@ export default class Tokens extends Component {
       network: '',
       tokenAmount: '',
       canSend: false,
-      revealAddress: false
+      revealAddress: false,
     };
 
   }
@@ -172,25 +176,33 @@ export default class Tokens extends Component {
 
   amberFetch = async () => {
     try {
-      let response = await fetch("https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances", {
+      // let response = await fetch("https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/transactions", {
+      let response = await fetch("https://web3api.io/api/v1/addresses/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB/transactions", {
         method: 'GET',
+        mode: 'cors',
         headers: {
           'content-type': 'application/json',
           'x-api-key': env.amberdata
         }
-      })
-      console.log('AMBER RES: ', response);
+      });
+      const data = await response.json();
+      this.setState({transactions: data.payload.records})
+      console.log('AMBER RES: ', data);
 
     } catch(e) {
       console.log('AMBER ERR: ', e);
 
     }
-
-
   };
 
   toggleModal = () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({profileModalVisible: !this.state.profileModalVisible})
+  };
+
+  openSettings = () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
+    Settings.settingsPopUp();
   };
 
   openTokenModal = (tokenInfo, token) => {
@@ -213,6 +225,7 @@ export default class Tokens extends Component {
   };
 
   copyAddress = async () => {
+    ReactNativeHapticFeedback.trigger("selection", options);
     return await Clipboard.setString(this.state.address)
   };
 
@@ -279,22 +292,26 @@ export default class Tokens extends Component {
   render() {
     const { transactionModalVisible, cameraModalVisible, cameraMode } = this.state;
     return (
-      <View style={{flex: 1}}>
-        {cameraMode === false ? <View style={styles.container}>
-          <View style={{
-            width: '100%', padding: 20, backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
-          }}>
-            <TouchableOpacity style={{width: 34, height: 34, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
-              <Image source={require('../Assets/avatar.png')} style={{ resizeMode: 'contain', width: 17, height: 17 }}/>
+        <View style={styles.container}>
+          <View style={{flexDirection: 'row', width: '100%', position: 'absolute', top: 50, paddingHorizontal: 20, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.toggleModal}>
+              <Image source={require('../Assets/avatar.png')} style={{ resizeMode: 'contain', width: 20, height: 20 }}/>
             </TouchableOpacity>
-
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+              <Image source={require('../Assets/settings-gear.png')} style={{ resizeMode: 'contain', width: 22, height: 22 }}/>
+            </TouchableOpacity>
           </View>
-          <ScrollView style={{flex: 1, width: '100%', paddingLeft: 10, backgroundColor: 'transparent'}} refreshControl={
+          <ScrollView style={{flex: 1, width: '100%', paddingHorizontal: 10, paddingVertical: 100, backgroundColor: 'transparent'}} refreshControl={
             <RefreshControl
               refreshing={this.state.fetching}
               onRefresh={this._refresh}
             />
           }>
+              <Transactions/>
+              <Compound/>
+              <Synthetix/>
+              <Maker/>
+              <Uniswap/>
             <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8}}>Tokens</Text>
             <TouchableWithoutFeedback onPress={this.sendEther}>
               <Animated.View  style={{...styles.tokenBox, transform: [
@@ -319,10 +336,10 @@ export default class Tokens extends Component {
                 <Token onPress={() => this.openTokenModal(tokenInfo, token)} key={i} iterator={i} tokenInfo={tokenInfo} token={token}/>
               )
             })}
-            <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10}}>Unique Tokens</Text>
-            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: width - 50, justifyContent: 'flex-start'}}>
+            <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8, marginBottom: 10, marginTop: 10, width: '100%'}}>Unique Tokens</Text>
+            <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-around'}}>
               {this.state.nfts.length > 0 ? this.state.nfts.map((nft, i) => {
-                if (nft.collection) {
+                if (nft.name) {
                   return (
                     <NFT iterator={i} key={i} nft={nft}/>
                   )
@@ -331,7 +348,7 @@ export default class Tokens extends Component {
                 <View onPress={this.closeCallback} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                   <View style={{...styles.nftContainer, backgroundColor: '#d9d9d9'}}>
                     <View style={{width: 100, height: 100, backgroundColor: 'transparent'}}>
-                      <Text>No Unique Tokens</Text>
+                      <Text style={{fontWeight: '700', fontSize: 20}}>No Unique Tokens</Text>
                     </View>
                   </View>
                   <View style={{width: 140, backgroundColor: 'transparent', padding: 5}}>
@@ -352,7 +369,7 @@ export default class Tokens extends Component {
             <View style={{width: '100%', backgroundColor: 'white', padding: 5, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
               <Token tokenInfo={this.state.tokenInfo} token={this.state.token} />
             </View>
-            <View style={{height: 100, width: '100%'}}>
+            <View style={{width: '100%'}}>
               <ScrollView horizontal>
                 {AppRegistry.map((app, i) => {
                   return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} icon={app.icon} iterator={i} />)
@@ -423,7 +440,6 @@ export default class Tokens extends Component {
               </TouchableOpacity>
             </View>
           </Modal>
-        </View> : <Camera close={() => this.setState({cameraMode: false})} onBarCodeRead={this._addressScan}/> }
       </View>)
   }
 }
@@ -434,7 +450,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 20,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   buttons: {
     backgroundColor: 'rgba(256,256,256,0.5)',

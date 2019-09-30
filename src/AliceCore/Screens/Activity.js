@@ -70,7 +70,6 @@ export default class ActivityClass extends Component {
     } catch(e) {
       console.log('ACTIVITY ERROR: ', e);
     }
-
   };
 
   openSettings = () => {

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
-import DropDownItem from "../../Components/DropDown";
+import Widget from "../../Components/Widget";
 
 const DOWN_ARROW = require('../Assets/down-white.png');
 const UP_ARROW = require('../Assets/up-white.png');
@@ -11,7 +11,7 @@ const UP_ARROW = require('../Assets/up-white.png');
 
 // const { synths } = snxjs.contractSettings;
 
-const Synthetix = () => {
+const Maker = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     // fetchData();
@@ -31,16 +31,10 @@ const Synthetix = () => {
   // const {issuanceRatio, currentCRatio, usdToSnxPrice, unlockedSnx, collateral, collateralRatio, sUSDBalance, debtBalance, currentFeesAvailable, currentRewardsAvailable} = data;
   return (
     <View>
-      <DropDownItem
-        style={styles.dropDownItem}
+      <Widget
         contentVisible={false}
-        invisibleImage={DOWN_ARROW}
-        visibleImage={UP_ARROW}
-        header={
-          <View style={{...styles.header, backgroundColor: '#0a0817'}}>
-            <Image source={require('./synthetix-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
-          </View>
-        }
+        backgroundColor='#1DAB9A'
+        image={require('./maker-logo.png')}
       >
         <ScrollView style={{height: 100, backgroundColor: '#070a0e', borderRadius: 20 }}>
           {data.map((token, i) => {
@@ -51,7 +45,7 @@ const Synthetix = () => {
             )
           })}
         </ScrollView>
-      </DropDownItem>
+      </Widget>
       {/*<Text>SNX Price {Number(usdToSnxPrice).toFixed(5)} USD</Text>*/}
       {/*<Text>Total Collateral${Number(collateral * usdToSnxPrice).toFixed(2)} USD (${Number(collateral).toFixed(2)} SNX)</Text>*/}
       {/*<Text>Unlocked SNX${Number(unlockedSnx * usdToSnxPrice).toFixed(2)} USD (${Number(unlockedSnx).toFixed(2)} SNX) ${Math.round(unlockedSnx/collateral * 100)}</Text>*/}
@@ -66,7 +60,7 @@ const Synthetix = () => {
   )
 };
 
-export default Synthetix;
+export default Maker;
 
 const styles = StyleSheet.create({
   widgetContainer: {

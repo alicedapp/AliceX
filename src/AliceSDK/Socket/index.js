@@ -1,4 +1,4 @@
-// Where WalletConnect, Chat, and P2P Sockets SDK will live
+// Where WalletConnect, and P2P Sockets SDK will live
 // If you see firebase don't worry, it's just for a hackathon. it will be gone shortly :)
 
 

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Image, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
-import DropDownItem from "../../Components/DropDown/index";
+import DropDownItem from "../../Components/Widget/index";
+import Widget from "../../Components/Widget";
 
 const DOWN_ARROW = require('../Assets/down-white.png');
 const UP_ARROW = require('../Assets/up-white.png');
@@ -11,7 +12,7 @@ const UP_ARROW = require('../Assets/up-white.png');
 
 // const { synths } = snxjs.contractSettings;
 
-const Synthetix = () => {
+const Uniswap = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     // fetchData();
@@ -31,18 +32,12 @@ const Synthetix = () => {
   // const {issuanceRatio, currentCRatio, usdToSnxPrice, unlockedSnx, collateral, collateralRatio, sUSDBalance, debtBalance, currentFeesAvailable, currentRewardsAvailable} = data;
   return (
     <View>
-      <DropDownItem
-        style={styles.dropDownItem}
+      <Widget
         contentVisible={false}
-        invisibleImage={DOWN_ARROW}
-        visibleImage={UP_ARROW}
-        header={
-          <View style={{...styles.header, backgroundColor: '#0a0817'}}>
-            <Image source={require('../Synthetix/synthetix-logo.png')} style={{resizeMode: 'contain', height: 15, width: 150}}/>
-          </View>
-        }
+        backgroundColor='#D240DD'
+        image={require('./uniswap-logo.png')}
       >
-        <ScrollView style={{height: 100, backgroundColor: '#070a0e', borderRadius: 20 }}>
+        <ScrollView style={{height: 100, backgroundColor: '#333639', borderRadius: 20 }}>
           {data.map((token, i) => {
             return (
               <View>
@@ -51,22 +46,13 @@ const Synthetix = () => {
             )
           })}
         </ScrollView>
-      </DropDownItem>
-      {/*<Text>SNX Price {Number(usdToSnxPrice).toFixed(5)} USD</Text>*/}
-      {/*<Text>Total Collateral${Number(collateral * usdToSnxPrice).toFixed(2)} USD (${Number(collateral).toFixed(2)} SNX)</Text>*/}
-      {/*<Text>Unlocked SNX${Number(unlockedSnx * usdToSnxPrice).toFixed(2)} USD (${Number(unlockedSnx).toFixed(2)} SNX) ${Math.round(unlockedSnx/collateral * 100)}</Text>*/}
-      {/*<Text>Ratio${Number(collateralRatio).toFixed(5)}</Text>*/}
-      {/*<Text>Current sUSD Balance${Number(sUSDBalance).toFixed(2)} sUSD</Text>*/}
-      {/*<Text>Total Debt Owed${Number(debtBalance).toFixed(2)} sUSD</Text>*/}
-      {/*<Text>Current Collateralization Ratio${Math.round(currentCRatio)}%</Text>*/}
-      {/*<Text>Fees Available${numbro(currentFeesAvailable).format('0,0.00')}</Text>*/}
-      {/*<Text>Rewards Available${numbro(currentRewardsAvailable).format('0,0.00')}</Text>*/}
+      </Widget>
     </View>
 
   )
 };
 
-export default Synthetix;
+export default Uniswap;
 
 const styles = StyleSheet.create({
   widgetContainer: {

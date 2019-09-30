@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, RefreshControl, ScrollView, StyleSheet, Text, View, Dimensions } from "react-native";
 import { timeSince } from "../../Utils/time";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import { Settings, Wallet } from "../../../AliceSDK/Web3";
+import { Settings, Wallet } from "../../../AliceSDK/Web3/index";
 import ThreeBoxActivity from "3box-activity";
-import { addDataType } from "../../Utils";
+import { addDataType } from "../../Utils/index";
+const {width, height} = Dimensions.get('window');
 
 const options = {
   enableVibrateFallback: true,
@@ -55,7 +56,9 @@ const Transactions = () => {
   }
 
   return (
-    <ScrollView refreshControl={
+    <ScrollView
+      style={{borderRadius: 20, width: width / 3 * 2 - 20, height: width / 2 - 20, backgroundColor: '#EAEDEF', marginBottom: 10}}
+      refreshControl={
       <RefreshControl
         refreshing={loading}
         onRefresh={_refresh}
@@ -63,20 +66,13 @@ const Transactions = () => {
     }>
       {transactions.length > 0 ? transactions.map((item, i) => (
           <View key={i} style={{margin: 5, borderRadius: 15, padding: 5, paddingLeft: 10, paddingRight: 10, flexDirection: 'row' }}>
-            <View style={styles.tokenContainer}>
-              <Text style={{fontWeight: '600'}} >{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>
-            </View>
             <View style={{flex: 1, justifyContent: 'space-around'}}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   {item.from.toUpperCase() === publicAddress.toUpperCase() ? <Image source={require('../../Assets/sent-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/> : <Image source={require('../../Assets/received-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/>}
-                  <Text style={{fontSize: 14, fontWeight: '500'}}>{item.from.toUpperCase() === publicAddress.toUpperCase() ? 'Sent' : 'Received'} {item.tokenName ? item.tokenName : 'Ethereum'}</Text>
+                  <Text style={{fontSize: 14, fontWeight: '500'}}>{item.tokenName ? item.tokenName : 'Ethereum'}</Text>
+                  <Text style={{color: item.from.toUpperCase() === publicAddress.toUpperCase() ? 'black' : '#29c954'}}>{parseFloat(item.value/10e17).toFixed(4)} </Text>
                 </View>
-                <Text style={{fontSize: 14, fontWeight: '500'}}>{item.tokenSymbol ? item.tokenSymbol : 'ETH'}</Text>
-              </View>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <Text style={{color: '#848484'}}>{timeSince(item.timeStamp * 1000)}</Text>
-                <Text style={{color: item.from.toUpperCase() === publicAddress.toUpperCase() ? 'black' : '#29c954'}}>{parseFloat(item.value/10e17).toFixed(4)} </Text>
               </View>
             </View>
           </View>

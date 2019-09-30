@@ -49,7 +49,7 @@ export default class NFT extends Component<Props> {
           </View>
           <View style={{width: 140, backgroundColor: 'transparent', padding: 5}}>
             <Text style={{marginLeft: 3, fontSize: 15, fontWeight: '500' }} numberOfLines={1}>{name}</Text>
-            <Text style={{marginLeft: 3, fontSize: 14, fontWeight: '300', color: '#aaaaaa'}}>{collection.name}</Text>
+            <Text style={{marginLeft: 3, fontSize: 14, fontWeight: '300', color: '#aaaaaa'}} numberOfLines={1}>{collection.name}</Text>
           </View>
         </View>
       </TouchableOpacity>

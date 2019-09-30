@@ -19,7 +19,7 @@ export default class AppIcon extends Component<Props> {
   render() {
     return (
       <View key={this.props.iterator} style={styles.appIcon}>
-        <TouchableOpacity style={{...styles.appSquare, backgroundColor: this.props.backgroundColor}} onPress={this._navigate}>
+        <TouchableOpacity style={{...styles.appCircle, backgroundColor: this.props.backgroundColor}} onPress={this._navigate}>
           <Image source={this.props.icon} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
         </TouchableOpacity>
         <Text style={styles.appText}>{this.props.appName}</Text>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     maxWidth: 84,
     justifyContent: 'space-between',
   },
-  appSquare: {
+  appCircle: {
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 32.5,
