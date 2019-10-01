@@ -17,7 +17,7 @@ import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, Contract, WalletConnect } from "../../../AliceSDK/Web3";
 import env from '../../../../env'
-import { SvgUri } from 'react-native-svg';
+
 import ABIs from '../ABIs';
 import {GateKeeper, BasicTournament, ThreeAffinityDuelResolver} from '../Addresses/index'
 import {switchcase} from "../Utils";
@@ -56,7 +56,6 @@ export default class CheezeWizardsHome extends React.Component {
 
   componentDidMount() {
     this.fetchWizards();
-    this.getNFTInfo();
     this.getUser();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
@@ -65,9 +64,7 @@ export default class CheezeWizardsHome extends React.Component {
       (event) => {
         if (event.network) {
           const parsedEvent = JSON.parse(event.network);
-          console.log('NETWORK CHANGED: ', parsedEvent, parsedEvent);
           this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
-          console.log('parsedEvent network: ', parsedEvent.network)
         }
       }
     );
@@ -97,97 +94,21 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({pressed: !this.state.pressed});
   };
 
-  createWizardObject = () => {
-    const wizardFormat = {
-      affinity: 4,
-      createdBlockNumber: 5008913,
-      eliminatedBlockNumber: null,
-      id: "5982",
-      // initialPower: "70364710415359",
-      // owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
-      power: "70364710415359"
-    };
-
-    const wizardFormat2 = {
-      affinity: "0x01",
-      ascending: false,
-      ascensionOpponent: "0x00",
-      currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      maxPower: "0x3faa25226000",
-      molded: false,
-      nonce: "0x01",
-      power: "0x3faa25226000",
-      ready: true
-    };
-
-    const wizardObject = {
-
-    }
-
-  }
-
   fetchWizards = async () => {
-
-    const wizardFormat = {
-      affinity: 4,
-      createdBlockNumber: 5008913,
-      eliminatedBlockNumber: null,
-      id: "5982",
-      // initialPower: "70364710415359",
-      // owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
-      power: "70364710415359"
-    };
-
-    const wizardFormat2 = {
-      affinity: "0x01",
-      ascending: false,
-      ascensionOpponent: "0x00",
-      currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      maxPower: "0x3faa25226000",
-      molded: false,
-      nonce: "0x01",
-      power: "0x3faa25226000",
-      ready: true
-    };
-
     let data = null;
     var xhr = new XMLHttpRequest();
-    const wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [6090], network: 'rinkeby'});
-    const isvalidMoveSet = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: ['0x0203030303000000000000000000000000000000000000000000000000000000'], network: 'rinkeby'});
-    console.log('WIZARD: ', wizard);
-    console.log('MOVESET: ', isvalidMoveSet);
-    const onData = (data) => {
-      if (data.wizards) {
-        console.log('WIZARDS: ', data.wizards);
-
-        this.setState({wizards: data.wizards});
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
-    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json");
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard);
-    xhr.setRequestHeader("x-email","mark@alicedapp.com");
-
-
-    xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
-  };
-
-  getNFTInfo = async () => {
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      console.log('NFT DATA: ', data);
-      if (data.assets) {
-
-        this.setState({nftInfo: data, nfts: data.assets});
+    const onData = async (data) => {
+      if (data.assets.length > 0) {
+        const getWizard = async id => await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
+        const getData = async () => {
+          return await Promise.all(data.assets.map(async wizard => {
+            let object = await getWizard(wizard.token_id);
+            object.id = wizard.token_id;
+            return object;
+          }))
+        };
+        const wizards = await getData();
+        this.setState({wizards});
       }
     };
     xhr.addEventListener("readystatechange",  function()  {
@@ -200,9 +121,8 @@ export default class CheezeWizardsHome extends React.Component {
     xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
     xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
-
+    setTimeout(() => this.setState({loading: false}), 2000);
   };
-
 
   openMap = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
@@ -217,7 +137,6 @@ export default class CheezeWizardsHome extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    console.log('network: ', this.state.network);
 
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>

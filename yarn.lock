@@ -6488,6 +6488,13 @@ react-native-safe-area-view@^0.14.1:
   version "1.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.22.tgz#7a120377b52aa9bbb94d0b8541a014026be9289b"
 
+react-native-svg-uri-reborn@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-svg-uri-reborn/-/react-native-svg-uri-reborn-1.0.8.tgz#9cb9fd469a834fada027d0db4e7b7a5957ed0a4b"
+  integrity sha512-dzxMv9arpInHN/hkDDHDCLPvg6P3CGU/nholjtDDT9skMFxkTiKkCkoNe5MMaQ9F2YGv1gRYnE+n/qqNQcnrfA==
+  dependencies:
+    xmldom-reborn "^1.0.1"
+
 react-native-svg@^9.5.1:
   version "9.5.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.5.1.tgz#eb21fa7eb5d71649620541e6549c6ed425d80240"
@@ -8078,6 +8085,11 @@ xmldoc@^0.4.0:
   resolved "https://registry.yarnpkg.com/xmldoc/-/xmldoc-0.4.0.tgz#d257224be8393eaacbf837ef227fd8ec25b36888"
   dependencies:
     sax "~1.1.1"
+
+xmldom-reborn@^1.0.1:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/xmldom-reborn/-/xmldom-reborn-1.0.5.tgz#87dfff687f6c6c0640e81c62a025ff8d11212195"
+  integrity sha512-jaLGNceb9ELo7lkQwBGUg9HqVgidqUMcG3d4gFHq+uKZSCnWH2zo+vdMzJoQtzNKzgX7yD+Ibp4mKEy1oZiBNg==
 
 xmldom@0.1.x:
   version "0.1.27"

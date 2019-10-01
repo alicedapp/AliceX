@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, Image, View, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
 import {switchcase} from "../Utils";
 import Button from "./Button";
 import {colors} from '../Utils'
@@ -42,25 +42,29 @@ export default class WizardCard extends React.Component {
       4: <Image source={require('../Assets/wzrd-4-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}}/>,
     });
     return affinityImage(this.props.wizard.affinity);
+  };
 
-  }
+  renderStatus = wizard => wizard.ready ? <Image source={require('../Assets/ready.png')} style={{resizeMode: 'contain', width: 30, height: 30, margin: 10}} /> : <Image source={require('../Assets/not-ready.png')} style={{resizeMode: 'contain', width: 30, height: 30, margin: 10}} />;
+
 
   render() {
     const { wizard, key } = this.props;
-    // console.log('WIZARD: ', wizard);
+    console.log('WIZARD FROM WIZARD CARD: ', wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
-        <View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>
+        <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri:`https://storage.googleapis.com/cheeze-wizards-production/0xec2203e38116f09e21bc27443e063b623b01345a/${wizard.id - 4010}.png`}}  >
+        {/*<View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>*/}
           <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{wizard.id}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            {this.renderWizard()}
+            {/*{this.renderWizard()}*/}
           </View>
-
+          {this.renderStatus(wizard)}
           <View style={{...styles.cardFooter, backgroundColor: this.state.footerColor}}>
             <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{Math.round(wizard.power/10e10)}</Text>
             {this.renderAffinity()}
           </View>
-        </View>
+        {/*</View>*/}
+        </ImageBackground>
       </View>
     );
   }

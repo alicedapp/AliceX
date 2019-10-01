@@ -68,7 +68,20 @@ export default class MapComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchWizards();
+    const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready} = this.props.navigation.state.params.wizard;
+    const wizard = {
+      id,
+      affinity,
+      ascending,
+      ascensionOpponent,
+      currentDuel,
+      maxPower,
+      molded,
+      nonce,
+      power,
+      ready
+    };
+    this.setState({wizard})
     this.getAccountInfo();
     if (this.props.navigation.state.params.notificationChallenge) {
       this.setState({receivedChallenge: this.props.navigation.state.params.notificationChallenge, qrModalVisible: false,});
@@ -83,25 +96,31 @@ export default class MapComponent extends React.Component {
 
   startDuel = async (myWizard, challengedWizard) => {
     this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard});
-    console.log('Challenged Wizard: ', challengedWizard);
     db.collection("users").doc(challengedWizard.owner).set(myWizard);
   };
 
   bounce = () => this.view.bounceIn().then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
   onWizardScan = (wizard) => {
-    console.log('Scanned and being debounced', wizard);
-    console.log('my wizard: ',this.props.navigation.state.params.wizard);
+    Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
+      console.log('WIZARD KEY: ', wizard[key]);
+      console.log('PARSED WIZARD KEY: ', parseInt(wizard[key]._hex));
+      wizard[key] = parseInt(wizard[key]._hex)
+    } });
+    console.log('SCANNED WIZARD: ', wizard);
     this.setState({scannedWizard: wizard, qrModalVisible: false, arrowModalVisible: true}, this.bounce)
   };
 
   scan = (barcode) => {
     if (JSON.parse(barcode.data).id) {
-      this.debouncedScan(barcode)
+      this.debouncedScan(JSON.parse(barcode.data));
     }
   };
 
-  debouncedScan = _.debounce((barcode) => this.onWizardScan(JSON.parse(barcode.data)), 2000, {'leading':true,'trailing':false});
+  debouncedScan = _.debounce((wizard) => {
+    console.log('SCANNED WIZARD: ', wizard);
+    this.onWizardScan(wizard), 2000, {'leading':true,'trailing':false}
+  });
 
   toggleTorch = () => {
     this.setState({flash: !this.state.flash});
@@ -117,30 +136,6 @@ export default class MapComponent extends React.Component {
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({pressed: !this.state.pressed});
-  };
-
-  fetchWizards = async () => {
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      if (data.assets) {
-        this.setState({nftInfo: data, nfts: data.assets});
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
-    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json");
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard);
-    xhr.setRequestHeader("x-email","mark@alicedapp.com");
-
-    xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
   };
 
   openMap = () => {
@@ -171,7 +166,8 @@ export default class MapComponent extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    const {wizard, notificationChallenge} = this.props.navigation.state.params;
+    const {notificationChallenge} = this.props.navigation.state.params;
+    const {wizard} = this.state;
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
         <NavigationBar/>
@@ -195,24 +191,6 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-          {this.state.scannedWizard && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
-            <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
-            <Button onPress={() => this.startDuel(wizard, this.state.scannedWizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
-            </Button>
-            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
-            </Button>
-          </Animatable.View>}
-          {notificationChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
-            <WizardCard style={{height: width - 10, width: width-80}} wizard={notificationChallenge}/>
-            <Button onPress={() => this.startDuel(wizard, notificationChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
-            </Button>
-            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
-            </Button>
-          </Animatable.View>}
           <Modal swipeDirection='down' swipeThreshold={50} onSwipeComplete={this.toggleModal} isVisible={this.state.qrModalVisible} backdropOpacity={0} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', marginLeft: -5, marginTop: -50}}>
             <CardFlip style={{height: width - 10, width: width-80}} ref={card => this.card = card}>
               <Button onPress={() => this.card.flip()} style={{flex: 1}}>
@@ -233,6 +211,24 @@ export default class MapComponent extends React.Component {
             {/*</View>*/}
             {/*</Button>*/}
           </Modal>
+          {this.state.scannedWizard && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+            <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
+            <Button onPress={() => this.startDuel(wizard, this.state.scannedWizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
+            </Button>
+            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            </Button>
+          </Animatable.View>}
+          {notificationChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+            <WizardCard style={{height: width - 10, width: width-80}} wizard={notificationChallenge}/>
+            <Button onPress={() => this.startDuel(wizard, notificationChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+            </Button>
+            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            </Button>
+          </Animatable.View>}
           {this.state.arrowModalVisible && <Button onPress={this.toggleModal} style={{position: 'absolute', bottom: 30}}>
             <Image source={require('../Assets/up-cheeze-arrow.png')} style={{
               resizeMode: 'contain',
