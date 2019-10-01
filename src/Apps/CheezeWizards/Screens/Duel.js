@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
-  View,
+  View, TouchableOpacity,
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
@@ -21,6 +21,7 @@ import Pane from "../Components/pane"
 import {switchcase} from "../Utils";
 import {ethers} from 'ethers'
 import metrics from "../Utils/metrics";
+import WizardCard from "../Components/WizardCard";
 
 const options = {
   enableVibrateFallback: true,
@@ -180,7 +181,8 @@ export default class MapComponent extends React.Component {
   render() {
     const { navigation } = this.props;
     const { items } = this.state;
-    console.log('THIS>STATE>DUEL: ', this.state)
+    const {wizard, scannedWizard} = this.props.navigation.state.params;
+
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
@@ -222,11 +224,7 @@ export default class MapComponent extends React.Component {
             </View>
             <View style={{width: width -40, flexDirection: 'row', paddingTop: 130, justifyContent: 'space-between', alignItems: 'center'}}>
               <View>
-                <Image source={require('../Assets/water-wizard.png')} style={{
-                  resizeMode: 'contain',
-                  width: 200,
-                  height: 300
-                }}/>
+                <WizardCard style={{width: 200, height: 300}} wizard={wizard}/>
                 <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>WINS 0</Text>
                 <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>LOSSES 0</Text>
               </View>
