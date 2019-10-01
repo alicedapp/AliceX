@@ -29,7 +29,7 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
-export default class MapComponent extends React.Component {
+export default class SummonScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;

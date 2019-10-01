@@ -35,7 +35,7 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
-export default class MapComponent extends React.Component {
+export default class WizardScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -69,6 +69,7 @@ export default class MapComponent extends React.Component {
 
   componentDidMount() {
     const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready} = this.props.navigation.state.params.wizard;
+    // grabbing only these variables from the object to filter out the other key / values
     const wizard = {
       id,
       affinity,
@@ -81,7 +82,7 @@ export default class MapComponent extends React.Component {
       power,
       ready
     };
-    this.setState({wizard})
+    this.setState({wizard});
     this.getAccountInfo();
     if (this.props.navigation.state.params.notificationChallenge) {
       this.setState({receivedChallenge: this.props.navigation.state.params.notificationChallenge, qrModalVisible: false,});
@@ -92,7 +93,7 @@ export default class MapComponent extends React.Component {
     db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
       !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data()})
     })
-  }
+  };
 
   startDuel = async (myWizard, challengedWizard) => {
     this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard});
@@ -112,15 +113,17 @@ export default class MapComponent extends React.Component {
   };
 
   scan = (barcode) => {
-    if (JSON.parse(barcode.data).id) {
-      this.debouncedScan(JSON.parse(barcode.data));
+    try {
+      if (JSON.parse(barcode.data)) {
+        this.debouncedScan(JSON.parse(barcode.data));
+      }
+
+    } catch(e) {
+      console.log('scan error: ', e)
     }
   };
 
-  debouncedScan = _.debounce((wizard) => {
-    console.log('SCANNED WIZARD: ', wizard);
-    this.onWizardScan(wizard), 2000, {'leading':true,'trailing':false}
-  });
+  debouncedScan = _.debounce((wizard) => this.onWizardScan(wizard), 2000, {'leading':true,'trailing':false});
 
   toggleTorch = () => {
     this.setState({flash: !this.state.flash});

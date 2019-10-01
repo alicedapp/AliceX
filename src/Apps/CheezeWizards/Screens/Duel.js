@@ -22,6 +22,11 @@ import {switchcase} from "../Utils";
 import {ethers} from 'ethers'
 import metrics from "../Utils/metrics";
 import WizardCard from "../Components/WizardCard";
+import { DraggableGrid } from 'react-native-draggable-grid';
+const ELEMENT_FIRE = 2;
+const ELEMENT_WATER = 3;
+const ELEMENT_WIND = 4;
+
 
 const options = {
   enableVibrateFallback: true,
@@ -32,7 +37,7 @@ const salt = '0x3c384b5dc37b35b583bb7565a72ccd72d7926c34cd52af7ce8675816bedc3930
 
 const { height, width } = Dimensions.get('window');
 
-export default class MapComponent extends React.Component {
+export default class DuelScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -49,45 +54,40 @@ export default class MapComponent extends React.Component {
       loading: false,
       // loading: true,
       pressed: false,
-      items: [{name: 'wind', key: 1}],
+      items: [
+        {
+          name: 1,
+          element: 'fire'
+        },
+        {
+          name: 2,
+          element: "water"
+
+        },
+        {
+          name: 3,
+          element: "wind"
+
+        },
+        {
+          name: 4,
+          element: "fire"
+
+        },
+        {
+          name: 5,
+          element: "water"
+
+        },
+      ],
       itemsPerRow: 1
     };
 
   }
 
-  componentDidMount() {
-    this.fetchWizards();
-  }
-
   animate = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({pressed: !this.state.pressed});
-  }
-
-  fetchWizards = async () => {
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      console.log('NFT DATA: ', data);
-      if (data.assets) {
-        this.setState({nftInfo: data, nfts: data.assets});
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
-    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json")
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard)
-    xhr.setRequestHeader("x-email","mark@alicedapp.com")
-
-
-    xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
   };
 
   openMap = () => {
@@ -96,11 +96,13 @@ export default class MapComponent extends React.Component {
 
   actionPress = (name) => {
     ReactNativeHapticFeedback.trigger("selection", options);
-    if (this.state.items.length === 0) {
-      this.setState({ items: [{name: name, key: this.state.items.length + 1}] })
+    if (this.state.items.length < 1) {
+      this.setState({ items: [{name: '_' + Math.random().toString(36).substr(2, 9), element: name}] })
     }
-    if (this.state.items.length !== 0 && this.state.items.length < 5) {
-      this.setState({ items: [...this.state.items, {name: name, key: this.state.items.length + 1}] })
+    if (this.state.items.length > 0 && this.state.items.length < 5) {
+      this.setState({ items: [...this.state.items, {name: '_' + Math.random().toString(36).substr(2, 9), element: name}] })
+    } else {
+      ReactNativeHapticFeedback.trigger("notificationError", options);
     }
   };
 
@@ -121,28 +123,32 @@ export default class MapComponent extends React.Component {
 
   onDraggablePress = draggable => {
     console.log("onDraggablePress", draggable)
-  }
+  };
 
   onDraggableRender = draggable => {
     console.log("onDraggableRender", draggable)
-  }
+  };
 
   onPressAddNewTag = () => {
     alert("onPressAddNewTag")
-  }
+  };
 
   removeItem = item => {
     this.setState(state => {
-      const index = state.items.findIndex(({ key }) => key === item.key)
+      const index = state.items.findIndex(({ name }) => name === item.name)
       return {
         items: [...state.items.slice(0, index), ...state.items.slice(index + 1)]
       }
     })
-  }
+  };
 
   renderItem = (item, onPress) => {
     const size = 60;
     const i = this.state.items.length + 1;
+    if (item) {
+
+    }
+    console.log('ITEM: ', item)
     return (
       <Pane
         isBeingDragged={item.isBeingDragged}
@@ -151,28 +157,28 @@ export default class MapComponent extends React.Component {
         height={size}
       >
         {switchcase({
-          "fire": <Image source={require('../Assets/fire-list.png')} key={i} style={{
+          'fire': <Image source={require('../Assets/fire-list.png')} key={i} style={{
             resizeMode: 'contain',
             width: 40,
             height: 40,
             marginVertical: 10
           }}/>,
-          "water": <Image source={require('../Assets/water-list.png')} key={i} style={{
+          'water': <Image source={require('../Assets/water-list.png')} key={i} style={{
             resizeMode: 'contain',
             width: 40,
             height: 40,
             marginVertical: 10
           }}/>,
-          "wind": <Image source={require('../Assets/earth-list.png')} key={i} style={{
+          'wind': <Image source={require('../Assets/earth-list.png')} key={i} style={{
             resizeMode: 'contain',
             width: 40,
             height: 40,
             marginVertical: 10
           }}/>,
-        })(item.name)}
+        })(item.element)}
       </Pane>
     )
-  }
+  };
 
   handleOnDragEnd = items => {
     console.log("items", items)
@@ -181,7 +187,7 @@ export default class MapComponent extends React.Component {
   render() {
     const { navigation } = this.props;
     const { items } = this.state;
-    const {wizard, scannedWizard} = this.props.navigation.state.params;
+    const { wizard, challengedWizard } = this.props.navigation.state.params;
 
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
@@ -222,16 +228,16 @@ export default class MapComponent extends React.Component {
                 }}/>
               </Button>
             </View>
-            <View style={{width: width -40, flexDirection: 'row', paddingTop: 130, justifyContent: 'space-between', alignItems: 'center'}}>
-              <View>
-                <WizardCard style={{width: 200, height: 300}} wizard={wizard}/>
-                <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>WINS 0</Text>
-                <Text style={{color: 'white', fontSize: 30, fontFamily: 'Exocet'}}>LOSSES 0</Text>
+            <View style={{width: width -40, paddingTop: 130, justifyContent: 'space-between', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                <WizardCard style={{width: 175, height: 260}} wizard={wizard}/>
+                <Image source={require('../Assets/vs-ribbon.png')} style={{ width: 50, height: 50, resizeMode: 'contain', position: 'absolute', zIndex: 100}}/>
+                <WizardCard style={{width: 175, height: 260}} wizard={challengedWizard}/>
               </View>
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <ImageBackground source={require('../Assets/cheeze-board-vertical.png')}
+                <ImageBackground source={require('../Assets/cheeze-board.png')}
                                  imageStyle={{resizeMode: 'contain'}}
-                                 style={{alignItems: 'center', justifyContent: 'flex-start', width: 70, height: 400, paddingTop: 40}}>
+                                 style={{alignItems: 'center', justifyContent: 'flex-start', width: width - 40, height: 100, paddingTop: 40}}>
                   <DraggableArea
                     items={items}
                     animationDuration={10}
@@ -241,7 +247,7 @@ export default class MapComponent extends React.Component {
                     onPressAddNewTag={this.onPressAddNewTag}
                     onDragEnd={this.handleOnDragEnd}
                     renderItem={this.renderItem}
-                    useKey="key"
+                    useKey="name"
                   />
                 </ImageBackground>
               </View>

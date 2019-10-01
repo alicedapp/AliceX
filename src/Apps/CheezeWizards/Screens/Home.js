@@ -9,7 +9,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View, RefreshControl,
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
@@ -50,7 +50,8 @@ export default class CheezeWizardsHome extends React.Component {
       pressed: false,
       actionList: [],
       wizards: [],
-      network: ''
+      network: '',
+      fetching: false
     };
   }
 
@@ -64,10 +65,15 @@ export default class CheezeWizardsHome extends React.Component {
       (event) => {
         if (event.network) {
           const parsedEvent = JSON.parse(event.network);
-          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
+          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color}, this.fetchWizards);
         }
       }
     );
+  }
+
+  _refresh = () => {
+    this.setState({fetching: true})
+    this.fetchWizards();
   }
 
   getNetwork = async () => {
@@ -118,10 +124,14 @@ export default class CheezeWizardsHome extends React.Component {
         }
       }
     });
-    xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
+    if (this.state.network === 'Rinkeby') {
+      xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
+    } else {
+      xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
+    }
     xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
+    setTimeout(() => this.setState({loading: false, fetching: false}), 2000);
   };
 
   openMap = () => {
@@ -179,7 +189,12 @@ export default class CheezeWizardsHome extends React.Component {
               </View>
               {/*<TouchableOpacity onPress={() => WalletConnect.createConnection()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>*/}
               {/*<TouchableOpacity onPress={() => WalletConnect.sendDataObject({"bob": "trap"})} style={{backgroundColor: 'white', padding: 20}}><Text>SendDataObject</Text></TouchableOpacity>*/}
-              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}}>
+              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}} showsVerticalScrollIndicator={false} refreshControl={
+                <RefreshControl
+                  refreshing={this.state.fetching}
+                  onRefresh={this._refresh}
+                />}
+              >
                 {this.state.network === 'Rinkeby' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
                   <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 20}}>
