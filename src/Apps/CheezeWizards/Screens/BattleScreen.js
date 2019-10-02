@@ -13,6 +13,7 @@ import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {BasicTournament} from '../ABIs/BasicTournament';
 import colors from "../Utils/colors";
 import WizardCard from "../Components/WizardCard";
+import {switchcase} from "../Utils";
 
 const options = {
   enableVibrateFallback: true,
@@ -39,14 +40,30 @@ export default class BattleScreen extends React.Component {
       users: '',
       wizard: {},
       instantiated: false,
-      receivedChallenge: null
+      receivedChallenge: null,
+      footerColor: '#ffffff'
     };
   }
+
+  componentDidMount() {
+    const { wizard, challengedWizard } = this.props.navigation.state.params;
+    this.getColor(wizard)
+  }
+
+  getColor = wizard => {
+    const color = switchcase({
+      1: () => this.setState({footerColor: colors.neutralMainColor}),
+      2: () => this.setState({footerColor: colors.fireMainColor}),
+      3: () => this.setState({footerColor: colors.waterMainColor}),
+      4: () => this.setState({footerColor: colors.windMainColor}),
+    });
+    return color(wizard.affinity)();
+  };
 
   render() {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
     return (
-      <View style={{flex: 1, backgroundColor: colors.neutralMainColor, alignItems: 'center', justifyContent: 'flex-start'}}>
+      <View style={{flex: 1, backgroundColor: this.state.footerColor, alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
         <ImageBackground source={require('../Assets/battle-background.png')} style={{flex: 1, width, alignItems: 'center',}}>
           <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
