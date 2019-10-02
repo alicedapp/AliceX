@@ -14,7 +14,7 @@ import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
 import env from '../../../../env'
-import {BasicTournament} from "../Addresses";
+import {BasicTournament, ThreeAffinityDuelResolver} from "../Addresses";
 import ABIs from "../ABIs";
 import DraggableArea from 'react-native-dnd-grid'
 import Pane from "../Components/pane"
@@ -106,19 +106,32 @@ export default class DuelScreen extends React.Component {
     }
   };
 
+  enterBattle = () => {
+    const { wizard, challengedWizard } = this.props.navigation.state.params;
+    this.props.navigation.navigate('CheezeWizards/BattleScreen', {wizard, challengedWizard});
+
+  }
+
   fight = async () => {
-    this.setState({pressed: !this.state.pressed});
-    // const commitmentHash = '011011011011011';
-    const commitmentHash = ethers.utils.keccak256('0x234230000000000000000000000000000x3c384b5dc37b35b583bb7565a72ccd72');
-    // const commitmentHash = ethers.utils.formatBytes32String('0x011011011011011');
-    console.log('COMMITMENT HASH: ', commitmentHash);
-    try {
-      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [6091, 6091, commitmentHash], value: '0', data: '0x0'})
-      console.log('txHash: ', txHash);
-      this.setState({txHash})
-    } catch(e) {
-      console.log(e);
-    }
+    this.enterBattle()
+    // const { wizard, challengedWizard } = this.props.navigation.state.params;
+    // this.setState({pressed: !this.state.pressed});
+    // const moves = this.state.items.map((item) => switchcase({'fire':'02', 'water': '03', 'wind': '04'})(item.element)).join('');
+    // const moveSet = `0x${moves}000000000000000000000000000000000000000000000000000000`;
+    // console.log('MOVESET: ', moveSet);
+    // const salt = "7853478457845785478543758794589755875878545849589748549789547859";
+    // const commitmentHash = ethers.utils.keccak256(moveSet+salt);
+    // const isValid = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: [moveSet], network: 'rinkeby'});
+    // console.log('COMMITMENT HASH: ', commitmentHash);
+    // console.log('IS VALID: ', isValid);
+    //
+    // try {
+    //   const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash], value: '0', data: '0x0'})
+    //   console.log('txHash: ', txHash);
+    //   this.setState({txHash})
+    // } catch(e) {
+    //   console.log(e);
+    // }
   };
 
   onDraggablePress = draggable => {
@@ -187,6 +200,7 @@ export default class DuelScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const { items } = this.state;
+    console.log('ITEMS: ', items)
     const { wizard, challengedWizard } = this.props.navigation.state.params;
 
     return (

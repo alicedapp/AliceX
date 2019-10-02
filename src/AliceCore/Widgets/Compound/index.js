@@ -33,8 +33,8 @@ const Compound = () => {
         <ScrollView style={{height: 100, backgroundColor: '#070a0e', borderRadius: 20 }}>
           {tokens.map((token, i) => {
             return (
-              <View>
-                <Text key={i}>{JSON.stringify(token)}</Text>
+              <View key={i}>
+                <Text>{JSON.stringify(token)}</Text>
               </View>
             )
           })}

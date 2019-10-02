@@ -142,14 +142,15 @@ export default class SummonScreen extends React.Component {
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
         <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
-          <Image source={require('../Assets/udder-background.png')} style={{
+          <Image source={require('../Assets/cheeze-udder.gif')} style={{
             resizeMode: 'contain',
-            height: 250,
+            height: 300,
+            width: width + 170  ,
             position: 'absolute', top: 0
           }}/>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
             <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-              <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, marginHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <View style={{flex: 5, height: 50, maxWidth: width/1.5, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
                 <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SUMMON</Text>
               </View>
             </View>

@@ -10,17 +10,17 @@ import {
   View,
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
-import Button from '../Components/Button'
+import Button from '../Components/Button';
 import Camera from "../../../AliceSDK/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import env from '../../../../env';
-import WizardCard from '../Components/WizardCard'
-import QRCode from 'react-native-qrcode-svg'
+import WizardCard from '../Components/WizardCard';
+import QRCode from 'react-native-qrcode-svg';
 import {FoodContractABI} from "../../Example/ABI";
 import {BasicTournament} from '../ABIs/BasicTournament';
 import Modal from "../Components/Modal";
-import CardFlip from '../Components/CardFlip'
+import CardFlip from '../Components/CardFlip';
 import * as Animatable from 'react-native-animatable';
 
 import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
@@ -62,41 +62,52 @@ export default class WizardScreen extends React.Component {
       users: '',
       wizard: {},
       instantiated: false,
-      receivedChallenge: {}
+      receivedChallenge: null
     };
 
   }
 
-  componentDidMount() {
-    const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready} = this.props.navigation.state.params.wizard;
-    // grabbing only these variables from the object to filter out the other key / values
-    const wizard = {
-      id,
-      affinity,
-      ascending,
-      ascensionOpponent,
-      currentDuel,
-      maxPower,
-      molded,
-      nonce,
-      power,
-      ready
-    };
-    this.setState({wizard});
-    this.getAccountInfo();
-    if (this.props.navigation.state.params.notificationChallenge) {
-      this.setState({receivedChallenge: this.props.navigation.state.params.notificationChallenge, qrModalVisible: false,});
+  async componentDidMount() {
+    try {
+      const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready} = this.props.navigation.state.params.wizard;
+      console.log('WIZARD DATA PASSED FROM HOME: ', this.props.navigation.state.params.wizard);
+      // grabbing only these variables from the object to filter out the other key / values
+      const wizard = {
+        id,
+        affinity,
+        ascending,
+        ascensionOpponent,
+        currentDuel,
+        maxPower,
+        molded,
+        nonce,
+        power,
+        ready,
+        owner: await Wallet.getAddress()
+      };
+      this.setState({wizard});
+      if (this.props.navigation.state.params.notificationChallenge) {
+        this.setState({receivedChallenge: this.props.navigation.state.params.notificationChallenge, qrModalVisible: false,});
+      }
+      this.startBattleSocket();
+    } catch(e) {
+      console.log("WIZARD SCREEN ERROR: ", e);
     }
   }
 
-  getAccountInfo = async () => {
+  startBattleSocket = async () => {
     db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
-      !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data()})
+      console.log('snapshot right: ', snapshot.data());
+      !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data(), qrModalVisible: false, arrowModalVisible: true})
     })
+
   };
 
   startDuel = async (myWizard, challengedWizard) => {
     this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard});
+    console.log('CHALLENGED WIZARD: LOOKING FOR OWNER: ', challengedWizard);
+    console.log('MY WIZARD IN THE CHALLENGE: ', myWizard);
+    myWizard.challengeId = '_' + Math.random().toString(36).substr(2, 9);
     db.collection("users").doc(challengedWizard.owner).set(myWizard);
   };
 
@@ -148,29 +159,13 @@ export default class WizardScreen extends React.Component {
   toggleModal = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
     this.setState({qrModalVisible: !this.state.qrModalVisible, arrowModalVisible: !this.state.arrowModalVisible})
-  }
-
-  actionPress = (action) => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    if (this.state.actionList.length < 3) {
-      this.setState({ actionList: [...this.state.actionList, action] })
-    }
-  };
-
-  fight = async () => {
-    this.setState({pressed: !this.state.pressed});
-    try {
-      const txHash = await Wallet.sendTransactionWithDapplet({to: '0xE115012aA32a46F53b09e0A71CD0afa0658Da55F', value: '0.01'})
-      this.setState({txHash})
-    } catch(e) {
-      console.log(e);
-    }
   };
 
   render() {
     const { navigate } = this.props.navigation;
     const {notificationChallenge} = this.props.navigation.state.params;
-    const {wizard} = this.state;
+    const {wizard, receivedChallenge} = this.state;
+    console.log('FIREBASE CHALLENGE: ', this.state.receivedChallenge, this.state.instantiated);
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
         <NavigationBar/>
@@ -202,7 +197,7 @@ export default class WizardScreen extends React.Component {
               <Button onPress={() => this.card.flip()} style={{flex: 1}}>
                 <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
                   <QRCode
-                    size={200}
+                    size={240}
                     value={JSON.stringify(wizard)}
                   />
                 </View>
@@ -226,6 +221,15 @@ export default class WizardScreen extends React.Component {
           {notificationChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={notificationChallenge}/>
             <Button onPress={() => this.startDuel(wizard, notificationChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+            </Button>
+            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            </Button>
+          </Animatable.View>}
+          {receivedChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
+            <WizardCard style={{height: width - 10, width: width-80}} wizard={receivedChallenge}/>
+            <Button onPress={() => this.startDuel(wizard, receivedChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
               <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
             </Button>
             <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>

@@ -19,7 +19,7 @@ import { Settings, Wallet, Contract, WalletConnect } from "../../../AliceSDK/Web
 import env from '../../../../env'
 
 import ABIs from '../ABIs';
-import {GateKeeper, BasicTournament, ThreeAffinityDuelResolver} from '../Addresses/index'
+import {GateKeeper, BasicTournament} from '../Addresses/index'
 import {switchcase} from "../Utils";
 
 const options = {
@@ -56,6 +56,7 @@ export default class CheezeWizardsHome extends React.Component {
   }
 
   componentDidMount() {
+
     this.fetchWizards();
     this.getUser();
     this.getNetwork();
@@ -82,17 +83,18 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   getUser = async () => {
-    db.collection("users")
-      .onSnapshot((snapshot) => {
-        let orders = [];
-        console.log('USERS: ', snapshot);
-        snapshot.forEach((doc) => {
-          console.log('user: ', doc.id)
+    try {
+      db.collection("users")
+        .onSnapshot((snapshot) => {
+          let orders = [];
+          console.log('USERS: ', snapshot);
+          snapshot.forEach((doc) => {
+            console.log('user: ', doc.id)
+          });
         });
-      });
-    db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
-      console.log('snapshot right: ', snapshot.data());
-    })
+    } catch(e) {
+      console.log('FIREBASE ERROR HOME : ', e)
+    }
   };
 
   animate = () => {
@@ -101,11 +103,21 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   fetchWizards = async () => {
+    // const finishedLoading = () => setTimeout(() => this.setState({loading: false, fetching: false}), 1000);
+    const finishedLoading = () => this.setState({loading: false, fetching: false});
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = async (data) => {
       if (data.assets.length > 0) {
-        const getWizard = async id => await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
+        const getWizard = async id => {
+          const wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
+          Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
+            console.log('WIZARD KEY: ', wizard[key]);
+            console.log('PARSED WIZARD KEY: ', parseInt(wizard[key]._hex));
+            wizard[key] = parseInt(wizard[key]._hex)
+          }});
+          return wizard;
+        };
         const getData = async () => {
           return await Promise.all(data.assets.map(async wizard => {
             let object = await getWizard(wizard.token_id);
@@ -114,7 +126,8 @@ export default class CheezeWizardsHome extends React.Component {
           }))
         };
         const wizards = await getData();
-        this.setState({wizards});
+        console.log('WIZARDS FROM HOME REQUEST: ', wizards);
+        this.setState({wizards}, finishedLoading);
       }
     };
     xhr.addEventListener("readystatechange",  function()  {
@@ -124,14 +137,13 @@ export default class CheezeWizardsHome extends React.Component {
         }
       }
     });
-    if (this.state.network === 'Rinkeby') {
+    // if (this.state.network === 'Rinkeby') {
       xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
-    } else {
-      xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
-    }
+    // } else {
+    //   xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
+    // }
     xhr.setRequestHeader("x-api-key", env.opensea);
     xhr.send(data);
-    setTimeout(() => this.setState({loading: false, fetching: false}), 2000);
   };
 
   openMap = () => {
@@ -140,6 +152,7 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   enterDuelMode = wizard => {
+    console.log('WIZARD DATA ENTERING DUEL: ', wizard);
     ReactNativeHapticFeedback.trigger("selection", options);
     this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard})
   };

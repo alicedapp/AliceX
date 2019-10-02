@@ -32,12 +32,12 @@ export const AppRegistry = [
   //   homeRoute: 'Fork',
   //   icon: require('../Assets/fork-logo.png')
   // },
-  {
-    appName: '#BUIDL',
-    backgroundColor: '#ffffff',
-    homeRoute: 'Test',
-    icon: require('./Example/Assets/buidler.png')
-  },
+  // {
+  //   appName: '#BUIDL',
+  //   backgroundColor: '#ffffff',
+  //   homeRoute: 'Test',
+  //   icon: require('./Example/Assets/buidler.png')
+  // },
   {
     appName: 'DAOstack',
     backgroundColor: '#ffffff',
@@ -56,24 +56,24 @@ export const AppRegistry = [
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
-  {
-    appName: 'Pool Together',
-    backgroundColor: '#2A1261',
-    homeRoute: 'PoolTogether',
-    icon: require('./PoolTogether/Assets/logo.png')
-  },
+  // {
+  //   appName: 'Pool Together',
+  //   backgroundColor: '#2A1261',
+  //   homeRoute: 'PoolTogether',
+  //   icon: require('./PoolTogether/Assets/logo.png')
+  // },
   {
     appName: 'Crypto Twitter',
     backgroundColor: '#F2F2F4',
     browserRoute: 'https://twitter.com',
     icon: require('./CryptoTwitter/Assets/crypto-twitter.png')
   },
-  {
-    appName: 'CryptoGram',
-    backgroundColor: '#ffffff',
-    browserRoute: 'https://instagram.com',
-    icon: require('./CryptoGram/Assets/crypto-gram.png')
-  },
+  // {
+  //   appName: 'CryptoGram',
+  //   backgroundColor: '#ffffff',
+  //   browserRoute: 'https://instagram.com',
+  //   icon: require('./CryptoGram/Assets/crypto-gram.png')
+  // },
   {
     appName: 'DAOsaka',
     backgroundColor: '#0F0EEF',
