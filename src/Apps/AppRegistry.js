@@ -77,7 +77,7 @@ export const AppRegistry = [
   {
     appName: 'DAOsaka',
     backgroundColor: '#0F0EEF',
-    browserRoute: 'https://knownorigin.io',
+    browserRoute: 'https://knownorigin.io/dao-osaka?utm_source=alicewallet',
     icon: require('./DAOSaka/Assets/logo.png')
   },
 ];

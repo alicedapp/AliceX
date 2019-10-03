@@ -109,7 +109,7 @@ export default class Tokens extends Component {
 
   _refresh = () => {
     ReactNativeHapticFeedback.trigger("selection", options);
-    this.getTokenList();
+    // this.getTokenList();
     this.getNFTInfo();
     this.getBalance()
   };
@@ -144,33 +144,38 @@ export default class Tokens extends Component {
   };
 
   getTokenList = async () => {
-    this.setState({fetching: true});
-    var xhr = new XMLHttpRequest();
-    const data = "";
-    const onData = async (result) => {
-      if (result.tokens && result.tokens.length > 0) {
-        const tokens = await this.getTokenInfo(result.tokens);
-        this.setState({tokens});
-      }
-    };
+    try {
+      this.setState({fetching: true});
+      var xhr = new XMLHttpRequest();
+      const data = "";
+      const onData = async (result) => {
+        if (result.tokens && result.tokens.length > 0) {
+          const tokens = await this.getTokenInfo(result.tokens);
+          this.setState({tokens});
+        }
+      };
 
-    const finishedFetching = () => this.setState({fetching: false});
+      const finishedFetching = () => this.setState({fetching: false});
 
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          console.log('TOKENS: ', JSON.parse(this.responseText))
-          onData(JSON.parse(this.responseText));
+      xhr.addEventListener("readystatechange",  function()  {
+        if (this.readyState === this.DONE) {
+          if (this.responseText){
+            console.log('TOKENS: ', JSON.parse(this.responseText));
+            onData(JSON.parse(this.responseText));
+            finishedFetching();
+          }
           finishedFetching();
         }
-        finishedFetching();
-      }
-    });
-    xhr.open("GET", "https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances");
-    xhr.setRequestHeader("Content-Type","application/json");
-    xhr.setRequestHeader("access-control-allow-credentials", "*");
-    xhr.setRequestHeader("x-api-key", env.amberdata);
-    xhr.send(data);
+      });
+      xhr.open("GET", "https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/balances");
+      xhr.setRequestHeader("Content-Type","application/json");
+      xhr.setRequestHeader("access-control-allow-credentials", "*");
+      xhr.setRequestHeader("x-api-key", env.amberdata);
+      xhr.send(data);
+    } catch(e) {
+      console.log('DASHBOARD TOKEN FETCH ERROR: ', e)
+    }
+
 
   };
 
