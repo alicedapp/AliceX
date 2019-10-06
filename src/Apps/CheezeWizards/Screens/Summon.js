@@ -1,22 +1,15 @@
 import React from 'react';
 import {
-  Animated,
   Dimensions,
-  ImageBackground,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
-import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
-import env from '../../../../env'
+import {Contract} from "../../../AliceSDK/Web3";
 import { SvgUri } from 'react-native-svg';
 import ABIs from '../ABIs';
 import {GateKeeper} from '../Addresses/index'
@@ -51,66 +44,6 @@ export default class SummonScreen extends React.Component {
 
   }
 
-  componentDidMount() {
-    this.fetchWizards();
-    this.getNFTInfo();
-  }
-
-  fetchWizards = async () => {
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      console.log('WIZARDS:  ', data);
-      if (data.wizards) {
-        console.log('WIZARDS: ', wizards);
-        this.setState({wizards: data.wizards});
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
-    xhr.open("GET", "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+await Wallet.getAddress());
-    xhr.setRequestHeader("Content-Type","application/json");
-    xhr.setRequestHeader("x-api-token", env.cheezeWizard);
-    xhr.setRequestHeader("x-email","mark@alicedapp.com");
-
-
-    xhr.send(data);
-    setTimeout(() => this.setState({loading: false}), 2000);
-  };
-
-  getNFTInfo = async () => {
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = (data) => {
-      console.log('NFT DATA: ', data);
-      if (data.assets) {
-
-        this.setState({nftInfo: data, nfts: data.assets});
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
-    xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0xd3d2Cc1a89307358DB3e81Ca6894442b2DB36CE8");
-    xhr.setRequestHeader("x-api-key", env.opensea);
-    xhr.send(data);
-
-  };
-
-  openMap = () => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('CheezeWizards/Map');
-  };
-
   actionPress = async (_affinity) => {
     ReactNativeHapticFeedback.trigger("selection", options);
     const getAffinity = switchcase({
@@ -128,11 +61,6 @@ export default class SummonScreen extends React.Component {
       console.log('WIZARD PURCHASE ERROR: ', e);
     }
 
-  };
-
-  enterDuelMode = wizard => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard})
   };
 
 

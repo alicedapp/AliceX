@@ -10,10 +10,14 @@ import {
   View,
 } from 'react-native';
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
-import {BasicTournament} from '../ABIs/BasicTournament';
+import {BasicTournament} from "../Addresses";
+import ABIs from "../ABIs";
 import colors from "../Utils/colors";
 import WizardCard from "../Components/WizardCard";
 import {switchcase} from "../Utils";
+import Button from '../Components/Button'
+import {db} from '../../../AliceSDK/Socket'
+import {Wallet, Contract} from "../../../AliceSDK/Web3";
 
 const options = {
   enableVibrateFallback: true,
@@ -41,14 +45,23 @@ export default class BattleScreen extends React.Component {
       wizard: {},
       instantiated: false,
       receivedChallenge: null,
-      footerColor: '#ffffff'
+      footerColor: '#ffffff',
+      challengedWizard: {}
     };
   }
 
   componentDidMount() {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
-    this.getColor(wizard)
+    this.getColor(wizard);
+    this.getBattleStatus()
   }
+
+  getBattleStatus = async () => {
+    db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
+      console.log('BATTLE STATUS: ', snapshot.data());
+      this.setState({challengedWizard: snapshot.data()})
+    })
+  };
 
   getColor = wizard => {
     const color = switchcase({
@@ -60,18 +73,45 @@ export default class BattleScreen extends React.Component {
     return color(wizard.affinity)();
   };
 
+  // committingWizardId (uint256)
+  // commit (bytes32)
+  // moveSet (bytes32)
+  // salt (bytes32)
+  // otherWizardId (uint256)
+  // otherCommit (bytes32)
+
+  reveal = async () => {
+    const { wizard } = this.props.navigation.state.params;
+    const { challengedWizard } = this.state;
+    try {
+      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedReveal', parameters: [parseInt(wizard.id), wizard.commitmentHash, wizard.moveSet, wizard.salt, parseInt(challengedWizard.id), challengedWizard.otherCommit], value: '0', data: '0x0'})
+      console.log('txHash: ', txHash);
+    } catch(e) {
+      console.log(e);
+    }
+
+  }
+
   render() {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
+    console.log('BATTLE SCREEN DATA : ', this.props.navigation.state.params);
     return (
       <View style={{flex: 1, backgroundColor: this.state.footerColor, alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
-        <ImageBackground source={require('../Assets/battle-background.png')} style={{flex: 1, width, alignItems: 'center',}}>
-          <View style={{flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+        <ImageBackground source={require('../Assets/battle-background.png')} style={{ flex: 1, width, alignItems: 'center',}}>
+          <View style={{ marginTop: 100, flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
             <WizardCard style={{width: 175, height: 260}} wizard={wizard}/>
             <Image source={require('../Assets/vs-ribbon.png')} style={{ width: 50, height: 50, resizeMode: 'contain', position: 'absolute', zIndex: 100}}/>
             <WizardCard style={{width: 175, height: 260}} wizard={challengedWizard}/>
           </View>
+          {this.state.challengedWizard.otherCommit ? <Button onPress={this.reveal} style={{marginTop: 100, height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+            <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>BATTLE</Text>
+          </Button> : <View style={{height: 50, alignItems: 'center', marginTop: 100, justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+            <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WAITING ON OTHER WIZARD</Text>
+          </View>
+          }
         </ImageBackground>
+
       </View>)
   }
 }

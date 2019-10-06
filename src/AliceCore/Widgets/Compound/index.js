@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Image, View, Text, ScrollView, StyleSheet} from 'react-native';
 import Widget from "../../Components/Widget";
+import {Wallet} from "../../../AliceSDK/Web3";
 
 const Compound = () => {
   const [data, setData] = useState({});
@@ -12,7 +13,7 @@ const Compound = () => {
   }, []);
 
   const fetchData = async () => {
-    let compoundData = await fetch("https://api.compound.finance/api/v2/account?address=0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB");
+    let compoundData = await fetch("https://api.compound.finance/api/v2/account?address="+Wallet.getAddress());
     const rawData = await compoundData.json();
     const {accounts} = rawData;
     const address = accounts[0];

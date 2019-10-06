@@ -1,8 +1,10 @@
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './Screens/Home'
+import Test from './Screens/Test'
 
 const App = createStackNavigator({
-  "PoolTogether": Home,
+  "PoolTogether": Test,
+  // "PoolTogether": Home,
 });
 
 App.navigationOptions = {

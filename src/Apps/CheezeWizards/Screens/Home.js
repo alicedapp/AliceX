@@ -20,7 +20,6 @@ import env from '../../../../env'
 
 import ABIs from '../ABIs';
 import {GateKeeper, BasicTournament} from '../Addresses/index'
-import {switchcase} from "../Utils";
 
 const options = {
   enableVibrateFallback: true,
@@ -29,7 +28,7 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
-import db from '../../../AliceSDK/Socket'
+import {db} from '../../../AliceSDK/Socket'
 
 export default class CheezeWizardsHome extends React.Component {
 
@@ -56,7 +55,6 @@ export default class CheezeWizardsHome extends React.Component {
   }
 
   componentDidMount() {
-
     this.fetchWizards();
     this.getUser();
     this.getNetwork();
@@ -128,6 +126,8 @@ export default class CheezeWizardsHome extends React.Component {
         const wizards = await getData();
         console.log('WIZARDS FROM HOME REQUEST: ', wizards);
         this.setState({wizards}, finishedLoading);
+      } else {
+        this.setState({wizards: []});
       }
     };
     xhr.addEventListener("readystatechange",  function()  {

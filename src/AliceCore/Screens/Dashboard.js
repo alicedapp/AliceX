@@ -181,8 +181,8 @@ export default class Tokens extends Component {
 
   amberFetch = async () => {
     try {
-      // let response = await fetch("https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/transactions", {
-      let response = await fetch("https://web3api.io/api/v1/addresses/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB/transactions", {
+      let response = await fetch("https://web3api.io/api/v1/addresses/"+await Wallet.getAddress()+"/transactions", {
+      // let response = await fetch("https://web3api.io/api/v1/addresses/0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB/transactions", {
         method: 'GET',
         mode: 'cors',
         headers: {

@@ -117,7 +117,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Settings.openBrowser('https://instagram.com');
     this.getOrientation();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()

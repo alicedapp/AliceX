@@ -249,7 +249,7 @@ export default class MapComponent extends React.Component {
 
     this._scaleOut = new Animated.Value(1);
     Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-    nextState.previousActiveAnnotationIndex = deselectedIndex;
+    // nextState.previousActiveAnnotationIndex = deselectedIndex;
     this.setState(nextState);
   }
 
@@ -262,7 +262,7 @@ export default class MapComponent extends React.Component {
 
     this._scaleOut = new Animated.Value(1);
     Animated.timing(this._scaleOut, { toValue: 0.6, duration: 200 }).start();
-    nextState.previousActiveAnnotationIndex = deselectedIndex;
+    // nextState.previousActiveAnnotationIndex = deselectedIndex;
     this.setState(nextState);
   };
 
@@ -674,17 +674,7 @@ export default class MapComponent extends React.Component {
               resizeMode: 'contain',
             }}/>
           </View> : <View style={{ flex: 1 }}>
-            <View style={{
-              margin: 20,
-              marginTop: 50,
-              marginBottom: 0,
-              backgroundColor: 'transparent',
-            }}>
-              <View style={{marginTop: 20, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <TextInput placeholder={'Search'} placeholderTextColor='#636363' style={styles.whiteSearch}/>
-                <Image source={require('../Assets/account-icon.png')} style={{ flex: 1, width: 40,height: 40, resizeMode: 'contain'}}/>
-              </View>
-            </View>
+
           </View>}
           <MapboxGL.Camera
             zoomLevel={12}

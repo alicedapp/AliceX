@@ -18,22 +18,25 @@ import {BasicTournament, ThreeAffinityDuelResolver} from "../Addresses";
 import ABIs from "../ABIs";
 import DraggableArea from 'react-native-dnd-grid'
 import Pane from "../Components/pane"
-import {switchcase} from "../Utils";
+import {getSalt, switchcase} from "../Utils";
 import {ethers} from 'ethers'
 import metrics from "../Utils/metrics";
 import WizardCard from "../Components/WizardCard";
 import { DraggableGrid } from 'react-native-draggable-grid';
+import {db} from "../../../AliceSDK/Socket";
 const ELEMENT_FIRE = 2;
 const ELEMENT_WATER = 3;
 const ELEMENT_WIND = 4;
 
+// {
+//   key: 1,
+//     element: 'fire'
+// },
 
 const options = {
   enableVibrateFallback: true,
   ignoreAndroidSystemSettings: false
 };
-
-const salt = '0x3c384b5dc37b35b583bb7565a72ccd72d7926c34cd52af7ce8675816bedc3930';
 
 const { height, width } = Dimensions.get('window');
 
@@ -56,28 +59,8 @@ export default class DuelScreen extends React.Component {
       pressed: false,
       items: [
         {
-          name: 1,
+          key: 1,
           element: 'fire'
-        },
-        {
-          name: 2,
-          element: "water"
-
-        },
-        {
-          name: 3,
-          element: "wind"
-
-        },
-        {
-          name: 4,
-          element: "fire"
-
-        },
-        {
-          name: 5,
-          element: "water"
-
         },
       ],
       itemsPerRow: 1
@@ -96,42 +79,50 @@ export default class DuelScreen extends React.Component {
 
   actionPress = (name) => {
     ReactNativeHapticFeedback.trigger("selection", options);
+    const item = {key: '_' + Math.random().toString(36).substr(2, 9), element: name}
     if (this.state.items.length < 1) {
-      this.setState({ items: [{name: '_' + Math.random().toString(36).substr(2, 9), element: name}] })
+      this.setState({ items: [item] });
     }
     if (this.state.items.length > 0 && this.state.items.length < 5) {
-      this.setState({ items: [...this.state.items, {name: '_' + Math.random().toString(36).substr(2, 9), element: name}] })
+      this.setState({ items: [...this.state.items, {key: '_' + Math.random().toString(36).substr(2, 9), element: name}] })
     } else {
       ReactNativeHapticFeedback.trigger("notificationError", options);
     }
   };
 
-  enterBattle = () => {
-    const { wizard, challengedWizard } = this.props.navigation.state.params;
+  enterBattle = (moveSet, salt, commitmentHash) => {
+    let { wizard, challengedWizard } = this.props.navigation.state.params;
+    let myWizardToShare = wizard;
+    wizard.moveSet = moveSet;
+    wizard.salt = salt;
+    wizard.commitmentHash = commitmentHash;
+    myWizardToShare.otherCommit = commitmentHash;
+    db.collection("users").doc(challengedWizard.owner).set(myWizardToShare);
     this.props.navigation.navigate('CheezeWizards/BattleScreen', {wizard, challengedWizard});
 
   }
 
   fight = async () => {
-    this.enterBattle()
-    // const { wizard, challengedWizard } = this.props.navigation.state.params;
-    // this.setState({pressed: !this.state.pressed});
-    // const moves = this.state.items.map((item) => switchcase({'fire':'02', 'water': '03', 'wind': '04'})(item.element)).join('');
-    // const moveSet = `0x${moves}000000000000000000000000000000000000000000000000000000`;
-    // console.log('MOVESET: ', moveSet);
-    // const salt = "7853478457845785478543758794589755875878545849589748549789547859";
-    // const commitmentHash = ethers.utils.keccak256(moveSet+salt);
-    // const isValid = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: [moveSet], network: 'rinkeby'});
-    // console.log('COMMITMENT HASH: ', commitmentHash);
-    // console.log('IS VALID: ', isValid);
-    //
-    // try {
-    //   const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash], value: '0', data: '0x0'})
-    //   console.log('txHash: ', txHash);
-    //   this.setState({txHash})
-    // } catch(e) {
-    //   console.log(e);
-    // }
+    const { wizard, challengedWizard } = this.props.navigation.state.params;
+    this.setState({pressed: !this.state.pressed});
+    const moves = this.state.items.map((item) => switchcase({'fire':'02', 'water': '03', 'wind': '04'})(item.element)).join('');
+    const moveSet = `0x${moves}000000000000000000000000000000000000000000000000000000`;
+    console.log('MOVESET: ', moveSet);
+    const salt = getSalt();
+    console.log('SALT: ', salt);
+    const commitmentHash = ethers.utils.keccak256(moveSet+salt);
+    const isValid = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: [moveSet], network: 'rinkeby'});
+
+    // this.enterBattle(moveSet, "0x"+salt, commitmentHash);
+    console.log('COMMITMENT HASH: ', commitmentHash);
+    console.log('IS VALID: ', isValid);
+    try {
+      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash], value: '0', data: '0x0'})
+      console.log('txHash: ', txHash);
+      this.setState({txHash},() => this.enterBattle(moveSet, "0x"+salt, commitmentHash));
+    } catch(e) {
+      console.log(e);
+    }
   };
 
   onDraggablePress = draggable => {
@@ -147,6 +138,8 @@ export default class DuelScreen extends React.Component {
   };
 
   removeItem = item => {
+    ReactNativeHapticFeedback.trigger("selection", options);
+
     this.setState(state => {
       const index = state.items.findIndex(({ name }) => name === item.name)
       return {
@@ -156,12 +149,8 @@ export default class DuelScreen extends React.Component {
   };
 
   renderItem = (item, onPress) => {
-    const size = 60;
+    const size = 40;
     const i = this.state.items.length + 1;
-    if (item) {
-
-    }
-    console.log('ITEM: ', item)
     return (
       <Pane
         isBeingDragged={item.isBeingDragged}
@@ -200,7 +189,7 @@ export default class DuelScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const { items } = this.state;
-    console.log('ITEMS: ', items)
+    console.log('ITEMS: ', items);
     const { wizard, challengedWizard } = this.props.navigation.state.params;
 
     return (
@@ -248,10 +237,10 @@ export default class DuelScreen extends React.Component {
                 <Image source={require('../Assets/vs-ribbon.png')} style={{ width: 50, height: 50, resizeMode: 'contain', position: 'absolute', zIndex: 100}}/>
                 <WizardCard style={{width: 175, height: 260}} wizard={challengedWizard}/>
               </View>
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{alignItems: 'center', justifyContent: 'center', width,}}>
                 <ImageBackground source={require('../Assets/cheeze-board.png')}
                                  imageStyle={{resizeMode: 'contain'}}
-                                 style={{alignItems: 'center', justifyContent: 'flex-start', width: width - 40, height: 100, paddingTop: 40}}>
+                                 style={{alignItems: 'center', justifyContent: 'center', width: width - 40, height: 80, paddingTop: 15}}>
                   <DraggableArea
                     items={items}
                     animationDuration={10}
@@ -261,7 +250,7 @@ export default class DuelScreen extends React.Component {
                     onPressAddNewTag={this.onPressAddNewTag}
                     onDragEnd={this.handleOnDragEnd}
                     renderItem={this.renderItem}
-                    useKey="name"
+                    useKey="key"
                   />
                 </ImageBackground>
               </View>

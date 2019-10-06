@@ -27,7 +27,6 @@ const Synthetix = () => {
     // setData({issuanceRatio, currentCRatio, usdToSnxPrice, unlockedSnx, collateral, collateralRatio, sUSDBalance, debtBalance, currentFeesAvailable, currentRewardsAvailable});
   };
 
-  console.log('SYNTHETIX DATA: ', data);
   // const {issuanceRatio, currentCRatio, usdToSnxPrice, unlockedSnx, collateral, collateralRatio, sUSDBalance, debtBalance, currentFeesAvailable, currentRewardsAvailable} = data;
   return (
     <View>

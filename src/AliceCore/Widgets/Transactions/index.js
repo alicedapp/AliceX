@@ -71,8 +71,8 @@ const Transactions = () => {
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   {item.from.toUpperCase() === publicAddress.toUpperCase() ? <Image source={require('../../Assets/sent-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/> : <Image source={require('../../Assets/received-icon.png')} style={{ resizeMode: 'contain', width: 10, height: 10, marginRight: 5 }}/>}
                   <Text style={{fontSize: 14, fontWeight: '500'}}>{item.tokenName ? item.tokenName : 'Ethereum'}</Text>
-                  <Text style={{color: item.from.toUpperCase() === publicAddress.toUpperCase() ? 'black' : '#29c954'}}>{parseFloat(item.value/10e17).toFixed(4)} </Text>
                 </View>
+                <Text style={{color: item.from.toUpperCase() === publicAddress.toUpperCase() ? 'black' : '#29c954'}}>{parseFloat(item.value/10e17).toFixed(4)} </Text>
               </View>
             </View>
           </View>

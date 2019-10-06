@@ -17,8 +17,6 @@ import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import env from '../../../../env';
 import WizardCard from '../Components/WizardCard';
 import QRCode from 'react-native-qrcode-svg';
-import {FoodContractABI} from "../../Example/ABI";
-import {BasicTournament} from '../ABIs/BasicTournament';
 import Modal from "../Components/Modal";
 import CardFlip from '../Components/CardFlip';
 import * as Animatable from 'react-native-animatable';
@@ -26,7 +24,7 @@ import * as Animatable from 'react-native-animatable';
 import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 import _ from 'lodash';
 
-import db from '../../../AliceSDK/Socket'
+import {db} from '../../../AliceSDK/Socket'
 
 const options = {
   enableVibrateFallback: true,
@@ -100,7 +98,6 @@ export default class WizardScreen extends React.Component {
       console.log('snapshot right: ', snapshot.data());
       !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data(), qrModalVisible: false, arrowModalVisible: true})
     })
-
   };
 
   startDuel = async (myWizard, challengedWizard) => {
