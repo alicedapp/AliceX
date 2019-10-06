@@ -127,7 +127,7 @@ export default class CheezeWizardsHome extends React.Component {
         console.log('WIZARDS FROM HOME REQUEST: ', wizards);
         this.setState({wizards}, finishedLoading);
       } else {
-        this.setState({wizards: []});
+        this.setState({wizards: []}, finishedLoading);``
       }
     };
     xhr.addEventListener("readystatechange",  function()  {
