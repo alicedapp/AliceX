@@ -312,11 +312,11 @@ export default class Tokens extends Component {
               onRefresh={this._refresh}
             />
           }>
-              <Transactions/>
-              <Compound/>
-              <Synthetix/>
-              <Maker/>
-              <Uniswap/>
+              {/*<Transactions/>*/}
+              {/*<Compound/>*/}
+              {/*<Synthetix/>*/}
+              {/*<Maker/>*/}
+              {/*<Uniswap/>*/}
             <Text style={{fontWeight: '600', fontSize: 25, marginLeft: 8}}>Tokens</Text>
             <TouchableWithoutFeedback onPress={this.sendEther}>
               <Animated.View  style={{...styles.tokenBox, transform: [

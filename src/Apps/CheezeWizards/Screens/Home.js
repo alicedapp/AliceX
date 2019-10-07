@@ -4,6 +4,7 @@ import {
   Dimensions,
   ImageBackground,
   Image,
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -28,7 +29,7 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
-import {db} from '../../../AliceSDK/Socket'
+import db from '../../../AliceSDK/Socket'
 
 export default class CheezeWizardsHome extends React.Component {
 
@@ -50,7 +51,8 @@ export default class CheezeWizardsHome extends React.Component {
       actionList: [],
       wizards: [],
       network: '',
-      fetching: false
+      fetching: false,
+      balance: null
     };
   }
 
@@ -70,10 +72,21 @@ export default class CheezeWizardsHome extends React.Component {
     );
   }
 
+  twitterLink = () => {
+    let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
+    Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
+  };
+
+  faucetLink = () => {
+    let faucetUrl = "https://faucet.rinkeby.io/";
+    Settings.openBrowser("https://faucet.rinkeby.io/");
+    // Linking.openURL(faucetUrl).catch((err) => console.error('An error occurred with faucet link: ', err));
+  };
+
   _refresh = () => {
-    this.setState({fetching: true})
     this.fetchWizards();
-  }
+    this.setState({fetching: true})
+  };
 
   getNetwork = async () => {
     const networkInfo = await Wallet.getNetwork();
@@ -82,6 +95,7 @@ export default class CheezeWizardsHome extends React.Component {
 
   getUser = async () => {
     try {
+      console.log('FIREBASE DB: ', db);
       db.collection("users")
         .onSnapshot((snapshot) => {
           let orders = [];
@@ -106,6 +120,7 @@ export default class CheezeWizardsHome extends React.Component {
     let data = null;
     var xhr = new XMLHttpRequest();
     const onData = async (data) => {
+      console.log('fetching');
       if (data.assets.length > 0) {
         const getWizard = async id => {
           const wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
@@ -127,7 +142,7 @@ export default class CheezeWizardsHome extends React.Component {
         console.log('WIZARDS FROM HOME REQUEST: ', wizards);
         this.setState({wizards}, finishedLoading);
       } else {
-        this.setState({wizards: []}, finishedLoading);``
+        this.setState({wizards: []}, finishedLoading);
       }
     };
     xhr.addEventListener("readystatechange",  function()  {
@@ -200,7 +215,7 @@ export default class CheezeWizardsHome extends React.Component {
                   }}/>
                 </Button>
               </View>
-              {/*<TouchableOpacity onPress={() => WalletConnect.createConnection()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>*/}
+              {/*<TouchableOpacity onPress={() => this.twitterLink()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>*/}
               {/*<TouchableOpacity onPress={() => WalletConnect.sendDataObject({"bob": "trap"})} style={{backgroundColor: 'white', padding: 20}}><Text>SendDataObject</Text></TouchableOpacity>*/}
               <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}} showsVerticalScrollIndicator={false} refreshControl={
                 <RefreshControl

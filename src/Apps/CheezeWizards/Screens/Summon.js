@@ -72,8 +72,8 @@ export default class SummonScreen extends React.Component {
         <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
           <Image source={require('../Assets/cheeze-udder.gif')} style={{
             resizeMode: 'contain',
-            height: 300,
-            width: width + 170  ,
+            height: height/2.5,
+            width: width*1.5,
             position: 'absolute', top: 0
           }}/>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
@@ -83,6 +83,7 @@ export default class SummonScreen extends React.Component {
               </View>
             </View>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around', marginTop: -150, marginBottom: 30}}>
+              <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular', padding: 20, marginTop: 40}}>Choose a fire, water, wind or neutral wizard</Text>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', position: 'absolute', bottom: 70, zIndex: 9999,}}>
                 <Button onPress={() => this.actionPress('fire')}>
                   <Image source={require('../Assets/fire-button.png')} style={{

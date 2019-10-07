@@ -103,6 +103,11 @@ export default class DuelScreen extends React.Component {
   }
 
   fight = async () => {
+    if (this.state.items.length < 5) {
+      ReactNativeHapticFeedback.trigger("notificationError", options);
+      this.setState({pressed: !this.state.pressed});
+      return;
+    }
     const { wizard, challengedWizard } = this.props.navigation.state.params;
     this.setState({pressed: !this.state.pressed});
     const moves = this.state.items.map((item) => switchcase({'fire':'02', 'water': '03', 'wind': '04'})(item.element)).join('');

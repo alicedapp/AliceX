@@ -24,7 +24,7 @@ import * as Animatable from 'react-native-animatable';
 import {goBack} from "../../../AliceCore/Utils/navigationWrapper";
 import _ from 'lodash';
 
-import {db} from '../../../AliceSDK/Socket'
+import db from '../../../AliceSDK/Socket'
 
 const options = {
   enableVibrateFallback: true,
@@ -110,6 +110,8 @@ export default class WizardScreen extends React.Component {
 
   bounce = () => this.view.bounceIn().then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
 
+  bounceOut = () => this.view.bounceOut().then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
+
   onWizardScan = (wizard) => {
     Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
       console.log('WIZARD KEY: ', wizard[key]);
@@ -194,7 +196,7 @@ export default class WizardScreen extends React.Component {
               <Button onPress={() => this.card.flip()} style={{flex: 1}}>
                 <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
                   <QRCode
-                    size={240}
+                    size={width/1.5}
                     value={JSON.stringify(wizard)}
                   />
                 </View>
