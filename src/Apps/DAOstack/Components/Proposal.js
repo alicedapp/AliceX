@@ -34,15 +34,32 @@ export default class DAOstackApp extends Component {
   render() {
     const { proposal, key, proposer } = this.props;
     const gravatar = makeBlockie(proposal.proposer)
+    const ProposalDescription = () => {
+      if(proposal.description.length > 80){
+        return (
+          <Text numberOfLines={3} style={{ fontWeight: '700' }}>
+            { proposal.description.slice(0, 80) }
+            <Text numberOfLines={1} style={{ fontWeight: '700', color: 'red' }}>
+              { proposal.description.slice(80, proposal.description.length - 1) }
+            </Text>
+          </Text>
+        )
+      }
+      else {
+        return (
+          <Text numberOfLines={3} style={{ fontWeight: '700' }}>
+            { proposal.description.slice(0, 80) }
+          </Text>
+        )
+      }
+    }
     return (
       <View
         key={key}
         onPress={() => this.props.navigation.navigate('DAOstackHome')}
         style={styles.daoBox}
       >
-        <View
-          style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
-        >
+        <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
           <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
             <Image style={{width: 15, height: 15, marginRight: 5 }} source={{uri: gravatar}}/>
@@ -56,31 +73,7 @@ export default class DAOstackApp extends Component {
               marginBottom: 10,
             }}
           >
-            <Text numberOfLines={1} style={{ fontWeight: '700' }}>
-              {proposal.title}
-            </Text>
-            <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
-              <Image
-                source={require('../Assets/link-icon.png')}
-                style={{
-                  height: 10,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-              borderRadius: 7,
-              borderWidth: 1,
-              borderColor: '#c0c0c0',
-              width: width - 70,
-            }}
-          >
-            <ContributionReward proposal={proposal}/>
+            { proposal.description ? <ProposalDescription /> : null }
           </View>
         </View>
         <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} />
