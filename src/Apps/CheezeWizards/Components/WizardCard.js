@@ -49,7 +49,6 @@ export default class WizardCard extends React.Component {
 
   render() {
     const { wizard, key } = this.props;
-    console.log('WIZARD: ', wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
         <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri:`https://storage.googleapis.com/cheeze-wizards-staging/0x0c5cf744d1284a0be2dd7a85d554173a1ed37041/${wizard.id}.png`}}  >

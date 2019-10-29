@@ -10,6 +10,7 @@ import {
   Redemptions,
   ReputationRequest,
   RequestComplete,
+  DetailedProposal
 } from '../Screens';
 
 const DAOHomePage = createBottomTabNavigator(
@@ -42,4 +43,5 @@ export const App = createStackNavigator({
   NewProposal,
   ReputationRequest,
   RequestComplete,
+  DetailedProposal
 });

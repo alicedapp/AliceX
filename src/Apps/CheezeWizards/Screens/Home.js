@@ -95,7 +95,6 @@ export default class CheezeWizardsHome extends React.Component {
 
   getUser = async () => {
     try {
-      console.log('FIREBASE DB: ', db);
       db.collection("users")
         .onSnapshot((snapshot) => {
           let orders = [];
@@ -114,52 +113,60 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({pressed: !this.state.pressed});
   };
 
+  alchemyWizards = async () => {
+
+  };
+
   fetchWizards = async () => {
     // const finishedLoading = () => setTimeout(() => this.setState({loading: false, fetching: false}), 1000);
-    const finishedLoading = () => this.setState({loading: false, fetching: false});
-    let data = null;
-    var xhr = new XMLHttpRequest();
-    const onData = async (data) => {
-      console.log('fetching');
-      if (data.assets.length > 0) {
-        const getWizard = async id => {
-          let wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
-          Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
-            console.log('WIZARD KEY: ', wizard[key]);
-            console.log('PARSED WIZARD KEY: ', parseInt(wizard[key]._hex));
-            wizard[key] = parseInt(wizard[key]._hex)
-          }});
-          return wizard;
-        };
-        const getData = async () => {
-          return await Promise.all(data.assets.map(async wizard => {
-            let object = await getWizard(wizard.token_id);
-            object.id = wizard.token_id;
-            return object;
-          }))
-        };
-        const wizards = await getData();
-        console.log('WIZARDS FROM HOME REQUEST: ', wizards);
-        this.setState({wizards}, finishedLoading);
-      } else {
-        this.setState({wizards: []}, finishedLoading);
-      }
-    };
-    xhr.addEventListener("readystatechange",  function()  {
-      if (this.readyState === this.DONE) {
-        if (this.responseText){
-          onData(JSON.parse(this.responseText));
-        }
-      }
-    });
+
     // if (this.state.network === 'Rinkeby') {
+      const finishedLoading = () => this.setState({loading: false, fetching: false});
+      let data = null;
+      var xhr = new XMLHttpRequest();
+      const onData = async (data) => {
+        console.log('fetching');
+        if (data.assets.length > 0) {
+          const getWizard = async id => {
+            let wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
+            Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
+              wizard[key] = parseInt(wizard[key]._hex)
+            }});
+            return wizard;
+          };
+          const getData = async () => {
+            return await Promise.all(data.assets.map(async wizard => {
+              let object = await getWizard(wizard.token_id);
+              object.id = wizard.token_id;
+              return object;
+            }))
+          };
+          const wizards = await getData();
+          this.setState({wizards}, finishedLoading);
+        } else {
+          this.setState({wizards: []}, finishedLoading);
+        }
+      };
+      xhr.addEventListener("readystatechange",  function()  {
+        if (this.readyState === this.DONE) {
+          if (this.responseText){
+            onData(JSON.parse(this.responseText));
+          }
+        }
+      });
+      // if (this.state.network === 'Rinkeby') {
       xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
-    // } else {
-    // 0x51b08285adbd35225444b56c1888c49a6bb2f664
-    //   xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
+      // } else {
+      // 0x51b08285adbd35225444b56c1888c49a6bb2f664
+      //   xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
+      // }
+      xhr.setRequestHeader("x-api-key", env.opensea);
+      xhr.send(data);
+
+    // } else if (this.state.network !== 'Main') {
+    //
     // }
-    xhr.setRequestHeader("x-api-key", env.opensea);
-    xhr.send(data);
+
   };
 
   openMap = () => {
@@ -168,9 +175,8 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   enterDuelMode = wizard => {
-    console.log('WIZARD DATA ENTERING DUEL: ', wizard);
     ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard})
+    this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard});
   };
 
 
@@ -207,7 +213,8 @@ export default class CheezeWizardsHome extends React.Component {
                   }}/>
                 </Button>
                 <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
+                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARD
+                    S</Text>
                 </View>
                 <Button onPress={Settings.settingsPopUp}>
                   <Image source={require('../Assets/settings-icon.png')} style={{

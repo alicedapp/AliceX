@@ -2,6 +2,7 @@ export DAOstack from './DAOs';
 export History from './History';
 export Holders from './Holders';
 export NewProposal from './NewProposal';
+export DetailedProposal from './DetailedProposal';
 export Proposals from './Proposals';
 export Redemptions from './Redemptions';
 export ReputationRequest from './ReputationRequest';

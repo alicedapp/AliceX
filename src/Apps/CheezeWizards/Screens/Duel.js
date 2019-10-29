@@ -23,7 +23,7 @@ import {ethers} from 'ethers'
 import metrics from "../Utils/metrics";
 import WizardCard from "../Components/WizardCard";
 import { DraggableGrid } from 'react-native-draggable-grid';
-import {db} from "../../../AliceSDK/Socket";
+import db from "../../../AliceSDK/Socket";
 const ELEMENT_FIRE = 2;
 const ELEMENT_WATER = 3;
 const ELEMENT_WIND = 4;
