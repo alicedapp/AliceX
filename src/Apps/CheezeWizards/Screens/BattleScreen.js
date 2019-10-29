@@ -16,7 +16,7 @@ import colors from "../Utils/colors";
 import WizardCard from "../Components/WizardCard";
 import {switchcase} from "../Utils";
 import Button from '../Components/Button'
-import {db} from '../../../AliceSDK/Socket'
+import db from '../../../AliceSDK/Socket'
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 
 const options = {

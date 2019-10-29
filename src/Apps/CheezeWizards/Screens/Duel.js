@@ -218,21 +218,23 @@ export default class DuelScreen extends React.Component {
           }}/>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
             <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-              <Button onPress={this.openMap} style={{flex: 1}}>
+              <Button onPress={this.openMap}>
                 <Image source={require('../Assets/location.png')} style={{
                   resizeMode: 'contain',
                   width: 40,
-                  height: 45
+                  height: 45,
+                  margin: 10
                 }}/>
               </Button>
               <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
                 <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>DUEL</Text>
               </View>
-              <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
+              <Button onPress={Settings.settingsPopUp}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
                   resizeMode: 'contain',
                   width: 50,
-                  height: 50
+                  height: 50,
+                  margin: 10
                 }}/>
               </Button>
             </View>

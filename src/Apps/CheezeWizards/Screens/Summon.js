@@ -14,6 +14,7 @@ import { SvgUri } from 'react-native-svg';
 import ABIs from '../ABIs';
 import {GateKeeper} from '../Addresses/index'
 import {switchcase} from "../Utils";
+import { BasicTournament } from "../Addresses";
 
 const options = {
   enableVibrateFallback: true,
@@ -39,9 +40,26 @@ export default class SummonScreen extends React.Component {
       loading: false,
       pressed: false,
       actionList: [],
-      wizards: []
+      wizards: [],
+      wizardCosts: {},
     };
 
+  }
+
+  async componentDidMount() {
+    try {
+      let wizardCosts = await Contract.read({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'wizardCosts', parameters: [], network: 'rinkeby'});
+      Object.keys(wizardCosts).forEach(function(key){ if (typeof wizardCosts[key] === "object") {
+        console.log('WIZARD KEY: ', wizardCosts[key]);
+        console.log('PARSED WIZARD KEY: ', parseInt(wizardCosts[key]._hex));
+        wizardCosts[key] = parseInt(wizardCosts[key]._hex)
+      }});
+      console.log('WIZARD COSTS: ', wizardCosts);
+      this.setState({wizardCosts});
+
+    } catch(e) {
+      console.log('fetch costs error: ', e)
+    }
   }
 
   actionPress = async (_affinity) => {
@@ -53,9 +71,15 @@ export default class SummonScreen extends React.Component {
       "wind": 4,
     });
     const affinity = getAffinity(_affinity);
-    console.log('AFFINITY: ', affinity)
+    console.log('AFFINITY: ', affinity);
+    const {wizardCosts} = this.state;
     try {
-      const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: '0.5', data: '0x0'})
+      if (affinity === 1) {
+        const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: wizardCosts.neutralWizardCost/10e17, data: '0x0'})
+
+      } else {
+        const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: wizardCosts.elementalWizardCost/10e17, data: '0x0'})
+      }
       console.log("TX HASH: ", txHash);
     } catch(e) {
       console.log('WIZARD PURCHASE ERROR: ', e);
@@ -89,28 +113,32 @@ export default class SummonScreen extends React.Component {
                   <Image source={require('../Assets/fire-button.png')} style={{
                     resizeMode: 'contain',
                     width: 55,
-                    height: 55
+                    height: 55,
+                    margin: 10,
                   }}/>
                 </Button>
                 <Button onPress={() => this.actionPress('water')}>
                   <Image source={require('../Assets/water-button.png')} style={{
                     resizeMode: 'contain',
                     width: 55,
-                    height: 55
+                    height: 55,
+                    margin: 10,
                   }}/>
                 </Button>
                 <Button onPress={() => this.actionPress('wind')}>
                   <Image source={require('../Assets/earth-button.png')} style={{
                     resizeMode: 'contain',
                     width: 55,
-                    height: 55
+                    height: 55,
+                    margin: 10,
                   }}/>
                 </Button>
                 <Button onPress={() => this.actionPress('neutral')}>
                   <Image source={require('../Assets/neutral-button.png')} style={{
                     resizeMode: 'contain',
                     width: 55,
-                    height: 55
+                    height: 55,
+                    margin: 10,
                   }}/>
                 </Button>
               </View>

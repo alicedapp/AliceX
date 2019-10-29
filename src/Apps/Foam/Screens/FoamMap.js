@@ -6,6 +6,9 @@ import {
 } from 'react-native';
 import sheet from '../../Example/Styles/sheet';
 import yea from '../../Example/Assets/location.png';
+import green from '../../CheezeWizards/Assets/ready.png';
+import yellow from '../../CheezeWizards/Assets/not-ready.png';
+import red from '../../CheezeWizards/Assets/out.png';
 import {NavigationBar} from "../../../AliceCore/Components";
 import {decodeGeoHash} from "../utils";
 import data from './data'
@@ -49,11 +52,53 @@ const featureCollection = {
   ],
 };
 
-const layerStyles = {
+const yellowStyles = {
   singlePoint: {
-    iconImage: yea,
+    iconImage: yellow,
     iconAllowOverlap: true,
-    iconSize: 0.1,
+    iconSize: 0.4,
+    iconHaloColor: '#ff0000',
+    iconHaloWidth: 2
+
+  },
+  circles: {
+    circleRadius: [
+      'interpolate',
+      ['exponential', 1.75],
+      ['zoom'],
+      12,
+      2,
+      22,
+      180,
+    ],
+
+    circleColor: [
+      'match',
+      ['get', 'ethnicity'],
+      'listed',
+      '#fbb03b',
+      'Black',
+      '#223b53',
+      'Hispanic',
+      '#e55e5e',
+      'Asian',
+      '#3bb2d0',
+      '#ccc',
+    ],
+  },
+
+  clusterCount: {
+    textField: '{point_count}',
+    textSize: 12,
+    textPitchAlignment: 'map',
+  },
+};
+
+const redStyles = {
+  singlePoint: {
+    iconImage: red,
+    iconAllowOverlap: true,
+    iconSize: 0.4,
     iconHaloColor: '#ff0000',
     iconHaloWidth: 2
 
@@ -97,7 +142,10 @@ class ShapeSourceIcon extends React.Component {
     features: MapboxGL.geoUtils.makeFeatureCollection(featureCollection.features),
     pois: {},
     signals: {},
-    featureCollection: {}
+    featureCollection: {},
+    poiCollection: {},
+    signalCollection: {},
+
   };
 
   onRegionChange = async (regionFeature) => {
@@ -170,13 +218,22 @@ class ShapeSourceIcon extends React.Component {
 
     Array.prototype.push.apply(convertedPOIs,convertedSignals);
 
-    this.setState({featureCollection: {
+    this.setState({
+      poiCollection: {
         "type": "FeatureCollection",
         "metadata": {
           "title": "FOAM Points of Interest",
         },
         "features": convertedPOIs
-      }})
+      },
+      signalCollection: {
+        "type": "FeatureCollection",
+        "metadata": {
+          "title": "FOAM Points of Interest",
+        },
+        "features": convertedSignals
+      },
+    })
 
   }
 
@@ -229,13 +286,24 @@ class ShapeSourceIcon extends React.Component {
           />
           <MapboxGL.ShapeSource
             id="pointsOfInterest"
-            shape={this.state.featureCollection && this.state.featureCollection}
+            shape={this.state.poiCollection && this.state.poiCollection}
           >
             <MapboxGL.SymbolLayer
-              id="pointCount"
-              style={layerStyles.singlePoint}
+              id="pointOfInterest"
+              style={yellowStyles.singlePoint}
+            />
+            <MapboxGL.Callout containerStyle={{width: 100, height: 100, backgroundColor: '#fff'}} contentStyle={{borderRadius: 10, backgroundColor: 'green'}} textStyle={{color: 'white'}} title={"Hello"} />
+          </MapboxGL.ShapeSource>
+          <MapboxGL.ShapeSource
+            id="signals"
+            shape={this.state.signalCollection && this.state.signalCollection}
+          >
+            <MapboxGL.SymbolLayer
+              id="signal"
+              style={redStyles.singlePoint}
             />
           </MapboxGL.ShapeSource>
+
         </MapboxGL.MapView>
       </View>
     );

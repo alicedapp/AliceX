@@ -10,13 +10,15 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import makeBlockie from 'ethereum-blockies-base64';
+import Markdown from 'react-native-simple-markdown'
 
-import { Countdown, Proposer, ContributionReward, VoteBreakdown } from './'
+
+import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown } from './'
 import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
 
-export default class DAOstackApp extends Component {
+export default class Proposal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,18 +33,18 @@ export default class DAOstackApp extends Component {
     this.props.navigation.navigate('NewProposal');
   };
 
+
+
   render() {
-    const { proposal, key, proposer } = this.props;
+    const { proposal, key, proposer, beneficiary } = this.props;
+    console.log('PROPOSAL PROPS: ', this.props)
     const gravatar = makeBlockie(proposal.proposer)
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
         return (
-          <Text numberOfLines={3} style={{ fontWeight: '700' }}>
+          <Markdown>
             { proposal.description.slice(0, 80) }
-            <Text numberOfLines={1} style={{ fontWeight: '700', color: 'red' }}>
-              { proposal.description.slice(80, proposal.description.length - 1) }
-            </Text>
-          </Text>
+          </Markdown>
         )
       }
       else {
@@ -60,10 +62,16 @@ export default class DAOstackApp extends Component {
         style={styles.daoBox}
       >
         <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
-          <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
-            <Image style={{width: 15, height: 15, marginRight: 5 }} source={{uri: gravatar}}/>
-            <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
+            <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
+            <View>
+              <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
+              <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
+                <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
+                <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
+                <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
+              </View>
+            </View>
           </View>
           <View
             style={{
@@ -76,7 +84,7 @@ export default class DAOstackApp extends Component {
             { proposal.description ? <ProposalDescription /> : null }
           </View>
         </View>
-        <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} />
+        <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
       </View>
     );
   }

@@ -170,31 +170,33 @@ export default class WizardScreen extends React.Component {
         <NavigationBar/>
         <ImageBackground source={require('../Assets/wizards-screen.png')} style={{flex: 1, width, alignItems: 'center',}}>
             <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-              <Button onPress={this.openMap} style={{flex: 1}}>
+              <Button onPress={this.openMap}>
                 <Image source={require('../Assets/location.png')} style={{
                   resizeMode: 'contain',
                   width: 40,
-                  height: 45
+                  height: 45,
+                  margin: 10
                 }}/>
               </Button>
               <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
                 <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
               </View>
-              <Button onPress={Settings.settingsPopUp} style={{flex: 1}}>
+              <Button onPress={Settings.settingsPopUp}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
                   resizeMode: 'contain',
                   width: 50,
-                  height: 50
+                  height: 50,
+                  margin: 10
                 }}/>
               </Button>
             </View>
           <Modal swipeDirection='down' swipeThreshold={50} onSwipeComplete={this.toggleModal} isVisible={this.state.qrModalVisible} backdropOpacity={0} onBackdropPress={this.toggleModal} style={{alignSelf: 'center', marginLeft: -5, marginTop: -50}}>
             <CardFlip style={{height: width - 10, width: width-80}} ref={card => this.card = card}>
-              <Button onPress={() => this.card.flip()} style={{flex: 1}}>
-                <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
+              <Button onPress={() => this.card.flip()}>
+                <WizardCard style={{height: width - 10, width: width-80, margin: 10}} wizard={wizard}/>
               </Button>
-              <Button onPress={() => this.card.flip()} style={{flex: 1}}>
-                <View style={{height: width - 10, width: width-80, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
+              <Button onPress={() => this.card.flip()}>
+                <View style={{height: width - 10, width: width-80, margin: 10, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'black', ...styles.sharpShadow}}>
                   <QRCode
                     size={width/1.5}
                     value={JSON.stringify(wizard)}
@@ -210,29 +212,41 @@ export default class WizardScreen extends React.Component {
           </Modal>
           {this.state.scannedWizard && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={this.state.scannedWizard}/>
-            <Button onPress={() => this.startDuel(wizard, this.state.scannedWizard)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
+            <Button onPress={() => this.startDuel(wizard, this.state.scannedWizard)}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>SEND CHALLENGE</Text>
+              </View>
             </Button>
-            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            <Button onPress={() => this.view.bounceOut()}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+              </View>
             </Button>
           </Animatable.View>}
           {notificationChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={notificationChallenge}/>
-            <Button onPress={() => this.startDuel(wizard, notificationChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+            <Button onPress={() => this.startDuel(wizard, notificationChallenge)}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+              </View>
             </Button>
-            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            <Button onPress={() => this.view.bounceOut()}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+              </View>
             </Button>
           </Animatable.View>}
           {receivedChallenge && <Animatable.View style={{alignSelf: 'center', justifySelf: 'center', marginTop: 200}} ref={this.handleViewRef}>
             <WizardCard style={{height: width - 10, width: width-80}} wizard={receivedChallenge}/>
-            <Button onPress={() => this.startDuel(wizard, receivedChallenge)} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+            <Button onPress={() => this.startDuel(wizard, receivedChallenge)}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ACCEPT CHALLENGE</Text>
+              </View>
             </Button>
-            <Button onPress={() => this.view.bounceOut()} style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+            <Button onPress={() => this.view.bounceOut()}>
+              <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>X</Text>
+              </View>
             </Button>
           </Animatable.View>}
           {this.state.arrowModalVisible && <Button onPress={this.toggleModal} style={{position: 'absolute', bottom: 30}}>

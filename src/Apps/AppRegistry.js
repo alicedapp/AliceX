@@ -75,9 +75,9 @@ export const AppRegistry = [
   //   icon: require('./CryptoGram/Assets/crypto-gram.png')
   // },
   {
-    appName: 'DAOsaka',
-    backgroundColor: '#0F0EEF',
-    browserRoute: 'https://knownorigin.io/dao-osaka?utm_source=alicewallet',
-    icon: require('./DAOSaka/Assets/logo.png')
+    appName: 'MyCryptoHeroes',
+    backgroundColor: '#FFFFFF',
+    browserRoute: 'https://mycryptoheroes.net',
+    icon: require('./MyCryptoHeroes/Assets/my-crypto-heroes.png')
   },
 ];

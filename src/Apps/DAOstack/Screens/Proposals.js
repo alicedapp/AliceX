@@ -41,12 +41,13 @@ const PROPOSALS_QUERY = gql`
       id
       name
       reputationHoldersCount
-      proposals {
+      proposals(first: 1000) {
         id
         stage
         proposer
         createdAt
         preBoostedAt
+        votingMachine
         closingAt
         title
         description
@@ -58,6 +59,7 @@ const PROPOSALS_QUERY = gql`
         votesFor
         votesAgainst
         url
+       
         contributionReward {
           id
           beneficiary
@@ -105,7 +107,7 @@ export default class Proposals extends Component {
   // Maybe this data we should store it in our state
   getProfile = (ethereumAccountAddress) => {
     let profile;
-    if(this.state.accounts.length > 0) {
+    if(this.state.accounts && this.state.accounts.length > 0) {
       profile = this.state.accounts.filter((account)=> account.ethereumAccountAddress === ethereumAccountAddress)[0]
     }
     return profile;
@@ -139,6 +141,7 @@ export default class Proposals extends Component {
                   <Text style={{ fontSize: 30, fontFamily: 'Didot' }}>Loading ...</Text>
                 </View>
               );
+            console.log('PROPOSALS: ', data.dao.proposals);
             return (
               <>
                 <View
@@ -163,32 +166,34 @@ export default class Proposals extends Component {
                   />
                 </View>
                 <ScrollView>
-                  <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                    Boosted Proposals({boostedAmount})
-                  </Text>
                   <View style={styles.container}>
+                    <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
+                      Boosted Proposals
+                    </Text>
                     {data.dao.proposals.map((proposal, i) => {
+                      console.log('PROPOSAL STAGE: ', proposal.stage);
+
                       if (proposal.stage === 'Boosted') {
                         boostedAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Pending Proposals({pendingAmount})
+                      Pending Proposals
                     </Text>
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
                         pendingAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Regular Proposals({regularAmount})
+                      Regular Proposals
                     </Text>
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {
                         regularAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} />;
+                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                   </View>

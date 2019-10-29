@@ -6,5 +6,6 @@ export Modal from './Modal';
 export Modalize from './Modalize';
 export Proposal from './Proposal';
 export Proposer from './Proposer'
+export Beneficiary from './Beneficiary'
 export ContributionReward from './ContributionReward';
 export VoteBreakdown from './VoteBreakdown';

@@ -1,7 +1,6 @@
 // Where WalletConnect, and P2P Sockets SDK will live
 // If you see firebase don't worry, it's just for a hackathon. it will be gone shortly :)
 import {firebaseConfig} from '../../../env'
-console.log('FIREBASE DB Yo: ', firebaseConfig);
 
 import firebase from 'firebase';
 require("firebase/firestore");
@@ -21,18 +20,3 @@ const {firestore} = firebaseSDK.db;
 const db = firestore();
 
 export default db;
-
-//
-// export const db = () => {
-//   try {
-//     const firebaseSDK = new FirebaseSDK();
-//
-//     const {firestore} = firebaseSDK.db;
-//     return firestore();
-//
-//   } catch(e) {
-//     console.log('firebase error: ', e)
-//   }
-//
-// }
-//

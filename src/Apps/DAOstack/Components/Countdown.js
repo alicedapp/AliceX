@@ -51,7 +51,7 @@ export default class Countdown extends React.Component {
     const { style, fontSize } = this.props;
     return (
       <View style={{ flexDirection: 'row', ...style }}>
-        <Text style={{ color: '#A9C6E8', fontSize }}>
+        <Text style={{ color: '#A9C6E8', fontSize, fontWeight: '800' }}>
           {days}d : {hours}h : {minutes}m : {seconds}s
         </Text>
       </View>

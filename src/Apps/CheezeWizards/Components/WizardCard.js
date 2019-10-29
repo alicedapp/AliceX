@@ -52,7 +52,7 @@ export default class WizardCard extends React.Component {
     console.log('WIZARD: ', wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
-        <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri:`https://storage.googleapis.com/cheeze-wizards-production/0xec2203e38116f09e21bc27443e063b623b01345a/${wizard.id - 4010}.png`}}  >
+        <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri:`https://storage.googleapis.com/cheeze-wizards-staging/0x0c5cf744d1284a0be2dd7a85d554173a1ed37041/${wizard.id}.png`}}  >
         {/*<View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>*/}
           <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{wizard.id}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>

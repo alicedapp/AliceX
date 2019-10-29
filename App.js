@@ -9,6 +9,7 @@ import {
   Image,
   Linking,
   View,
+  SafeAreaView,
 } from 'react-native';
 import {
   createAppContainer,
@@ -26,7 +27,6 @@ import {Settings, Wallet} from './src/AliceSDK/Web3'
 import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Dashboard from './src/AliceCore/Screens/Dashboard';
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
-import {switchcase} from "./src/AliceCore/Utils";
 import {challengedPOI} from "./src/Apps/Foam/utils";
 
 const { height, width } = Dimensions.get('window');
@@ -139,12 +139,12 @@ class App extends Component {
         }
         if (event.deeplink) {
           console.log('DEEP LINK: ', event, event.deeplink);
-          this.handleOpenURL(event.deeplink)
+          this.handleOpenURL(event.deeplink);
           this.setState({ deeplink: event.deeplink});
         }
         if (event.walletconnect) {
           console.log('WALLET CONNECT: ', event, event.walletconnect);
-          this.handleOpenURL(event.walletconnect)
+          this.handleOpenURL(event.walletconnect);
           this.setState({ walletconnect: event.walletconnect});
         }
       }
@@ -187,22 +187,32 @@ class App extends Component {
     if (openResult.notification.payload.title === "CheezeWizards") {
       navigate('CheezeWizards/WizardScreen', {
         notificationChallenge: {
-          affinity: 2,
-          createdBlockNumber: 5008913,
-          eliminatedBlockNumber: null,
-          id: "5982",
-          initialPower: "70364710415359",
+          affinity: 3,
+          ascending: false,
+          ascensionOpponent: 0,
+          challengeId: "_71eemyysk",
+          currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          id: "6144",
+          maxPower: 117022711285813,
+          molded: false,
+          nonce: 4,
           owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
-          power: "70364710415359"
+          power: 56340035804596,
+          ready: true,
         },
         wizard: {
-          affinity: 3,
-          createdBlockNumber: 5041333,
-          eliminatedBlockNumber: null,
-          id: "5994",
-          initialPower: "71470282487405",
+          affinity: 1,
+          ascending: false,
+          ascensionOpponent: 0,
+          challengeId: "_m9ol8etji",
+          currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          id: "6090",
+          maxPower: 70000000000000,
+          molded: false,
+          nonce: 2,
           owner: "0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB",
-          power: "71470282487405"
+          power: 70000000000000,
+          ready: true,
         }
       });
     }
@@ -226,7 +236,7 @@ class App extends Component {
     console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
-        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, alignSelf: 'center', position: 'absolute', top:0, width:215, height: isIphoneX() ? 35 : 7, zIndex: 9999}}/>}
+        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
         <AliceMain
           ref={navigatorRef => {
             NavigatorService.setContainer(navigatorRef);

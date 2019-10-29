@@ -79,8 +79,7 @@ const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 const getOrientation = async () => await NativeModules.NativeVCModule.getOrientation();
 
 
-const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
-// const openBrowser = (url) =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('twitter.com');
+const openBrowser = url =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
 
 const qrScanner = async () => {
   try {
@@ -100,7 +99,7 @@ const sendToken = async ({tokenAddress, to, value, data = "0x0"}) => {
 
 const write = async ({contractAddress, abi, functionName, parameters, value = "0", data = "0x0"}) => {
   try {
-    return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, ethers.utils.parseEther(value).toHexString(), ethers.utils.hashMessage(data));
+    return await NativeModules.ContractModule.write(contractAddress, JSON.stringify(abi), functionName, parameters, ethers.utils.parseEther(value.toString()).toHexString(), ethers.utils.hashMessage(data));
   } catch(e) {
     throw "Write to contract failed with error: " + e
   }

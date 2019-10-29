@@ -20,3 +20,26 @@
     "rinkeby": "0xB789e4047f5DF6cf5Fdd035AF44205092a275d33"
   }
 }
+
+//{
+//  "WizardPresale": {
+//    "mainnet": "",
+//    "rinkeby": "0x0040AFc27A3A412c0fDA1461C066515128972eb3"
+//  },
+//  "WizardGuild": {
+//    "mainnet": "",
+//    "rinkeby": "0x0040AFc27A3A412c0fDA1461C066515128972eb3"
+//  },
+//  "GateKeeper": {
+//    "mainnet": "",
+//    "rinkeby": "0xD44316ec2E3e61B312853BEeD738e830b650CbE8"
+//  },
+//  "BasicTournament": {
+//    "mainnet": "",
+//    "rinkeby": "0x7AB67Bdc5F8b30FE4E5C992547464d24F79bE182"
+//  },
+//  "ThreeAffinityDuelResolver": {
+//    "mainnet": "",
+//    "rinkeby": "0xB789e4047f5DF6cf5Fdd035AF44205092a275d33"
+//  }
+//}

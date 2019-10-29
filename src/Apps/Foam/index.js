@@ -1,8 +1,19 @@
 import { createBottomTabNavigator } from 'react-navigation';
 import Map from './Screens/Map'
-import FoamMap from './Screens/FoamMap'
+import NewPoi from './Screens/NewPoi';
+import FoamMap from './Screens/FoamMap';
 
-export default createBottomTabNavigator({
-  FoamMap: Map,
-  // FoamMap: FoamMap,
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+
+const App = createStackNavigator({
+  "Foam/Map": Map,
+  "Foam/NewPoi": NewPoi,
 });
+
+App.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
+
+export default createAppContainer(App)

@@ -3,7 +3,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 
 const apolloClientConfig = {
   link: new HttpLink({
-    uri: 'https://subgraph.daostack.io/subgraphs/name/v24',
+    uri: 'https://api.thegraph.com/subgraphs/name/daostack/v29_0',
     fetchOptions: {
       mode: 'no-cors',
     },
