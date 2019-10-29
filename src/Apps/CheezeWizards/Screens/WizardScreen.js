@@ -102,8 +102,6 @@ export default class WizardScreen extends React.Component {
 
   startDuel = async (myWizard, challengedWizard) => {
     this.props.navigation.navigate('CheezeWizards/Duel', {wizard: myWizard, challengedWizard});
-    console.log('CHALLENGED WIZARD: LOOKING FOR OWNER: ', challengedWizard);
-    console.log('MY WIZARD IN THE CHALLENGE: ', myWizard);
     myWizard.challengeId = '_' + Math.random().toString(36).substr(2, 9);
     db.collection("users").doc(challengedWizard.owner).set(myWizard);
   };
@@ -114,11 +112,8 @@ export default class WizardScreen extends React.Component {
 
   onWizardScan = (wizard) => {
     Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
-      console.log('WIZARD KEY: ', wizard[key]);
-      console.log('PARSED WIZARD KEY: ', parseInt(wizard[key]._hex));
       wizard[key] = parseInt(wizard[key]._hex)
     } });
-    console.log('SCANNED WIZARD: ', wizard);
     this.setState({scannedWizard: wizard, qrModalVisible: false, arrowModalVisible: true}, this.bounce)
   };
 
