@@ -111,7 +111,7 @@ export default class DuelScreen extends React.Component {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
     this.setState({pressed: !this.state.pressed});
 
-    const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet(this.state.network, this.state.items);
+    const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet(await Wallet.getNetwork(), this.state.items);
     // this.enterBattle(moveSet, "0x"+salt, commitmentHash);
 
     try {
