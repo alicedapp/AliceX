@@ -1,6 +1,6 @@
 import { NativeModules, NativeEventEmitter } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
-let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
+// let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 let infuraProviderRinkeby = new ethers.providers.InfuraProvider('rinkeby');
 

@@ -21,6 +21,7 @@ import env from '../../../../env'
 
 import ABIs from '../ABIs';
 import {GateKeeper, BasicTournament} from '../Addresses/index'
+import AlchemyApiService from '../Utils/AlchemyApiService'
 
 const options = {
   enableVibrateFallback: true,
@@ -57,7 +58,6 @@ export default class CheezeWizardsHome extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchWizards();
     this.getUser();
     this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
@@ -90,7 +90,7 @@ export default class CheezeWizardsHome extends React.Component {
 
   getNetwork = async () => {
     const networkInfo = await Wallet.getNetwork();
-    this.setState({ network: networkInfo.name });
+    this.setState({ network: networkInfo.name }, this.fetchWizards);
   };
 
   getUser = async () => {
@@ -113,60 +113,12 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({pressed: !this.state.pressed});
   };
 
-  alchemyWizards = async () => {
-
-  };
-
   fetchWizards = async () => {
-    // const finishedLoading = () => setTimeout(() => this.setState({loading: false, fetching: false}), 1000);
-
-    // if (this.state.network === 'Rinkeby') {
       const finishedLoading = () => this.setState({loading: false, fetching: false});
-      let data = null;
-      var xhr = new XMLHttpRequest();
-      const onData = async (data) => {
-        console.log('fetching');
-        if (data.assets.length > 0) {
-          const getWizard = async id => {
-            let wizard = await Contract.read({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'getWizard', parameters: [id], network: 'rinkeby'});
-            Object.keys(wizard).forEach(function(key){ if (typeof wizard[key] === "object") {
-              wizard[key] = parseInt(wizard[key]._hex)
-            }});
-            return wizard;
-          };
-          const getData = async () => {
-            return await Promise.all(data.assets.map(async wizard => {
-              let object = await getWizard(wizard.token_id);
-              object.id = wizard.token_id;
-              return object;
-            }))
-          };
-          const wizards = await getData();
-          this.setState({wizards}, finishedLoading);
-        } else {
-          this.setState({wizards: []}, finishedLoading);
-        }
-      };
-      xhr.addEventListener("readystatechange",  function()  {
-        if (this.readyState === this.DONE) {
-          if (this.responseText){
-            onData(JSON.parse(this.responseText));
-          }
-        }
-      });
-      // if (this.state.network === 'Rinkeby') {
-      xhr.open("GET", "https://rinkeby-api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x51b08285adbd35225444b56c1888c49a6bb2f664");
-      // } else {
-      // 0x51b08285adbd35225444b56c1888c49a6bb2f664
-      //   xhr.open("GET", "https://api.opensea.io/api/v1/assets?owner="+await Wallet.getAddress()+"&asset_contract_addresses=0x2F4Bdafb22bd92AA7b7552d270376dE8eDccbc1E");
-      // }
-      xhr.setRequestHeader("x-api-key", env.opensea);
-      xhr.send(data);
-
-    // } else if (this.state.network !== 'Main') {
-    //
-    // }
-
+      // const wizards = await AlchemyApiService.getWizardsForOwner(this.state.network, (await Wallet.getAddress()));
+      const wizards = await AlchemyApiService.getWizardsForOwner(this.state.network, "0x401cBf2194D35D078c0BcdAe4BeA42275483ab5F");
+      console.log("wizards", wizards);
+      this.setState({wizards}, finishedLoading);
   };
 
   openMap = () => {
