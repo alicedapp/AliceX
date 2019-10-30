@@ -23,6 +23,8 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
+import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService'
+
 export default class SummonScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -48,15 +50,9 @@ export default class SummonScreen extends React.Component {
 
   async componentDidMount() {
     try {
-      let wizardCosts = await Contract.read({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'wizardCosts', parameters: [], network: 'rinkeby'});
-      Object.keys(wizardCosts).forEach(function(key){ if (typeof wizardCosts[key] === "object") {
-        console.log('WIZARD KEY: ', wizardCosts[key]);
-        console.log('PARSED WIZARD KEY: ', parseInt(wizardCosts[key]._hex));
-        wizardCosts[key] = parseInt(wizardCosts[key]._hex)
-      }});
+      const wizardCosts = await CheeseWizardsContractService.getWizardCosts(this.state.network);
       console.log('WIZARD COSTS: ', wizardCosts);
       this.setState({wizardCosts});
-
     } catch(e) {
       console.log('fetch costs error: ', e)
     }
