@@ -22,6 +22,7 @@ import env from '../../../../env'
 import ABIs from '../ABIs';
 import {GateKeeper, BasicTournament} from '../Addresses/index'
 import AlchemyApiService from '../Utils/AlchemyApiService'
+import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService'
 
 const options = {
   enableVibrateFallback: true,
@@ -115,8 +116,7 @@ export default class CheezeWizardsHome extends React.Component {
 
   fetchWizards = async () => {
       const finishedLoading = () => this.setState({loading: false, fetching: false});
-      // const wizards = await AlchemyApiService.getWizardsForOwner(this.state.network, (await Wallet.getAddress()));
-      const wizards = await AlchemyApiService.getWizardsForOwner(this.state.network, "0x401cBf2194D35D078c0BcdAe4BeA42275483ab5F");
+      const wizards = await CheeseWizardsContractService.getWizardsForOwner(this.state.network, (await Wallet.getAddress()));
       console.log("wizards", wizards);
       this.setState({wizards}, finishedLoading);
   };

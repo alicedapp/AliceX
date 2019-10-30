@@ -1,3 +1,5 @@
+import {Wallet} from '../../../AliceSDK/Web3';
+
 export const getAlchemyApiForNetwork = (network) => {
     switch (network.toLowerCase()) {
         case 'rinkeby': {
@@ -5,6 +7,17 @@ export const getAlchemyApiForNetwork = (network) => {
         }
         case 'main': {
             return `https://cheezewizards-mainnet.alchemyapi.io`;
+        }
+    }
+};
+
+export const getOpenSeaApiForNetwork = (network) => {
+    switch (network.toLowerCase()) {
+        case 'rinkeby': {
+            return `https://rinkeby-api.opensea.io/api/v1`;
+        }
+        case 'main': {
+            return `https://api.opensea.io/api/v1`;
         }
     }
 };
