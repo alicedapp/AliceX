@@ -4,7 +4,7 @@ import {
 } from './networkSplitter';
 
 import ABIs from '../ABIs';
-import Addresses, {ThreeAffinityDuelResolver} from '../Addresses';
+import Addresses from '../Addresses';
 import env from '../../../../env';
 import {Contract, Wallet} from '../../../AliceSDK/Web3';
 import {getSalt, switchcase} from './index';
@@ -96,7 +96,7 @@ export default new class CheeseWizardsContractService {
         return wizardCosts;
     }
 
-    async checkMoveIsValid(network, rawMoves) {
+    async isValidMoveSet(network, rawMoves) {
 
         const moves = rawMoves.map((item) => switchcase({
             'fire': '02',
@@ -111,8 +111,12 @@ export default new class CheeseWizardsContractService {
 
         const commitmentHash = ethers.utils.keccak256(moveSet + salt);
 
+        const contractAddress = network.toLowerCase() === 'rinkeby'
+            ? Addresses.ThreeAffinityDuelResolver.rinkeby
+            : Addresses.ThreeAffinityDuelResolver.main;
+
         const isValid = await Contract.read({
-            contractAddress: ThreeAffinityDuelResolver.rinkeby,
+            contractAddress: contractAddress,
             abi: ABIs.ThreeAffinityDuelResolver,
             functionName: 'isValidMoveSet',
             parameters: [moveSet],
