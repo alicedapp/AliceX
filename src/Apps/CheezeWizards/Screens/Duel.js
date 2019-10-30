@@ -112,11 +112,13 @@ export default class DuelScreen extends React.Component {
     this.setState({pressed: !this.state.pressed});
 
     const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet(await Wallet.getNetwork(), this.state.items);
-    // this.enterBattle(moveSet, "0x"+salt, commitmentHash);
 
     try {
-      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash], value: '0', data: '0x0'})
-      console.log('txHash: ', txHash);
+        const txHash = await CheeseWizardsContractService.oneSidedCommit(await Wallet.getNetwork(), {
+            wizard,
+            challengedWizard,
+            commitmentHash
+        });
       this.setState({txHash},() => this.enterBattle(moveSet, "0x"+salt, commitmentHash));
     } catch(e) {
       console.log(e);

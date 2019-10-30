@@ -4,7 +4,7 @@ import {
 } from './networkSplitter';
 
 import ABIs from '../ABIs';
-import Addresses from '../Addresses';
+import Addresses, {BasicTournament} from '../Addresses';
 import env from '../../../../env';
 import {Contract, Wallet} from '../../../AliceSDK/Web3';
 import {getSalt, switchcase} from './index';
@@ -132,6 +132,27 @@ export default new class CheeseWizardsContractService {
             isValid
         };
     }
+
+    async oneSidedCommit(network, {wizard, challengedWizard, commitmentHash}) {
+
+        const contractAddress = network.toLowerCase() === 'rinkeby'
+            ? Addresses.BasicTournament.rinkeby
+            : Addresses.ThreeAffinityDuelResolver.main;
+
+        const txHash = await Contract.write({
+            contractAddress: contractAddress,
+            abi: ABIs.BasicTournament,
+            functionName: 'oneSidedCommit',
+            parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash],
+            value: '0',
+            data: '0x0'
+        });
+
+        console.log(`One sided commit - wizard [${wizard.id}] challenger [${challengedWizard.id}] and commitmentHash [${commitmentHash}] for network []`);
+
+        return txHash;
+    }
+
 
     _buildWizardData(network, data) {
         console.log('data', data);
