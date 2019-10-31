@@ -4,7 +4,7 @@ import {
 } from './networkSplitter';
 
 import ABIs from '../ABIs';
-import Addresses, {BasicTournament} from '../Addresses';
+import Addresses, {BasicTournament, GateKeeper} from '../Addresses';
 import env from '../../../../env';
 import {Contract, Wallet} from '../../../AliceSDK/Web3';
 import {getSalt, switchcase} from './index';
@@ -137,7 +137,7 @@ export default new class CheeseWizardsContractService {
 
         const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.BasicTournament.rinkeby
-            : Addresses.ThreeAffinityDuelResolver.main;
+            : Addresses.BasicTournament.main;
 
         const txHash = await Contract.write({
             contractAddress: contractAddress,
@@ -148,11 +148,30 @@ export default new class CheeseWizardsContractService {
             data: '0x0'
         });
 
-        console.log(`One sided commit - wizard [${wizard.id}] challenger [${challengedWizard.id}] and commitmentHash [${commitmentHash}] for network []`);
+        console.log(`One sided commit - wizard [${wizard.id}] challenger [${challengedWizard.id}] and commitmentHash [${commitmentHash}] for network [${network}]`);
 
         return txHash;
     }
 
+    async conjureWizard(network, {affinity, value}) {
+
+        const contractAddress = network.toLowerCase() === 'rinkeby'
+            ? Addresses.GateKeeper.rinkeby
+            : Addresses.GateKeeper.main;
+
+        const txHash = await Contract.write({
+            contractAddress: contractAddress,
+            abi: ABIs.GateKeeper,
+            functionName: 'conjureWizard',
+            parameters: [affinity],
+            value: value,
+            data: '0x0'
+        });
+
+        console.log(`Conjure wizard  - affinity [${affinity}] value [${value}]`);
+
+        return txHash;
+    }
 
     _buildWizardData(network, data) {
         console.log('data', data);
