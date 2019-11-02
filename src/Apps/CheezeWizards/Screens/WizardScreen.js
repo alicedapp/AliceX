@@ -67,7 +67,7 @@ export default class WizardScreen extends React.Component {
 
   async componentDidMount() {
     try {
-      const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready} = this.props.navigation.state.params.wizard;
+      const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready, imageUrl} = this.props.navigation.state.params.wizard;
       console.log('WIZARD DATA PASSED FROM HOME: ', this.props.navigation.state.params.wizard);
       // grabbing only these variables from the object to filter out the other key / values
       const wizard = {
@@ -81,6 +81,7 @@ export default class WizardScreen extends React.Component {
         nonce,
         power,
         ready,
+        imageUrl,
         owner: await Wallet.getAddress()
       };
       this.setState({wizard});
