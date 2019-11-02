@@ -6,7 +6,7 @@
 //     <TouchableOpacity
 //       key={i}
 //       onPress={() =>
-//         this.props.navigation.navigate('DAOstackHome', {
+//         this.props.navigation.navigate('DAOstack/Home', {
 //           dao,
 //           backgroundColor,
 //         })

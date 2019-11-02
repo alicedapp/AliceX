@@ -46,6 +46,7 @@
     "react-native-simple-markdown": "^1.1.0",
     "react-native-svg": "^9.5.1",
     "react-native-svg-uri-reborn": "^1.0.8",
+    "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.11.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",

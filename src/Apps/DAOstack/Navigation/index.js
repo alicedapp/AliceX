@@ -16,10 +16,7 @@ import {
 const DAOHomePage = createBottomTabNavigator(
   {
     // Your ExampleMaps's Tab Navigator's names are defined here as a default
-    DAOstackHome: Proposals,
-    DAOstackRedemptions: Redemptions,
-    DAOstackHolders: Holders,
-    DAOstackHistory: History,
+    "DAOstack/Home": Proposals,
   },
   {
     tabBarOptions: {

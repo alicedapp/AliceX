@@ -12,7 +12,7 @@ export { default as CheezeWizards } from './CheezeWizards';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
-export { default as PoolTogether } from './PoolTogether';
+export { default as DeFiZap } from './DeFiZap';
 
 
 /*      App Registry Section            */
@@ -57,10 +57,10 @@ export const AppRegistry = [
     icon: require('./CheezeWizards/Assets/logo.png')
   },
   // {
-  //   appName: 'Pool Together',
-  //   backgroundColor: '#2A1261',
-  //   homeRoute: 'PoolTogether',
-  //   icon: require('./PoolTogether/Assets/logo.png')
+  //   appName: 'DeFiZap',
+  //   backgroundColor: '#FFFFFF',
+  //   homeRoute: 'DeFiZap',
+  //   icon: require('./DeFiZap/Assets/logo.png')
   // },
   {
     appName: 'Crypto Twitter',

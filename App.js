@@ -91,8 +91,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  DappsScreen: { screen: AppTabNavigator },
-  // DappsScreen: { screen: MiniDapps.CheezeWizards },
+  DappsScreen: { screen: DappsScreen },
+  // DappsScreen: { screen: MiniDapps.DAOstack },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -144,8 +144,11 @@ class App extends Component {
         }
         if (event.walletconnect) {
           console.log('WALLET CONNECT: ', event, event.walletconnect);
-          this.handleOpenURL(event.walletconnect);
           this.setState({ walletconnect: event.walletconnect});
+        }
+        if (event.isDarkMode) {
+          console.log('DARK MODE: ', event, event.isDarkMode);
+          this.setState({ darkMode: event.isDarkMode});
         }
       }
     );

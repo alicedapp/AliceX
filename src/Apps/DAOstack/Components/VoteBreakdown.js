@@ -51,11 +51,17 @@ export default class VoteBreakdown extends Component {
 
   vote = async (vote) => {
     console.log('state: ', this.props.proposal.id);
+    console.log('vote: ', vote);
+
     try {
       if (vote === 'yes') {
+        console.log('yes: ', vote);
+
         const txHash = await Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 1, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
       }
       if (vote === 'no') {
+        console.log('no: ', vote);
+
         Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
       }
     } catch (e) {
@@ -68,56 +74,11 @@ export default class VoteBreakdown extends Component {
     const { totalRepWhenCreated, votesFor, votesAgainst } = this.props;
     const forRatio = this.state.width*this.state.forRatio || 0;
     const againstRatio = this.state.width*this.state.againstRatio || 0;
-    console.log('PROPOSAL ID: ', this.props.proposal)
-    console.log('AGAINST RATIO: ', againstRatio);
-    console.log('FOR RATIO: ', forRatio);
-    console.log('for percentage: ', this.state.forRatio);
-    console.log('against percentage: ', this.state.againstRatio);
     return (
       <View
         style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: width -30, marginBottom: 20}}
       >
         <View style={{ alignItems: 'center', justifyContent: 'space-around' }}>
-          <View style={{flexDirection: 'row'}}>
-            <Image
-              source={require('../Assets/ethereum-logo.png')}
-              style={{
-                height: 25,
-                resizeMode: 'contain',
-              }}
-            />
-            <View style={{alignItems: 'center', }}>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                ETH
-              </Text>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                5
-              </Text>
-            </View>
-            <View style={{alignItems: 'center'}}>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                REP
-              </Text>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                0.22%
-              </Text>
-            </View>
-            <Image
-              source={require('../Assets/dai-logo.png')}
-              style={{
-                height: 25,
-                resizeMode: 'contain',
-              }}
-            />
-            <View style={{alignItems: 'center', }}>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                DAI
-              </Text>
-              <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-                150
-              </Text>
-            </View>
-          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', }}>
             <TouchableOpacity onPress={() => this.vote('yes')}>
               <Image
