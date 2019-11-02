@@ -16,12 +16,8 @@ import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import { Settings, Wallet, Contract, WalletConnect } from "../../../AliceSDK/Web3";
-import env from '../../../../env'
+import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
 
-import ABIs from '../ABIs';
-import {GateKeeper, BasicTournament} from '../Addresses/index'
-import AlchemyApiService from '../Utils/AlchemyApiService'
 import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService'
 
 const options = {

@@ -36,7 +36,7 @@ export default class WizardCard extends React.Component {
 
   renderWizard = () => {
     const affinityImage = switchcase({
-      1: <Image source={require('../Assets/wzrd-1-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}} />,
+      1: <Image source={require('../Assets/wzrd-1-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}}/>,
       2: <Image source={require('../Assets/wzrd-2-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}}/>,
       3: <Image source={require('../Assets/wzrd-3-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}}/>,
       4: <Image source={require('../Assets/wzrd-4-1.png')} style={{resizeMode: 'contain', height: 200, width: 200, marginVertical: 30}}/>,
@@ -49,6 +49,7 @@ export default class WizardCard extends React.Component {
 
   render() {
     const { wizard, key } = this.props;
+    console.log("imageUrl", wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
         <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri: wizard.imageUrl}}  >
