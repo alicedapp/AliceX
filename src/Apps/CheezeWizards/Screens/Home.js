@@ -161,8 +161,7 @@ export default class CheezeWizardsHome extends React.Component {
                   }}/>
                 </Button>
                 <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARD
-                    S</Text>
+                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
                 </View>
                 <Button onPress={Settings.settingsPopUp}>
                   <Image source={require('../Assets/settings-icon.png')} style={{

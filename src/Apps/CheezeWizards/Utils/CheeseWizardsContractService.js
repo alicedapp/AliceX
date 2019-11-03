@@ -52,6 +52,7 @@ export default new class CheeseWizardsContractService {
             : Addresses.BasicTournament.main;
 
         console.log(`Get wizard [${tokenId}] on network [${network}] and address [${contractAddress}]`);
+        console.log('WIZARD: ', tokenId);
 
         const wizard = await Contract.read({
             contractAddress: contractAddress,
@@ -61,7 +62,9 @@ export default new class CheeseWizardsContractService {
             network: network.toLowerCase()
         });
 
-        Object.keys(wizard).forEach(function (key) {
+
+
+      Object.keys(wizard).forEach(function (key) {
             if (typeof wizard[key] === 'object') {
                 wizard[key] = parseInt(wizard[key]._hex);
             }
@@ -87,7 +90,7 @@ export default new class CheeseWizardsContractService {
             network: network.toLowerCase()
         });
 
-        Object.keys(wizardCosts).forEach(function (key) {
+      Object.keys(wizardCosts).forEach(function (key) {
             if (typeof wizardCosts[key] === 'object') {
                 wizardCosts[key] = parseInt(wizardCosts[key]._hex);
             }

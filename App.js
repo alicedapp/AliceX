@@ -91,8 +91,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  DappsScreen: { screen: DappsScreen },
-  // DappsScreen: { screen: MiniDapps.DAOstack },
+  DappsScreen: { screen: AppTabNavigator },
+  // DappsScreen: { screen: MiniDapps.CheezeWizards },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -107,6 +107,11 @@ class App extends Component {
       wallet: '',
       network: '',
       rotation: '',
+      networkColor: '',
+      darkMode: '',
+      walletconnect: '',
+      orientation: '',
+      deeplink: '',
     };
 
     OneSignal.init(env.onesignal);

@@ -47,10 +47,13 @@ type Props = {};
 export default class AppsScreen extends Component<Props> {
   state = {
     modalVisible: false,
-    darkMode: false
+    darkMode: false,
+    network: '',
+    networkColor: ''
   };
 
   async componentDidMount() {
+    this.getNetwork();
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
@@ -58,6 +61,11 @@ export default class AppsScreen extends Component<Props> {
         if (event.isDarkMode === false || event.isDarkMode === true) {
           console.log('DARK MODE: ', event, event.isDarkMode);
           this.setState({ darkMode: event.isDarkMode});
+        }
+        if (event.network) {
+          const parsedEvent = JSON.parse(event.network);
+          console.log('NETWORK CHANGED: ', parsedEvent);
+          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
         }
       });
         // Settings.openBrowser('twitter.com')
@@ -82,6 +90,11 @@ export default class AppsScreen extends Component<Props> {
     //   console.log(err);
     //   console.log('SOMETHING HAPPENED: ', res)
     // });
+  };
+
+  getNetwork = async () => {
+    const networkInfo = await Wallet.getNetwork();
+    this.setState({network: networkInfo.name, networkColor: networkInfo.color});
   };
 
   openBrowser = () => {
@@ -113,7 +126,9 @@ export default class AppsScreen extends Component<Props> {
             <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: 'rgba(255,255,255, 0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
               <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', tintColor: 'rgba(255,255,255, 0.8)', width: 22, height: 30 }}/>
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{color: 'rgba(255,255,255, 0.8)', marginRight: 10, }}>{this.state.network} Network</Text>
+              <View style={{marginRight: 15, backgroundColor: this.state.networkColor, width: 10, height: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}/>
               <TouchableOpacity style={{width: 40, marginRight: 10, height: 40, borderRadius: 17, backgroundColor: 'rgba(255,255,255, 0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
                 <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', tintColor: 'rgba(255,255,255, 0.8)', width: 22, height: 30 }}/>
               </TouchableOpacity>
