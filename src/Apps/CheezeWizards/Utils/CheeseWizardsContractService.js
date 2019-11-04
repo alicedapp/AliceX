@@ -4,7 +4,7 @@ import {
 } from './networkSplitter';
 
 import ABIs from '../ABIs';
-import Addresses, {BasicTournament, GateKeeper} from '../Addresses';
+import Addresses, {BasicTournament, GateKeeper, WizardGuild} from '../Addresses';
 import env from '../../../../env';
 import {Contract, Wallet} from '../../../AliceSDK/Web3';
 import {getSalt, switchcase} from './index';
@@ -37,8 +37,8 @@ export default new class CheeseWizardsContractService {
             });
 
             const contractAddress = network.toLowerCase() === 'rinkeby'
-                ? '0x51b08285adbd35225444b56c1888c49a6bb2f664' // FIXME what is this address?
-                : Addresses.BasicTournament.mainnet;
+                ? WizardGuild.rinkeby
+                : WizardGuild.mainnet;
 
             xhr.open('GET', `${getOpenSeaApiForNetwork(network)}/assets?owner=${owner}&asset_contract_addresses=${contractAddress}`);
             xhr.setRequestHeader('x-api-key', env.opensea);
@@ -47,31 +47,35 @@ export default new class CheeseWizardsContractService {
     }
 
     async getWizardById(network, tokenId) {
-        const contractAddress = network.toLowerCase() === 'rinkeby'
+        try {
+          const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.BasicTournament.rinkeby
-            : Addresses.BasicTournament.main;
+            : Addresses.BasicTournament.mainnet;
 
-        console.log(`Get wizard [${tokenId}] on network [${network}] and address [${contractAddress}]`);
-        console.log('WIZARD: ', tokenId);
+          console.log(`Get wizard [${tokenId}] on network [${network}] and address [${contractAddress}]`);
 
-        const wizard = await Contract.read({
+          const wizard = await Contract.read({
             contractAddress: contractAddress,
             abi: ABIs.BasicTournament,
             functionName: 'getWizard',
             parameters: [tokenId],
-            network: network.toLowerCase()
-        });
+            network: network.toLowerCase(),
+          });
 
+          console.log('WIZARD: ', wizard);
 
-
-      Object.keys(wizard).forEach(function (key) {
+          Object.keys(wizard).forEach(function (key) {
             if (typeof wizard[key] === 'object') {
-                wizard[key] = parseInt(wizard[key]._hex);
+              wizard[key] = parseInt(wizard[key]._hex);
             }
             wizard.id = tokenId;
-        });
+          });
 
-        return this._buildWizardData(network, wizard);
+          return this._buildWizardData(network, wizard);
+
+        } catch(e) {
+            console.log('getWizard error',e);
+        }
     }
 
     async getWizardCosts(network) {
@@ -140,7 +144,7 @@ export default new class CheeseWizardsContractService {
 
         const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.BasicTournament.rinkeby
-            : Addresses.BasicTournament.main;
+            : Addresses.BasicTournament.mainnet;
 
         const txHash = await Contract.write({
             contractAddress: contractAddress,
@@ -160,7 +164,7 @@ export default new class CheeseWizardsContractService {
 
         const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.GateKeeper.rinkeby
-            : Addresses.GateKeeper.main;
+            : Addresses.GateKeeper.mainnet;
 
         const txHash = await Contract.write({
             contractAddress: contractAddress,
