@@ -9,6 +9,7 @@ import axios from "axios";
 
 class AlchemyApiService {
 
+  // FIXME how to handle non-200 status
   constructor () {
     this.headers = {
       "x-api-token": env.alchemy,
@@ -19,17 +20,11 @@ class AlchemyApiService {
 
   async getWizardsForOwner(network, owner) {
     const res = await axios.get(`${getAlchemyApiForNetwork(network)}/wizards?owner=${owner}`, { headers: this.headers });
-
-    // FIXME how to handle non-200 status
-
     return res.data.wizards.map((wizard) => this._buildWizardData(network, wizard));
   };
 
   async getWizardById(network, tokenId) {
     const res = await axios.get(`${getAlchemyApiForNetwork(network)}/wizards/${tokenId}`, { headers: this.headers });
-
-    // FIXME how to handle non-200 status
-
     return this._buildWizardData(network, res.data);
   }
 
