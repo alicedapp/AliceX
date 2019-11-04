@@ -1,5 +1,3 @@
-import {Wallet} from '../../../AliceSDK/Web3';
-
 export const getAlchemyApiForNetwork = (network) => {
     switch (network.toLowerCase()) {
         case 'rinkeby': {

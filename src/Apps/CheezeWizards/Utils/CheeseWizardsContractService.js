@@ -12,11 +12,8 @@ import {ethers} from 'ethers';
 
 export default new class CheeseWizardsContractService {
 
-    // TODO can we use await Wallet.getNetwork(); and not pass in the network to each method?
 
     getWizardsForOwner(network, owner) {
-        // TODO switch to call alchemy APi once we know what rinkeby doesnt work ....
-
         return new Promise(resolve => {
 
             const xhr = new XMLHttpRequest();
