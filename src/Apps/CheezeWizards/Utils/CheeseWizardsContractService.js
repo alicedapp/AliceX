@@ -4,14 +4,13 @@ import {
 } from './networkSplitter';
 
 import ABIs from '../ABIs';
-import Addresses, {BasicTournament, GateKeeper, WizardGuild} from '../Addresses';
+import Addresses, {WizardGuild} from '../Addresses';
 import env from '../../../../env';
 import {Contract, Wallet} from '../../../AliceSDK/Web3';
 import {getSalt, switchcase} from './index';
 import {ethers} from 'ethers';
 
 export default new class CheeseWizardsContractService {
-
 
     getWizardsForOwner(network, owner) {
         return new Promise(resolve => {
