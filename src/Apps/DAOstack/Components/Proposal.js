@@ -10,8 +10,7 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import makeBlockie from 'ethereum-blockies-base64';
-import Markdown from 'react-native-simple-markdown'
-
+import Markdown from 'react-native-simple-markdown';
 
 import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown } from './'
 import { Settings } from '../../../AliceSDK/Web3';
@@ -27,17 +26,8 @@ export default class Proposal extends Component {
     };
   }
 
-  newProposal = () => {
-    const options = {};
-    ReactNativeHapticFeedback.trigger('selection', options);
-    this.props.navigation.navigate('NewProposal');
-  };
-
-
-
   render() {
     const { proposal, key, proposer, beneficiary } = this.props;
-    console.log('PROPOSAL PROPS: ', this.props)
     const gravatar = makeBlockie(proposal.proposer)
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
@@ -56,21 +46,22 @@ export default class Proposal extends Component {
       }
     }
     return (
-      <View
+      <TouchableOpacity
         key={key}
-        onPress={() => this.props.navigation.navigate('DAOstackHome')}
+        onPress={() => this.props.navigation.navigate('DetailedProposal', {proposal, proposer, beneficiary})}
         style={styles.daoBox}
       >
         <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
             <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
-            <View>
+            <View style={{width: '100%'}}>
               <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
               <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
                 <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
                 <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
                 <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
               </View>
+              <Text numberOfLines={1} style={{fontSize: 15, fontWeight: '700', width: '100%'}}>{proposal.title}</Text>
             </View>
           </View>
           <View
@@ -84,8 +75,9 @@ export default class Proposal extends Component {
             { proposal.description ? <ProposalDescription /> : null }
           </View>
         </View>
+        <ContributionReward proposal={proposal}/>
         <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
-      </View>
+      </TouchableOpacity>
     );
   }
 }

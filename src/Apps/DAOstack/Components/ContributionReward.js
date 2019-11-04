@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, Image } from 'react-native';
+import { Text, StyleSheet, Image, View } from "react-native";
 
 export default class ContributionReward extends Component {
   constructor() {
@@ -10,15 +10,38 @@ export default class ContributionReward extends Component {
    const contributionReward = proposal.contributionReward
    const reputationReward = () => {
      if(contributionReward.reputationReward) {
-       return `${contributionReward.reputationReward / 10e21} % Rep.`
+       return `${contributionReward.reputationReward / 10e21} %`
      }
    }
    if(contributionReward) {
      if(contributionReward.ethReward != 0) {
        return (
-         <Text numberOfLines={1} style={{}}>
-           { contributionReward.ethReward / 10e17 } ETH + { reputationReward() }
-         </Text>
+         <View style={{flexDirection: 'row'}}>
+           <Image
+             source={require('../Assets/ethereum-logo.png')}
+             style={{
+               height: 25,
+               resizeMode: 'contain',
+             }}
+           />
+           <View style={{alignItems: 'center', }}>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               ETH
+             </Text>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               { contributionReward.ethReward / 10e17 }
+             </Text>
+           </View>
+           <View style={{alignItems: 'center'}}>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               REP
+             </Text>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               { reputationReward() }
+             </Text>
+           </View>
+
+         </View>
        )
      }
      else if (contributionReward.externalTokenReward != 0) {
@@ -46,44 +69,38 @@ export default class ContributionReward extends Component {
          }
        }
        return (
-         <Text numberOfLines={1} style={{}}>
-           { externalTokenReward() } { externalToken() } + { reputationReward() }
-         </Text>
+         <View>
+           <Image
+             source={require('../Assets/daostack.png')}
+             style={{
+               height: 25,
+               resizeMode: 'contain',
+             }}
+           />
+           <View style={{alignItems: 'center', }}>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               { externalToken() }
+             </Text>
+             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+               {externalTokenReward()}
+             </Text>
+           </View>
+         </View>
        )
      }
      else {
        // this happens when contributionReward.externalTokenReward is 0. Need to fix this.
        return (
-         <Text numberOfLines={1} style={{}}>
-           Less than 1% Rep
-         </Text>
+         <View style={{alignItems: 'center'}}>
+           <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+             REP
+           </Text>
+           <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
+             { "< 0.01%" }
+           </Text>
+         </View>
        )
      }
-   }
- }
-
-  contributionBeneficiary(proposal) {
-    const contributionReward = proposal.contributionReward
-    if(contributionReward) {
-      return (
-        <Text numberOfLines={1} style={{}}>
-          { contributionReward && contributionReward.beneficiary.slice(0, 15) }...
-        </Text>
-      )
-    }
-  }
-
-  contributionToIcon(proposal) {
-   const contributionReward = proposal.contributionReward
-   if(contributionReward){
-     return (
-       <Image
-         source={require('../Assets/transfer-icon.png')}
-         style={{ height: 10, resizeMode: 'contain', }}
-       />
-     )
-   } else {
-     return <Text>No contribution reward</Text>
    }
  }
 
@@ -92,8 +109,6 @@ export default class ContributionReward extends Component {
     return (
       <>
         { this.contributionReward(proposal) }
-        { this.contributionToIcon(proposal) }
-        { this.contributionBeneficiary(proposal) }
       </>
     );
   }

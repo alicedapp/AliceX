@@ -29,7 +29,6 @@ export default class FloatingButton extends Component<Props> {
 
   render() {
     const {tokenInfo, iterator, token} = this.props;
-    console.log('BUTTON PROPS: ', this.props);
     return (
       <TouchableWithoutFeedback key={iterator} onPressIn={this.animateIn} onPressOut={this.animateOut}>
         <Animated.View  style={{...this.props.style, transform: [

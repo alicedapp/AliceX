@@ -15,6 +15,7 @@ import ABIs from '../ABIs';
 import {GateKeeper} from '../Addresses/index'
 import {switchcase} from "../Utils";
 import { BasicTournament } from "../Addresses";
+import { Wallet } from "../../../AliceSDK/Web3";
 
 const options = {
   enableVibrateFallback: true,
@@ -22,6 +23,8 @@ const options = {
 };
 
 const { height, width } = Dimensions.get('window');
+
+import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService'
 
 export default class SummonScreen extends React.Component {
 
@@ -48,15 +51,9 @@ export default class SummonScreen extends React.Component {
 
   async componentDidMount() {
     try {
-      let wizardCosts = await Contract.read({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'wizardCosts', parameters: [], network: 'rinkeby'});
-      Object.keys(wizardCosts).forEach(function(key){ if (typeof wizardCosts[key] === "object") {
-        console.log('WIZARD KEY: ', wizardCosts[key]);
-        console.log('PARSED WIZARD KEY: ', parseInt(wizardCosts[key]._hex));
-        wizardCosts[key] = parseInt(wizardCosts[key]._hex)
-      }});
+      const wizardCosts = await CheeseWizardsContractService.getWizardCosts(await Wallet.getNetwork());
       console.log('WIZARD COSTS: ', wizardCosts);
       this.setState({wizardCosts});
-
     } catch(e) {
       console.log('fetch costs error: ', e)
     }
@@ -72,15 +69,19 @@ export default class SummonScreen extends React.Component {
     });
     const affinity = getAffinity(_affinity);
     console.log('AFFINITY: ', affinity);
-    const {wizardCosts} = this.state;
     try {
-      if (affinity === 1) {
-        const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: wizardCosts.neutralWizardCost/10e17, data: '0x0'})
+        const {wizardCosts} = this.state;
 
-      } else {
-        const txHash = await Contract.write({contractAddress: GateKeeper.rinkeby, abi: ABIs.GateKeeper, functionName: 'conjureWizard', parameters: [affinity], value: wizardCosts.elementalWizardCost/10e17, data: '0x0'})
-      }
-      console.log("TX HASH: ", txHash);
+        const value = affinity === 1
+             ? wizardCosts.neutralWizardCost / 10e17
+             : wizardCosts.elementalWizardCost / 10e17;
+
+          const txHash = await CheeseWizardsContractService.conjureWizard(await Wallet.getNetwork(), {
+              value,
+              affinity
+          });
+
+          console.log('TX HASH: ', txHash);
     } catch(e) {
       console.log('WIZARD PURCHASE ERROR: ', e);
     }

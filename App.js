@@ -107,6 +107,11 @@ class App extends Component {
       wallet: '',
       network: '',
       rotation: '',
+      networkColor: '',
+      darkMode: '',
+      walletconnect: '',
+      orientation: '',
+      deeplink: '',
     };
 
     OneSignal.init(env.onesignal);
@@ -144,8 +149,11 @@ class App extends Component {
         }
         if (event.walletconnect) {
           console.log('WALLET CONNECT: ', event, event.walletconnect);
-          this.handleOpenURL(event.walletconnect);
           this.setState({ walletconnect: event.walletconnect});
+        }
+        if (event.isDarkMode) {
+          console.log('DARK MODE: ', event, event.isDarkMode);
+          this.setState({ darkMode: event.isDarkMode});
         }
       }
     );

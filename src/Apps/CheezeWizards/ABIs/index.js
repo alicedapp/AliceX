@@ -1,14 +1,13 @@
-import BasicTournament from '../ABIs/BasicTournament'
-import GateKeeper from '../ABIs/GateKeeper'
-import ThreeAffinityDuelResolver from '../ABIs/ThreeAffinityDuelResolver'
-import WizardGuild from '../ABIs/WizardGuild'
-import WizardPresale from '../ABIs/WizardPresale'
-const Contracts =  {
+import BasicTournament from './BasicTournament';
+import GateKeeper from './GateKeeper';
+import ThreeAffinityDuelResolver from './ThreeAffinityDuelResolver';
+import WizardGuild from './WizardGuild';
+import WizardPresale from './WizardPresale';
+
+export default {
   BasicTournament,
   GateKeeper,
   ThreeAffinityDuelResolver,
-  WizardPresale,
-  WizardGuild
+  WizardGuild,
+  WizardPresale
 }
-
-export default Contracts;

@@ -34,7 +34,7 @@ export default class DAOstackApp extends Component {
     return (
       <View
         key={key}
-        onPress={() => this.props.navigation.navigate('DAOstackHome')}
+        onPress={() => this.props.navigation.navigate('DAOstack/Home')}
         style={styles.daoBox}
       >
         <View

@@ -22,7 +22,7 @@ export default class AppIcon extends Component<Props> {
         <TouchableOpacity style={{...styles.appCircle, backgroundColor: this.props.backgroundColor}} onPress={this._navigate}>
           <Image source={this.props.icon} style={{ width: 40, height: 40, resizeMode: 'contain' }}/>
         </TouchableOpacity>
-        <Text style={styles.appText}>{this.props.appName}</Text>
+        <Text style={[styles.appText, {color: this.props.darkMode ? 'white' : 'black'}]}>{this.props.appName}</Text>
       </View>
     )
   }
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   appText: {
-    color: 'black',
     fontSize: 10,
     // fontFamily: 'Graphik',
   },

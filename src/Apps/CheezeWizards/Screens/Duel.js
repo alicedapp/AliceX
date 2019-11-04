@@ -24,6 +24,7 @@ import metrics from "../Utils/metrics";
 import WizardCard from "../Components/WizardCard";
 import { DraggableGrid } from 'react-native-draggable-grid';
 import db from "../../../AliceSDK/Socket";
+import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService';
 const ELEMENT_FIRE = 2;
 const ELEMENT_WATER = 3;
 const ELEMENT_WIND = 4;
@@ -65,7 +66,6 @@ export default class DuelScreen extends React.Component {
       ],
       itemsPerRow: 1
     };
-
   }
 
   animate = () => {
@@ -110,20 +110,18 @@ export default class DuelScreen extends React.Component {
     }
     const { wizard, challengedWizard } = this.props.navigation.state.params;
     this.setState({pressed: !this.state.pressed});
-    const moves = this.state.items.map((item) => switchcase({'fire':'02', 'water': '03', 'wind': '04'})(item.element)).join('');
-    const moveSet = `0x${moves}000000000000000000000000000000000000000000000000000000`;
-    console.log('MOVESET: ', moveSet);
-    const salt = getSalt();
-    console.log('SALT: ', salt);
-    const commitmentHash = ethers.utils.keccak256(moveSet+salt);
-    const isValid = await Contract.read({contractAddress: ThreeAffinityDuelResolver.rinkeby, abi: ABIs.ThreeAffinityDuelResolver, functionName: 'isValidMoveSet', parameters: [moveSet], network: 'rinkeby'});
+    console.log('network: ', (await Wallet.getNetwork()).name);
 
-    // this.enterBattle(moveSet, "0x"+salt, commitmentHash);
-    console.log('COMMITMENT HASH: ', commitmentHash);
-    console.log('IS VALID: ', isValid);
+
+    const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet((await Wallet.getNetwork()).name, this.state.items);
+
     try {
-      const txHash = await Contract.write({contractAddress: BasicTournament.rinkeby, abi: ABIs.BasicTournament, functionName: 'oneSidedCommit', parameters: [parseInt(wizard.id), parseInt(challengedWizard.id), commitmentHash], value: '0', data: '0x0'})
-      console.log('txHash: ', txHash);
+      console.log('network: ', (await Wallet.getNetwork()).name);
+        const txHash = await CheeseWizardsContractService.oneSidedCommit((await Wallet.getNetwork()).name, {
+            wizard,
+            challengedWizard,
+            commitmentHash
+        });
       this.setState({txHash},() => this.enterBattle(moveSet, "0x"+salt, commitmentHash));
     } catch(e) {
       console.log(e);

@@ -106,7 +106,7 @@ export default class DAOs extends Component {
                         <TouchableOpacity
                           key={i}
                           onPress={() =>
-                            this.props.navigation.navigate('DAOstackHome', { dao, backgroundColor })
+                            this.props.navigation.navigate('DAOstack/Home', { dao, backgroundColor })
                           }
                           style={styles.daoBox}
                         >

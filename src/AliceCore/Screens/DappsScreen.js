@@ -9,7 +9,7 @@ import {
   Dimensions, Text
 } from "react-native";
 import AppIcon from "../Components/AppIcon";
-import {Settings} from "../../AliceSDK/Web3";
+import { Settings, Wallet } from "../../AliceSDK/Web3";
 import {AppRegistry} from "../../Apps/AppRegistry";
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
@@ -47,10 +47,28 @@ type Props = {};
 export default class AppsScreen extends Component<Props> {
   state = {
     modalVisible: false,
+    darkMode: false,
+    network: '',
+    networkColor: ''
   };
 
   async componentDidMount() {
-    // Settings.openBrowser('twitter.com')
+    this.getNetwork();
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
+      "aliceEvent",
+      (event) => {
+        if (event.isDarkMode === false || event.isDarkMode === true) {
+          console.log('DARK MODE: ', event, event.isDarkMode);
+          this.setState({ darkMode: event.isDarkMode});
+        }
+        if (event.network) {
+          const parsedEvent = JSON.parse(event.network);
+          console.log('NETWORK CHANGED: ', parsedEvent);
+          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color});
+        }
+      });
+        // Settings.openBrowser('twitter.com')
     // await client.startClient({initialSyncLimit: 10});
     // client.once('sync', function(state, prevState, res) {
     //   if(state === 'PREPARED') {
@@ -70,13 +88,23 @@ export default class AppsScreen extends Component<Props> {
     // };
     // client.sendEvent("!QtykxKocfZaZOUrTwp:matrix.org", "m.room.message", content, "", (err, res) => {
     //   console.log(err);
-    //   console.log('SMOETHING HAPPENED: ', res)
+    //   console.log('SOMETHING HAPPENED: ', res)
     // });
-  }
+  };
+
+  getNetwork = async () => {
+    const networkInfo = await Wallet.getNetwork();
+    this.setState({network: networkInfo.name, networkColor: networkInfo.color});
+  };
 
   openBrowser = () => {
     ReactNativeHapticFeedback.trigger("impactLight", options);
     Settings.openBrowser()
+  };
+
+  openSettings = () => {
+    ReactNativeHapticFeedback.trigger("impactLight", options);
+    Settings.settingsPopUp()
   };
 
   qrScanner = async () => {
@@ -90,26 +118,34 @@ export default class AppsScreen extends Component<Props> {
   };
 
   render() {
+    console.log('darkmode state: ', this.state.darkMode)
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <>
-          <View style={{flexDirection: 'row', width: '100%', position: 'absolute', top: 50, paddingHorizontal: 20, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
-            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
-              <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', width: 22, height: 30 }}/>
+        <View style={{backgroundColor: 'black', flex: 1}}>
+          <View style={{flexDirection: 'row', width: '100%', position: 'absolute', top: 44, paddingHorizontal: 20, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: 'rgba(255,255,255, 0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
+              <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', tintColor: 'rgba(255,255,255, 0.8)', width: 22, height: 30 }}/>
             </TouchableOpacity>
-            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: '#EAEDEF', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
-              <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', width: 22, height: 30 }}/>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{color: 'rgba(255,255,255, 0.8)', marginRight: 10, }}>{this.state.network} Network</Text>
+              <View style={{marginRight: 15, backgroundColor: this.state.networkColor, width: 10, height: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}/>
+              <TouchableOpacity style={{width: 40, marginRight: 10, height: 40, borderRadius: 17, backgroundColor: 'rgba(255,255,255, 0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
+                <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', tintColor: 'rgba(255,255,255, 0.8)', width: 22, height: 30 }}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: 'rgba(255,255,255, 0.2)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+                <Image source={require('../Assets/settings-gear.png')} style={{ resizeMode: 'contain', tintColor: 'rgba(255,255,255, 0.6)', width: 22, height: 30 }}/>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.container}>
+          <View style={[styles.container, {backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.15)' : 'white',}]}>
             <View style={styles.appsContainer}>
               {AppRegistry.map((app, i) => {
-                return (<AppIcon key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} browserRoute={app.browserRoute} icon={app.icon} iterator={i} />)
+                return (<AppIcon darkMode={this.state.darkMode} key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} browserRoute={app.browserRoute} icon={app.icon} iterator={i} />)
               })
               }
             </View>
           </View>
-        </>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -125,11 +161,10 @@ const styles = StyleSheet.create({
   },
   appsContainer: {
     alignItems: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingBottom: 10,
-    paddingTop: 10,
-    width: width - 20,
+    flex: 1,
   },
   appSquare: {
     alignItems: 'center',
@@ -154,11 +189,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 100,
-    padding: 20,
+    padding: 10,
+    borderRadius: 40,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: 'white',
+
   },
   headingText: {
     color: 'black',

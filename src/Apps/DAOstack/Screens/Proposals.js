@@ -175,7 +175,7 @@ export default class Proposals extends Component {
 
                       if (proposal.stage === 'Boosted') {
                         boostedAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
@@ -184,7 +184,7 @@ export default class Proposals extends Component {
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
                         pendingAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                     <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
@@ -193,7 +193,7 @@ export default class Proposals extends Component {
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {
                         regularAmount += 1;
-                        return <Proposal key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward.beneficiary && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
                   </View>
