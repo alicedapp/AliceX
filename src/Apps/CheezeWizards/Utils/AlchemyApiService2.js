@@ -18,16 +18,14 @@ const getWizardsForOwner = async (network, owner) => {
       }
     }
   );
-
-  const _buildWizardData = (network, data) => {
+  
+  return res.data.wizards.map((wizard) => {
     return {
-      ...data,
-      imageUrl: getCheeseWizardsImageUrlForNetwork(network, data.id)
+      ...wizard,
+      imageUrl: getCheeseWizardsImageUrlForNetwork(network, wizard.id)
     };
-  };
-
-  return res.data.wizards.map((wizard) => _buildWizardData(network, wizard));
+  });
 };
 
-export default getWizardsForOwner
+export default getWizardsForOwner;
 
