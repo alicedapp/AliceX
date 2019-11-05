@@ -68,7 +68,6 @@ export default class WizardScreen extends React.Component {
   async componentDidMount() {
     try {
       const {id, affinity, ascending, ascensionOpponent, currentDuel, maxPower, molded, nonce, power, ready, imageUrl} = this.props.navigation.state.params.wizard;
-      console.log('WIZARD DATA PASSED FROM HOME: ', this.props.navigation.state.params.wizard);
       // grabbing only these variables from the object to filter out the other key / values
       const wizard = {
         id,
@@ -96,7 +95,6 @@ export default class WizardScreen extends React.Component {
 
   startBattleSocket = async () => {
     db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
-      console.log('snapshot right: ', snapshot.data());
       !this.state.instantiated ? this.setState({instantiated: true}) : this.setState({receivedChallenge: snapshot.data(), qrModalVisible: false, arrowModalVisible: true})
     })
   };

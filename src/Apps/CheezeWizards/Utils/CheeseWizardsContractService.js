@@ -52,6 +52,10 @@ export default new class CheeseWizardsContractService {
             ? Addresses.BasicTournament.rinkeby
             : Addresses.BasicTournament.mainnet;
 
+          const ABI = network.toLowerCase() === 'rinkeby'
+            ? Addresses.BasicTournament.rinkeby
+            : Addresses.WizardGuild.mainnet;
+
           console.log(`Get wizard [${tokenId}] on network [${network}] and address [${contractAddress}]`);
 
           const wizard = await Contract.read({
@@ -61,8 +65,6 @@ export default new class CheeseWizardsContractService {
             parameters: [tokenId],
             network: network.toLowerCase(),
           });
-
-          console.log('WIZARD: ', wizard);
 
           Object.keys(wizard).forEach(function (key) {
             if (typeof wizard[key] === 'object') {
@@ -82,7 +84,7 @@ export default new class CheeseWizardsContractService {
 
         const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.GateKeeper.rinkeby
-            : Addresses.GateKeeper.main;
+            : Addresses.GateKeeper.mainnet;
 
         console.log(`Get wizard costs on network [${network}] and address [${contractAddress}]`);
 
@@ -120,14 +122,14 @@ export default new class CheeseWizardsContractService {
 
         const contractAddress = network.toLowerCase() === 'rinkeby'
             ? Addresses.ThreeAffinityDuelResolver.rinkeby
-            : Addresses.ThreeAffinityDuelResolver.main;
+            : Addresses.ThreeAffinityDuelResolver.mainnet;
 
         const isValid = await Contract.read({
             contractAddress: contractAddress,
             abi: ABIs.ThreeAffinityDuelResolver,
             functionName: 'isValidMoveSet',
             parameters: [moveSet],
-            network: 'rinkeby'
+            network: network.toLowerCase()
         });
 
         console.log(`Commitment Hash [${commitmentHash}] isValid [${isValid}]`);
@@ -166,24 +168,24 @@ export default new class CheeseWizardsContractService {
             ? Addresses.GateKeeper.rinkeby
             : Addresses.GateKeeper.mainnet;
 
+        console.log(`Conjure wizard  - affinity [${affinity}] value [${value}]`);
         const txHash = await Contract.write({
             contractAddress: contractAddress,
             abi: ABIs.GateKeeper,
             functionName: 'conjureWizard',
             parameters: [affinity],
-            value: value,
+            value: value + 0.0001,
             data: '0x0'
         });
 
-        console.log(`Conjure wizard  - affinity [${affinity}] value [${value}]`);
 
         return txHash;
     }
 
     _buildWizardData(network, data) {
-        console.log('data', data);
         return {
             ...data,
+
             imageUrl: getCheeseWizardsImageUrlForNetwork(network, data.id)
         };
     }
