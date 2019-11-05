@@ -58,7 +58,6 @@ export default class BattleScreen extends React.Component {
 
   getBattleStatus = async () => {
     db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
-      console.log('BATTLE STATUS: ', snapshot.data());
       this.setState({challengedWizard: snapshot.data()})
     })
   };
@@ -94,7 +93,6 @@ export default class BattleScreen extends React.Component {
 
   render() {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
-    console.log('BATTLE SCREEN DATA : ', this.props.navigation.state.params);
     return (
       <View style={{flex: 1, backgroundColor: this.state.footerColor, alignItems: 'center', justifyContent: 'flex-start'}}>
         <NavigationBar/>
