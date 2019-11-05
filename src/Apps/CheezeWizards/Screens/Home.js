@@ -18,7 +18,7 @@ import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
 
-import CheeseWizardsContractService from '../Utils/CheeseWizardsContractService'
+import wizardsService from '../Services/WizardsService';
 
 const options = {
   enableVibrateFallback: true,
@@ -112,8 +112,8 @@ export default class CheezeWizardsHome extends React.Component {
 
   fetchWizards = async () => {
       const finishedLoading = () => this.setState({loading: false, fetching: false});
-      const wizards = await CheeseWizardsContractService.getWizardsForOwner(this.state.network, (await Wallet.getAddress()));
-      console.log("wizards", wizards);
+      const wizards = await wizardsService.getMyWizards();
+      console.log("MY WIZARDS:", wizards);
       this.setState({wizards}, finishedLoading);
   };
 

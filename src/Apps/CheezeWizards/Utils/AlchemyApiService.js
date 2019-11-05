@@ -1,91 +1,40 @@
 import {
-    getAlchemyApiForNetwork,
-    getCheeseWizardsImageUrlForNetwork
-} from './networkSplitter';
+  getAlchemyApiForNetwork,
+  getCheeseWizardsImageUrlForNetwork
+} from "./networkSplitter";
 
-import env from '../../../../env';
+import env from "../../../../env";
 
-export default new class AlchemyApiService {
+import axios from "axios";
 
-    getWizardsForOwner(network, owner) {
-        return new Promise(resolve => {
+class AlchemyApiService {
 
-            const xhr = new XMLHttpRequest();
-
-            const onData = async (data) => {
-                resolve(data.wizards.map((wizard) => this._buildWizardData(network, wizard)));
-            };
-
-            xhr.addEventListener('readystatechange', function () {
-                if (this.readyState === this.DONE) {
-                    console.log("this.responseText", this.responseText);
-                    onData(JSON.parse(this.responseText));
-                }
-            });
-
-            xhr.open('GET', `${getAlchemyApiForNetwork(network)}/wizards?owner=${owner}`);
-            xhr.setRequestHeader('x-api-token', env.alchemy);
-            xhr.setRequestHeader('x-email', env.alchemy_email);
-            xhr.setRequestHeader('content-type', 'application/json');
-            xhr.send();
-        });
+  // FIXME how to handle non-200 status
+  constructor () {
+    this.headers = {
+      "x-api-token": env.alchemy,
+      "x-email": env.alchemy_email,
+      "content-type": "application/json"
     }
+  }
 
-    getWizardById(network, tokenId) {
-        return new Promise(resolve => {
-            const xhr = new XMLHttpRequest();
+  async getWizardsForOwner(network, owner) {
+    const res = await axios.get(`${getAlchemyApiForNetwork(network)}/wizards?owner=${owner}`, { headers: this.headers });
+    return res.data.wizards.map((wizard) => this._buildWizardData(network, wizard));
+  };
 
-            const onData = async (data) => {
-                resolve(this._buildWizardData(network, data));
-            };
+  async getWizardById(network, tokenId) {
+    const res = await axios.get(`${getAlchemyApiForNetwork(network)}/wizards/${tokenId}`, { headers: this.headers });
+    return this._buildWizardData(network, res.data);
+  }
 
-            xhr.addEventListener('readystatechange', function () {
-                if (this.readyState === this.DONE) {
-                    onData(JSON.parse(this.responseText));
-                }
-            });
+  _buildWizardData(network, data) {
+    return {
+      ...data,
+      imageUrl: getCheeseWizardsImageUrlForNetwork(network, data.id)
+    };
+  }
+}
 
-            xhr.open('GET', `${getAlchemyApiForNetwork(network)}/wizards/${tokenId}`);
-            xhr.setRequestHeader('x-api-token', env.alchemy);
-            xhr.setRequestHeader('x-email', env.alchemy_email);
-            xhr.setRequestHeader('content-type', 'application/json');
-            xhr.send();
-        });
-    }
+export default AlchemyApiService;
 
-    getDualById(network, dualId) {
-        return new Promise(resolve => {
-            const xhr = new XMLHttpRequest();
-            const onData = async (data) => {
-                resolve({
-                    ...data,
-                    wizard1: {
-                        ...await this.getWizardById(network, data.wizard1Id)
-                    },
-                    wizard2: {
-                        ...await this.getWizardById(network, data.wizard2Id)
-                    }
-                });
-            };
-            xhr.addEventListener('readystatechange', function () {
-                if (this.readyState === this.DONE) {
-                    onData(JSON.parse(this.responseText));
-                }
-            });
-
-            xhr.open('GET', `${getAlchemyApiForNetwork(network)}/dual/${dualId}`);
-            xhr.setRequestHeader('x-api-token', env.alchemy);
-            xhr.setRequestHeader('x-email', env.alchemy_email);
-            xhr.setRequestHeader('content-type', 'application/json');
-            xhr.send();
-        });
-    }
-
-    _buildWizardData(network, data) {
-        return {
-            ...data,
-            imageUrl: getCheeseWizardsImageUrlForNetwork(network, data.id)
-        };
-    }
-
-};
