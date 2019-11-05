@@ -53,12 +53,41 @@ export default new class FirebaseService {
     }
 
     async getOnlineWizards(network) {
-        const allWizards = await this.allWizards(network);
-        return allWizards.filter(wizard => wizard.online);
+        return db
+            .collection('wizards')
+            .doc('network')
+            .collection(network)
+            .where('online', '==', true)
+            .get()
+            .then(snapshots => {
+                if (snapshots.empty) {
+                    return [];
+                }
+                const wizards = [];
+                snapshots.docs.forEach(doc => {
+                    wizards.push(doc.data());
+                });
+                return wizards;
+            });
     }
 
     async getWizardsByOwner(network, owner) {
-
+        return db
+            .collection('wizards')
+            .doc('network')
+            .collection(network)
+            .where('owner', '==', owner)
+            .get()
+            .then(snapshots => {
+                if (snapshots.empty) {
+                    return [];
+                }
+                const wizards = [];
+                snapshots.docs.forEach(doc => {
+                    wizards.push(doc.data());
+                });
+                return wizards;
+            });
     }
 
     // async registerWizardForDueling(network, {owner, wizard}) {
@@ -88,25 +117,6 @@ export default new class FirebaseService {
     //         });
     // }
     //
-    // async getRegisteredWizardsForOwner(network, owner) {
-    //     return db
-    //         .collection("data")
-    //         .doc(network)
-    //         .collection("duels")
-    //         .doc(owner)
-    //         .collection("wizards")
-    //         .get()
-    //         .then((snapshots) => {
-    //             if (snapshots.empty) {
-    //                 return [];
-    //             }
-    //             const wizards = [];
-    //             snapshots.docs.forEach((value) => {
-    //                 wizards.push(value.data());
-    //             });
-    //             return wizards;
-    //         });
-    // }
     //
     // async getWizardsAwaitingDuels(network) {
     //

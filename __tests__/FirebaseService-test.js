@@ -75,3 +75,24 @@ test("Can update wizard's online status", async () =>  {
     expect(newOnlineWizards.filter(onlineWizard => onlineWizard.id === wizard.id).length).toBe(0);
 });
 
+test.only("Can take all of an owner's wizards offline", async () => {
+    // Ensure the firestore has test data
+    const network = 'rinkeby';
+    await firebaseService.upsertWizards(network, wizards);
+
+    // Get all wizards of an owner
+    let ownedWizards = await firebaseService.getWizardsByOwner(network, owner1);
+    expect(ownedWizards.length).toBe(2);
+
+    const allWizardsOnline = ownedWizards.map(wizard => wizard.online).reduce((t, n) => t && n);
+    expect(allWizardsOnline).toBe(true);
+
+    // Take them offline
+    const offlineWizardsToUpsert = ownedWizards.map(wizard => ({id: wizard.id, online: false}));
+    await firebaseService.upsertWizards(network, offlineWizardsToUpsert);
+
+    ownedWizards = await firebaseService.getWizardsByOwner(network, owner1);
+    const allWizardsOffline = ownedWizards.map(wizard => wizard.online).reduce((t, n) => n === false && t === n);
+    expect(allWizardsOffline).toBe(true);
+});
+
