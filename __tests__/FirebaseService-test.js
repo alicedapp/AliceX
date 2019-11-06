@@ -118,6 +118,7 @@ test.only("Can issue a challenge successfully", async () => {
     const receivedChallenge = challengeesChallenges[0];
     expect(receivedChallenge.challengingWizardId).toBe(challengingWizardId);
     expect(receivedChallenge.challengeId).toBe(challengeId);
+    expect(receivedChallenge.challengeAccepted).toBe(false);
 
     const challengersChallenges = await firebaseService.getChallengesByWizard(network, challengingWizardId);
     expect(challengersChallenges.length).toBe(1);
@@ -125,5 +126,10 @@ test.only("Can issue a challenge successfully", async () => {
     const issuedChallenge = challengersChallenges[0];
     expect(issuedChallenge.otherWizardId).toBe(otherWizardId);
     expect(issuedChallenge.challengeId).toBe(challengeId);
+    expect(issuedChallenge.challengeAccepted).toBe(false);
+});
+
+test.only("Can accept a challenge successfull", async () => {
+
 });
 

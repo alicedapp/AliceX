@@ -124,14 +124,16 @@ export default new class FirebaseService {
         // challenger data
         const challengerData = {
             currentDuel: '0x0000000000000000000000000000000000000000000000000000000000000000',
-            otherWizardId
+            otherWizardId,
+            challengeAccepted: false,
         };
 
         // challengee data
         const challengeeData = {
             currentDuel: '0x0000000000000000000000000000000000000000000000000000000000000000',
             challengingWizardId,
-            commitmentHash: ''
+            commitmentHash: '',
+            challengeAccepted: false,
         };
 
         const networkRef = db.collection('wizards').doc('network').collection(network);
@@ -142,6 +144,30 @@ export default new class FirebaseService {
             t.set(challengerDataRef, challengerData);
             t.set(challengeeDataRef, challengeeData);
             return Promise.resolve('done');
+        });
+    }
+
+    async acceptChallenge(network, {wizardId, challengeId, commitmentHash, currentDuel}) {
+        const networkRef = db.collection('wizards').doc('network').collection(network);
+        const challengeRef = networkRef
+            .doc(wizardId)
+            .collection('duel')
+            .doc(challengeId);
+
+        await db.runTransaction(t => {
+           return t.get(challengeRef).then(doc => {
+               const challenge = doc.data();
+               const challengerRef = networkRef.doc(challenge.challengingWizardId).collection('duel').doc(challengeId);
+               return t.get(challengerRef).then(() => {
+                   t.update(challengeRef, {
+                       challengeAccepted: true,
+                       commitmentHash,
+                       currentDuel
+                   });
+
+                   t.update(challengerRef, {challengeAccepted: true});
+               });
+           });
         });
     }
 
