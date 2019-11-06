@@ -2,7 +2,7 @@ import db from '../../../AliceSDK/Socket/index';
 
 export default new class FirebaseService {
 
-    async allUsers() {
+    async getAllUsers() {
         return db
             .collection("users")
             .get()
@@ -20,7 +20,8 @@ export default new class FirebaseService {
 
     }
 
-    async allWizards(network) {
+    // Todo: should return an empty array if network is not defined or not a valid string + associated test
+    async getAllWizards(network) {
         return db
             .collection('wizards')
             .doc('network')
@@ -38,20 +39,7 @@ export default new class FirebaseService {
             });
     }
 
-    async upsertWizards(network, wizards) {
-        return Promise.all(wizards.map((wizard) => {
-            // /wizards/network/{networkID}/{wizardID}/
-            return db
-                .collection('wizards')
-                .doc('network')
-                .collection(network)
-                .doc(wizard.id)
-                .set(wizard, {
-                    merge: true
-                });
-        }));
-    }
-
+    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     async getOnlineWizards(network) {
         return db
             .collection('wizards')
@@ -71,6 +59,8 @@ export default new class FirebaseService {
             });
     }
 
+    // Todo: should return an empty array if network is not defined or not a valid string + associated test
+    // Todo: should return an empty array if owner is not defined or not a valid address + associated test
     async getWizardsByOwner(network, owner) {
         return db
             .collection('wizards')
@@ -88,6 +78,71 @@ export default new class FirebaseService {
                 });
                 return wizards;
             });
+    }
+
+    getChallengesByWizard(network, wizardId) {
+        return db
+            .collection('wizards')
+            .doc('network')
+            .collection(network)
+            .doc(wizardId)
+            .collection('duel')
+            .get()
+            .then(snapshots => {
+                if (snapshots.empty) {
+                    return [];
+                }
+                const challenges = [];
+                snapshots.docs.forEach(doc => {
+                    challenges.push({challengeId: doc.id, ...doc.data()});
+                });
+                return challenges;
+            });
+    }
+
+    // Todo: should handle network not being defined or invalid + associated test
+    // Todo: should handle wizards being undefined / not an array as the map will fail + associated test
+    // Todo: should guard against wizard.id being undefined + associated test
+    async upsertWizards(network, wizards) {
+        return Promise.all(wizards.map((wizard) => {
+            // /wizards/network/{networkID}/{wizardID}/
+            return db
+                .collection('wizards')
+                .doc('network')
+                .collection(network)
+                .doc(wizard.id)
+                .set(wizard, {
+                    merge: true
+                });
+        }));
+    }
+
+    // Todo: should handle network not being defined or invalid + associated test
+    // Todo: should check params passed in valid + associated test
+    // Todo: do we need to do ownership check that we're challenging someone else's wizard?
+    async sendChallenge(network, {challengeId, challengingWizardId, otherWizardId}) {
+        // challenger data
+        const challengerData = {
+            currentDuel: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            otherWizardId
+        };
+
+        // challengee data
+        const challengeeData = {
+            currentDuel: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            challengingWizardId,
+            commitmentHash: ''
+        };
+
+        const networkRef = db.collection('wizards').doc('network').collection(network);
+        const challengerDataRef = networkRef.doc(challengingWizardId).collection('duel').doc(challengeId);
+        const challengeeDataRef = networkRef.doc(otherWizardId).collection('duel').doc(challengeId);
+
+        await db.runTransaction(t => {
+            t.set(challengerDataRef, challengerData);
+            t.set(challengeeDataRef, challengeeData);
+            return Promise.resolve('done');
+        });
     }
 
     // async registerWizardForDueling(network, {owner, wizard}) {
