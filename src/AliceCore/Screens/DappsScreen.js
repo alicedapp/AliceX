@@ -54,6 +54,7 @@ export default class AppsScreen extends Component<Props> {
 
   async componentDidMount() {
     this.getNetwork();
+    this.getTheme();
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
@@ -93,6 +94,11 @@ export default class AppsScreen extends Component<Props> {
   };
 
   getNetwork = async () => {
+    const networkInfo = await Wallet.getNetwork();
+    this.setState({network: networkInfo.name, networkColor: networkInfo.color});
+  };
+
+  getTheme = async () => {
     const networkInfo = await Wallet.getNetwork();
     this.setState({network: networkInfo.name, networkColor: networkInfo.color});
   };

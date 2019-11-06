@@ -48,10 +48,6 @@ export default new class CheeseWizardsContractService {
             ? Addresses.BasicTournament.rinkeby
             : Addresses.BasicTournament.mainnet;
 
-          const ABI = network.toLowerCase() === 'rinkeby'
-            ? Addresses.BasicTournament.rinkeby
-            : Addresses.WizardGuild.mainnet;
-
           console.log(`Get wizard [${tokenId}] on network [${network}] and address [${contractAddress}]`);
 
           const wizard = await Contract.read({

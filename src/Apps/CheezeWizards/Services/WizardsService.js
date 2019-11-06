@@ -18,7 +18,7 @@ export default new class WizardsService {
         return cheeseWizardsContractService;
       }
       case 'main': {
-        return alchemyApiService;
+        return cheeseWizardsContractService;
       }
     }
   }
