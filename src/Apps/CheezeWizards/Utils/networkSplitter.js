@@ -27,7 +27,8 @@ export const getCheeseWizardsImageUrlForNetwork = (network, tokenId) => {
         }
         case 'main': {
             // TODO - URL image taken from cheese wizards site, is this correct?
-            return `https://storage.googleapis.com/cheeze-wizards-production/original/0xec2203e38116f09e21bc27443e063b623b01345a/${tokenId}.png`;
+
+            return `https://storage.googleapis.com/cheeze-wizards-production/original/0x2f4bdafb22bd92aa7b7552d270376de8edccbc1e/${tokenId}.png`;
         }
     }
 };

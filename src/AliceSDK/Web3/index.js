@@ -1,6 +1,6 @@
 import { NativeModules, NativeEventEmitter } from "react-native";
 import {ethers, Contract as EthersContract} from 'ethers';
-// let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
+let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 let infuraProviderRinkeby = new ethers.providers.InfuraProvider('rinkeby');
 
@@ -106,7 +106,6 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
 };
 
 const read = async ({contractAddress, abi, functionName, parameters, network}) => {
-  console.log("READ DATA: ", {contractAddress, abi, functionName, parameters, network});
   if (network === "ropsten") {
     const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
     if (parameters.length === 0) {
@@ -124,14 +123,11 @@ const read = async ({contractAddress, abi, functionName, parameters, network}) =
     }
 
   } else {
-    const contract = new EthersContract(contractAddress, abi, provider);
-    console.log('MAIN NET CONTRACT ',contract);
+    const contract = new EthersContract(contractAddress, abi, infuraProvider);
 
     if (parameters.length === 0) {
       return contract[functionName]();
     } else if (parameters.length > 0) {
-      console.log('WIZARD FROM CALL w/o await: ', contract[functionName](...parameters));
-      console.log('WIZARD FROM CALL w/ await: ', await contract[functionName](...parameters));
       return contract[functionName](...parameters);
     }
   }

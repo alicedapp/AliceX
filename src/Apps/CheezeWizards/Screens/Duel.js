@@ -128,6 +128,26 @@ export default class DuelScreen extends React.Component {
     }
   };
 
+  fightNoSign = async () => {
+    if (this.state.items.length < 5) {
+      ReactNativeHapticFeedback.trigger("notificationError", options);
+      this.setState({pressed: !this.state.pressed});
+      return;
+    }
+    const { wizard, challengedWizard } = this.props.navigation.state.params;
+    this.setState({pressed: !this.state.pressed});
+    console.log('network: ', (await Wallet.getNetwork()).name);
+
+
+    const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet((await Wallet.getNetwork()).name, this.state.items);
+
+    try {
+      this.enterBattle(moveSet, "0x"+salt, commitmentHash);
+    } catch(e) {
+      console.log(e);
+    }
+  };
+
   onDraggablePress = draggable => {
     console.log("onDraggablePress", draggable)
   };
@@ -291,6 +311,13 @@ export default class DuelScreen extends React.Component {
               </Button>
               <Button onPress={() => this.actionPress('wind')}>
                 <Image source={require('../Assets/earth-button.png')} style={{
+                  resizeMode: 'contain',
+                  width: 55,
+                  height: 55
+                }}/>
+              </Button>
+              <Button onPress={() => this.fightNoSign()}>
+                <Image source={require('../Assets/qr-code-button.png')} style={{
                   resizeMode: 'contain',
                   width: 55,
                   height: 55
