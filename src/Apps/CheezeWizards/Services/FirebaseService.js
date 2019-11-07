@@ -1,5 +1,7 @@
 import db from '../../../AliceSDK/Socket/index';
 
+import {checkValidNetwork} from '../Utils/networkSplitter';
+
 export default new class FirebaseService {
 
     async getAllUsers() {
@@ -12,7 +14,6 @@ export default new class FirebaseService {
                 }
                 const users = [];
                 snapshots.docs.forEach((doc) => {
-                    // users.push(doc.id);
                     users.push(doc.data());
                 });
                 return users;
@@ -20,8 +21,10 @@ export default new class FirebaseService {
 
     }
 
-    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     async getAllWizards(network) {
+
+        checkValidNetwork(network);
+
         return db
             .collection('wizards')
             .doc('network')
@@ -41,6 +44,9 @@ export default new class FirebaseService {
 
     // Todo: should return an empty array if network is not defined or not a valid string + associated test
     async getOnlineWizards(network) {
+
+        checkValidNetwork(network);
+
         return db
             .collection('wizards')
             .doc('network')
@@ -62,6 +68,9 @@ export default new class FirebaseService {
     // Todo: should return an empty array if network is not defined or not a valid string + associated test
     // Todo: should return an empty array if owner is not defined or not a valid address + associated test
     async getWizardsByOwner(network, owner) {
+
+        checkValidNetwork(network);
+
         return db
             .collection('wizards')
             .doc('network')
@@ -80,7 +89,10 @@ export default new class FirebaseService {
             });
     }
 
-    getChallengesByWizard(network, wizardId) {
+    async getChallengesByWizard(network, wizardId) {
+
+        checkValidNetwork(network);
+
         return db
             .collection('wizards')
             .doc('network')
@@ -104,6 +116,9 @@ export default new class FirebaseService {
     // Todo: should handle wizards being undefined / not an array as the map will fail + associated test
     // Todo: should guard against wizard.id being undefined + associated test
     async upsertWizards(network, wizards) {
+
+        checkValidNetwork(network);
+
         return Promise.all(wizards.map((wizard) => {
             // /wizards/network/{networkID}/{wizardID}/
             return db
@@ -121,11 +136,15 @@ export default new class FirebaseService {
     // Todo: should check params passed in valid + associated test
     // Todo: do we need to do ownership check that we're challenging someone else's wizard?
     async sendChallenge(network, {challengeId, challengingWizardId, otherWizardId}) {
+
+        checkValidNetwork(network);
+
         // challenger data
         const challengerData = {
             currentDuel: '0x0000000000000000000000000000000000000000000000000000000000000000',
             otherWizardId,
             challengeAccepted: false,
+            challenger: true,
         };
 
         // challengee data
@@ -134,6 +153,7 @@ export default new class FirebaseService {
             challengingWizardId,
             commitmentHash: '',
             challengeAccepted: false,
+            challenger: false,
         };
 
         const networkRef = db.collection('wizards').doc('network').collection(network);
@@ -148,6 +168,9 @@ export default new class FirebaseService {
     }
 
     async acceptChallenge(network, {wizardId, challengeId, commitmentHash, currentDuel}) {
+
+        checkValidNetwork(network);
+
         const networkRef = db.collection('wizards').doc('network').collection(network);
         const challengeRef = networkRef
             .doc(wizardId)
