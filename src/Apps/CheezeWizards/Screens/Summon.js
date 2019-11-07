@@ -51,7 +51,7 @@ export default class SummonScreen extends React.Component {
 
   async componentDidMount() {
     try {
-      const wizardCosts = await CheeseWizardsContractService.getWizardCosts(await Wallet.getNetwork());
+      const wizardCosts = await CheeseWizardsContractService.getWizardCosts((await Wallet.getNetwork()).name);
       console.log('WIZARD COSTS: ', wizardCosts);
       this.setState({wizardCosts});
     } catch(e) {
@@ -76,7 +76,10 @@ export default class SummonScreen extends React.Component {
              ? wizardCosts.neutralWizardCost / 10e17
              : wizardCosts.elementalWizardCost / 10e17;
 
-          const txHash = await CheeseWizardsContractService.conjureWizard(await Wallet.getNetwork(), {
+      console.log('AFFINITY: ', affinity);
+
+
+      const txHash = await CheeseWizardsContractService.conjureWizard((await Wallet.getNetwork()).name, {
               value,
               affinity
           });

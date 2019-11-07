@@ -12,7 +12,7 @@
     "rinkeby": "0x29F7B14317e2D365D970D3B557aC763c907f75F1"
   },
   "BasicTournament": {
-    "mainnet": "0x68132EB4BfD84b2D6A23ec4fB1B106F5C8574F2D",
+    "mainnet": "0x6D6c3Beda37Ba83a4962746C43e3A20DB46399EC",
     "rinkeby": "0x743204169B8aF6663fd890CE19b84766222a4A1b"
   },
   "ThreeAffinityDuelResolver": {
@@ -20,26 +20,3 @@
     "rinkeby": "0xB789e4047f5DF6cf5Fdd035AF44205092a275d33"
   }
 }
-
-//{
-//  "WizardPresale": {
-//    "mainnet": "",
-//    "rinkeby": "0x0040AFc27A3A412c0fDA1461C066515128972eb3"
-//  },
-//  "WizardGuild": {
-//    "mainnet": "",
-//    "rinkeby": "0x0040AFc27A3A412c0fDA1461C066515128972eb3"
-//  },
-//  "GateKeeper": {
-//    "mainnet": "",
-//    "rinkeby": "0xD44316ec2E3e61B312853BEeD738e830b650CbE8"
-//  },
-//  "BasicTournament": {
-//    "mainnet": "",
-//    "rinkeby": "0x7AB67Bdc5F8b30FE4E5C992547464d24F79bE182"
-//  },
-//  "ThreeAffinityDuelResolver": {
-//    "mainnet": "",
-//    "rinkeby": "0xB789e4047f5DF6cf5Fdd035AF44205092a275d33"
-//  }
-//}
