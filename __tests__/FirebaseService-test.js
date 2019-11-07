@@ -96,7 +96,7 @@ test("Can take all of an owner's wizards offline", async () => {
     expect(allWizardsOffline).toBe(true);
 });
 
-test.only("Can issue a challenge successfully", async () => {
+test("Can issue a challenge successfully", async () => {
     // Ensure the firestore has test data
     const network = 'rinkeby';
     await firebaseService.upsertWizards(network, wizards);
@@ -129,7 +129,7 @@ test.only("Can issue a challenge successfully", async () => {
     expect(issuedChallenge.challengeAccepted).toBe(false);
 });
 
-test.only("Can accept a challenge successfull", async () => {
+test("Can accept a challenge successfull", async () => {
 
 });
 

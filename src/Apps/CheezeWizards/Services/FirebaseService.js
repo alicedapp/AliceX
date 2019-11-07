@@ -171,6 +171,10 @@ export default new class FirebaseService {
         });
     }
 
+    async allOutstandingChallenges(network, owner) {
+        // TODO I need this in the stage
+    }
+
     // async registerWizardForDueling(network, {owner, wizard}) {
     //     return this._duelCollection(owner, wizard)
     //         .set({
