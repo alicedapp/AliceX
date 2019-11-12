@@ -1,8 +1,18 @@
 const functions = require('firebase-functions');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+exports.challengeManager = functions.firestore
+    .document('wizards/network/{network}/{wizardId}/duel/{challengeId}')
+    .onWrite((change, context) => {
+        // Get an object with the current document value.
+        // If the document does not exist, it has been deleted.
+        const document = change.after.exists ? change.after.data() : null;
+
+        // Get an object with the previous document value (for update or delete)
+        const oldDocument = change.before.data();
+
+        // perform desired operations ...
+        console.log('was delete?', document === null);
+        console.log('network', context.network);
+        console.log('wizard id', context.wizardId);
+        console.log('challenge id', context.challengeId);
+    });
