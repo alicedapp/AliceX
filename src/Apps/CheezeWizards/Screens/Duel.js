@@ -55,6 +55,10 @@ export default class DuelScreen extends React.Component {
     super(props);
 
     this.state = {
+    moveSet: '',
+      salt: '',
+      commitmentHash: '',
+      isValid: false,
       loading: false,
       // loading: true,
       pressed: false,
@@ -66,6 +70,22 @@ export default class DuelScreen extends React.Component {
       ],
       itemsPerRow: 1
     };
+  }
+
+  componentDidMount() {
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
+      "aliceEvent",
+      (event) => {
+        console.log('EVENT TRIGGERED: ', event);
+        const {moveSet, salt, commitmentHash, isValid} = this.state;
+        if (event.pendingTxComplete.isSuccess === true) {
+          console.log('PENDING TX: ', event.pendingTxComplete);
+          this.enterBattle(moveSet, "0x"+salt, commitmentHash);
+        }
+
+      }
+    )
   }
 
   animate = () => {
@@ -100,7 +120,7 @@ export default class DuelScreen extends React.Component {
     db.collection("users").doc(challengedWizard.owner).set(myWizardToShare);
     this.props.navigation.navigate('CheezeWizards/BattleScreen', {wizard, challengedWizard});
 
-  }
+  };
 
   fight = async () => {
     if (this.state.items.length < 5) {
@@ -114,7 +134,7 @@ export default class DuelScreen extends React.Component {
 
 
     const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet((await Wallet.getNetwork()).name, this.state.items);
-
+    this.setState({moveSet, salt, commitmentHash, isValid})
     try {
       console.log('network: ', (await Wallet.getNetwork()).name);
         const txHash = await CheeseWizardsContractService.oneSidedCommit((await Wallet.getNetwork()).name, {
@@ -122,13 +142,14 @@ export default class DuelScreen extends React.Component {
             challengedWizard,
             commitmentHash
         });
-      this.setState({txHash},() => this.enterBattle(moveSet, "0x"+salt, commitmentHash));
+      this.setState({txHash});
     } catch(e) {
       console.log(e);
     }
   };
 
   fightNoSign = async () => {
+
     if (this.state.items.length < 5) {
       ReactNativeHapticFeedback.trigger("notificationError", options);
       this.setState({pressed: !this.state.pressed});
@@ -212,7 +233,6 @@ export default class DuelScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const { items } = this.state;
-    console.log('ITEMS: ', items);
     const { wizard, challengedWizard } = this.props.navigation.state.params;
 
     return (

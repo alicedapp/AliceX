@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import {
+  AppState,
   Dimensions,
   Image,
   Linking,
@@ -91,7 +92,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  DappsScreen: { screen: AppTabNavigator },
+  DappsScreen: { screen: DappsScreen },
   // DappsScreen: { screen: MiniDapps.CheezeWizards },
   ...MiniDapps,
 }, {
@@ -112,6 +113,7 @@ class App extends Component {
       walletconnect: '',
       orientation: '',
       deeplink: '',
+      appState: AppState.currentState,
     };
 
     OneSignal.init(env.onesignal);
@@ -124,6 +126,7 @@ class App extends Component {
   componentDidMount() {
     this.getOrientation();
     this.getNetwork();
+    AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
@@ -157,6 +160,18 @@ class App extends Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    console.log('APPSTATE: ', nextAppState)
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+    this.setState({appState: nextAppState});
   }
 
   handleOpenURL(event) {
@@ -244,7 +259,7 @@ class App extends Component {
     console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
-        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
+        {/*{this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}*/}
         <AliceMain
           ref={navigatorRef => {
             NavigatorService.setContainer(navigatorRef);

@@ -2,9 +2,10 @@ import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
 import { navigate, goBack } from "../Utils/navigationWrapper";
+import { isIphoneX } from 'react-native-iphone-x-helper'
 
 export const NavigationBar = () => (
-  <View style={{ flexDirection: 'row', position: 'absolute', top: 30, right: 12, zIndex: 9999 }}>
+  <View style={{ flexDirection: 'row', position: 'absolute', top: isIphoneX() ? 30 : 17, right: 12, zIndex: 9999 }}>
     <TouchableOpacity style={{ padding: 3 }} onPress={() => goBack()}>
       <Image source={require('../Assets/back.png')} style={{
         resizeMode: 'contain',

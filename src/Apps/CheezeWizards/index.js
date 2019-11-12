@@ -6,6 +6,8 @@ import CheezeMap from './Screens/CheezeMap'
 import Summon from './Screens/Summon'
 import WizardScreen from './Screens/WizardScreen'
 import BattleScreen from './Screens/BattleScreen'
+import FinalScreen from './Screens/FinalScreen'
+import OnlineWizards from './Screens/OnlineWizards'
 
 const App = createStackNavigator({
   "CheezeWizards": Home,
@@ -14,7 +16,9 @@ const App = createStackNavigator({
   "CheezeWizards/Camera": Camera,
   "CheezeWizards/Summon": Summon,
   "CheezeWizards/WizardScreen": WizardScreen,
+  "CheezeWizards/OnlineWizards": OnlineWizards,
   "CheezeWizards/BattleScreen": BattleScreen,
+  "CheezeWizards/FinalScreen": FinalScreen,
 });
 
 App.navigationOptions = {

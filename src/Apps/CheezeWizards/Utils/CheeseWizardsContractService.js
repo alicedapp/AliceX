@@ -58,14 +58,12 @@ export default new class CheeseWizardsContractService {
             network: network.toLowerCase(),
           });
 
-          Object.keys(wizard).forEach(function (key) {
+          Object.keys(wizard).forEach(async function (key) {
             if (typeof wizard[key] === 'object') {
               wizard[key] = parseInt(wizard[key]._hex);
             }
-            wizard.id = tokenId;
           });
-
-          return this._buildWizardData(network, wizard);
+          return await this._buildWizardData(network, wizard, tokenId, true);
 
         } catch(e) {
             console.log('getWizard error',e);
@@ -174,12 +172,15 @@ export default new class CheeseWizardsContractService {
         return txHash;
     }
 
-    _buildWizardData(network, data) {
-        return {
-            ...data,
+   async _buildWizardData(network, data, tokenId, online) {
+        let wizardData = {...data}
+        wizardData.id = tokenId;
+        wizardData.online = online;
+        wizardData.owner = await Wallet.getAddress()
+        wizardData.imageUrl = getCheeseWizardsImageUrlForNetwork(network, wizardData.id);
 
-            imageUrl: getCheeseWizardsImageUrlForNetwork(network, data.id)
-        };
+        console.log('BUILD WIZARD DATA ::: ', data);
+        console.log('BUILD WIZARD DATA OBJECT: ', {...wizardData});
+        return wizardData;
     }
-
 };

@@ -40,6 +40,7 @@ export default new class FirebaseService {
 
     async upsertWizards(network, wizards) {
         return Promise.all(wizards.map((wizard) => {
+        console.log('upserting wizards: ', wizard, network);
             // /wizards/network/{networkID}/{wizardID}/
             return db
                 .collection('wizards')
@@ -88,6 +89,10 @@ export default new class FirebaseService {
                 });
                 return wizards;
             });
+    }
+
+    async challengeWizard() {
+      // This would contain the challengeId
     }
 
     // async registerWizardForDueling(network, {owner, wizard}) {

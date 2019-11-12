@@ -159,6 +159,7 @@ export default class WizardScreen extends React.Component {
     const {notificationChallenge} = this.props.navigation.state.params;
     const {wizard, receivedChallenge} = this.state;
     console.log('FIREBASE CHALLENGE: ', this.state.receivedChallenge, this.state.instantiated);
+    console.log('WIZARD: ', wizard);
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
         <NavigationBar/>
@@ -173,7 +174,7 @@ export default class WizardScreen extends React.Component {
                 }}/>
               </Button>
               <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
+                <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARD</Text>
               </View>
               <Button onPress={Settings.settingsPopUp}>
                 <Image source={require('../Assets/settings-icon.png')} style={{
@@ -250,6 +251,11 @@ export default class WizardScreen extends React.Component {
               height: 65
             }}/>
           </Button> }
+          <Button onPress={() => this.props.navigation.navigate('CheezeWizards/OnlineWizards', {wizard})} style={{flex: 1, position: 'absolute', bottom: 120, zIndex: 9999,}}>
+            <View style={{height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+              <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>ONLINE WIZARDS</Text>
+            </View>
+          </Button>
         </ImageBackground>
       </Camera>)
   }
