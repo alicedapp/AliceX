@@ -12,7 +12,7 @@ exports.challengeManager = functions.firestore
 
         // perform desired operations ...
         console.log('was delete?', document === null);
-        console.log('network', context.network);
-        console.log('wizard id', context.wizardId);
-        console.log('challenge id', context.challengeId);
+        console.log('network', context.params.network);
+        console.log('wizard id', context.params.wizardId);
+        console.log('challenge id', context.params.challengeId);
     });
