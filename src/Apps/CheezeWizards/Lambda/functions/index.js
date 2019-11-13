@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const {messaging} = require('../../../../AliceSDK/Firebase/index');
+const apps = require('../../../../AliceSDK/Firebase/index');
 
 exports.challengeNotifier = functions.firestore
     .document('wizards/network/{network}/{wizardId}/duel/{challengeId}')
@@ -24,5 +24,5 @@ exports.challengeNotifier = functions.firestore
                 body: `${context.params.network}-${context.params.wizardId}-${context.params.challengeId}`
             }
         };
-        return messaging.sendToTopic('challenge', payload);
+        return apps.messaging.sendToTopic('challenge', payload);
     });
