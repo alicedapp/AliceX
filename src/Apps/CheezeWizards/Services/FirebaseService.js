@@ -1,4 +1,4 @@
-import db from '../../../AliceSDK/Socket/index';
+import {db} from '../../../AliceSDK/Firebase/index';
 
 import {checkValidNetwork} from '../Utils/networkSplitter';
 

@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
+const {messaging} = require('../../../../AliceSDK/Firebase/index');
 
-exports.challengeManager = functions.firestore
+exports.challengeNotifier = functions.firestore
     .document('wizards/network/{network}/{wizardId}/duel/{challengeId}')
     .onWrite((change, context) => {
         // Get an object with the current document value.
@@ -15,4 +16,13 @@ exports.challengeManager = functions.firestore
         console.log('network', context.params.network);
         console.log('wizard id', context.params.wizardId);
         console.log('challenge id', context.params.challengeId);
+
+        // Send message using Firebase Cloud Messaging
+        const payload = {
+            notification: {
+                title: 'Hello FCM',
+                body: `${context.params.network}-${context.params.wizardId}-${context.params.challengeId}`
+            }
+        };
+        return messaging.sendToTopic('challenge', payload);
     });

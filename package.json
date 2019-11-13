@@ -21,6 +21,7 @@
     "ethers": "^4.0.31",
     "events": "^3.0.0",
     "firebase": "^6.6.0",
+    "firebase-admin": "^8.7.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "jetifier": "^1.6.4",
@@ -77,6 +78,8 @@
   },
   "jest": {
     "preset": "react-native",
-    "testPathIgnorePatterns": ["<rootDir>/__tests__/data/"]
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/data/"
+    ]
   }
 }
