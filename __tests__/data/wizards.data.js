@@ -25,7 +25,7 @@ module.exports = [
         maxPower: 333000000000000,
         molded: false,
         nonce: 0,
-        owner: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB',
+        owner: '0xA1b02d8c67b0FDCF4E379855868DeB470E169401',
         power: 333000000000000,
         online: true,
         ready: true
@@ -40,7 +40,7 @@ module.exports = [
         maxPower: 124390815712288,
         molded: false,
         nonce: 0,
-        owner: '0xA1b02d8c67b0FDCF4E379855868DeB470E169401',
+        owner: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB',
         power: 124390815712288,
         online: true,
         ready: true
