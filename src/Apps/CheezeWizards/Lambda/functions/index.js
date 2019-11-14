@@ -24,20 +24,18 @@ exports.challengeNotifier = functions.firestore
 
         // Send message using Firebase Cloud Messaging
         console.log('Constructing a FCM payload...');
+        const registrationToken = 'd6OLxN1_tYxeIQKpJa54NG:APA91bEmfEC7ddh9IavojX6ukPhtnqyODhs1qD8Hdv8zqL1CAjr71EiW6N3q2gaLz5BcnuswkuS5KYFZGMgRgcOTUmUREJfS1Yfx5S8JgZk4kgnUhYsSYTA4QGd5tpHDLSuQNab8n2b4';
+        console.log('registrationToken', registrationToken);
         const payload = {
+            token: registrationToken,
             notification: {
-                title: 'Hello FCM',
-                body: `${context.params.network}-${context.params.wizardId}-${context.params.challengeId}`
+                title: 'Hello Mark!',
+                body: `Challenge issued on ${context.params.network}. Wizard ID: ${context.params.wizardId}. Challenge: ${context.params.challengeId}`
             }
         };
         console.log('notification.title', payload.notification.title);
         console.log('notification.body', payload.notification.body);
-
-        const registrationToken = 'dkXheN2zGHEq7zDNYrpqjU:APA91bEJt1IseBFxNU6j6baGPB_qsRv5MoDbtktZJ5HqJhbHY5nMB8nmyIJCOS9OghFMrj2iog9ata73Wm5cyFqyYqlXhgcQmTmSd40N09sfUYR6XTdObH7Q9eMVjnyLZE8QX77o3eBv';
-        const response = await messaging.sendToDevice(registrationToken, payload, {
-            priority: "high",
-            timeToLive: 60
-        });
+        const response = await messaging.send(payload);
         // response.results.forEach((result, index) => {
         //     const error = result.error;
         //     if (error) {
