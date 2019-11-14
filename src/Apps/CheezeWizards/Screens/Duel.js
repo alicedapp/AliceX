@@ -79,9 +79,11 @@ export default class DuelScreen extends React.Component {
       (event) => {
         console.log('EVENT TRIGGERED: ', event);
         const {moveSet, salt, commitmentHash, isValid} = this.state;
-        if (event.pendingTxComplete.isSuccess === true) {
-          console.log('PENDING TX: ', event.pendingTxComplete);
-          this.enterBattle(moveSet, "0x"+salt, commitmentHash);
+        if (event.pendingTxComplete) {
+          if (event.pendingTxComplete.isSuccess === true) {
+            console.log('PENDING TX: ', event.pendingTxComplete);
+            this.enterBattle(moveSet, "0x"+salt, commitmentHash);
+          }
         }
 
       }
@@ -134,7 +136,7 @@ export default class DuelScreen extends React.Component {
 
 
     const {commitmentHash, moveSet, salt, isValid} = await CheeseWizardsContractService.isValidMoveSet((await Wallet.getNetwork()).name, this.state.items);
-    this.setState({moveSet, salt, commitmentHash, isValid})
+    this.setState({moveSet, salt, commitmentHash, isValid});
     try {
       console.log('network: ', (await Wallet.getNetwork()).name);
         const txHash = await CheeseWizardsContractService.oneSidedCommit((await Wallet.getNetwork()).name, {

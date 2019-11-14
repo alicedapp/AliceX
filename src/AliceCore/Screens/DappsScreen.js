@@ -124,10 +124,25 @@ export default class AppsScreen extends Component<Props> {
   };
 
   render() {
-    console.log('darkmode state: ', this.state.darkMode);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={[styles.container, {backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.15)' : 'white',}]}>
+        <View style={{backgroundColor: this.state.darkMode ? 'black': 'white', flex: 1}}>
+        <View style={{flexDirection: 'row', width: '100%', position: 'absolute', top: 44, paddingHorizontal: 20, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+          <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(234,237,239, 0.8)', alignItems: 'center', justifyContent: 'center'}} onPress={this.qrScanner}>
+            <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', tintColor: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'rgba(98,98,98, 1)', width: 22, height: 30 }}/>
+          </TouchableOpacity>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{color: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'black', marginRight: 10, }}>{this.state.network} Network</Text>
+            <View style={{marginRight: 15, backgroundColor: this.state.networkColor, width: 10, height: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}/>
+            <TouchableOpacity style={{width: 40, marginRight: 10, height: 40, borderRadius: 17, backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(234,237,239, 0.8)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
+              <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', tintColor: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'rgba(98,98,98, 1)', width: 22, height: 30 }}/>
+            </TouchableOpacity>
+            <TouchableOpacity style={{width: 40, height: 40, borderRadius: 17, backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(234,237,239, 0.8)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openSettings}>
+              <Image source={require('../Assets/settings-gear.png')} style={{ resizeMode: 'contain', tintColor: this.state.darkMode ? 'rgba(255,255,255, 0.6)' : 'rgba(98,98,98, 0.8)', width: 22, height: 30 }}/>
+            </TouchableOpacity>
+          </View>
+        </View>
+          <View style={[styles.container, {backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.15)' : 'rgba(234,237,239, 0.6)'}]}>
             <View style={styles.appsContainer}>
               {AppRegistry.map((app, i) => {
                 return (<AppIcon darkMode={this.state.darkMode} key={i} appName={app.appName} backgroundColor={app.backgroundColor} homeRoute={app.homeRoute} browserRoute={app.browserRoute} icon={app.icon} iterator={i} />)
@@ -135,6 +150,7 @@ export default class AppsScreen extends Component<Props> {
               }
             </View>
           </View>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -177,6 +193,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    marginTop: 100,
     padding: 10,
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,

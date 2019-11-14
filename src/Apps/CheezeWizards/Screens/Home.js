@@ -127,7 +127,7 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({pressed: !this.state.pressed});
   };
 
-  finishedLoading = (network, wizards) => {
+  finishedLoading = async (network, wizards) => {
     FirebaseService.upsertWizards(network, wizards);
     this.setState({loading: false, fetching: false});
   };

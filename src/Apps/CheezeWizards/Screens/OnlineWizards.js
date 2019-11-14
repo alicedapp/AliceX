@@ -76,7 +76,7 @@ export default class WizardScreen extends React.Component {
 
   fetchOnlineWizards = async () => {
     const onlineWizards = await FirebaseService.getOnlineWizards((await Wallet.getNetwork()).name.toLowerCase());
-    console.log('ONLINE WIZARDS: ', onlineWizards)
+    console.log('ONLINE WIZARDS: ', onlineWizards);
     this.setState({onlineWizards, fetching: false});
   };
 

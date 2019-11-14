@@ -259,7 +259,7 @@ class App extends Component {
     console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
-        {/*{this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}*/}
+        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
         <AliceMain
           ref={navigatorRef => {
             NavigatorService.setContainer(navigatorRef);

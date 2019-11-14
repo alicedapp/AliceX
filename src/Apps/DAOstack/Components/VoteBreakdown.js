@@ -55,14 +55,11 @@ export default class VoteBreakdown extends Component {
 
     try {
       if (vote === 'yes') {
-        console.log('yes: ', vote);
-
         const txHash = await Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 1, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
       }
       if (vote === 'no') {
         console.log('no: ', vote);
-
-        Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
+        const txHash = await Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
       }
     } catch (e) {
 

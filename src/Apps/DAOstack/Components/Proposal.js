@@ -28,7 +28,7 @@ export default class Proposal extends Component {
 
   render() {
     const { proposal, key, proposer, beneficiary } = this.props;
-    const gravatar = makeBlockie(proposal.proposer)
+    const gravatar = makeBlockie(proposal.proposer);
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
         return (
@@ -44,7 +44,7 @@ export default class Proposal extends Component {
           </Text>
         )
       }
-    }
+    };
     return (
       <TouchableOpacity
         key={key}
