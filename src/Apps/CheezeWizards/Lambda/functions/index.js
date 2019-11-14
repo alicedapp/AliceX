@@ -6,7 +6,6 @@ admin.initializeApp({
 });
 
 const messaging = admin.messaging();
-//messaging.usePublicVapidKey('BC2C0XVu6eA5fQtHA-HUz9JaBFsVdC-lVutxyMbOuTHDXP8Rm0nGJinEitz2KdV97lgKCoYyOr_fSBP1MJ74A88');
 exports.challengeNotifier = functions.firestore
     .document('wizards/network/{network}/{wizardId}/duel/{challengeId}')
     .onWrite(async (change, context) => {
@@ -34,7 +33,8 @@ exports.challengeNotifier = functions.firestore
         console.log('notification.title', payload.notification.title);
         console.log('notification.body', payload.notification.body);
 
-        const response = await messaging.sendToTopic('challenge', payload, {
+        const registrationToken = 'dkXheN2zGHEq7zDNYrpqjU:APA91bEJt1IseBFxNU6j6baGPB_qsRv5MoDbtktZJ5HqJhbHY5nMB8nmyIJCOS9OghFMrj2iog9ata73Wm5cyFqyYqlXhgcQmTmSd40N09sfUYR6XTdObH7Q9eMVjnyLZE8QX77o3eBv';
+        const response = await messaging.sendToDevice(registrationToken, payload, {
             priority: "high",
             timeToLive: 60
         });
