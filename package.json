@@ -79,7 +79,7 @@
   "jest": {
     "preset": "react-native",
     "testPathIgnorePatterns": [
-      "<rootDir>/__tests__/data/"
+      "<rootDir>/__tests__/(.*/)([^/]*)/data/"
     ]
   }
 }

@@ -1,26 +1,8 @@
-import {db} from '../../../../../AliceSDK/Firebase';
+import {db} from '../../../../AliceSDK/Firebase';
 
-import {checkValidNetwork} from '../../../Utils/networkSplitter';
+import {checkValidNetwork} from '../../Utils/networkSplitter';
 
 export default new class FirebaseService {
-
-    async getAllUsers() {
-        return db
-            .collection("users")
-            .get()
-            .then((snapshots) => {
-                if (snapshots.empty) {
-                    return [];
-                }
-                const users = [];
-                snapshots.docs.forEach((doc) => {
-                    users.push(doc.data());
-                });
-                return users;
-            });
-
-    }
-
     async getAllWizards(network) {
 
         checkValidNetwork(network);
