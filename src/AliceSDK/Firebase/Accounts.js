@@ -24,10 +24,13 @@ export default new class Account {
             });
     }
 
-    async getFirebaseMessagingTokenForAccount(account) {
-        return db
-            .collection('accounts')
-            .doc(account)
-            .get();
+    async getFirebaseMessagingTokenForAccount(address) {
+        return this.getAccount(address)
+            .then(account => {
+                if(account && account.firebaseMessagingToken) {
+                    return account.firebaseMessagingToken;
+                }
+                return null;
+            });
     }
 }

@@ -14,6 +14,12 @@ describe('Pushing to firebase', () => {
 
 describe('Firebase messaging token', () => {
     test('Can retrieve a token for a given account', async () => {
-        expect(1).toBe(1);
+        // Ensure there is data
+        const account = accounts[0];
+        await accountsService.upsertAccount(account);
+
+        // Attempt to retrieve the token
+        const firebaseMessagingToken = await accountsService.getFirebaseMessagingTokenForAccount(account.address);
+        expect(firebaseMessagingToken).toBe(account.firebaseMessagingToken);
     });
 });
