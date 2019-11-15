@@ -24,6 +24,15 @@ export default new class Account {
             });
     }
 
+    async upsertFirebaseMessagingTokenForAccount(address, firebaseMessagingToken) {
+        return db
+            .collection('accounts')
+            .doc(address)
+            .set({firebaseMessagingToken}, {
+                merge: true
+            });
+    }
+
     async getFirebaseMessagingTokenForAccount(address) {
         return this.getAccount(address)
             .then(account => {

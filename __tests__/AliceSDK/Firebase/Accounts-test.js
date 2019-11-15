@@ -13,13 +13,16 @@ describe('Pushing to firebase', () => {
 });
 
 describe('Firebase messaging token', () => {
-    test('Can retrieve a token for a given account', async () => {
+    test('Can upsert a token', async () => {
         // Ensure there is data
         const account = accounts[0];
         await accountsService.upsertAccount(account);
 
-        // Attempt to retrieve the token
-        const firebaseMessagingToken = await accountsService.getFirebaseMessagingTokenForAccount(account.address);
-        expect(firebaseMessagingToken).toBe(account.firebaseMessagingToken);
+        // Upsert a new token
+        const newFirebaseMessagingToken = '1234';
+        await accountsService.upsertFirebaseMessagingTokenForAccount(account.address, newFirebaseMessagingToken);
+
+        const retrievedToken = await accountsService.getFirebaseMessagingTokenForAccount(account.address);
+        expect(retrievedToken).toBe(newFirebaseMessagingToken);
     });
 });
