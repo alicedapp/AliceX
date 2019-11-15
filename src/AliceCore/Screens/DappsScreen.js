@@ -132,7 +132,9 @@ export default class AppsScreen extends Component<Props> {
             <Image source={require('../Assets/camera-icon.png')} style={{ resizeMode: 'contain', tintColor: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'rgba(98,98,98, 1)', width: 22, height: 30 }}/>
           </TouchableOpacity>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'black', marginRight: 10, }}>{this.state.network} Network</Text>
+            <Text style={{color: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'black', marginRight: 10, }}>
+              {this.state.network} Network
+            </Text>
             <View style={{marginRight: 15, backgroundColor: this.state.networkColor, width: 10, height: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}/>
             <TouchableOpacity style={{width: 40, marginRight: 10, height: 40, borderRadius: 17, backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(234,237,239, 0.8)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>
               <Image source={require('../Assets/browser-icon.png')} style={{ resizeMode: 'contain', tintColor: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'rgba(98,98,98, 1)', width: 22, height: 30 }}/>
@@ -166,10 +168,10 @@ const styles = StyleSheet.create({
   },
   appsContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    flex: 1,
+    flex: 1
   },
   appSquare: {
     alignItems: 'center',

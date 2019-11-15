@@ -32,12 +32,12 @@ export const AppRegistry = [
   //   homeRoute: 'Fork',
   //   icon: require('../Assets/fork-logo.png')
   // },
-  // {
-  //   appName: '#BUIDL',
-  //   backgroundColor: '#ffffff',
-  //   homeRoute: 'Test',
-  //   icon: require('./Example/Assets/buidler.png')
-  // },
+  {
+    appName: '#BUIDL',
+    backgroundColor: '#ffffff',
+    homeRoute: 'Test',
+    icon: require('./Example/Assets/buidler.png')
+  },
   {
     appName: 'DAOstack',
     backgroundColor: '#ffffff',

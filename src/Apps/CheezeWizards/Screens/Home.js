@@ -86,16 +86,16 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({appState: nextAppState});
   };
 
-  twitterLink = () => {
-    let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
-    Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
-  };
-
-  faucetLink = () => {
-    let faucetUrl = "https://faucet.rinkeby.io/";
-    Settings.openBrowser("https://faucet.rinkeby.io/");
-    // Linking.openURL(faucetUrl).catch((err) => console.error('An error occurred with faucet link: ', err));
-  };
+  // twitterLink = () => {
+  //   let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
+  //   Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
+  // };
+  //
+  // faucetLink = () => {
+  //   let faucetUrl = "https://faucet.rinkeby.io/";
+  //   Settings.openBrowser("https://faucet.rinkeby.io/");
+  //   // Linking.openURL(faucetUrl).catch((err) => console.error('An error occurred with faucet link: ', err));
+  // };
 
   _refresh = () => {
     this.fetchWizards();

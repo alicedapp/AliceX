@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "dev": "./node_modules/react-native/scripts/launchPackager.command ; exit;"
+    "dev": "./node_modules/react-native/scripts/launchPackager.command ; exit;",
+    "postinstall": "jetify"
   },
   "dependencies": {
     "3box-activity": "^0.0.9",
