@@ -6,36 +6,41 @@ admin.initializeApp({
 });
 
 const messaging = admin.messaging();
-
-function notifyChallengeRevoked(registrationToken, wizardId, network) {
+function sendNotification(registrationToken, title, body, data) {
     const payload = {
         token: registrationToken,
         notification: {
-            title: 'Duel Challenge Revoked!',
-            body: `[[${network}]] Your wizard (${wizardId}) is no longer challenged to a duel`
+            title,
+            body
         },
-        data: {
-            wizardId
-        }
+        data
     };
     return messaging.send(payload);
 }
 
-function notifyNewChallengeReceived(registrationToken, wizardId, network) {
-    const payload = {
-        token: registrationToken,
-        notification: {
-            title: 'New Duel Challenge!',
-            body: `[[${network}]] Your wizard (${wizardId}) has been challenged to a duel`
-        },
-        data: {
-            wizardId
-        }
+function notifyChallengeRevoked(document, registrationToken, wizardId, network) {
+    const {challengingWizardId} = document;
+    const title = 'Duel Challenge Revoked!';
+    const body = `[[${network}]] Your wizard (${wizardId}) is no longer challenged to a duel by (${challengingWizardId})`;
+    const data = {
+        wizardId,
+        challengingWizardId
     };
-    return messaging.send(payload);
+    return sendNotification(registrationToken, title, body, data);
 }
 
-function notifyChallengeUpdated(registrationToken, wizardId, network) {
+function notifyNewChallengeReceived(document, registrationToken, wizardId, network) {
+    const {challengingWizardId} = document;
+    const title = 'New Duel Challenge!';
+    const body = `[[${network}]] Your wizard (${wizardId}) has been challenged to a duel by (${challengingWizardId})`;
+    const data = {
+        wizardId,
+        challengingWizardId
+    };
+    return sendNotification(registrationToken, title, body, data);
+}
+
+function notifyChallengeUpdated(document, registrationToken, wizardId, network) {
 
 }
 
@@ -44,7 +49,7 @@ function notifyChallengedWizard(document, notifyFn, registrationToken, wizardId,
     let processor = Promise.resolve('done');
     if (!document.challenger) {
         console.log('Proceeding as not the challenging wizard');
-        processor = notifyFn(registrationToken, wizardId, network);
+        processor = notifyFn(document, registrationToken, wizardId, network);
         console.log('Notifying the owner of the challenged wizard');
     } else {
         console.log('Finishing as this is the challenging wizard');
