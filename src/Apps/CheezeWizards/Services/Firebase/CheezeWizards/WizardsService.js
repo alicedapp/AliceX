@@ -1,6 +1,6 @@
-import alchemyApiService from "../Utils/AlchemyApiService";
-import cheeseWizardsContractService from "../Utils/CheeseWizardsContractService";
-import { Wallet } from "../../../AliceSDK/Web3";
+import alchemyApiService from "../../../Utils/AlchemyApiService";
+import cheeseWizardsContractService from "../../../Utils/CheeseWizardsContractService";
+import { Wallet } from "../../../../../AliceSDK/Web3";
 
 export default new class WizardsService {
 

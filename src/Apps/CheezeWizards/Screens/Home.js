@@ -18,7 +18,7 @@ import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
 
-import wizardsService from '../Services/WizardsService';
+import wizardsService from '../Services/Firebase/CheezeWizards/WizardsService';
 
 const options = {
   enableVibrateFallback: true,

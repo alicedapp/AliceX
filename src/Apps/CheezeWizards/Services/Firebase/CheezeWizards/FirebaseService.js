@@ -1,6 +1,6 @@
-import {db} from '../../../AliceSDK/Firebase/index';
+import {db} from '../../../../../AliceSDK/Firebase';
 
-import {checkValidNetwork} from '../Utils/networkSplitter';
+import {checkValidNetwork} from '../../../Utils/networkSplitter';
 
 export default new class FirebaseService {
 
@@ -196,6 +196,10 @@ export default new class FirebaseService {
 
     async allOutstandingChallenges(network, owner) {
         // TODO I need this in the stage
+    }
+
+    async registerFirebaseMessagingTokenForEthAddress() {
+
     }
 
     // async registerWizardForDueling(network, {owner, wizard}) {

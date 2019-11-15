@@ -3,20 +3,14 @@
  */
 
 import _ from 'lodash';
-import firebaseService from "../src/Apps/CheezeWizards/Services/FirebaseService";
+import firebaseService from "../../../src/Apps/CheezeWizards/Services/Firebase/CheezeWizards/FirebaseService";
 
-import wizards from './data/wizards.data';
+import wizards from '../../data/wizards.data';
 
 const owner1 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB';
 const owner2 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169401';
 
 const network = 'rinkeby';
-
-test("allUsers should return all registered users", async () => {
-
-    const users = await firebaseService.getAllUsers();
-    expect(users.length).toBeGreaterThan(0);
-});
 
 async function getUpsertedWizards(network, upsertedWizardIds) {
     const allWizards = await firebaseService.getAllWizards(network);

@@ -2,7 +2,7 @@
  * @format
  */
 
-import AlchemyApiService from "../src/Apps/CheezeWizards/Utils/AlchemyApiService";
+import AlchemyApiService from "../../../src/Apps/CheezeWizards/Utils/AlchemyApiService";
 
 test("getWizardsForOwner should return wizards", async () => {
     const myAddress = "0x1AD321AFf3505169Acc72Df379ef646A6cD6a982";
