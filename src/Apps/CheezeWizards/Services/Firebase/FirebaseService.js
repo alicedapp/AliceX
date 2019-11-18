@@ -180,10 +180,6 @@ export default new class FirebaseService {
         // TODO I need this in the stage
     }
 
-    async registerFirebaseMessagingTokenForEthAddress() {
-
-    }
-
     // async registerWizardForDueling(network, {owner, wizard}) {
     //     return this._duelCollection(owner, wizard)
     //         .set({
