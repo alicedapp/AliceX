@@ -10,13 +10,14 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View, RefreshControl,
-} from 'react-native';
+  View, RefreshControl, AppState
+} from "react-native";
 import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
+import FirebaseService from '../Services/FirebaseService';
 
 import wizardsService from '../Services/Firebase/WizardsService';
 
@@ -28,6 +29,7 @@ const options = {
 const { height, width } = Dimensions.get('window');
 
 import db from '../../../AliceSDK/Socket'
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 export default class CheezeWizardsHome extends React.Component {
 
@@ -50,13 +52,16 @@ export default class CheezeWizardsHome extends React.Component {
       wizards: [],
       network: '',
       fetching: false,
-      balance: null
+      balance: null,
+      appState: AppState.currentState,
+
     };
   }
 
   componentDidMount() {
     this.getUser();
     this.getNetwork();
+    AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
       "aliceEvent",
@@ -69,16 +74,28 @@ export default class CheezeWizardsHome extends React.Component {
     );
   }
 
-  twitterLink = () => {
-    let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
-    Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    console.log('APPSTATE: ', nextAppState)
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+    }
+    this.setState({appState: nextAppState});
   };
 
-  faucetLink = () => {
-    let faucetUrl = "https://faucet.rinkeby.io/";
-    Settings.openBrowser("https://faucet.rinkeby.io/");
-    // Linking.openURL(faucetUrl).catch((err) => console.error('An error occurred with faucet link: ', err));
-  };
+  // twitterLink = () => {
+  //   let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
+  //   Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
+  // };
+  //
+  // faucetLink = () => {
+  //   let faucetUrl = "https://faucet.rinkeby.io/";
+  //   Settings.openBrowser("https://faucet.rinkeby.io/");
+  //   // Linking.openURL(faucetUrl).catch((err) => console.error('An error occurred with faucet link: ', err));
+  // };
 
   _refresh = () => {
     this.fetchWizards();
@@ -110,11 +127,15 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({pressed: !this.state.pressed});
   };
 
+  finishedLoading = async (network, wizards) => {
+    FirebaseService.upsertWizards(network, wizards);
+    this.setState({loading: false, fetching: false});
+  };
+
   fetchWizards = async () => {
-      const finishedLoading = () => this.setState({loading: false, fetching: false});
       const wizards = await wizardsService.getMyWizards();
       console.log("MY WIZARDS:", wizards);
-      this.setState({wizards}, finishedLoading);
+      this.setState({wizards}, () => this.finishedLoading(this.state.network.toLowerCase(), wizards));
   };
 
   openMap = () => {
@@ -151,26 +172,10 @@ export default class CheezeWizardsHome extends React.Component {
               position: 'absolute', top: 0
             }}/>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
-              <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-                <Button onPress={this.openMap}>
-                  <Image source={require('../Assets/location.png')} style={{
-                    resizeMode: 'contain',
-                    width: 40,
-                    height: 45,
-                    margin: 10
-                  }}/>
-                </Button>
-                <View style={{flex: 5, height: 50, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WIZARDS</Text>
+              <View style={{flexDirection: 'row', position: 'absolute',  top: isIphoneX() ? 70 : 57, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+                <View style={{marginHorizontal: 5,paddingVertical: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>CHOOSE A WIZARD TO BATTLE</Text>
                 </View>
-                <Button onPress={Settings.settingsPopUp}>
-                  <Image source={require('../Assets/settings-icon.png')} style={{
-                    resizeMode: 'contain',
-                    width: 50,
-                    height: 50,
-                    margin: 10
-                  }}/>
-                </Button>
               </View>
               {/*<TouchableOpacity onPress={() => this.twitterLink()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>*/}
               {/*<TouchableOpacity onPress={() => WalletConnect.sendDataObject({"bob": "trap"})} style={{backgroundColor: 'white', padding: 20}}><Text>SendDataObject</Text></TouchableOpacity>*/}
@@ -180,9 +185,9 @@ export default class CheezeWizardsHome extends React.Component {
                   onRefresh={this._refresh}
                 />}
               >
-                {this.state.network === 'Rinkeby' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
+                {this.state.network === 'Rinkeby' || this.state.network === 'Main' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
-                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 20}}>
+                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 100}}>
                     <Image source={require('../Assets/udder.png')} style={{
                       resizeMode: 'contain',
                       width: 40,
@@ -190,8 +195,8 @@ export default class CheezeWizardsHome extends React.Component {
                     }}/>
                   </Button>
                 </View>}
-                {this.state.network !== 'Rinkeby' && <View style={{marginTop: 100}}>
-                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, unless you want to drain your wallet of some real cheddar then I suggest you tap on the Settings button, Click on Switch Network, and then tap Rinkeby.</Text>
+                {this.state.network !== 'Rinkeby' && this.state.network !== 'Main' && <View style={{marginTop: 100}}>
+                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, CheezeWizards is only available on Main and Rinkeby 👉 tap on the Settings button, Click on Switch Network, and then tap Main or Rinkeby.</Text>
                   <Button onPress={Settings.settingsPopUp} style={{width: 40, height: 45, marginBottom: 20}}>
                     <Image source={require('../Assets/settings-icon.png')} style={{
                       resizeMode: 'contain',

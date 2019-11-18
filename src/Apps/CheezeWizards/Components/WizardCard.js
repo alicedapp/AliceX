@@ -31,6 +31,7 @@ export default class WizardCard extends React.Component {
       3: () => this.setState({footerColor: colors.waterMainColor, cardColor: colors.waterSecondaryColor}),
       4: () => this.setState({footerColor: colors.windMainColor, cardColor: colors.windSecondaryColor}),
     });
+    console.log('color function: ', color);
     return color(this.props.wizard.affinity)();
   };
 
@@ -49,7 +50,6 @@ export default class WizardCard extends React.Component {
 
   render() {
     const { wizard, key } = this.props;
-    console.log("imageUrl", wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
         <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri: wizard.imageUrl}}  >

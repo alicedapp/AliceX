@@ -18,6 +18,8 @@ import {switchcase} from "../Utils";
 import Button from '../Components/Button'
 import db from '../../../AliceSDK/Socket'
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
+import { StackActions, NavigationActions } from 'react-navigation';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
 const options = {
   enableVibrateFallback: true,
@@ -53,8 +55,28 @@ export default class BattleScreen extends React.Component {
   componentDidMount() {
     const { wizard, challengedWizard } = this.props.navigation.state.params;
     this.getColor(wizard);
-    this.getBattleStatus()
+    this.getBattleStatus();
+    const aliceEventEmitter = Wallet.aliceEvent()
+    aliceEventEmitter.addListener(
+      "aliceEvent",
+      (event) => {
+        console.log('EVENT TRIGGERED: ', event);
+        if (event.pendingTxComplete.isSuccess === true) {
+          console.log('PENDING TX: ', event.pendingTxComplete);
+          this.continue();
+        }
+
+      }
+    )
   }
+
+  continue = () => {
+    ReactNativeHapticFeedback.trigger('selection', options);
+    const resetAction = StackActions.pop({
+      n: 3,
+    });
+    this.props.navigation.dispatch(resetAction);
+  };
 
   getBattleStatus = async () => {
     db.collection('users').doc(await Wallet.getAddress()).onSnapshot(snapshot => {
@@ -102,7 +124,7 @@ export default class BattleScreen extends React.Component {
             <Image source={require('../Assets/vs-ribbon.png')} style={{ width: 50, height: 50, resizeMode: 'contain', position: 'absolute', zIndex: 100}}/>
             <WizardCard style={{width: 175, height: 260}} wizard={challengedWizard}/>
           </View>
-          {this.state.challengedWizard.otherCommit ? <Button onPress={this.reveal} style={{marginTop: 100, height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
+          {challengedWizard.otherCommit ? <Button onPress={this.reveal} style={{marginTop: 100, height: 50,  alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
             <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>BATTLE</Text>
           </Button> : <View style={{height: 50, alignItems: 'center', marginTop: 100, justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
             <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>WAITING ON OTHER WIZARD</Text>

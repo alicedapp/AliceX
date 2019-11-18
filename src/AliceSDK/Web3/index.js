@@ -78,6 +78,7 @@ const settingsPopUp = () => NativeModules.NativeVCModule.setting();
 
 const getOrientation = async () => await NativeModules.NativeVCModule.getOrientation();
 
+const isDarkMode = async () => await NativeModules.NativeVCModule.isDarkMode();
 
 const openBrowser = url =>  url ? NativeModules.NativeVCModule.browser(url) : NativeModules.NativeVCModule.browser('duckduckgo.com');
 
@@ -172,14 +173,14 @@ const createConnection = () => {
 
 const sendDataObject = (object) => {
   NativeModules.WallectConnectModule.message({message: JSON.stringify(object)});
-
 }
 
 export const Settings = {
   settingsPopUp,
   openBrowser,
   qrScanner,
-  getOrientation
+  getOrientation,
+  isDarkMode,
 };
 
 export const Wallet = {
