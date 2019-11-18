@@ -75,7 +75,14 @@ function notifyNewChallengeReceived(document, registrationToken, wizardId, netwo
 }
 
 function notifyChallengeUpdated(document, registrationToken, wizardId, network) {
-    console.log('Challenge updated notification has not yet been implemented');
+    const {challengingWizardId} = document;
+    const title = 'Duel Challenge Updated';
+    const body = `[[${network}]] There has been an update to your wizard's challenge (${wizardId})`;
+    const data = {
+        wizardId,
+        challengingWizardId
+    };
+    return sendNotification(registrationToken, title, body, data);
 }
 
 async function notifyChallengedWizard(document, notifyFn, wizardId, network) {
