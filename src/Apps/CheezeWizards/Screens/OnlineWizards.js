@@ -18,8 +18,8 @@ import Modal from "../Components/Modal";
 
 import _ from 'lodash';
 
-import db from '../../../AliceSDK/Socket'
-import FirebaseService from '../Services/FirebaseService';
+import {db} from '../../../AliceSDK/Firebase'
+import FirebaseService from '../Services/Firebase/FirebaseService';
 import Button from "../Components/Button";
 
 const options = {
