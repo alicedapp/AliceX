@@ -1,7 +1,7 @@
 import {db} from './index';
 
 // todo: check that address is valid before firing any query
-export default new class Account {
+export default new class Accounts {
     async upsertAccount(account) {
         return db
             .collection('accounts')
