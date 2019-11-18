@@ -24,7 +24,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     async getOnlineWizards(network) {
 
         checkValidNetwork(network);
@@ -47,7 +46,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     // Todo: should return an empty array if owner is not defined or not a valid address + associated test
     async getWizardsByOwner(network, owner) {
 
