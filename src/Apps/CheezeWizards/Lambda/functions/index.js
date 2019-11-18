@@ -1,5 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const firebase = require('firebase');
+require("firebase/firestore");
+
+firebase.initializeApp(require('./_keys/env').firebaseConfig);
 admin.initializeApp({
     credential: admin.credential.cert(require('./_keys/adminsdk-keys')),
     databaseURL: 'https://alice-1555232535074.firebaseio.com'
@@ -16,6 +20,36 @@ function sendNotification(registrationToken, title, body, data) {
         data
     };
     return messaging.send(payload);
+}
+
+const db = firebase.firestore();
+async function getWizard(network, id) {
+    return db
+        .collection('wizards')
+        .doc('network')
+        .collection(network)
+        .doc(id)
+        .get()
+        .then(snapshot => {
+            if(snapshot.exists) {
+                return snapshot.data();
+            }
+            return null;
+        });
+}
+
+async function getFirebaseDeviceMessagingToken(ethAddress) {
+    return db
+        .collection('accounts')
+        .doc(ethAddress)
+        .get()
+        .then(snapshot => {
+            if(snapshot.exists) {
+                const document = snapshot.data();
+                return document.firebaseMessagingToken ? document.firebaseMessagingToken : '';
+            }
+            return '';
+        });
 }
 
 function notifyChallengeRevoked(document, registrationToken, wizardId, network) {
@@ -41,15 +75,31 @@ function notifyNewChallengeReceived(document, registrationToken, wizardId, netwo
 }
 
 function notifyChallengeUpdated(document, registrationToken, wizardId, network) {
-
+    console.log('Challenge updated notification has not yet been implemented');
 }
 
-function notifyChallengedWizard(document, notifyFn, registrationToken, wizardId, network) {
+async function notifyChallengedWizard(document, notifyFn, wizardId, network) {
     console.log('Asserting not challenger...');
     let processor = Promise.resolve('done');
     if (!document.challenger) {
         console.log('Proceeding as not the challenging wizard');
+
+        // Get the device messaging token (firebase messaging token)
+        const wizard = await getWizard(network, wizardId);
+        console.log('wizard', wizard);
+        if (!wizard || (wizard && !wizard.owner)) {
+            console.error(`Unable to retrieve wizard / owner data for wizard ID ${wizardId}. Exiting early...`);
+            return null;
+        }
+
+        const registrationToken = await getFirebaseDeviceMessagingToken(wizard.owner);
+        if (!registrationToken) {
+            console.error(`Unable to retrieve a firebase messaging token for ${wizard.owner}. Exiting early...`);
+            return null;
+        }
+
         processor = notifyFn(document, registrationToken, wizardId, network);
+
         console.log('Notifying the owner of the challenged wizard');
     } else {
         console.log('Finishing as this is the challenging wizard');
@@ -57,8 +107,6 @@ function notifyChallengedWizard(document, notifyFn, registrationToken, wizardId,
     return processor;
 }
 
-//todo: this is temp - remove it
-const registrationToken = 'esrFsgLnRB4l8NHuQrpilt:APA91bE_vxfYgOrvY-Vp8FXHrRBBoxRK76pCJpZxap8lYtgPPZXiHsgwTHkbB2RnqGxSn34LyGGU16LPiNXzPzfuMXTolJpqCKtNWmWO8kMpfq-IJ-xfWpdhiiN1Vo14JpM9xui_aMdQ';
 exports.challengeNotifier = functions.firestore
     .document('wizards/network/{network}/{wizardId}/duel/{challengeId}')
     .onWrite(async (change, context) => {
@@ -68,9 +116,6 @@ exports.challengeNotifier = functions.firestore
         const wizardId = context.params.wizardId;
         const challengeId = context.params.challengeId;
         console.log(`Context params: Network - ${network}, Wizard ID: ${wizardId}, Challenge ID: ${challengeId}`);
-
-        // Todo: fetch this based on the owner of the wizard. For now this is hard coded
-        console.log('registrationToken', registrationToken);
 
         const document = change.after.exists ? change.after.data() : null;
         const oldDocument = change.before.data();
@@ -83,28 +128,25 @@ exports.challengeNotifier = functions.firestore
         // Anything else is an update to an existing challenge on one or more sides
         if (!document) {
             console.log('Challenge revoked');
-            processor = notifyChallengedWizard(
+            processor = await notifyChallengedWizard(
                 oldDocument,
                 notifyChallengeRevoked,
-                registrationToken,
                 wizardId,
                 network
             );
         } else if(!oldDocument) {
             console.log('New challenge received');
-            processor = notifyChallengedWizard(
+            processor = await notifyChallengedWizard(
                 document,
                 notifyNewChallengeReceived,
-                registrationToken,
                 wizardId,
                 network
             );
         } else {
             console.log('Challenge updated');
-            processor = notifyChallengedWizard(
+            processor = await notifyChallengedWizard(
                 oldDocument,
                 notifyChallengeUpdated,
-                registrationToken,
                 wizardId,
                 network
             );

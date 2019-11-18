@@ -7,7 +7,7 @@ import firebaseService from "../../../src/Apps/CheezeWizards/Services/Firebase/F
 
 import wizards from './data/wizards.data';
 
-const owner1 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB';
+const owner1 = '0x12D062B19a2DF1920eb9FC28Bd6E9A7E936de4c2';
 const owner2 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169401';
 
 const network = 'rinkeby';
@@ -123,7 +123,7 @@ test("Can take all of an owner's wizards offline", async () => {
     expect(allWizardsOffline).toBe(true);
 });
 
-test("Can issue a challenge successfully", async () => {
+test.only("Can issue a challenge successfully", async () => {
     // Ensure the firestore has test data
     await firebaseService.upsertWizards(network, wizards);
 
