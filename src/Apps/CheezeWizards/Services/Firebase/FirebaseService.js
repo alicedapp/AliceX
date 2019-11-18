@@ -92,7 +92,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should handle network not being defined or invalid + associated test
     // Todo: should handle wizards being undefined / not an array as the map will fail + associated test
     // Todo: should guard against wizard.id being undefined + associated test
     async upsertWizards(network, wizards) {
@@ -112,7 +111,6 @@ export default new class FirebaseService {
         }));
     }
 
-    // Todo: should handle network not being defined or invalid + associated test
     // Todo: should check params passed in valid + associated test
     // Todo: do we need to do ownership check that we're challenging someone else's wizard?
     async sendChallenge(network, {challengeId, challengingWizardId, otherWizardId}) {
