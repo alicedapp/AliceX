@@ -8,7 +8,6 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
 import {createStackNavigator} from "react-navigation";
 import App from "../App";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const ANNOTATION_SIZE = 10;
 
@@ -99,8 +98,7 @@ class MapComponent extends React.Component {
           styleURL={this.state.styleURL}
           style={{flex: 1}}
         >
-          <NavigationBar/>
-          <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+                   <MapboxGL.Camera followZoomLevel={12} followUserLocation />
           <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end', padding: 20}}>
             <TouchableOpacity onPress={this.openExamples} style={{backgroundColor: 'white', height: 50, width: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center'}}>
               <Image source={require('../Assets/burger.png')} style={{resizeMode: 'contain', height: 20}}/>

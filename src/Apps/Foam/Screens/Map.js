@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import sheet from "../styles/sheet";
 import Modalize from "../Components/Modalize";
 import moment from "moment";
@@ -27,6 +26,7 @@ export default class MapComponent extends React.Component {
     const { navigate } = navigation;
     return {
       tabBarVisible: false,
+      header: null
     };
   };
 
@@ -645,8 +645,7 @@ export default class MapComponent extends React.Component {
     console.log('STATE COORDS: ', this.state.coordinates)
     return (
       <View style={{flex: 1}}>
-        <NavigationBar/>
-        <MapboxGL.MapView
+               <MapboxGL.MapView
           ref={c => (this._map = c)}
           onPress={this.onPress}
           showUserLocation={true}

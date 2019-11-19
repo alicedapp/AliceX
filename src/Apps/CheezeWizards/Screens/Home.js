@@ -12,14 +12,12 @@ import {
   TouchableWithoutFeedback,
   View, RefreshControl, AppState
 } from "react-native";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
-import FirebaseService from '../Services/FirebaseService';
-
-import wizardsService from '../Services/WizardsService';
+import FirebaseService from '../Services/Firebase/FirebaseService';
+import wizardsService from '../Services/Firebase/WizardsService';
 
 const options = {
   enableVibrateFallback: true,
@@ -30,6 +28,7 @@ const { height, width } = Dimensions.get('window');
 
 import db from '../../../AliceSDK/Socket'
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { getCheeseWizardsImageUrlForNetwork } from "../Utils/networkSplitter";
 
 export default class CheezeWizardsHome extends React.Component {
 
@@ -62,7 +61,7 @@ export default class CheezeWizardsHome extends React.Component {
     this.getUser();
     this.getNetwork();
     AppState.addEventListener('change', this._handleAppStateChange);
-    const aliceEventEmitter = Wallet.aliceEvent()
+    const aliceEventEmitter = Wallet.aliceEvent();
     aliceEventEmitter.addListener(
       "aliceEvent",
       (event) => {
@@ -79,9 +78,18 @@ export default class CheezeWizardsHome extends React.Component {
   }
 
   _handleAppStateChange = (nextAppState) => {
-    console.log('APPSTATE: ', nextAppState)
+    console.log('APPSTATE: ', nextAppState);
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('App has come to the foreground!')
+      // online status is true
+      console.log('ONLINE CALLED with appstate', this.state.appState, 'and next app state: ', nextAppState)
+      this.onlineStatus(this.state.network, true);
+    }
+    if (this.state.appState.match(/active/) && nextAppState === "inactive" || nextAppState === "background") {
+      console.log('OFFLINE CALLED with appstate', this.state.appState, 'and next app state: ', nextAppState);
+
+      //offline status is false
+      this.onlineStatus(this.state.network, false);
+
     }
     this.setState({appState: nextAppState});
   };
@@ -132,6 +140,16 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({loading: false, fetching: false});
   };
 
+  onlineStatus = (network, onlineStatus) => {
+    console.log('ONLINE STATUS: ', onlineStatus, network);
+    const wizards = this.state.wizards;
+    wizards.forEach(wizard => {
+      wizard.online = onlineStatus;
+    });
+    console.log('WIZARDS : ', wizards);
+    FirebaseService.upsertWizards(network, wizards);
+  };
+
   fetchWizards = async () => {
       const wizards = await wizardsService.getMyWizards();
       console.log("MY WIZARDS:", wizards);
@@ -154,7 +172,6 @@ export default class CheezeWizardsHome extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
           {this.state.loading === true ? <View style={{
             flex: 1,
             justifyContent: 'center',
@@ -185,7 +202,7 @@ export default class CheezeWizardsHome extends React.Component {
                   onRefresh={this._refresh}
                 />}
               >
-                {this.state.network === 'Rinkeby' || this.state.network === 'Main' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
+                {this.state.network === 'rinkeby' || this.state.network === 'Main' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
                   <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 100}}>
                     <Image source={require('../Assets/udder.png')} style={{
@@ -195,7 +212,7 @@ export default class CheezeWizardsHome extends React.Component {
                     }}/>
                   </Button>
                 </View>}
-                {this.state.network !== 'Rinkeby' && this.state.network !== 'Main' && <View style={{marginTop: 100}}>
+                {this.state.network !== 'rinkeby' && this.state.network !== 'main' && <View style={{marginTop: 100}}>
                   <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, CheezeWizards is only available on Main and Rinkeby 👉 tap on the Settings button, Click on Switch Network, and then tap Main or Rinkeby.</Text>
                   <Button onPress={Settings.settingsPopUp} style={{width: 40, height: 45, marginBottom: 20}}>
                     <Image source={require('../Assets/settings-icon.png')} style={{

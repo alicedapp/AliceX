@@ -11,7 +11,6 @@ import {
   View,
   TouchableOpacity
 } from "react-native";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import { Button, Modal } from "../../DAOstack/Components";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { Contract } from "../../../AliceSDK/Web3";
@@ -58,7 +57,6 @@ export default class Zaps extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: this.state.footerColor, alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
         <View style={{flex: 1, marginTop: 50}}>
           <View style={{ width: '100%', height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
             <Image style={styles.image} source={require('../Assets/download.png')}/>

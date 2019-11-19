@@ -2,7 +2,6 @@ import React from "react";
 import { View } from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {E2EABI} from "../ABI";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {ethers} from 'ethers';
 import { GiftedChat } from 'react-native-gifted-chat'
 
@@ -75,8 +74,7 @@ export default class E2EChat extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1}}>
-        <NavigationBar/>
-        <GiftedChat
+               <GiftedChat
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
           user={{

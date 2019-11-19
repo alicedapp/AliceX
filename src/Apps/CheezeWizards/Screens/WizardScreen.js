@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button';
 import Camera from "../../../AliceSDK/Camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
@@ -162,7 +161,6 @@ export default class WizardScreen extends React.Component {
     console.log('WIZARD: ', wizard);
     return (
       <Camera style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}} onBarCodeRead={this.scan} type={this.state.cameraType} flashMode={this.state.flash && this.state.cameraType === 'back' ? Camera.Constants.FlashMode.torch : Camera.Constants.FlashMode.off}>
-        <NavigationBar/>
         <ImageBackground source={require('../Assets/wizards-screen.png')} style={{flex: 1, width, alignItems: 'center',}}>
             <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
               <Button onPress={this.openMap}>

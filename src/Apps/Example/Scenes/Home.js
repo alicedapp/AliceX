@@ -43,7 +43,6 @@ import GetZoom from '../MapExamples/GetZoom';
 import GetCenter from '../MapExamples/GetCenter';
 import UserLocationChange from '../MapExamples/UserLocationChange';
 import Heatmap from '../MapExamples/Heatmap';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 
 const styles = StyleSheet.create({
   header: {
@@ -151,8 +150,7 @@ class Home extends React.Component {
   render() {
     return (
       <View style={sheet.matchParent}>
-        <NavigationBar/>
-        <MapHeader label="React Native Mapbox GL" />
+               <MapHeader label="React Native Mapbox GL" />
 
         <View style={sheet.matchParent}>
           <FlatList

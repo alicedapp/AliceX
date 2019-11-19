@@ -15,7 +15,6 @@ import Markdown from 'react-native-simple-markdown'
 
 import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown } from '../Components'
 import { Settings } from '../../../AliceSDK/Web3';
-import { NavigationBar } from "../../../AliceCore/Components";
 
 const { height, width } = Dimensions.get('window');
 
@@ -68,7 +67,6 @@ export default class DetailedProposal extends Component {
       <View
         style={styles.container}
       >
-        <NavigationBar />
           <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15, marginTop: 60 }}>
             <View style={{ flexDirection: 'row', marginBottom: 14 }}>
               <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>

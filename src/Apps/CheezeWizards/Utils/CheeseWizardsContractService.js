@@ -63,7 +63,7 @@ export default new class CheeseWizardsContractService {
               wizard[key] = parseInt(wizard[key]._hex);
             }
           });
-          return await this._buildWizardData(network, wizard, tokenId, true);
+          return await this._buildWizardData(network, wizard, tokenId);
 
         } catch(e) {
             console.log('getWizard error',e);
@@ -172,11 +172,11 @@ export default new class CheeseWizardsContractService {
         return txHash;
     }
 
-   async _buildWizardData(network, data, tokenId, online) {
-        let wizardData = {...data}
+   async _buildWizardData(network, data, tokenId) {
+        let wizardData = {...data};
         wizardData.id = tokenId;
-        wizardData.online = online;
-        wizardData.owner = await Wallet.getAddress()
+        wizardData.online = true;
+        wizardData.owner = await Wallet.getAddress();
         wizardData.imageUrl = getCheeseWizardsImageUrlForNetwork(network, wizardData.id);
 
         console.log('BUILD WIZARD DATA ::: ', data);

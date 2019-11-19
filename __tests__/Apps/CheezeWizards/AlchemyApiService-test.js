@@ -2,9 +2,9 @@
  * @format
  */
 
-import AlchemyApiService from "../src/Apps/CheezeWizards/Utils/AlchemyApiService";
+import AlchemyApiService from "../../../src/Apps/CheezeWizards/Utils/AlchemyApiService";
 
-test.skip("getWizardsForOwner should return wizards", async () => {
+test("getWizardsForOwner should return wizards", async () => {
     const myAddress = "0x1AD321AFf3505169Acc72Df379ef646A6cD6a982";
     const tokenId = 3962;
 
@@ -18,7 +18,7 @@ test.skip("getWizardsForOwner should return wizards", async () => {
     expect(wizards[0].imageUrl).toBeDefined();
 });
 
-test.skip("getWizardById should return a wizard", async () => {
+test("getWizardById should return a wizard", async () => {
     const myAddress = "0x1AD321AFf3505169Acc72Df379ef646A6cD6a982";
     const tokenId = 3962;
 

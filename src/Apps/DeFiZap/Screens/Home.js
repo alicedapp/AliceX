@@ -12,7 +12,6 @@ import {
   TouchableWithoutFeedback,
   View, RefreshControl,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, Contract, WalletConnect } from "../../../AliceSDK/Web3";
 import env from '../../../../env';
@@ -76,7 +75,6 @@ export default class CheezeWizardsHome extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
         <Swiper style={styles.wrapper}>
           <View style={styles.slide1}>
             <Image style={styles.image} source={require('../Assets/zaps.png')}/>

@@ -28,6 +28,7 @@ import {Settings, Wallet} from './src/AliceSDK/Web3'
 import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Dashboard from './src/AliceCore/Screens/Dashboard';
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
+import {NavigationBar} from "./src/AliceCore/Components";
 import {challengedPOI} from "./src/Apps/Foam/utils";
 
 const { height, width } = Dimensions.get('window');
@@ -113,6 +114,7 @@ class App extends Component {
       walletconnect: '',
       orientation: '',
       deeplink: '',
+      currentRoute: 'DappsScreen',
       appState: AppState.currentState,
     };
 
@@ -255,14 +257,40 @@ class App extends Component {
 
   };
 
+  getActiveRouteName = (navigationState) => {
+    if (!navigationState) {
+      return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    // dive into nested navigators
+    if (route.routes) {
+      return this.getActiveRouteName(route);
+    }
+    return route.routeName;
+  }
+
   render() {
     console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
-        {this.state.network !== 'Main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
+        {this.state.network !== 'main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
+        {this.state.currentRoute !== "DappsScreen" && <NavigationBar/>}
         <AliceMain
           ref={navigatorRef => {
             NavigatorService.setContainer(navigatorRef);
+          }}
+          onNavigationStateChange={(prevState, currentState, action) => {
+            const currentRouteName = this.getActiveRouteName(currentState);
+            const previousRouteName = this.getActiveRouteName(prevState);
+            console.log('CURRENT ROUTE: ', currentRouteName);
+            console.log('CURRENT ROUTE: ', previousRouteName);
+            console.log('CURRENT ROUTE STATE: ', this.state.currentRoute);
+            if (previousRouteName !== currentRouteName) {
+              this.setState({ currentRoute: currentRouteName });
+              // the line below uses the @react-native-firebase/analytics tracker
+              // change the tracker here to use other Mobile analytics SDK.
+              // analytics().setCurrentScreen(currentRouteName, currentRouteName);
+            }
           }}
         >
         </AliceMain>

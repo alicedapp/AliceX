@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Contract} from "../../../AliceSDK/Web3";
@@ -96,7 +95,6 @@ export default class SummonScreen extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
         <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
           <Image source={require('../Assets/cheeze-udder.gif')} style={{
             resizeMode: 'contain',
