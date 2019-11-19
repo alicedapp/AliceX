@@ -2,8 +2,8 @@ import AliceSDK from '../index';
 const { Wallet, Accounts } = AliceSDK;
 
 export class AppServices {
-    constructor() {
-        this.initWeb3Context();
+    async initializeAppServices() {
+        await this.initWeb3Context();
         this.initNotificationsOnAccount();
     }
 
@@ -24,6 +24,8 @@ export class AppServices {
     }
 }
 
-export function initializeAppServices() {
-    return new AppServices();
+export async function initializeAppServices() {
+    const AppServices = new AppServices();
+    await AppServices.initializeAppServices();
+    return AppServices;
 }

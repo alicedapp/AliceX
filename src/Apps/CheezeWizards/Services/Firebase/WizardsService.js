@@ -4,13 +4,13 @@ import { Wallet } from "../../../../AliceSDK/Web3";
 
 export default new class WizardsService {
 
-  async getMyWizards() {
+  async getMyWizards(network, address) {
     // todo: remove the next 2 lines as this will instead be handled by AppServices
-    const currentNetwork = await Wallet.getNetwork();
-    const walletAddress = await Wallet.getAddress();
-    console.log(`getWizardsForOwner for ${walletAddress} on network ${currentNetwork.name}`);
+    //const currentNetwork = await Wallet.getNetwork();
+    //const walletAddress = await Wallet.getAddress();
+    console.log(`getWizardsForOwner for ${address} on network ${network.name}`);
 
-    return WizardsService._providerForNetwork(currentNetwork.name).getWizardsForOwner(currentNetwork.name, walletAddress);
+    return WizardsService._providerForNetwork(network.name).getWizardsForOwner(network.name, address);
   }
 
   static _providerForNetwork(network) {
