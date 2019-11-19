@@ -26,8 +26,10 @@ const getBalance = async () => {
 
 const getNetwork = async () => {
   try {
-    const network = await NativeModules.WalletModule.getNetwork();
-    return JSON.parse(network);
+    let network = JSON.parse(await NativeModules.WalletModule.getNetwork());
+    console.log('network: ', network);
+    network.name = network.name.toLowerCase();
+    return network;
   } catch(e) {
     throw "Get network failed with error: " + e
   }
@@ -123,14 +125,16 @@ const read = async ({contractAddress, abi, functionName, parameters, network}) =
       return contract[functionName](...parameters);
     }
 
-  } else {
+  } else if (network === "main") {
     const contract = new EthersContract(contractAddress, abi, infuraProvider);
-
     if (parameters.length === 0) {
       return contract[functionName]();
     } else if (parameters.length > 0) {
       return contract[functionName](...parameters);
     }
+
+  } else {
+    return "Unsupported network"
   }
 
 };

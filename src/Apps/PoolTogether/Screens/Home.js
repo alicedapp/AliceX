@@ -2,7 +2,6 @@ import React from "react";
 import { Text, TouchableOpacity, TouchableWithoutFeedback, SafeAreaView, View, Dimensions, Image, StyleSheet } from "react-native";
 import { Wallet, Contract, Settings } from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {Modal} from "../../PoolTogether/Components";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 const { height, width } = Dimensions.get('window');
@@ -95,7 +94,6 @@ export default class ExampleHome extends React.Component {
     const { navigation } = this.props;
     return (
       <SafeAreaView style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#13010F'}}>
-        <NavigationBar/>
         <View style={{margin: 20, padding: 20, width: width - 40, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(256,256,256,0.2)'}}>
           <Text style={{color: '#F485FB'}}>Next prize estimate:</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>

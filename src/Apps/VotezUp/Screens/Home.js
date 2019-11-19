@@ -3,7 +3,6 @@ import {View, Text, AsyncStorage, TouchableOpacity, Image, TextInput, StyleSheet
 import moment from 'moment';
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {VotingABI} from "../ABI";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {ethers} from 'ethers';
 import {GiftedChat} from 'react-native-gifted-chat'
 import {Query, Mutation} from "react-apollo";
@@ -250,8 +249,7 @@ export default class E2EChat extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1}}>
-        <NavigationBar/>
-        <Mutation mutation={SEND_MESSAGE}>
+               <Mutation mutation={SEND_MESSAGE}>
           {(addMessage, { data }) => (
             <Query query={GET_MESSAGES}>
               {({ loading, error, data }) => {

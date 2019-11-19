@@ -2,7 +2,6 @@ import React from "react";
 import {Text, TouchableOpacity, ScrollView, View, Dimensions} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
 import {FoodContractABI} from "../ABI";
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 const { height, width } = Dimensions.get('window');
 
 export default class ExampleHome extends React.Component {
@@ -167,8 +166,7 @@ export default class ExampleHome extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-        <NavigationBar/>
-        <ScrollView contentContainerStyle={{width, marginTop:50, alignItems: 'center', justifyContent: 'center', paddingVertical: 100}}>
+               <ScrollView contentContainerStyle={{width, marginTop:50, alignItems: 'center', justifyContent: 'center', paddingVertical: 100}}>
           <Text>Address: {this.state.address}</Text>
           <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Address</Text>

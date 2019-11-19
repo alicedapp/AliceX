@@ -124,7 +124,6 @@ export default class Proposals extends Component {
     let regularAmount = 0;
     return (
       <View style={{ flex: 1, paddingTop: 50 }}>
-        <NavigationBar />
         <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
             if (error) return <Text>Can't fetch Proposals</Text>;

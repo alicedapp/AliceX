@@ -2,10 +2,9 @@ import React from 'react';
 import { Alert, View, Image, StyleSheet, Dimensions, Text, TouchableOpacity, ScrollView } from "react-native";
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import {onSortOptions} from '../Utils/index';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import wzrd2Icon from "../Assets/wzrd-2-1.png";
 import db from "../../../AliceSDK/Socket";
-import FirebaseService from "../Services/FirebaseService";
+import FirebaseService from "../Services/Firebase/FirebaseService";
 import { Wallet } from "../../../AliceSDK/Web3";
 import WizardCard from "../Components/WizardCard";
 const ANNOTATION_SIZE = 10;
@@ -250,8 +249,7 @@ class CheezeMap extends React.Component {
         onPress={this.onPress}
         style={{flex: 1,}}
       >
-        <NavigationBar/>
-        <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+               <MapboxGL.Camera followZoomLevel={12} followUserLocation />
         <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30}}>
           <View style={{height: 50, marginTop: 40, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>

@@ -274,8 +274,7 @@ class ShapeSourceIcon extends React.Component {
     console.log('FEATURE COLLECTION: ', this.state.featureCollection);
     return (
       <View style={{flex: 1}}>
-        <NavigationBar/>
-        <MapboxGL.MapView
+               <MapboxGL.MapView
           style={sheet.matchParent}
           onRegionDidChange={this.onRegionChange}
         >

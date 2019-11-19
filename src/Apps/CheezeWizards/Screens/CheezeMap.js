@@ -5,11 +5,10 @@ import {
 } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { decodeGeoHash, onSortOptions, SF_OFFICE_COORDINATE } from '../../Foam/utils';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Modalize from "../Components/Modalize";
 import moment from "moment";
 import Countdown from "../Components/Countdown";
-import FirebaseService from "../Services/FirebaseService";
+import FirebaseService from "../Services/Firebase/FirebaseService";
 import { Wallet } from "../../../AliceSDK/Web3";
 import WizardCard from '../Components/WizardCard';
 
@@ -199,7 +198,6 @@ export default class CheezeMap extends React.Component {
     console.log('STATE COORDS: ', this.state.coordinates)
     return (
       <View style={{flex: 1}}>
-        <NavigationBar/>
         <MapboxGL.MapView
           ref={c => (this._map = c)}
           onPress={this.onPress}

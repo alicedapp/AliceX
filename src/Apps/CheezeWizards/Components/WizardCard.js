@@ -11,7 +11,7 @@ export default class WizardCard extends React.Component {
   };
 
   componentDidMount() {
-    this.getColor();
+    this.props.wizard && this.getColor();
   }
 
   renderAffinity = () => {
@@ -50,10 +50,12 @@ export default class WizardCard extends React.Component {
 
   render() {
     const { wizard, key } = this.props;
+    console.log('WIZARD: ', wizard);
     return (
       <View {...this.props} key={key} style={{...styles.cardContainer, ...this.props.style, ...styles.sharpShadow}}>
-        <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri: wizard.imageUrl}}  >
-        {/*<View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>*/}
+        {this.props.wizard && <ImageBackground style={{resizeMode: 'contain', ...styles.innerContainer, backgroundColor: this.state.cardColor}} source={{uri: wizard.imageUrl}}  >
+          {/*<View style={{...styles.innerContainer, backgroundColor: this.state.cardColor}}>*/}
+          {console.log('redering: ', wizard)}
           <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{wizard.id}</Text>
           <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
             {/*{this.renderWizard()}*/}
@@ -63,8 +65,8 @@ export default class WizardCard extends React.Component {
             <Text style={{color: 'black', fontSize: 20, fontFamily: 'Exocet'}}>{Math.round(wizard.power/10e11)}</Text>
             {this.renderAffinity()}
           </View>
-        {/*</View>*/}
-        </ImageBackground>
+          {/*</View>*/}
+        </ImageBackground>}
       </View>
     );
   }

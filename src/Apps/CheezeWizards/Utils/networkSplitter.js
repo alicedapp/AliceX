@@ -32,3 +32,13 @@ export const getCheeseWizardsImageUrlForNetwork = (network, tokenId) => {
         }
     }
 };
+
+export const checkValidNetwork = network => {
+    switch (network.toLowerCase()) {
+        case 'rinkeby':
+        case 'main':
+            return network.toLowerCase();
+        default:
+            throw new Error(`Not a valid network ${network}`);
+    }
+};

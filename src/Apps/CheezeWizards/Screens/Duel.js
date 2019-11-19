@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   View, TouchableOpacity,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import Button from '../Components/Button'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet, Contract} from "../../../AliceSDK/Web3";
@@ -239,7 +238,6 @@ export default class DuelScreen extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
         {this.state.loading === true ? <View style={{
           flex: 1,
           justifyContent: 'center',

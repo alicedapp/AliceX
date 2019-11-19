@@ -58,7 +58,6 @@ export default class DAOs extends Component {
   render() {
     return (
       <View style={{ flex: 1, paddingTop: 50 }}>
-        <NavigationBar />
         <Query query={DAOS_QUERY}>
           {({ loading, error, data }) => {
             if (error) return <Text>Can't fetch DAOs</Text>;

@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import {BasicTournament} from "../Addresses";
 import ABIs from "../ABIs";
 import colors from "../Utils/colors";
@@ -116,8 +115,7 @@ export default class BattleScreen extends React.Component {
     console.log('STATE: ', this.state);
     return (
       <View style={{flex: 1, backgroundColor: this.state.footerColor, alignItems: 'center', justifyContent: 'flex-start'}}>
-        <NavigationBar/>
-        {!!this.state.loading ? this.renderLoading() : this.renderResults()}
+               {!!this.state.loading ? this.renderLoading() : this.renderResults()}
       </View>)
   }
 }
