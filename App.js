@@ -128,6 +128,9 @@ class App extends Component {
   componentDidMount() {
     this.getOrientation();
     this.getNetwork();
+    if (this.props.navigationRoute) {
+      navigate(this.props.navigationRoute);
+    }
     AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(

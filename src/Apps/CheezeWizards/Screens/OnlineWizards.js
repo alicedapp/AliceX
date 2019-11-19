@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   View, ScrollView, RefreshControl, TouchableOpacity
 } from "react-native";
+import {NavigationBar} from "../../../AliceCore/Components/NavigationBar";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import {Settings, Wallet} from "../../../AliceSDK/Web3";
 import env from '../../../../env';
@@ -17,7 +18,7 @@ import Modal from "../Components/Modal";
 
 import _ from 'lodash';
 
-import db from '../../../AliceSDK/Socket'
+import {db} from '../../../AliceSDK/Firebase'
 import FirebaseService from '../Services/Firebase/FirebaseService';
 import Button from "../Components/Button";
 
@@ -91,7 +92,8 @@ export default class WizardScreen extends React.Component {
   render() {
     return (
         <ImageBackground source={require('../Assets/blank-squares.png')} style={{flex: 1, width, alignItems: 'center', paddingTop: 40}}>
-                   <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+          <NavigationBar/>
+          <View style={{flexDirection: 'row', position: 'absolute', top: 70, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
             <Button onPress={this.openMap}>
               <Image source={require('../Assets/location.png')} style={{
                 resizeMode: 'contain',

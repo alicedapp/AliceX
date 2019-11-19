@@ -24,7 +24,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     async getOnlineWizards(network) {
 
         checkValidNetwork(network);
@@ -47,7 +46,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should return an empty array if network is not defined or not a valid string + associated test
     // Todo: should return an empty array if owner is not defined or not a valid address + associated test
     async getWizardsByOwner(network, owner) {
 
@@ -94,7 +92,6 @@ export default new class FirebaseService {
             });
     }
 
-    // Todo: should handle network not being defined or invalid + associated test
     // Todo: should handle wizards being undefined / not an array as the map will fail + associated test
     // Todo: should guard against wizard.id being undefined + associated test
     async upsertWizards(network, wizards) {
@@ -114,7 +111,6 @@ export default new class FirebaseService {
         }));
     }
 
-    // Todo: should handle network not being defined or invalid + associated test
     // Todo: should check params passed in valid + associated test
     // Todo: do we need to do ownership check that we're challenging someone else's wizard?
     async sendChallenge(network, {challengeId, challengingWizardId, otherWizardId}) {
@@ -178,10 +174,6 @@ export default new class FirebaseService {
 
     async allOutstandingChallenges(network, owner) {
         // TODO I need this in the stage
-    }
-
-    async registerFirebaseMessagingTokenForEthAddress() {
-
     }
 
     // async registerWizardForDueling(network, {owner, wizard}) {

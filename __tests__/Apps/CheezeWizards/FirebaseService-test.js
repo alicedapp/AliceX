@@ -3,59 +3,31 @@
  */
 
 import _ from 'lodash';
-import firebaseService from "../../../src/Apps/CheezeWizards/Services/Firebase/FirebaseService";
+import firebaseService from "../src/Apps/CheezeWizards/Services/FirebaseService";
 
 import wizards from './data/wizards.data';
-
-const owner1 = '0x12D062B19a2DF1920eb9FC28Bd6E9A7E936de4c2';
+const owner1 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB';
 const owner2 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169401';
 
-const network = 'rinkeby';
+test("allUsers should return all registered users", async () => {
+
+    const users = await firebaseService.allUsers();
+
+    console.log('USERS >>>', users);
+
+    expect(users.length).toBeGreaterThan(0);
+});
 
 async function getUpsertedWizards(network, upsertedWizardIds) {
-    const allWizards = await firebaseService.getAllWizards(network);
+    const allWizards = await firebaseService.allWizards(network);
     return _.sortBy(
         allWizards.filter(wizard => _.includes(upsertedWizardIds, wizard.id)),
         wizard => wizard.id
     );
 }
 
-describe('retrieve wizards', () => {
-    test('Can retrieve all wizards', async () => {
-
-        // add a wizard
-        await firebaseService.upsertWizards(network, [{
-            affinity: 3,
-            ascending: false,
-            ascensionOpponent: 0,
-            id: '6217',
-            maxPower: 125038910370365,
-            molded: false,
-            nonce: 0,
-            owner: '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB',
-            power: 125038910370365,
-            online: true,
-            ready: true
-        }]);
-
-        // Check the wizards have been upserted
-        let allWizards = await firebaseService.getAllWizards(network);
-        expect(allWizards.length).toBeGreaterThan(0);
-        expect(allWizards.filter(wizard => wizard.id === '6217').length).toBe(1);
-    });
-
-    test('throws error if network is wrong', async () => {
-        try {
-            await firebaseService.getAllWizards('tron');
-            expect(true).toBe(false);
-        } catch (e) {
-            expect(e.message).toBe('Not a valid network tron');
-        }
-    });
-});
-
-
 test('Can upsert online wizards with idempotentency', async () => {
+    const network = 'rinkeby';
 
     // Upsert the test data
     const wizardsToUpsert = _.sortBy(wizards, wizard => wizard.id);
@@ -75,9 +47,9 @@ test('Can upsert online wizards with idempotentency', async () => {
     expect(upsertedWizards.length).toBe(wizardsToUpsert.length);
 });
 
-test("Can update wizard's online status", async () => {
-
+test("Can update wizard's online status", async () =>  {
     // Ensure the firestore has test data
+    const network = 'rinkeby';
     await firebaseService.upsertWizards(network, wizards);
 
     // Pick a wizard and assert it's currently online
@@ -103,8 +75,9 @@ test("Can update wizard's online status", async () => {
     expect(newOnlineWizards.filter(onlineWizard => onlineWizard.id === wizard.id).length).toBe(0);
 });
 
-test("Can take all of an owner's wizards offline", async () => {
+test.only("Can take all of an owner's wizards offline", async () => {
     // Ensure the firestore has test data
+    const network = 'rinkeby';
     await firebaseService.upsertWizards(network, wizards);
 
     // Get all wizards of an owner
@@ -122,40 +95,4 @@ test("Can take all of an owner's wizards offline", async () => {
     const allWizardsOffline = ownedWizards.map(wizard => wizard.online).reduce((t, n) => n === false && t === n);
     expect(allWizardsOffline).toBe(true);
 });
-
-test.only("Can issue a challenge successfully", async () => {
-    // Ensure the firestore has test data
-    await firebaseService.upsertWizards(network, wizards);
-
-    // Issue a challenge
-    const challengeId = '_mXpQaaF';
-    const challengingWizardId = '293';
-    const otherWizardId = '6208';
-    await firebaseService.sendChallenge(network, {
-        challengeId,
-        challengingWizardId,
-        otherWizardId,
-    });
-
-    // Check challenge was recorded correctly
-    const challengeesChallenges = await firebaseService.getChallengesByWizard(network, otherWizardId);
-    expect(challengeesChallenges.length).toBe(1);
-
-    const receivedChallenge = challengeesChallenges[0];
-    expect(receivedChallenge.challengingWizardId).toBe(challengingWizardId);
-    expect(receivedChallenge.challengeId).toBe(challengeId);
-    expect(receivedChallenge.challengeAccepted).toBe(false);
-
-    const challengersChallenges = await firebaseService.getChallengesByWizard(network, challengingWizardId);
-    expect(challengersChallenges.length).toBe(1);
-
-    const issuedChallenge = challengersChallenges[0];
-    expect(issuedChallenge.otherWizardId).toBe(otherWizardId);
-    expect(issuedChallenge.challengeId).toBe(challengeId);
-    expect(issuedChallenge.challengeAccepted).toBe(false);
-});
-
-// test("Can accept a challenge successfull", async () => {
-//
-// });
 

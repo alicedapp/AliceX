@@ -16,7 +16,9 @@ import Button from '../Components/Button'
 import WizardCard from '../Components/WizardCard'
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
+import { initializeAppServices } from '../../../AliceSDK/AppServices';
 import FirebaseService from '../Services/Firebase/FirebaseService';
+
 import wizardsService from '../Services/Firebase/WizardsService';
 
 const options = {
@@ -28,7 +30,6 @@ const { height, width } = Dimensions.get('window');
 
 import db from '../../../AliceSDK/Socket'
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { getCheeseWizardsImageUrlForNetwork } from "../Utils/networkSplitter";
 
 export default class CheezeWizardsHome extends React.Component {
 
@@ -53,6 +54,7 @@ export default class CheezeWizardsHome extends React.Component {
       fetching: false,
       balance: null,
       appState: AppState.currentState,
+      appServices: null,
 
     };
   }
@@ -64,10 +66,15 @@ export default class CheezeWizardsHome extends React.Component {
     const aliceEventEmitter = Wallet.aliceEvent();
     aliceEventEmitter.addListener(
       "aliceEvent",
-      (event) => {
+      async (event) => {
         if (event.network) {
           const parsedEvent = JSON.parse(event.network);
-          this.setState({network: parsedEvent.name, networkColor: parsedEvent.color}, this.fetchWizards);
+
+          const network = parsedEvent.name;
+          const networkColor = parsedEvent.color;
+          const appServices = await initializeAppServices();
+
+          this.setState({network, networkColor, appServices}, this.fetchWizards);
         }
       }
     );
@@ -151,9 +158,10 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   fetchWizards = async () => {
-      const wizards = await wizardsService.getMyWizards();
+      const {network, address} = this.state.appServices.web3Context;
+      const wizards = await wizardsService.getMyWizards(network, address);
       console.log("MY WIZARDS:", wizards);
-      this.setState({wizards}, () => this.finishedLoading(this.state.network.toLowerCase(), wizards));
+      this.setState({wizards}, () => this.finishedLoading(network.toLowerCase(), wizards));
   };
 
   openMap = () => {
