@@ -75,3 +75,5 @@ export const updateFeed = (otherProfileAddress, feedByAddress, addressData, isCo
 
 export const switchcase = cases => key =>
   cases.hasOwnProperty(key) ? cases[key] : undefined;
+
+export const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);

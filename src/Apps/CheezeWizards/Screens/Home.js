@@ -19,7 +19,7 @@ import { Settings, Wallet, WalletConnect } from "../../../AliceSDK/Web3";
 import { initializeAppServices } from '../../../AliceSDK/AppServices';
 import FirebaseService from '../Services/Firebase/FirebaseService';
 
-import wizardsService from '../Services/Firebase/WizardsService';
+import WizardsService from '../Services/Firebase/WizardsService';
 
 const options = {
   enableVibrateFallback: true,
@@ -158,10 +158,12 @@ export default class CheezeWizardsHome extends React.Component {
   };
 
   fetchWizards = async () => {
-      const {network, address} = this.state.appServices.web3Context;
-      const wizards = await wizardsService.getMyWizards(network, address);
+      const network = await Wallet.getNetwork();
+      const address = await Wallet.getAddress();
+      console.log('NETWORK: ', network.name);
+      const wizards = await WizardsService.getMyWizards(network, address);
       console.log("MY WIZARDS:", wizards);
-      this.setState({wizards}, () => this.finishedLoading(network.toLowerCase(), wizards));
+      this.setState({wizards}, () => this.finishedLoading(network.name, wizards));
   };
 
   openMap = () => {

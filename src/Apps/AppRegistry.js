@@ -36,7 +36,7 @@ export const AppRegistry = [
     appName: '#BUIDL',
     backgroundColor: '#ffffff',
     homeRoute: 'Test',
-    icon: require('./Example/Assets/buidler.png')
+    icon: require('./Example/Assets/logo.png')
   },
   {
     appName: 'DAOstack',

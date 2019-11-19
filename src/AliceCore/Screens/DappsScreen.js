@@ -14,6 +14,7 @@ import {AppRegistry} from "../../Apps/AppRegistry";
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import Button from "../../Apps/CheezeWizards/Components/Button";
+import { capitalize } from "../Utils";
 
 
 const options = {
@@ -133,7 +134,7 @@ export default class AppsScreen extends Component<Props> {
           </TouchableOpacity>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{color: this.state.darkMode ? 'rgba(255,255,255, 0.8)' : 'black', marginRight: 10, }}>
-              {this.state.network} Network
+              {capitalize(this.state.network)} Network
             </Text>
             <View style={{marginRight: 15, backgroundColor: this.state.networkColor, width: 10, height: 10, alignItems: 'center', justifyContent: 'center', borderRadius: 5}}/>
             <TouchableOpacity style={{width: 40, marginRight: 10, height: 40, borderRadius: 17, backgroundColor: this.state.darkMode ? 'rgba(255,255,255, 0.2)' : 'rgba(234,237,239, 0.8)', alignItems: 'center', justifyContent: 'center'}} onPress={this.openBrowser}>

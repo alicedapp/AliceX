@@ -3,7 +3,7 @@
  */
 
 import _ from 'lodash';
-import firebaseService from "../src/Apps/CheezeWizards/Services/FirebaseService";
+import firebaseService from "../../../src/Apps/CheezeWizards/Services/Firebase/FirebaseService";
 
 import wizards from './data/wizards.data';
 const owner1 = '0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB';

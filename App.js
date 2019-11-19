@@ -93,8 +93,8 @@ const AppTabNavigator = createMaterialTopTabNavigator({
 });
 
 const MainApp = createStackNavigator({
-  DappsScreen: { screen: DappsScreen },
-  // DappsScreen: { screen: MiniDapps.CheezeWizards },
+  // DappsScreen: { screen: DappsScreen },
+  DappsScreen: { screen: MiniDapps.CheezeWizards },
   ...MiniDapps,
 }, {
   headerMode: 'none',
@@ -128,9 +128,9 @@ class App extends Component {
   componentDidMount() {
     this.getOrientation();
     this.getNetwork();
-    if (this.props.navigationRoute) {
-      navigate(this.props.navigationRoute);
-    }
+    // if (this.props.navigationRoute) {
+    //   navigate(this.props.navigationRoute);
+    // };
     AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
@@ -273,7 +273,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('isiphonex: ', isIphoneX());
     return (
       <View style={{flex: 1}}>
         {this.state.network !== 'main' && <View style={{ backgroundColor: this.state.networkColor, position: 'absolute', width, top:0, height: isIphoneX() ? 32 : 20, zIndex: 1}}/>}
