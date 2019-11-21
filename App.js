@@ -15,7 +15,8 @@ import {
 import {
   createAppContainer,
   createMaterialTopTabNavigator,
-  createStackNavigator
+  createStackNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
 import OneSignal from 'react-native-onesignal';
 import CodePush from "react-native-code-push";
@@ -92,15 +93,20 @@ const AppTabNavigator = createMaterialTopTabNavigator({
   },
 });
 
+
+const SwitchNavigator = createSwitchNavigator(MiniDapps);
+
 const MainApp = createStackNavigator({
   DappsScreen: { screen: DappsScreen },
-  // DappsScreen: { screen: MiniDapps.CheezeWizards },
+  // DappsScreen: { screen: MiniDapps.DAOstack },
   ...MiniDapps,
 }, {
   headerMode: 'none',
 });
 
-export const AliceMain = createAppContainer(MainApp);
+export const AliceMain = createAppContainer(SwitchNavigator);
+//Switch to go back to react native main screen
+// export const AliceMain = createAppContainer(MainApp);
 
 class App extends Component {
   constructor(props) {
