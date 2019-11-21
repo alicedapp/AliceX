@@ -42,7 +42,7 @@ export const AppRegistry = [
     appName: 'DAOstack',
     backgroundColor: '#ffffff',
     homeRoute: 'DAOstack',
-    icon: require('./DAOstack/Assets/daostack.png')
+    icon: require('./DAOstack/Assets/logo.png')
   },
   {
     appName: 'Foam',

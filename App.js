@@ -104,9 +104,9 @@ const MainApp = createStackNavigator({
   headerMode: 'none',
 });
 
-export const AliceMain = createAppContainer(SwitchNavigator);
 //Switch to go back to react native main screen
-// export const AliceMain = createAppContainer(MainApp);
+export const AliceMain = createAppContainer(MainApp);
+// export const AliceMain = createAppContainer(SwitchNavigator);
 
 class App extends Component {
   constructor(props) {

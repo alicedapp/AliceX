@@ -71,7 +71,7 @@ export default class ContributionReward extends Component {
        return (
          <View>
            <Image
-             source={require('../Assets/daostack.png')}
+             source={require('../Assets/logo.png')}
              style={{
                height: 25,
                resizeMode: 'contain',
