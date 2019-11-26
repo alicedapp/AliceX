@@ -2,6 +2,7 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 import Duel from './Screens/Duel'
+import KittySwipe from './Screens/KittySwipe'
 import CheezeMap from './Screens/CheezeMap'
 import Summon from './Screens/Summon'
 import WizardScreen from './Screens/WizardScreen'
@@ -12,6 +13,7 @@ import OnlineWizards from './Screens/OnlineWizards'
 const App = createStackNavigator({
   "CryptoKitties": Home,
   "CryptoKitties/Duel": Duel,
+  "CryptoKitties/KittySwipe": KittySwipe,
   "CryptoKitties/Map": CheezeMap,
   "CryptoKitties/Camera": Camera,
   "CryptoKitties/Summon": Summon,

@@ -12,7 +12,8 @@ export { default as CheezeWizards } from './CheezeWizards';
 export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
-export { default as DeFiZap } from './DeFiZap';
+export { default as CryptoKitties } from './CryptoKitties';
+// export { default as DeFiZap } from './DeFiZap';
 
 
 /*      App Registry Section            */

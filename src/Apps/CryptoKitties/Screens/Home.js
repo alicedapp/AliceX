@@ -55,11 +55,12 @@ export default class CheezeWizardsHome extends React.Component {
       balance: null,
       appState: AppState.currentState,
       appServices: null,
-
+      kitties: null,
     };
   }
 
   componentDidMount() {
+    this.getKitties();
     this.getUser();
     this.getNetwork();
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -74,7 +75,7 @@ export default class CheezeWizardsHome extends React.Component {
           const networkColor = parsedEvent.color;
           const appServices = await initializeAppServices();
 
-          this.setState({network, networkColor, appServices}, this.fetchWizards);
+          this.setState({network, networkColor, appServices});
         }
       }
     );
@@ -101,6 +102,19 @@ export default class CheezeWizardsHome extends React.Component {
     this.setState({appState: nextAppState});
   };
 
+  getKitties = async () => {
+    try {
+      const response = await fetch(`https://api.cryptokitties.co/v2/kitties?offset=0&limit=12&owner_wallet_address=${await Wallet.getAddress()}&parents=false&authenticated=true&include=sale,sire,other&orderBy=id&orderDirection=desc`);
+      if (response) {
+        const data = await response.json();
+        console.log('res', data);
+        this.setState({ kitties: data.kitties, loading: false });
+      }
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
+
   // twitterLink = () => {
   //   let twitterUrl = `https://twitter.com/intent/tweet?text=${Wallet.getAddress()} Requesting Rinkeby ETH to play CheezeWizards at devcon 🧀🧙‍♂️`;
   //   Linking.openURL(twitterUrl).catch((err) => console.error('An error occurred with twitter link: ', err));
@@ -113,13 +127,12 @@ export default class CheezeWizardsHome extends React.Component {
   // };
 
   _refresh = () => {
-    this.fetchWizards();
     this.setState({fetching: true})
   };
 
   getNetwork = async () => {
     const networkInfo = await Wallet.getNetwork();
-    this.setState({ network: networkInfo.name }, this.fetchWizards);
+    this.setState({ network: networkInfo.name });
   };
 
   getUser = async () => {
@@ -157,114 +170,97 @@ export default class CheezeWizardsHome extends React.Component {
     FirebaseService.upsertWizards(network, wizards);
   };
 
-  fetchWizards = async () => {
-      const network = await Wallet.getNetwork();
-      const address = await Wallet.getAddress();
-      console.log('NETWORK: ', network.name);
-      const wizards = await WizardsService.getMyWizards(network, address);
-      console.log("MY WIZARDS:", wizards);
-      this.setState({wizards}, () => this.finishedLoading(network.name, wizards));
-  };
-
-  openMap = () => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('CheezeWizards/Map');
-  };
-
-  enterDuelMode = wizard => {
-    ReactNativeHapticFeedback.trigger("selection", options);
-    this.props.navigation.navigate('CheezeWizards/WizardScreen', {wizard});
-  };
 
 
   render() {
     const { navigation } = this.props;
+    console.log('Kitties: ', this.state.kitties);
+    const randomColor = [
+      '#faf4d1',
+      '#cef5d6',
+      '#d4e7fe',
+      '#dfdff9',
+      '#f9e0f3',
+      '#fee0e5',
+      '#f9e1cb',
+      '#eee9e8',
+      '#c6eef9',
+      '#eee1da',
+      '#c6eef9',
+    ];
+    const breedTime = ['Snappy', 'Swift', 'Prodding', 'Slow'];
 
     return (
-      <View style={{flex: 1, backgroundColor: '#fef064', alignItems: 'center', justifyContent: 'flex-start'}}>
-          {this.state.loading === true ? <View style={{
+      <View style={{flex: 1, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'flex-start'}}>
+        {this.state.loading === true ? <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+        }}>
+          <Image source={require('../Assets/Kitties-Background.png')} style={{
+            width,
+            resizeMode: 'contain',
+          }}/>
+        </View> : <View style={{flex: 1}}>
+          <View style={{margin: 20, marginTop: 50, marginBottom: 0, backgroundColor: 'transparent'}}>
+            <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 25, marginTop: 10 }}>My Kitties</Text>
+          </View>
+          <ScrollView style={{
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#fff',
           }}>
-            <Image source={require('../Assets/Kitties-Background.png')} style={{
-              width,
-              resizeMode: 'contain',
-            }}/>
-          </View> : <View style={{ flex: 1, width, backgroundColor: '#000', alignItems: 'center', }}>
-            <Image source={require('../Assets/melting-cheese.png')} style={{
-              resizeMode: 'contain',
-              height: 250,
-              position: 'absolute', top: 0
-            }}/>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'space-around',}}>
-              <View style={{flexDirection: 'row', position: 'absolute',  top: isIphoneX() ? 70 : 57, zIndex: 9999, flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-                <View style={{marginHorizontal: 5,paddingVertical: 10, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10, borderWidth: 1, borderColor: 'black', backgroundColor: 'white', ...styles.sharpShadow}}>
-                  <Text style={{fontSize: 20, fontFamily: 'Exocet'}}>CHOOSE A WIZARD TO BATTLE</Text>
-                </View>
-              </View>
-              {/*<TouchableOpacity onPress={() => this.twitterLink()} style={{backgroundColor: 'white', padding: 20}}><Text>WalletConnect</Text></TouchableOpacity>*/}
-              {/*<TouchableOpacity onPress={() => WalletConnect.sendDataObject({"bob": "trap"})} style={{backgroundColor: 'white', padding: 20}}><Text>SendDataObject</Text></TouchableOpacity>*/}
-              <ScrollView contentContainerStyle={{width: width -40, justifyContent: 'space-between', alignItems: 'center', paddingTop: 150}} showsVerticalScrollIndicator={false} refreshControl={
-                <RefreshControl
-                  refreshing={this.state.fetching}
-                  onRefresh={this._refresh}
-                />}
-              >
-                {this.state.network === 'rinkeby' || this.state.network === 'Main' && this.state.wizards.length === 0 && <View style={{marginTop: 100}}>
-                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're seriously lacking some cheeze steeze. Click on the cow's udder to summon yoself a wizard from another gizzard</Text>
-                  <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{width: 40, height: 45, marginBottom: 100}}>
-                    <Image source={require('../Assets/udder.png')} style={{
-                      resizeMode: 'contain',
-                      width: 40,
-                      height: 45
-                    }}/>
-                  </Button>
-                </View>}
-                {this.state.network !== 'rinkeby' && this.state.network !== 'main' && <View style={{marginTop: 100}}>
-                  <Text style={{color: 'white', fontSize: 20, fontFamily: 'Menlo-Regular'}}>You're on the {this.state.network} Ethereum Network right now, CheezeWizards is only available on Main and Rinkeby 👉 tap on the Settings button, Click on Switch Network, and then tap Main or Rinkeby.</Text>
-                  <Button onPress={Settings.settingsPopUp} style={{width: 40, height: 45, marginBottom: 20}}>
-                    <Image source={require('../Assets/settings-icon.png')} style={{
-                      resizeMode: 'contain',
-                      width: 50,
-                      height: 50
-                    }}/>
-                  </Button>
-                </View>}
-                {this.state.wizards.map((wizard, i) => {
-                  return (
-                    <TouchableOpacity style={{marginVertical: 10}} key={i} onPress={() => this.enterDuelMode(wizard)}>
-                      <WizardCard style={{height: width - 10, width: width-80}} wizard={wizard}/>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', flex: 1, width }}>
+              {this.state.kitties.map((kitty, count )=> {
+                const randomBreed = Math.floor(Math.random()*4);
+                let randomNumber = Math.floor(Math.random() * 11);
+                if (count < 5) {
+                  return(
+                    <TouchableOpacity key={count} onPress={() => navigation.navigate('CryptoKitties/KittySwipe', { kitty, randomNumber, randomBreed, backgroundColor: randomColor[randomNumber], breedTime: breedTime[randomBreed] })} style={styles.kittyContainer}>
+                      <View style={{ alignItems: 'center' }}>
+                        <View style={{
+                          width: 150, height: 150, borderRadius: 20, backgroundColor: randomColor[randomNumber],
+                        }}>
+                          <Image source={{ uri: kitty.image_url_png }} style={{ resizeMode: 'contain', width: 170, height: 170 }}/>
+                        </View>
+                        <View style={{width: 150, alignItems: 'flex-start', paddingLeft: 5}}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{
+                              color: 'black', fontFamily: 'Avenir-Black', fontSize: 15, fontWeight: 'bold',
+                            }}>#</Text>
+                            <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 12 }}>{kitty.id}</Text>
+                          </View>
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={require('../Assets/dna.png')} style={{
+                              resizeMode: 'contain', width: 12, height: 12, marginRight: 5,
+                            }}/>
+                            <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 12 }}>Gen {kitty.generation}</Text>
+                          </View>
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={require('../Assets/clock-circular-outline.png')} style={{
+                              resizeMode: 'contain', width: 12, height: 12, marginRight: 5,
+                            }}/>
+                            <Text style={{ color: 'black', fontFamily: 'Avenir-Black', fontSize: 12 }} numberOfLines={1}>{breedTime[randomBreed]}</Text>
+                          </View>
+                        </View>
+                      </View>
                     </TouchableOpacity>
-                  )
-                })}
-              </ScrollView>
-              <Button onPress={() => this.props.navigation.navigate("CheezeWizards/Summon")} style={{flex: 1, position: 'absolute', bottom: 20, right: 5, zIndex: 9999,}}>
-                <Image source={require('../Assets/udder.png')} style={{
-                  resizeMode: 'contain',
-                  width: 40,
-                  height: 45
-                }}/>
-              </Button>
+                  );
+                }
+              })}
             </View>
-          </View>}
-      </View>
+          </ScrollView>
 
+        </View> }
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  sharpShadow: {
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 4,
-      height: 4,
-    },
-    shadowRadius: 0,
-    shadowOpacity: 1,
-
-  }
+  kittyContainer: {
+    margin: 10,
+    maxWidth: 150,
+    backgroundColor: 'white',
+    shadowColor: '#cecece',
+  },
 });
-

@@ -18,6 +18,7 @@
     "axios": "^0.19.0",
     "bn.js": "^5.0.0",
     "buffer": "^5.4.2",
+    "clamp": "^1.0.1",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^4.0.31",
     "events": "^3.0.0",
