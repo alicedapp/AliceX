@@ -7,7 +7,7 @@ import {Navigation} from "../../AliceSDK/Navigation";
 
 export const NavigationBar = () => (
   <View style={{ flexDirection: 'row', position: 'absolute', top: isIphoneX() ? 30 : 17, right: 12, zIndex: 9999 }}>
-    <TouchableOpacity style={{ padding: 3 }} onPress={Navigation.goBack}>
+    <TouchableOpacity style={{ padding: 3 }} onPress={goBack}>
       <Image source={require('../Assets/back.png')} style={{
         resizeMode: 'contain',
         width: 35,

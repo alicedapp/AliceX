@@ -101,7 +101,7 @@ export default class NewProposal extends Component<Props> {
           placeholder="Add a link for more details"
         />
         <Button
-          onPress={() => navigation.navigate('ReputationRequest')}
+          onPress={() => navigation.navigate('DAOstack/ReputationRequest')}
           style={{
             alignSelf: 'center',
             alignItems: 'center',

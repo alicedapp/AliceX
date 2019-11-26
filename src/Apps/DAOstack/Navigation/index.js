@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
 import {
   DAOstack,
@@ -35,10 +35,20 @@ DAOHomePage.navigationOptions = {
 };
 
 export const App = createStackNavigator({
-  DAOstack,
-  DAOHomePage,
-  NewProposal,
-  ReputationRequest,
-  RequestComplete,
-  DetailedProposal
+  "DAOstack": DAOstack,
+  "DAOstack/Home": DAOHomePage,
+  "DAOstack/NewProposal": NewProposal,
+  "DAOstack/ReputationRequest": ReputationRequest,
+  "DAOstack/RequestComplete": RequestComplete,
+  "DAOstack/DetailedProposal": DetailedProposal,
+
 });
+
+App.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
+
+export default createAppContainer(App)
+

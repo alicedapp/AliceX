@@ -72,50 +72,51 @@ export default class VoteBreakdown extends Component {
     const forRatio = this.state.width*this.state.forRatio || 0;
     const againstRatio = this.state.width*this.state.againstRatio || 0;
     return (
-      <View
-        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: width -30, marginBottom: 20}}
-      >
-        <View style={{ alignItems: 'center', justifyContent: 'space-around' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-            <TouchableOpacity onPress={() => this.vote('yes')}>
-              <Image
-                source={require('../Assets/thumbs-up.png')}
-                style={{
-                  height: 25,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-            <View onLayout={(event) => {
-              var {x, y, width, height} = event.nativeEvent.layout;
-              this.setState({x, y, width, height});
-              console.log(x,y,width,height);
-              console.log('state: ', this.state)
-            }} style={{ width: width - 160}}>
-              <View style={{flexDirection: 'row'}}>
-                <View>
-                  <View style={{width: forRatio, borderRadius: 10, marginRight: -10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesFor) } %</Text>
-                  </View>
-                </View>
-                <View>
-                  <View style={{width: againstRatio, borderRadius: 10, marginLeft: -10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesAgainst) } %</Text>
-                  </View>
-                </View>
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+      }}>
+          <TouchableOpacity onPress={() => this.vote('yes')}>
+            <Image
+              source={require('../Assets/thumbs-up.png')}
+              style={{
+                height: 25,
+                width: 25,
+                resizeMode: 'contain',
+              }}
+            />
+          </TouchableOpacity>
+        <View onLayout={(event) => {
+          var {x, y, width, height} = event.nativeEvent.layout;
+          this.setState({x, y, width, height});
+          console.log(x,y,width,height);
+          console.log('state: ', this.state)
+        }} style={{ width: '70%'}}>
+          <View style={{flexDirection: 'row'}}>
+            <View>
+              <View style={{width: forRatio, borderRadius: 10, marginRight: -10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesFor) } %</Text>
               </View>
             </View>
-            <TouchableOpacity onPress={() => this.vote('no')}>
-              <Image
-                source={require('../Assets/thumbs-down.png')}
-                style={{
-                  height: 25,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
+            <View>
+              <View style={{width: againstRatio, borderRadius: 10, marginLeft: -10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesAgainst) } %</Text>
+              </View>
+            </View>
           </View>
         </View>
+          <TouchableOpacity onPress={() => this.vote('no')}>
+            <Image
+              source={require('../Assets/thumbs-down.png')}
+              style={{
+                height: 25,
+                width: 25,
+                resizeMode: 'contain',
+              }}
+            />
+          </TouchableOpacity>
       </View>
     );
   }

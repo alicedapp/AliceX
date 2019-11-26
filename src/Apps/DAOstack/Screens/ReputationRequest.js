@@ -64,7 +64,7 @@ export default class ReputationRequest extends Component<Props> {
 
   submit = () => {
     ReactNativeHapticFeedback.trigger('selection', options);
-    this.props.navigation.navigate('RequestComplete');
+    this.props.navigation.navigate('DAOstack/RequestComplete');
   };
 
   render() {

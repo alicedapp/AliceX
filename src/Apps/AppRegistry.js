@@ -63,6 +63,12 @@ export const AppRegistry = [
   //   icon: require('./DeFiZap/Assets/logo.png')
   // },
   {
+    appName: 'CryptoKitties',
+    backgroundColor: '#FFFFFF',
+    homeRoute: 'CryptoKitties',
+    icon: require('./CryptoKitties/Assets/logo.png')
+  },
+  {
     appName: 'Crypto Twitter',
     backgroundColor: '#F2F2F4',
     browserRoute: 'https://twitter.com',

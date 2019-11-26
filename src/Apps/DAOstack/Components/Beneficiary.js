@@ -11,11 +11,9 @@ export default class Beneficiary extends Component {
   render() {
     const { name, proposal } = this.props;
     return (
-      <>
-        <Text numberOfLines={1} style={{ width: width / 2, fontSize: 15, color: '#909090', fontWeight: '600' }}>
-          { name ? name : proposal.proposer }
-        </Text>
-      </>
+      <Text numberOfLines={1} style={{ fontSize: 15, color: '#909090', fontWeight: '600' }}>
+        { name ? name : proposal.proposer }
+      </Text>
     );
   }
 }

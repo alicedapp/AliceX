@@ -38,7 +38,7 @@ export default class DetailedProposal extends Component {
   newProposal = () => {
     const options = {};
     ReactNativeHapticFeedback.trigger('selection', options);
-    this.props.navigation.navigate('NewProposal');
+    this.props.navigation.navigate('DAOstack/NewProposal');
   };
 
 
@@ -68,26 +68,29 @@ export default class DetailedProposal extends Component {
         style={styles.container}
       >
           <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15, marginTop: 60 }}>
-            <View style={{ flexDirection: 'row', marginBottom: 14 }}>
-              <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
-              <View>
-                <View style={{width: '100%', flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'column', marginBottom: 14 }}>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10}}>
+                <Text style={{fontSize: 25, fontWeight: '700'}}>{proposal.title}</Text>
+                {!!proposal.url && <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
+                  <Image
+                    source={require('../Assets/link-icon.png')}
+                    style={{
+                      height: 30,
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </TouchableOpacity>}
+              </View>
+              <View style={{flexDirection: 'row', flexWrap: 'wrap', width: '95%'}}>
+                <View style={{ flexDirection: 'row',}}>
+                  <Image style={{width: 20, height: 20, borderRadius: 10, marginRight: 5 }} source={{uri: gravatar}}/>
                   <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
-                  <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
-                    <Image
-                      source={require('../Assets/link-icon.png')}
-                      style={{
-                        height: 20,
-                        resizeMode: 'contain',
-                      }}
-                    />
-                  </TouchableOpacity>
                 </View>
-                <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
-                  <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
+                <View style={{flexDirection: 'row', alignItems: 'center', width: '95%', marginBottom: 10}}>
+                  <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, marginLeft: 20, resizeMode: 'contain' }} />
                   <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
                 </View>
-                <Text numberOfLines={1} style={{fontSize: 15, fontWeight: '700', width: '100%'}}>{proposal.title}</Text>
+                <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
               </View>
             </View>
             <ScrollView>
@@ -101,10 +104,11 @@ export default class DetailedProposal extends Component {
               >
                 { proposal.description ? <ProposalDescription /> : null }
               </View>
-              <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
-              <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
             </ScrollView>
           </View>
+        <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 50}}>
+          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
+        </View>
       </View>
     );
   }
