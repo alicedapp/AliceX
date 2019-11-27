@@ -32,9 +32,9 @@ export default class Proposal extends Component {
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
         return (
-          <Markdown styles={markdownStyles}>
+          <Text styles={markdownStyles}>
             { proposal.description.slice(0, 80) }
-          </Markdown>
+          </Text>
         )
       }
       else {

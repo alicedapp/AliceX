@@ -50,9 +50,9 @@ export default class DetailedProposal extends Component {
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
         return (
-          <Markdown>
+          <Text>
             { proposal.description }
-          </Markdown>
+          </Text>
         )
       }
       else {
