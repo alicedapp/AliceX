@@ -48,13 +48,11 @@ export default class ContributionReward extends Component {
        const externalToken = () => {
          switch (contributionReward.externalToken) {
            case '0x543ff227f64aa17ea132bf9886cab5db55dcaddf':
-             return 'GEN'
-           break;
+             return 'GEN';
            case '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359':
-             return 'DAI'
-           break;
+             return 'SAI';
            default:
-             return 'DAI'
+             return 'SAI'
          }
        }
        const externalTokenReward = () => {

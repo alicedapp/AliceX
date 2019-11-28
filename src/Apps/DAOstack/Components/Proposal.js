@@ -54,14 +54,14 @@ export default class Proposal extends Component {
         <View style={{ padding: 15}}>
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
             <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
-            <View>
+            <View style={{flex: 1}}>
               <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
+              <Text style={{fontSize: 15, fontWeight: '700', flexWrap: 'wrap'}}>{proposal.title}</Text>
               <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
                 <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
                 <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
                 <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
               </View>
-              <Text numberOfLines={1} style={{fontSize: 15, fontWeight: '700'}}>{proposal.title}</Text>
             </View>
           </View>
           <View

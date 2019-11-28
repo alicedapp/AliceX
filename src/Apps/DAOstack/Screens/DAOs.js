@@ -31,7 +31,7 @@ const DAOS_QUERY = gql`
       id
       name
       reputationHoldersCount
-      proposals {
+      proposals(first: 1000) {
         id
         stage
       }
@@ -60,7 +60,18 @@ export default class DAOs extends Component {
       <View style={{ flex: 1, paddingTop: 50 }}>
         <Query query={DAOS_QUERY}>
           {({ loading, error, data }) => {
-            if (error) return <Text>Can't fetch DAOs</Text>;
+            if (error) return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                }}
+              >
+                <Text>Can't fetch DAOs</Text>
+              </View>
+            );
             if (loading) {
               return (
                 <View
@@ -100,6 +111,12 @@ export default class DAOs extends Component {
                 <ScrollView>
                   <View style={styles.container}>
                     {data.daos.map((dao, i) => {
+                      console.log('DAO detail: ', dao.proposals);
+                      console.log('DAOs filtered: ', dao.proposals.filter(
+                        proposal =>
+                          proposal.stage !== 'Executed' &&
+                          proposal.stage !== 'ExpiredInQueue'
+                      ));
                       const { backgroundColor, color } = DAOcolors[i];
                       return (
                         <TouchableOpacity

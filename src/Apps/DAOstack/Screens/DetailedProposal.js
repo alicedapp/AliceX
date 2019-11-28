@@ -41,8 +41,6 @@ export default class DetailedProposal extends Component {
     this.props.navigation.navigate('DAOstack/NewProposal');
   };
 
-
-
   render() {
     const { proposal, proposer, beneficiary } = this.props.navigation.state.params;
     console.log('PROPOSAL PROPS: ', this.props)
@@ -70,7 +68,7 @@ export default class DetailedProposal extends Component {
           <View style={{ width: '100%', padding: 15, marginTop: 60 }}>
             <View style={{ flexDirection: 'column', marginBottom: 14 }}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={{fontSize: 25, fontWeight: '700'}}>{proposal.title}</Text>
+                <Text style={{fontSize: 25, fontWeight: '700', flex: 1}}>{proposal.title}</Text>
                 {!!proposal.url && <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
                   <Image
                     source={require('../Assets/link-icon.png')}

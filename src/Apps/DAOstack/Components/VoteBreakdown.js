@@ -75,8 +75,8 @@ export default class VoteBreakdown extends Component {
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
+        justifyContent: 'space-around',
+        flex: 1,
       }}>
           <TouchableOpacity onPress={() => this.vote('yes')}>
             <Image
@@ -96,12 +96,12 @@ export default class VoteBreakdown extends Component {
         }} style={{ width: '70%'}}>
           <View style={{flexDirection: 'row'}}>
             <View>
-              <View style={{width: forRatio, borderRadius: 10, marginRight: -10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{width: forRatio, borderRadius: againstRatio ? 0 : 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesFor) } %</Text>
               </View>
             </View>
             <View>
-              <View style={{width: againstRatio, borderRadius: 10, marginLeft: -10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{width: againstRatio, borderRadius: forRatio ? 0 : 10, borderTopRightRadius: 10, borderBottomRightRadius: 10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesAgainst) } %</Text>
               </View>
             </View>
