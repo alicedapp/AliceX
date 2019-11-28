@@ -21,7 +21,7 @@ export default class NewPoi extends Component<Props> {
     const { navigate } = navigation;
 
     return {
-      headerTitle: 'Reputation Request',
+      headerTitle: 'New Poi',
       headerTitleStyle: {
         color: 'white',
       },

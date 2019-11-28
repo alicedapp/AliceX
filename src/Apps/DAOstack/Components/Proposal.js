@@ -51,17 +51,17 @@ export default class Proposal extends Component {
         onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary})}
         style={styles.daoBox}
       >
-        <View style={{ width: '100%', padding: 15}}>
+        <View style={{ padding: 15}}>
           <View style={{ flexDirection: 'row', marginBottom: 14 }}>
             <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
-            <View style={{width: '100%'}}>
+            <View>
               <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
-              <View style={{flexDirection: 'row', width: '100%', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
                 <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
                 <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
                 <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
               </View>
-              <Text numberOfLines={1} style={{fontSize: 15, fontWeight: '700', width: '100%'}}>{proposal.title}</Text>
+              <Text numberOfLines={1} style={{fontSize: 15, fontWeight: '700'}}>{proposal.title}</Text>
             </View>
           </View>
           <View
@@ -74,9 +74,9 @@ export default class Proposal extends Component {
           >
             { proposal.description ? <ProposalDescription /> : null }
           </View>
+          <ContributionReward proposal={proposal}/>
+          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
         </View>
-        <ContributionReward proposal={proposal}/>
-        <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
       </TouchableOpacity>
     );
   }

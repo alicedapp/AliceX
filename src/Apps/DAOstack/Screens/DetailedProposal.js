@@ -67,9 +67,9 @@ export default class DetailedProposal extends Component {
       <View
         style={styles.container}
       >
-          <View style={{ width: '100%', padding: 15, borderTopLeftRadius: 15, borderTopRightRadius: 15, marginTop: 60 }}>
+          <View style={{ width: '100%', padding: 15, marginTop: 60 }}>
             <View style={{ flexDirection: 'column', marginBottom: 14 }}>
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10}}>
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontSize: 25, fontWeight: '700'}}>{proposal.title}</Text>
                 {!!proposal.url && <TouchableOpacity onPress={() => Settings.openBrowser(proposal.url)}>
                   <Image
@@ -81,6 +81,8 @@ export default class DetailedProposal extends Component {
                   />
                 </TouchableOpacity>}
               </View>
+            </View>
+            <ScrollView>
               <View style={{flexDirection: 'row', flexWrap: 'wrap', width: '95%'}}>
                 <View style={{ flexDirection: 'row',}}>
                   <Image style={{width: 20, height: 20, borderRadius: 10, marginRight: 5 }} source={{uri: gravatar}}/>
@@ -92,8 +94,6 @@ export default class DetailedProposal extends Component {
                 </View>
                 <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
               </View>
-            </View>
-            <ScrollView>
               <View
                 style={{
                   flexDirection: 'row',

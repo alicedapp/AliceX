@@ -1,16 +1,16 @@
 import React from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import {
-  Dimensions,
+  Dimensions, Image,
   View
-} from 'react-native';
+} from "react-native";
 import sheet from '../../Example/Styles/sheet';
 import yea from '../../Example/Assets/location.png';
 import green from '../../CheezeWizards/Assets/ready.png';
 import yellow from '../../CheezeWizards/Assets/not-ready.png';
 import red from '../../CheezeWizards/Assets/out.png';
 import {NavigationBar} from "../../../AliceCore/Components";
-import {decodeGeoHash} from "../utils";
+import { decodeGeoHash, onSortOptions } from "../utils";
 import data from './data'
 
 const featureCollection = {
@@ -137,16 +137,74 @@ const redStyles = {
 };
 
 
-class ShapeSourceIcon extends React.Component {
-  state = {
-    features: MapboxGL.geoUtils.makeFeatureCollection(featureCollection.features),
-    pois: {},
-    signals: {},
-    featureCollection: {},
-    poiCollection: {},
-    signalCollection: {},
+class FoamMap extends React.Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { navigate } = navigation;
+    return {
+      tabBarVisible: false,
+      header: null
+    };
   };
+
+  constructor(props) {
+    super(props);
+
+    this._mapOptions = Object.keys(MapboxGL.StyleURL)
+      .map(key => ({
+        label: key,
+        data: MapboxGL.StyleURL[key],
+      }))
+      .sort(onSortOptions);
+
+    this.modalRef = React.createRef();
+    this.poiModal = React.createRef();
+
+    this.state = {
+      styleURL: this._mapOptions[0].data,
+      reason: '',
+      selected: false,
+      regionFeature: undefined,
+      swLng: '',
+      swLat: '',
+      neLng: '',
+      neLat: '',
+      activeAnnotationIndex: -1,
+      previousActiveAnnotationIndex: -1,
+      finishedRendering: true,
+      backgroundColor: 'blue',
+      coordinates: [-69.975482, 41.865860],
+      pois: null,
+      signals: null,
+      selectedPoint: null,
+      showPOIModal: false,
+      selectedPOITitle: 'Title',
+      selectedPOIStake: 'Stake',
+      selectedPOIColor: '#FFF',
+      modalHeight: 350,
+      poiDescription: {},
+      selectedSignal: {},
+      selectedPOIStatus: '',
+      selectedPOIStatusColor: 'white',
+      notificationRendered: false,
+      renderPOI: true,
+      features: MapboxGL.geoUtils.makeFeatureCollection(featureCollection.features),
+      featureCollection: {},
+      poiCollection: {},
+      signalCollection: {},
+    };
+
+  }
+
+  componentDidMount() {
+    this.search('port of')
+    const getCoords = (pos) => {
+      const {latitude, longitude} = pos.coords;
+      this.setState({coordinates: [parseFloat(longitude.toPrecision(6)), parseFloat(latitude.toPrecision(6))]})
+    };
+    navigator.geolocation.getCurrentPosition(getCoords, console.error, {enableHighAccuracy: false, timeout: 500});
+  }
+
 
   onRegionChange = async (regionFeature) => {
     const { geometry, properties } = regionFeature;
@@ -164,6 +222,40 @@ class ShapeSourceIcon extends React.Component {
     this.mapboxConverter(pois, signals);
 
   };
+
+  onRegionWillChange = (regionFeature) => {
+
+    this.setState({ reason: 'will change', regionFeature }, () => {
+      this.setBounds();
+      // this.getPOIs();
+      // this.getSignals();
+    })
+  };
+
+  onRegionDidChange = (regionFeature) => {
+    this.setState({ reason: 'did change', regionFeature }, () => {
+      this.setBounds();
+      // this.getPOIs();
+      // this.getSignals();
+    });
+  };
+
+  setBounds = () => {
+
+    const { geometry, properties } = this.state.regionFeature;
+    const [neLng, neLat] = properties.visibleBounds[0];
+    const [swLng, swLat] = properties.visibleBounds[1];
+    this.setState({
+      neLat: neLat.toPrecision(6), neLng: neLng.toPrecision(6), swLat: swLat.toPrecision(6), swLng: swLng.toPrecision(6),
+    });
+  };
+
+  search = async text => {
+    const results = await fetch(`https://map-api-direct.foam.space/search/text?neLat=56.33711662831405&neLng=18.99660742187471&q=${text}&swLat=42.96750550985229&swLng=-1.723607421874735`);
+    console.log(`SEARCH RESULTS FROM: ${text}`, await results);
+    console.log(`SEARCH RESULTS FROM: ${text}`, await results.json());
+  };
+
 
   mapboxConverter = (pois, signals) => {
     const convertedPOIs = pois.map((poi, i) => {
@@ -229,13 +321,18 @@ class ShapeSourceIcon extends React.Component {
       signalCollection: {
         "type": "FeatureCollection",
         "metadata": {
-          "title": "FOAM Points of Interest",
+          "title": "FOAM Signals",
         },
         "features": convertedSignals
       },
     })
 
-  }
+  };
+
+  onDidFinishLoadingMap = () => {
+    setTimeout(() => this.setState({ finishedRendering: true }), 500);
+  };
+
 
   getPOIs = async (coords) => {
     const {
@@ -268,16 +365,54 @@ class ShapeSourceIcon extends React.Component {
     }
   };
 
+  onPress = (feature) => {
+    const coords = feature.geometry.coordinates;
+    console.log('COORDS: ', coords);
+    const coordinate = [parseFloat(coords[0].toPrecision(6)), parseFloat(coords[1].toPrecision(6))];
+    console.log('COORDS: ', coordinate);
+    this.setState({ selectedPoint: coordinate, coordinates: coordinate, renderPOI: false });
+    const modal = this.modalRef.current;
+    if (modal) {
+      modal.openModal();
+    }
+  };
+
+
   render() {
     console.log('POIS: ', this.state.pois);
     console.log('SIGNALS: ', this.state.signals);
     console.log('FEATURE COLLECTION: ', this.state.featureCollection);
     return (
       <View style={{flex: 1}}>
-               <MapboxGL.MapView
+        <MapboxGL.MapView
           style={sheet.matchParent}
           onRegionDidChange={this.onRegionChange}
+          onPress={this.onPress}
+          showUserLocation={true}
+          userTrackingMode={1}
+          styleURL={this.state.styleURL}
+          onDidFinishLoadingMap={this.onDidFinishLoadingMap}
+          onRegionWillChange={this.onRegionWillChange}
+          onRegionIsChanging={this.onRegionIsChanging}
         >
+          {this.state.finishedRendering === false ? <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#000',
+          }}>
+            <Image source={require('../Assets/foam-map-logo.png')} style={{
+              height: 70,
+              resizeMode: 'contain',
+            }}/>
+            <Image source={require('../Assets/foam-splash-design.png')} style={{
+              height: 380,
+              width: 380,
+              resizeMode: 'contain',
+            }}/>
+          </View> : <View style={{ flex: 1 }}>
+
+          </View>}
           <MapboxGL.Camera
             label={true}
             zoomLevel={12}
@@ -309,4 +444,4 @@ class ShapeSourceIcon extends React.Component {
   }
 }
 
-export default ShapeSourceIcon;
+export default FoamMap;
