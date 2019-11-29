@@ -52,17 +52,17 @@ export default class Proposal extends Component {
         style={styles.daoBox}
       >
         <View style={{ padding: 15}}>
-          <View style={{ flexDirection: 'row', marginBottom: 14 }}>
-            <Image style={{width: 50, height: 50, borderRadius: 25, marginRight: 5 }} source={{uri: gravatar}}/>
+          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+            <Image style={{width: 40, height: 40, borderRadius: 20, marginRight: 5 }} source={{uri: gravatar}}/>
             <View style={{flex: 1}}>
               <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
               <Text style={{fontSize: 15, fontWeight: '700', flexWrap: 'wrap'}}>{proposal.title}</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
-                <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
-                <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
-                <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
-              </View>
             </View>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginBottom: 5}}>
+            <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
+            <Image source={require('../Assets/transfer-icon.png')} style={{width: 12, height: 12, marginRight: 5, resizeMode: 'contain' }} />
+            <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
           </View>
           <View
             style={{

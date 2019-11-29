@@ -44,28 +44,12 @@ export default class DetailedProposal extends Component {
   render() {
     const { proposal, proposer, beneficiary } = this.props.navigation.state.params;
     console.log('PROPOSAL PROPS: ', this.props)
-    const gravatar = makeBlockie(proposal.proposer)
-    const ProposalDescription = () => {
-      if(proposal.description.length > 80){
-        return (
-          <Text>
-            { proposal.description }
-          </Text>
-        )
-      }
-      else {
-        return (
-          <Text numberOfLines={3} style={{ fontWeight: '700' }}>
-            { proposal.description }
-          </Text>
-        )
-      }
-    }
+    const gravatar = makeBlockie(proposal.proposer);
     return (
       <View
         style={styles.container}
       >
-          <View style={{ width: '100%', padding: 15, marginTop: 60 }}>
+          <View style={{ flex: 1, padding: 15, marginTop: 60 }}>
             <View style={{ flexDirection: 'column', marginBottom: 14 }}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontSize: 25, fontWeight: '700', flex: 1}}>{proposal.title}</Text>
@@ -80,8 +64,8 @@ export default class DetailedProposal extends Component {
                 </TouchableOpacity>}
               </View>
             </View>
-            <ScrollView>
-              <View style={{flexDirection: 'row', flexWrap: 'wrap', width: '95%'}}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
                 <View style={{ flexDirection: 'row',}}>
                   <Image style={{width: 20, height: 20, borderRadius: 10, marginRight: 5 }} source={{uri: gravatar}}/>
                   <Proposer name={proposer ? proposer.name : null} proposal={proposal}/>
@@ -91,22 +75,14 @@ export default class DetailedProposal extends Component {
                   <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
                 </View>
                 <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
+                { proposal.description ? <Text>{ proposal.description }</Text> : null }
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: width - 70,
-                  marginBottom: 10,
-                }}
-              >
-                { proposal.description ? <ProposalDescription /> : null }
-              </View>
+              <View style={{height: 90}}/>
             </ScrollView>
           </View>
-        <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 50}}>
-          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
-        </View>
+          <View style={{width: '90%', position: 'absolute', bottom: 50}}>
+            <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
+          </View>
       </View>
     );
   }
@@ -115,6 +91,8 @@ export default class DetailedProposal extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   welcome: {
     fontSize: 20,

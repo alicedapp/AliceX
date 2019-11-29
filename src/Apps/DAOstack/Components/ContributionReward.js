@@ -4,110 +4,99 @@ import { Text, StyleSheet, Image, View } from "react-native";
 export default class ContributionReward extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      ethReward: null,
+      rep: null,
+      genReward: null,
+      saiReward: null,
+    };
   }
-  contributionReward(proposal) {
-   const contributionReward = proposal.contributionReward
-   const reputationReward = () => {
-     if(contributionReward.reputationReward) {
-       return `${contributionReward.reputationReward / 10e21} %`
-     }
-   }
-   if(contributionReward) {
-     if(contributionReward.ethReward != 0) {
-       return (
-         <View style={{flexDirection: 'row'}}>
-           <Image
-             source={require('../Assets/ethereum-logo.png')}
-             style={{
-               height: 25,
-               resizeMode: 'contain',
-             }}
-           />
-           <View style={{alignItems: 'center', }}>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               ETH
-             </Text>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               { contributionReward.ethReward / 10e17 }
-             </Text>
-           </View>
-           <View style={{alignItems: 'center'}}>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               REP
-             </Text>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               { reputationReward() }
-             </Text>
-           </View>
+  componentDidMount() {
+    this.contributionReward()
+  };
 
-         </View>
-       )
+  contributionReward() {
+   const {contributionReward} = this.props.proposal;
+   console.log('CONTRIBUTION REWARD: ', contributionReward);
+    if (contributionReward) {
+      if (contributionReward.reputationReward) {
+        this.setState({rep: `${contributionReward.reputationReward / 10e21} %`});
+      }
+      if (contributionReward.ethReward !== 0) {
+        this.setState({ethReward: contributionReward.ethReward / 10e17});
+      }
+      if (contributionReward.externalTokenReward !== 0) {
+        let externalTokenReward = Math.ceil(contributionReward.externalTokenReward / 10e17);
+        let tokenReward = externalTokenReward >= 1000 ? externalTokenReward/1000 + 'k' : externalTokenReward;
+        switch (contributionReward.externalToken) {
+          case '0x543ff227f64aa17ea132bf9886cab5db55dcaddf':
+            this.setState({genReward: tokenReward})
+            break;
+          case '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359':
+            this.setState({saiReward: tokenReward})
+            break;
+          default:
+            this.setState({saiReward: tokenReward})
+            break;
+        }
+      } else {
+        this.setState({rep: contributionReward.reputationReward})
+      }
      }
-     else if (contributionReward.externalTokenReward != 0) {
-       const externalToken = () => {
-         switch (contributionReward.externalToken) {
-           case '0x543ff227f64aa17ea132bf9886cab5db55dcaddf':
-             return 'GEN';
-           case '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359':
-             return 'SAI';
-           default:
-             return 'SAI'
-         }
-       }
-       const externalTokenReward = () => {
-         const tokenReward = Math.ceil(contributionReward.externalTokenReward / 10e17)
-         if(tokenReward >= 1000) {
-           // console.log('if(tokenReward >= 1000)');
-           return tokenReward/1000 + 'k'
-         }
-         else {
-           // console.log('else return tokenReward');
-           return tokenReward
-         }
-       }
-       return (
-         <View>
-           <Image
-             source={require('../Assets/logo.png')}
-             style={{
-               height: 25,
-               resizeMode: 'contain',
-             }}
-           />
-           <View style={{alignItems: 'center', }}>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               { externalToken() }
-             </Text>
-             <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-               {externalTokenReward()}
-             </Text>
-           </View>
-         </View>
-       )
-     }
-     else {
-       // this happens when contributionReward.externalTokenReward is 0. Need to fix this.
-       return (
-         <View style={{alignItems: 'center'}}>
-           <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-             REP
-           </Text>
-           <Text style={{ color: 'grey', fontSize: 10, fontWeight: '700' }}>
-             { "< 0.01%" }
-           </Text>
-         </View>
-       )
-     }
+
    }
- }
+
 
   render() {
-    const { proposal } = this.props;
+    const {ethReward, rep, genReward, saiReward} = this.state;
     return (
-      <>
-        { this.contributionReward(proposal) }
-      </>
+      <View style={{aligmItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
+        {!!ethReward && <View style={{flex: 1, flexDirection: 'row'}}>
+          <Image
+            source={require('../Assets/ethereum-logo.png')}
+            style={{
+              height: 40,
+              width: 40,
+              resizeMode: 'contain',
+            }}/>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontWeight: '600'}}>ETH</Text>
+            <Text style={{fontWeight: '600', fontSize: 27}}>{ethReward}</Text>
+          </View>
+        </View>}
+        {!!rep && <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontWeight: '600'}}>REP</Text>
+            <Text style={{fontWeight: '600', fontSize: 27}}>{rep}</Text>
+          </View>
+        </View>}
+        {!!genReward && <View style={{flex: 1, flexDirection: 'row'}}>
+          <Image
+            source={require('../Assets/gen-logo.png')}
+            style={{
+              height: 40,
+              width: 40,
+              resizeMode: 'contain',
+            }}/>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontWeight: '600'}}>GEN</Text>
+            <Text style={{fontWeight: '600', fontSize: 27}}>{genReward}</Text>
+          </View>
+        </View>}
+        {!!saiReward && <View style={{flex: 1, flexDirection: 'row'}}>
+          <Image
+            source={require('../Assets/dai-logo.png')}
+            style={{
+              height: 40,
+              width: 40,
+              resizeMode: 'contain',
+            }}/>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontWeight: '600'}}>DAI</Text>
+            <Text style={{fontWeight: '600', fontSize: 27}}>{saiReward}</Text>
+          </View>
+        </View>}
+      </View>
     );
   }
 }

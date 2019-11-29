@@ -6,7 +6,7 @@ import FoamMap from './Screens/FoamMap';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 const App = createStackNavigator({
-  "Foam/Map": FoamMap,
+  "Foam/Map": Map,
   "Foam/NewPoi": NewPoi,
 });
 
