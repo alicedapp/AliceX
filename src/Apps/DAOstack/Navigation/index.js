@@ -36,7 +36,7 @@ DAOHomePage.navigationOptions = {
 
 export const App = createStackNavigator({
   "DAOstack": DAOstack,
-  "DAOstack/Home": DAOHomePage,
+  "DAOstack/Home": Proposals,
   "DAOstack/NewProposal": NewProposal,
   "DAOstack/ReputationRequest": ReputationRequest,
   "DAOstack/RequestComplete": RequestComplete,

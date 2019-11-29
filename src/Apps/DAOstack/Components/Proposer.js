@@ -11,7 +11,7 @@ export default class Proposer extends Component {
   render() {
     const { name, proposal } = this.props;
     return (
-      <Text numberOfLines={1} style={{ marginRight: 5, fontSize: 18, }}>
+      <Text numberOfLines={1} style={{ marginRight: 5, fontWeight: '600', fontSize: 18, }}>
         { name ? name : proposal.proposer }
       </Text>
     );

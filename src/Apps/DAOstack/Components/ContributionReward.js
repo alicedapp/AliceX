@@ -48,8 +48,8 @@ export default class ContributionReward extends Component {
   render() {
     const {ethReward, rep, genReward, saiReward} = this.state;
     return (
-      <View style={{aligmItems: 'center', justifyContent: 'space-around', flexDirection: 'row', margin: 15}}>
-        {!!ethReward && <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center' , margin: 15}}>
+        {!!ethReward && <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={require('../Assets/ethereum-logo.png')}
             style={{
@@ -62,13 +62,13 @@ export default class ContributionReward extends Component {
             <Text style={{fontWeight: '600', fontSize: 27}}>{ethReward}</Text>
           </View>
         </View>}
-        {!!rep && <View style={{flex: 1, flexDirection: 'row'}}>
+        {!!rep && <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{fontWeight: '600'}}>REP</Text>
             <Text style={{fontWeight: '600', fontSize: 27}}>{rep}</Text>
           </View>
         </View>}
-        {!!genReward && <View style={{flex: 1, flexDirection: 'row'}}>
+        {!!genReward && <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={require('../Assets/gen-logo.png')}
             style={{
@@ -81,7 +81,7 @@ export default class ContributionReward extends Component {
             <Text style={{fontWeight: '600', fontSize: 27}}>{genReward}</Text>
           </View>
         </View>}
-        {!!saiReward && <View style={{flex: 1, flexDirection: 'row'}}>
+        {!!saiReward && <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={require('../Assets/dai-logo.png')}
             style={{

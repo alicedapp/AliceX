@@ -75,12 +75,13 @@ export default class DetailedProposal extends Component {
                   <Beneficiary name={beneficiary ? beneficiary.name : null} proposal={proposal}/>
                 </View>
                 <Countdown style={{ marginBottom: 7 }} timeTillDate={proposal.closingAt} />
-                { proposal.description ? <Text>{ proposal.description }</Text> : null }
+                { proposal.description ? <Text style={{fontSize: 20}}>{ proposal.description }</Text> : null }
               </View>
+              <ContributionReward proposal={proposal}/>
               <View style={{height: 90}}/>
             </ScrollView>
           </View>
-          <View style={{width: '90%', position: 'absolute', bottom: 50}}>
+        <View style={{width: '90%', position: 'absolute', bottom: 50}}>
             <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
           </View>
       </View>
