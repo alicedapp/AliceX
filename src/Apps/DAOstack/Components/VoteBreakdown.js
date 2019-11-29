@@ -89,23 +89,24 @@ export default class VoteBreakdown extends Component {
             />
           </TouchableOpacity>
         <View onLayout={(event) => {
-          var {x, y, width, height} = event.nativeEvent.layout;
+          let {x, y, width, height} = event.nativeEvent.layout;
           this.setState({x, y, width, height});
           console.log(x,y,width,height);
           console.log('state: ', this.state)
         }} style={{ width: '70%'}}>
-          <View style={{flexDirection: 'row'}}>
-            <View>
-              <View style={{width: forRatio, borderRadius: againstRatio ? 0 : 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesFor) } %</Text>
+
+            {forRatio === 0 && againstRatio === 0 ? <View style={{flex: 1, borderRadius: againstRatio ? 0 : 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, height: 40, backgroundColor: '#d6d6d6', alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{position: 'absolute', color: '#b2b2b2', fontWeight: '700'}}>No votes yet.</Text>
+              </View> :
+              <View style={{flexDirection: 'row'}}>
+                <View style={{width: forRatio, borderRadius: againstRatio ? 0 : 10, borderTopLeftRadius: 10, borderBottomLeftRadius: 10, height: 40, backgroundColor: '#34a827', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesFor) } %</Text>
+                </View>
+                <View style={{width: againstRatio, borderRadius: forRatio ? 0 : 10, borderTopRightRadius: 10, borderBottomRightRadius: 10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesAgainst) } %</Text>
+                </View>
               </View>
-            </View>
-            <View>
-              <View style={{width: againstRatio, borderRadius: forRatio ? 0 : 10, borderTopRightRadius: 10, borderBottomRightRadius: 10, height: 40, backgroundColor: '#ff2b3f', alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={{position: 'absolute', color: 'white', fontWeight: '800'}}>{ this.calculatePercentage(totalRepWhenCreated, votesAgainst) } %</Text>
-              </View>
-            </View>
-          </View>
+            }
         </View>
           <TouchableOpacity onPress={() => this.vote('no')}>
             <Image

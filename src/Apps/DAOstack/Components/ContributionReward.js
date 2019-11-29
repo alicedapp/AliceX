@@ -19,8 +19,8 @@ export default class ContributionReward extends Component {
    const {contributionReward} = this.props.proposal;
    console.log('CONTRIBUTION REWARD: ', contributionReward);
     if (contributionReward) {
-      if (contributionReward.reputationReward) {
-        this.setState({rep: `${contributionReward.reputationReward / 10e21} %`});
+      if (contributionReward.reputationReward && contributionReward.reputationReward !== 0) {
+        this.setState({rep: `${Math.round(contributionReward.reputationReward / 10e20 * 100) / 100}%`});
       }
       if (contributionReward.ethReward !== 0) {
         this.setState({ethReward: contributionReward.ethReward / 10e17});
@@ -39,8 +39,6 @@ export default class ContributionReward extends Component {
             this.setState({saiReward: tokenReward})
             break;
         }
-      } else {
-        this.setState({rep: contributionReward.reputationReward})
       }
      }
 
@@ -50,7 +48,7 @@ export default class ContributionReward extends Component {
   render() {
     const {ethReward, rep, genReward, saiReward} = this.state;
     return (
-      <View style={{aligmItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
+      <View style={{aligmItems: 'center', justifyContent: 'space-around', flexDirection: 'row', margin: 15}}>
         {!!ethReward && <View style={{flex: 1, flexDirection: 'row'}}>
           <Image
             source={require('../Assets/ethereum-logo.png')}
@@ -92,7 +90,7 @@ export default class ContributionReward extends Component {
               resizeMode: 'contain',
             }}/>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{fontWeight: '600'}}>DAI</Text>
+            <Text style={{fontWeight: '600'}}>SAI</Text>
             <Text style={{fontWeight: '600', fontSize: 27}}>{saiReward}</Text>
           </View>
         </View>}

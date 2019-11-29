@@ -51,7 +51,7 @@ export default class Proposal extends Component {
         onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary})}
         style={styles.daoBox}
       >
-        <View style={{ padding: 15}}>
+        <View style={{ flex: 1, padding: 15,}}>
           <View style={{ flexDirection: 'row', marginBottom: 5 }}>
             <Image style={{width: 40, height: 40, borderRadius: 20, marginRight: 5 }} source={{uri: gravatar}}/>
             <View style={{flex: 1}}>
@@ -74,7 +74,9 @@ export default class Proposal extends Component {
           >
             { proposal.description ? <ProposalDescription /> : null }
           </View>
-          <ContributionReward proposal={proposal}/>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <ContributionReward proposal={proposal}/>
+          </View>
           <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
         </View>
       </TouchableOpacity>
