@@ -1,5 +1,5 @@
 import { NavigationActions } from 'react-navigation';
-
+import {Navigation} from "../../AliceSDK/Navigation";
 
 let _container;
 
@@ -38,7 +38,13 @@ export const backAction = key => _container.dispatch(NavigationActions.back({
   key,
 }));
 
-export const goBack = () => _container.dispatch(NavigationActions.back());
+export const goBack = () => {
+  if (_container.state.nav.routes[_container.state.nav.index].index === 0) {
+    Navigation.goHome();
+  } else {
+    _container.dispatch(NavigationActions.back());
+  }
+};
 
 export const setParamsAction = (screen, params) => _container.dispatch(NavigationActions.setParams({
   params,

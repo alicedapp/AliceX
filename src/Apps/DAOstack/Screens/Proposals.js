@@ -137,7 +137,11 @@ export default class Proposals extends Component {
                     backgroundColor: '#fff',
                   }}
                 >
-                  <Text style={{ fontSize: 30, fontFamily: 'Didot' }}>Loading ...</Text>
+                  <Image source={require('../Assets/loading.gif')} style={{
+                    resizeMode: 'contain',
+                    height: 80,
+                    width: 80,
+                  }}/>
                 </View>
               );
             console.log('PROPOSALS: ', data.dao.proposals);

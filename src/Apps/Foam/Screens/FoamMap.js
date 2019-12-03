@@ -9,7 +9,7 @@ import yea from '../../Example/Assets/location.png';
 import green from '../../CheezeWizards/Assets/ready.png';
 import yellow from '../../CheezeWizards/Assets/not-ready.png';
 import red from '../../CheezeWizards/Assets/out.png';
-import {NavigationBar} from "../../../AliceCore/Components";
+import { NavigationBar } from "../../../AliceCore/Components";
 import { decodeGeoHash, onSortOptions } from "../utils";
 import data from './data'
 
@@ -61,37 +61,6 @@ const yellowStyles = {
     iconHaloWidth: 2
 
   },
-  circles: {
-    circleRadius: [
-      'interpolate',
-      ['exponential', 1.75],
-      ['zoom'],
-      12,
-      2,
-      22,
-      180,
-    ],
-
-    circleColor: [
-      'match',
-      ['get', 'ethnicity'],
-      'listed',
-      '#fbb03b',
-      'Black',
-      '#223b53',
-      'Hispanic',
-      '#e55e5e',
-      'Asian',
-      '#3bb2d0',
-      '#ccc',
-    ],
-  },
-
-  clusterCount: {
-    textField: '{point_count}',
-    textSize: 12,
-    textPitchAlignment: 'map',
-  },
 };
 
 const redStyles = {
@@ -102,37 +71,6 @@ const redStyles = {
     iconHaloColor: '#ff0000',
     iconHaloWidth: 2
 
-  },
-  circles: {
-    circleRadius: [
-      'interpolate',
-      ['exponential', 1.75],
-      ['zoom'],
-      12,
-      2,
-      22,
-      180,
-    ],
-
-    circleColor: [
-      'match',
-      ['get', 'ethnicity'],
-      'listed',
-      '#fbb03b',
-      'Black',
-      '#223b53',
-      'Hispanic',
-      '#e55e5e',
-      'Asian',
-      '#3bb2d0',
-      '#ccc',
-    ],
-  },
-
-  clusterCount: {
-    textField: '{point_count}',
-    textSize: 12,
-    textPitchAlignment: 'map',
   },
 };
 
@@ -216,8 +154,8 @@ class FoamMap extends React.Component {
     });
     const pois = await this.getPOIs(coords);
     const signals = await this.getSignals(coords);
-    console.log('FETCHED SIGNALS: ', pois)
-    console.log('FETCHED POIs: ', signals)
+    // console.log('FETCHED SIGNALS: ', pois)
+    // console.log('FETCHED POIs: ', signals)
 
     this.mapboxConverter(pois, signals);
 
@@ -252,8 +190,7 @@ class FoamMap extends React.Component {
 
   search = async text => {
     const results = await fetch(`https://map-api-direct.foam.space/search/text?neLat=56.33711662831405&neLng=18.99660742187471&q=${text}&swLat=42.96750550985229&swLng=-1.723607421874735`);
-    console.log(`SEARCH RESULTS FROM: ${text}`, await results);
-    console.log(`SEARCH RESULTS FROM: ${text}`, await results.json());
+    // console.log(`SEARCH RESULTS FROM: ${text}`, await results.json());
   };
 
 
@@ -305,8 +242,8 @@ class FoamMap extends React.Component {
 
     });
 
-    console.log('CONVERTED SIGNALS: ', convertedSignals)
-    console.log('CONVERTED POIs: ', convertedPOIs)
+    // console.log('CONVERTED SIGNALS: ', convertedSignals)
+    // console.log('CONVERTED POIs: ', convertedPOIs)
 
     Array.prototype.push.apply(convertedPOIs,convertedSignals);
 
@@ -367,9 +304,9 @@ class FoamMap extends React.Component {
 
   onPress = (feature) => {
     const coords = feature.geometry.coordinates;
-    console.log('COORDS: ', coords);
+    // console.log('COORDS: ', coords);
     const coordinate = [parseFloat(coords[0].toPrecision(6)), parseFloat(coords[1].toPrecision(6))];
-    console.log('COORDS: ', coordinate);
+    // console.log('COORDS: ', coordinate);
     this.setState({ selectedPoint: coordinate, coordinates: coordinate, renderPOI: false });
     const modal = this.modalRef.current;
     if (modal) {
@@ -379,9 +316,9 @@ class FoamMap extends React.Component {
 
 
   render() {
-    console.log('POIS: ', this.state.pois);
-    console.log('SIGNALS: ', this.state.signals);
-    console.log('FEATURE COLLECTION: ', this.state.featureCollection);
+    // console.log('POIS: ', this.state.pois);
+    // console.log('SIGNALS: ', this.state.signals);
+    // console.log('FEATURE COLLECTION: ', this.state.featureCollection);
     return (
       <View style={{flex: 1}}>
         <MapboxGL.MapView

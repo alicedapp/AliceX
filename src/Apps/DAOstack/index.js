@@ -1,33 +1,62 @@
-/*
- * This is a boilerplate structure to get you through the process of building your first app with Alice
- * We've included all the necessary features for you to build out your entire application using the
- * Camera,
- * Push Notifications,
- * Maps,
- * Payments,
- *
- * And all the navigation necessary for you to build a full feature app.
- *
- * Please see the documentation for more info on how to build out more features into Alice.
- * */
+/* eslint-disable import/prefer-default-export */
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import {View} from 'react-native'
 import { ApolloProvider } from 'react-apollo';
-import { createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
-import { App } from './Navigation';
 import { ApolloClientConfig as client } from './Config';
 // eslint-disable-next-line no-unused-vars
 import { NavigationBar } from '../../AliceCore/Components/index';
 
-const AppContainer = createAppContainer(App);
+import {
+  DAOstack,
+  History,
+  Holders,
+  NewProposal,
+  Proposals,
+  Redemptions,
+  ReputationRequest,
+  RequestComplete,
+  DetailedProposal
+} from './Screens';
 
-export default class DAOstackContainer extends PureComponent {
+const App = createStackNavigator({
+  "DAOstack": DAOstack,
+  "DAOstack/Home": Proposals,
+  "DAOstack/NewProposal": NewProposal,
+  "DAOstack/ReputationRequest": ReputationRequest,
+  "DAOstack/RequestComplete": RequestComplete,
+  "DAOstack/DetailedProposal": DetailedProposal,
+
+});
+
+App.navigationOptions = {
+  // Hide the header from AppNavigator stack
+  header: null,
+};
+
+class DAOstackContainer extends Component {
+  static router = {
+    ...App.router,
+    getStateForAction: (action, lastState) => {
+      // check for custom actions and return a different navigation state.
+      return App.router.getStateForAction(action, lastState);
+    },
+  };
+
   render() {
+    console.log('PROPS: ', this.props);
     return (
-      <ApolloProvider client={client}>
-        <AppContainer />
-      </ApolloProvider>
+      <View style={{flex: 1}}>
+        <ApolloProvider client={client}>
+          <App
+            navigation={this.props.navigation}
+          />
+        </ApolloProvider>
+      </View>
     );
   }
 }
+
+export default createAppContainer(DAOstackContainer);

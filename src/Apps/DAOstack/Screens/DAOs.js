@@ -20,7 +20,6 @@ import {
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { NavigationBar } from '../../../AliceCore/Components';
 import { DAOcolors } from '../Utils';
 
 const { height, width } = Dimensions.get('window');
