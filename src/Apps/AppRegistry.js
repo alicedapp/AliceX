@@ -13,8 +13,6 @@ export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
 export { default as CryptoKitties } from './CryptoKitties';
-// export { default as DeFiZap } from './DeFiZap';
-
 
 /*      App Registry Section            */
 export const AppRegistry = [
@@ -57,34 +55,10 @@ export const AppRegistry = [
     homeRoute: 'CheezeWizards',
     icon: require('./CheezeWizards/Assets/logo.png')
   },
-  // {
-  //   appName: 'DeFiZap',
-  //   backgroundColor: '#FFFFFF',
-  //   homeRoute: 'DeFiZap',
-  //   icon: require('./DeFiZap/Assets/logo.png')
-  // },
   {
     appName: 'CryptoKitties',
     backgroundColor: '#FFFFFF',
     homeRoute: 'CryptoKitties',
     icon: require('./CryptoKitties/Assets/logo.png')
-  },
-  {
-    appName: 'Crypto Twitter',
-    backgroundColor: '#F2F2F4',
-    browserRoute: 'https://twitter.com',
-    icon: require('./CryptoTwitter/Assets/crypto-twitter.png')
-  },
-  // {
-  //   appName: 'CryptoGram',
-  //   backgroundColor: '#ffffff',
-  //   browserRoute: 'https://instagram.com',
-  //   icon: require('./CryptoGram/Assets/crypto-gram.png')
-  // },
-  {
-    appName: 'MyCryptoHeroes',
-    backgroundColor: '#FFFFFF',
-    browserRoute: 'https://mycryptoheroes.net',
-    icon: require('./MyCryptoHeroes/Assets/my-crypto-heroes.png')
   },
 ];

@@ -6,7 +6,7 @@ import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'reac
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import BN from 'bn.js';
 import { Contract } from "../../../AliceSDK/Web3";
-import { VotingABI } from "../../VotezUp/ABI";
+import { VotingABI } from "../ABI";
 const { height, width } = Dimensions.get('window');
 
 export default class VoteBreakdown extends Component {
@@ -28,11 +28,11 @@ export default class VoteBreakdown extends Component {
     const forRatio = forPercentage/total;
     const againstRatio = againstPercentage/total;
 
-    console.log('for percentage on mount: ', forPercentage)
-    console.log('against percentage on mount: ', againstPercentage )
-    console.log('for ratio on mount: ', forRatio)
-    console.log('against ratio on mount: ', againstRatio )
-    console.log('total on mount: ', total )
+    console.log('for percentage on mount: ', forPercentage);
+    console.log('against percentage on mount: ', againstPercentage );
+    console.log('for ratio on mount: ', forRatio);
+    console.log('against ratio on mount: ', againstRatio );
+    console.log('total on mount: ', total );
 
     this.setState({forPercentage, againstPercentage, forRatio, againstRatio, total});
 
@@ -47,7 +47,7 @@ export default class VoteBreakdown extends Component {
       percentage = percentageBn.toNumber() / 100;
     }
     return percentage
-  }
+  };
 
   vote = async (vote) => {
     console.log('state: ', this.props.proposal.id);

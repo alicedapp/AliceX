@@ -18,7 +18,6 @@ import {
   createStackNavigator,
   createSwitchNavigator
 } from 'react-navigation';
-import OneSignal from 'react-native-onesignal';
 import CodePush from "react-native-code-push";
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { isIphoneX } from 'react-native-iphone-x-helper'
@@ -123,12 +122,6 @@ class App extends Component {
       currentRoute: 'DappsScreen',
       appState: AppState.currentState,
     };
-
-    OneSignal.init(env.onesignal);
-    OneSignal.addEventListener('received', this.onReceived);
-    OneSignal.addEventListener('opened', this.onOpened);
-    OneSignal.addEventListener('ids', this.onIds);
-    OneSignal.configure();
   }
 
   componentDidMount() {
@@ -136,7 +129,8 @@ class App extends Component {
     this.getNetwork();
     if (this.props.navigationRoute) {
       navigate(this.props.navigationRoute);
-    };
+    }
+
     AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
@@ -197,9 +191,6 @@ class App extends Component {
   };
 
   componentWillUnmount() {
-    OneSignal.removeEventListener('received', this.onReceived);
-    OneSignal.removeEventListener('opened', this.onOpened);
-    OneSignal.removeEventListener('ids', this.onIds);
   }
 
   onReceived(notification) {
