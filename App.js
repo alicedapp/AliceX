@@ -191,6 +191,7 @@ class App extends Component {
   };
 
   componentWillUnmount() {
+    
   }
 
   onReceived(notification) {
