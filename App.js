@@ -6,6 +6,7 @@
 import React, { Component } from 'react';
 import {
   AppState,
+  AsyncStorage,
   Dimensions,
   Image,
   Linking,
@@ -30,6 +31,7 @@ import Dashboard from './src/AliceCore/Screens/Dashboard';
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
 import {NavigationBar} from "./src/AliceCore/Components";
 import {challengedPOI} from "./src/Apps/Foam/utils";
+import firebase from 'react-native-firebase';
 
 const { height, width } = Dimensions.get('window');
 MapboxGL.setAccessToken(env.mapbox);
@@ -131,6 +133,8 @@ class App extends Component {
       navigate(this.props.navigationRoute);
     }
 
+    this.checkPermission();
+
     AppState.addEventListener('change', this._handleAppStateChange);
     const aliceEventEmitter = Wallet.aliceEvent()
     aliceEventEmitter.addListener(
@@ -167,6 +171,42 @@ class App extends Component {
     );
   }
 
+  //1
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      this.getToken();
+    } else {
+      this.requestPermission();
+    }
+  }
+
+  //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    console.log('FIREBASE TOKEN: ', fcmToken);
+    if (!fcmToken) {
+      fcmToken = await firebase.messaging().getToken();
+      if (fcmToken) {
+        // user has a device token
+        console.log('FIREBASE TOKEN: ', fcmToken);
+        // await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
+    }
+  }
+
+  //2
+  async requestPermission() {
+    try {
+      await firebase.messaging().requestPermission();
+      // User has authorised
+      this.getToken();
+    } catch (error) {
+      // User has rejected permissions
+      console.log('permission rejected');
+    }
+  }
+
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
@@ -191,7 +231,7 @@ class App extends Component {
   };
 
   componentWillUnmount() {
-    
+
   }
 
   onReceived(notification) {
