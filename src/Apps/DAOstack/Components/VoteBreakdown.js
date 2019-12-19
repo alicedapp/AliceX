@@ -21,18 +21,11 @@ export default class VoteBreakdown extends Component {
 
   async componentDidMount() {
     const { totalRepWhenCreated, votesFor, votesAgainst } = this.props;
-    console.log();
     const forPercentage = await this.calculatePercentage(totalRepWhenCreated, votesFor);
     const againstPercentage = await this.calculatePercentage(totalRepWhenCreated, votesAgainst);
     const total = forPercentage + againstPercentage;
     const forRatio = forPercentage/total;
     const againstRatio = againstPercentage/total;
-
-    console.log('for percentage on mount: ', forPercentage);
-    console.log('against percentage on mount: ', againstPercentage );
-    console.log('for ratio on mount: ', forRatio);
-    console.log('against ratio on mount: ', againstRatio );
-    console.log('total on mount: ', total );
 
     this.setState({forPercentage, againstPercentage, forRatio, againstRatio, total});
 
@@ -50,8 +43,6 @@ export default class VoteBreakdown extends Component {
   };
 
   vote = async (vote) => {
-    console.log('state: ', this.props.proposal.id);
-    console.log('vote: ', vote);
 
     try {
       if (vote === 'yes') {

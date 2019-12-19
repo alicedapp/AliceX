@@ -91,6 +91,10 @@ export default class Proposals extends Component {
       boostedAmount: 0,
       pendingAmount: 0,
       regularAmount: 0,
+      overtimeProposals: [],
+      pendingProposals: [],
+      boostedProposals: [],
+      regularProposals: [],
     };
   }
 
@@ -118,10 +122,12 @@ export default class Proposals extends Component {
   }
 
   render() {
+    const {overtimeProposals, pendingProposals, boostedProposals, regularProposals,} = this.state;
     const { dao, backgroundColor } = this.props.navigation.state.params;
-    let boostedAmount = 0;
-    let pendingAmount = 0;
-    let regularAmount = 0;
+    let boostedAmount = 1;
+    let pendingAmount = 1;
+    let regularAmount = 1;
+    let overtimeAmount = 1;
     return (
       <View style={{ flex: 1, paddingTop: 50 }}>
         <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
@@ -144,7 +150,6 @@ export default class Proposals extends Component {
                   }}/>
                 </View>
               );
-            console.log('PROPOSALS: ', data.dao.proposals);
             return (
               <>
                 <View
@@ -170,32 +175,29 @@ export default class Proposals extends Component {
                 </View>
                 <ScrollView>
                   <View style={styles.container}>
-                    <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Boosted Proposals
-                    </Text>
-                    {data.dao.proposals.map((proposal, i) => {
-                      console.log('PROPOSAL STAGE: ', proposal.stage);
+                    {/*{!!boostedAmount && !!pendingAmount && !!regularAmount && !!overtimeAmount && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>No Active Proposals</Text>}*/}
 
-                      if (proposal.stage === 'Boosted') {
-                        boostedAmount += 1;
+                    {overtimeAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Overtime</Text>}
+                    {data.dao.proposals.map((proposal, i) => {
+                      if (proposal.stage === "QuietEndingPeriod") {
                         return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
-                    <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Pending Proposals
-                    </Text>
+                    {boostedAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Boosted Proposals</Text>}
+                    {data.dao.proposals.map((proposal, i) => {
+                      if (proposal.stage === 'Boosted') {
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                      }
+                    })}
+                    {pendingAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Pending Proposals</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
-                        pendingAmount += 1;
                         return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}
-                    <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>
-                      Regular Proposals
-                    </Text>
+                    {regularAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Regular Proposals</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {
-                        regularAmount += 1;
                         return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
                       }
                     })}

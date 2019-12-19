@@ -10,7 +10,7 @@ const provider = new ethers.providers.JsonRpcProvider(url);
 
 const getAddress = async () => {
   try {
-    return await NativeModules.WalletModule.getAddress();
+    return await NativeModules.WalletModule.getAddress().toLowerCase();
   } catch(e) {
     throw "Wallet fetch failed: " + e;
   }

@@ -17,6 +17,7 @@ import {
 import clamp from 'clamp';
 
 import Defaults from './Defaults.js';
+import Button from "../Button";
 
 const viewport = Dimensions.get('window')
 const SWIPE_THRESHOLD = 120;
@@ -29,17 +30,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   yup: {
-    borderColor: 'green',
-    borderWidth: 2,
     position: 'absolute',
     padding: 20,
     bottom: 20,
-    borderRadius: 5,
     right: 0,
   },
   yupText: {
-    fontSize: 16,
-    color: 'green',
+    fontSize: 80,
   },
   maybe: {
     borderColor: 'blue',
@@ -55,17 +52,13 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
   nope: {
-    borderColor: 'red',
-    borderWidth: 2,
     position: 'absolute',
     bottom: 20,
     padding: 20,
-    borderRadius: 5,
     left: 0,
   },
   nopeText: {
-    fontSize: 16,
-    color: 'red',
+    fontSize: 80,
   }
 });
 
@@ -244,7 +237,15 @@ export default class Index extends Component {
     });
   }
 
-  _forceLeftSwipe() {
+  componentDidMount() {
+    this._animateEntrance();
+    this.props.yesPress(this._forceRightSwipe);
+    this.props.noPress(this._forceLeftSwipe);
+  }
+
+
+  _forceLeftSwipe = () => {
+    this.props.handleNope(this.state.card)
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: -500, y: 0 },
     }).start(status => {
@@ -257,7 +258,7 @@ export default class Index extends Component {
     this.props.cardRemoved(currentIndex[this.guid]);
   }
 
-  _forceUpSwipe() {
+  _forceUpSwipe = () => {
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: 0, y: 500 },
     }).start(status => {
@@ -270,7 +271,8 @@ export default class Index extends Component {
     this.props.cardRemoved(currentIndex[this.guid]);
   }
 
-  _forceRightSwipe() {
+  _forceRightSwipe = () => {
+    this.props.handleYup(this.state.card);
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: 500, y: 0 },
     }).start(status => {
@@ -312,10 +314,6 @@ export default class Index extends Component {
     this.setState({
       card: this.state.cards[currentIndex[this.guid]]
     });
-  }
-
-  componentDidMount() {
-    this._animateEntrance();
   }
 
   _animateEntrance() {

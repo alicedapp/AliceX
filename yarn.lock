@@ -1150,6 +1150,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-firebase/messaging@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-6.1.0.tgz#5af1eeb341d59f95bb2f7539d2c11fefe106845f"
+  integrity sha512-cKzns0PoHiMl7EHEOPzUcgatxNBeTyRB8mFr2dROXbp6Pu8gS1+9fzit+68LHObGOPK9F9wPBU2wyWA7vyQQvQ==
+
 "@react-native-mapbox-gl/maps@^7.0.0-rc3":
   version "7.0.0-rc3"
   resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-7.0.0-rc3.tgz#04d13404cf97582660fa17f63b6a9e5cdddf9a99"
@@ -6945,12 +6950,6 @@ react-native-modal@^11.0.1:
 react-native-modalize@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-modalize/-/react-native-modalize-1.1.1.tgz#2db40853e8f9f8c1d55bbdf0672c217a483e4238"
-
-react-native-onesignal@^3.2.14:
-  version "3.2.14"
-  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.2.14.tgz#421a3b34c226e5b6ea9e801b7b3f914d8e3c0abb"
-  dependencies:
-    invariant "^2.2.2"
 
 react-native-parsed-text@^0.0.20:
   version "0.0.20"
