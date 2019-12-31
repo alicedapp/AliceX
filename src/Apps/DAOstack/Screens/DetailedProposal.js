@@ -13,11 +13,15 @@ import makeBlockie from 'ethereum-blockies-base64';
 import Markdown from 'react-native-simple-markdown'
 
 
-import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown } from '../Components'
+import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown, JoinModal } from '../Components'
 import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
 
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 export default class DetailedProposal extends Component {
   static navigationOptions = ({ navigation }) => {
     const { navigate } = navigation;
@@ -32,17 +36,32 @@ export default class DetailedProposal extends Component {
     this.state = {
       loading: true,
       daos: [],
+      modalVisible: false
     };
   }
 
-  newProposal = () => {
-    const options = {};
+  toggleJoinModal = () => {
     ReactNativeHapticFeedback.trigger('selection', options);
-    this.props.navigation.navigate('DAOstack/NewProposal');
+    this.setState({ modalVisible: !this.state.modalVisible });
   };
 
+  onJoinPress = () => {
+    console.log(`I WANNA JOIN ${this.state.daoId}!`)
+  }
+
+  onVoteInterceptor = (vote) => {
+    if(this.state.viewerIsMember) {
+      return true;
+    }
+
+    this.toggleJoinModal()
+    return false;
+  }
+
   render() {
-    const { proposal, proposer, beneficiary } = this.props.navigation.state.params;
+    const { proposal, proposer, beneficiary, viewerIsMember, daoId } = this.props.navigation.state.params;
+    this.state.viewerIsMember = viewerIsMember;
+    this.state.daoId = daoId;
     console.log('PROPOSAL PROPS: ', this.props)
     const gravatar = makeBlockie(proposal.proposer);
     return (
@@ -82,8 +101,15 @@ export default class DetailedProposal extends Component {
             </ScrollView>
           </View>
         <View style={{width: '90%', position: 'absolute', bottom: 50}}>
-            <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
-          </View>
+          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} onVote={this.onVoteInterceptor}/>
+        </View>
+        <JoinModal
+          isVisible={this.state.modalVisible}
+          backdropOpacity={0.3}
+          onBackdropPress={this.toggleJoinModal}
+          onJoinPress={this.onJoinPress}
+          style={{ alignSelf: 'center' }}>
+        </JoinModal>
       </View>
     );
   }

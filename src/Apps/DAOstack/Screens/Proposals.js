@@ -23,7 +23,8 @@ import {
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-
+import {Wallet} from "../../../AliceSDK/Web3";
+import {ethers, Contract as EthersContract} from 'ethers';
 import { Modal, Proposal, FloatingButton, Button } from '../Components';
 import { NavigationBar } from '../../../AliceCore/Components/NavigationBar';
 import { getDAOStackAccounts } from '../Utils/http';
@@ -41,6 +42,11 @@ const PROPOSALS_QUERY = gql`
       id
       name
       reputationHoldersCount
+      reputationHolders(first: 1000) {
+        id
+        address
+        balance
+      }
       proposals(first: 1000) {
         id
         stage
@@ -91,6 +97,8 @@ export default class Proposals extends Component {
       boostedAmount: 0,
       pendingAmount: 0,
       regularAmount: 0,
+      daoReputationHolders: [],
+      isMember: false,
       overtimeProposals: [],
       pendingProposals: [],
       boostedProposals: [],
@@ -117,8 +125,26 @@ export default class Proposals extends Component {
     return profile;
   }
 
-  componentDidMount(){
-    getDAOStackAccounts().then(accounts => this.setState({ accounts }));
+  isMember = (walletAddress, reputationHolders) => {
+    // reputationHolders.push({id: 1, balance: 400, address: walletAddress})
+    const holders = reputationHolders.filter(holder => {
+      if(holder.address.toLowerCase() != walletAddress.toLowerCase()) {
+        return false;
+      }
+
+      if(ethers.utils.bigNumberify(holder.balance).eq(0)) {
+        return false
+      }
+      return true;
+    })
+
+    return (holders.length > 0)
+  }
+
+  async componentDidMount(){
+    const accounts = await getDAOStackAccounts();
+    const walletAddress = await Wallet.getAddress();
+    this.setState({ accounts, walletAddress });
   }
 
   render() {
@@ -133,7 +159,7 @@ export default class Proposals extends Component {
         <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
             if (error) return <Text>Can't fetch Proposals</Text>;
-            if (loading)
+            if (loading) {
               return (
                 <View
                   style={{
@@ -150,6 +176,9 @@ export default class Proposals extends Component {
                   }}/>
                 </View>
               );
+            }
+            this.state.daoReputationHolders = data.dao.reputationHolders;
+            this.state.isMember = this.isMember(this.state.walletAddress, this.state.daoReputationHolders);
             return (
               <>
                 <View
@@ -180,25 +209,25 @@ export default class Proposals extends Component {
                     {overtimeAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Overtime</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === "QuietEndingPeriod") {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
                       }
                     })}
                     {boostedAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Boosted Proposals</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Boosted') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
                       }
                     })}
                     {pendingAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Pending Proposals</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'PreBoosted') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
                       }
                     })}
                     {regularAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Regular Proposals</Text>}
                     {data.dao.proposals.map((proposal, i) => {
                       if (proposal.stage === 'Queued') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} />;
+                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
                       }
                     })}
                   </View>
