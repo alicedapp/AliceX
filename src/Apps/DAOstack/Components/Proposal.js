@@ -37,9 +37,10 @@ export default class Proposal extends Component {
     this.setState({ modalVisible: !this.state.modalVisible });
   };
 
-  onJoinPress = () => {
-    console.log(`I WANNA JOIN ${this.props.daoId}!`)
-  }
+  newProposal = () => {
+    this.toggleJoinModal();
+    this.props.navigation.navigate('DAOstack/NewProposal');
+  };
 
   onVoteInterceptor = (vote) => {
     if(this.props.viewerIsMember) {
@@ -107,7 +108,7 @@ export default class Proposal extends Component {
         isVisible={this.state.modalVisible}
         backdropOpacity={0.3}
         onBackdropPress={this.toggleJoinModal}
-        onJoinPress={this.onJoinPress}
+        onJoinPress={this.newProposal}
         style={{ alignSelf: 'center' }}>
       </JoinModal>
       </TouchableOpacity>

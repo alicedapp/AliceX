@@ -55,24 +55,20 @@ export default class JoinModal extends Component {
               Join us!
             </Text>
             <Text style={{ paddingHorizontal: 25, color: 'grey', fontWeight: '700', fontSize: 15 }}>
-              You are currently viewing proposals, you can also submit a proposal for reputation to
-              participate in voting on proposals.
+              Currently you can only view proposals, join this DAO by submitting a proposal for reputation to participate in voting on proposals.
             </Text>
-            <View style={{ marginVertical: 20 }}>
-              <Button
-                onPress={this.props.onJoinPress}
-                style={{
-                  alignSelf: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  width: 250,
-                  paddingVertical: 15,
-                }}
-              >
-                <View />
+              <View style={{ marginVertical: 20 }}>
+                <Button
+                  onPress={this.props.onJoinPress}
+                  style={{
+                    alignSelf: 'center',
+                    alignItems: 'center',
+                    paddingVertical: 15,
+                    width: width - 100
+                  }}
+                >
                 <Text style={{ color: 'white', fontWeight: '600', fontSize: 15 }}>
-                  Join DAO
+                  Join the DAO
                 </Text>
               </Button>
             </View>
