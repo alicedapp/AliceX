@@ -18,6 +18,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Query } from 'react-apollo';
+import {Wallet} from "../../../AliceSDK/Web3";
 import gql from 'graphql-tag';
 
 import { DAOcolors } from '../Utils';
@@ -50,8 +51,14 @@ export default class DAOs extends Component {
     super(props);
     this.state = {
       loading: true,
-      daos: [],
+      walletAddress: undefined,
+      daos: []
     };
+  }
+
+  async componentWillMount(){
+    const walletAddress = await Wallet.getAddress();
+    this.setState({ walletAddress });
   }
 
   render() {
@@ -110,18 +117,14 @@ export default class DAOs extends Component {
                 <ScrollView>
                   <View style={styles.container}>
                     {data.daos.map((dao, i) => {
-                      console.log('DAO detail: ', dao.proposals);
-                      console.log('DAOs filtered: ', dao.proposals.filter(
-                        proposal =>
-                          proposal.stage !== 'Executed' &&
-                          proposal.stage !== 'ExpiredInQueue'
-                      ));
                       const { backgroundColor, color } = DAOcolors[i];
+                      const walletAddress = this.state.walletAddress;
+                      console.log(walletAddress)
                       return (
                         <TouchableOpacity
                           key={i}
                           onPress={() =>
-                            this.props.navigation.navigate('DAOstack/Home', { dao, backgroundColor })
+                            this.props.navigation.navigate('DAOstack/Home', { dao, backgroundColor, walletAddress })
                           }
                           style={styles.daoBox}
                         >

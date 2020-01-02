@@ -23,7 +23,6 @@ import {
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import {Wallet} from "../../../AliceSDK/Web3";
 import {ethers, Contract as EthersContract} from 'ethers';
 import { Modal, Proposal, FloatingButton, Button } from '../Components';
 import { NavigationBar } from '../../../AliceCore/Components/NavigationBar';
@@ -104,6 +103,7 @@ export default class Proposals extends Component {
       boostedProposals: [],
       regularProposals: [],
     };
+
   }
 
   newProposal = () => {
@@ -143,13 +143,13 @@ export default class Proposals extends Component {
 
   async componentDidMount(){
     const accounts = await getDAOStackAccounts();
-    const walletAddress = await Wallet.getAddress();
-    this.setState({ accounts, walletAddress });
+    this.setState({ accounts });
   }
 
   render() {
     const {overtimeProposals, pendingProposals, boostedProposals, regularProposals,} = this.state;
-    const { dao, backgroundColor } = this.props.navigation.state.params;
+    const { dao, backgroundColor, walletAddress } = this.props.navigation.state.params;
+    console.log(this.props.navigation)
     let boostedAmount = 1;
     let pendingAmount = 1;
     let regularAmount = 1;
@@ -178,7 +178,8 @@ export default class Proposals extends Component {
               );
             }
             this.state.daoReputationHolders = data.dao.reputationHolders;
-            this.state.isMember = this.isMember(this.state.walletAddress, this.state.daoReputationHolders);
+            console.log(walletAddress)
+            this.state.isMember = this.isMember(walletAddress, this.state.daoReputationHolders);
             return (
               <>
                 <View

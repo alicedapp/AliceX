@@ -23,11 +23,6 @@ export default class JoinModal extends Component {
     super(props);
   }
 
-  joinDAO = () => {
-    console.log("Join")
-    this.toggleModal()
-  }
-
   render() {
     const { style } = this.props;
     return (
