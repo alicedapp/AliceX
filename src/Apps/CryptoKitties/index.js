@@ -3,7 +3,6 @@ import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 import Duel from './Screens/Duel'
 import KittySwipe from './Screens/KittySwipe'
-import CheezeMap from './Screens/CheezeMap'
 import Summon from './Screens/Summon'
 import Matches from './Screens/Matches'
 import WizardScreen from './Screens/WizardScreen'
@@ -16,7 +15,6 @@ const App = createStackNavigator({
   "CryptoKitties/Matches": Matches,
   "CryptoKitties": Home,
   "CryptoKitties/Duel": Duel,
-  "CryptoKitties/Map": CheezeMap,
   "CryptoKitties/Camera": Camera,
   "CryptoKitties/Summon": Summon,
   "CryptoKitties/WizardScreen": WizardScreen,

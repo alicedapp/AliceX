@@ -13,7 +13,6 @@ import { Settings, Wallet } from "../../AliceSDK/Web3";
 import {AppRegistry} from "../../Apps/AppRegistry";
 
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
-import Button from "../../Apps/CheezeWizards/Components/Button";
 import { capitalize } from "../Utils";
 
 
