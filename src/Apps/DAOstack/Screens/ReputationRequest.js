@@ -18,6 +18,9 @@ import {
 } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { Button } from '../Components';
+import { ContributionRewardSchemeABI } from "../ABI";
+import { ethers } from 'ethers'
+import {Wallet, Contract} from "../../../AliceSDK/Web3";
 
 const options = {
   enableVibrateFallback: true,
@@ -36,7 +39,7 @@ export default class ReputationRequest extends Component<Props> {
         color: 'white',
       },
       headerStyle: {
-        backgroundColor: '#092D5E',
+        backgroundColor: navigation.state.params.backgroundColor,
       },
 
       headerLeft: (
@@ -59,16 +62,38 @@ export default class ReputationRequest extends Component<Props> {
 
     this.state = {
       animatePress: new Animated.Value(1),
+      reputationReward: ''
     };
   }
 
-  submit = () => {
+   submit = async () => {
     ReactNativeHapticFeedback.trigger('selection', options);
+    const { dao, backgroundColor, title, description, link } = this.props.navigation.state.params;
+    console.log(dao, backgroundColor, title, description, link, this.state.reputationReward)
+    // TODO - description and title and link into description hash
+    const walletAddress = await Wallet.getAddress();
+
+    const params = {
+      contractAddress: dao.schemes[0].address, 
+      abi: ContributionRewardSchemeABI, 
+      functionName: 'proposeContributionReward', 
+      parameters: [dao.id, '', ethers.utils.parseEther(this.state.reputationReward).toString(), [0, 0, 0, 0, 1], ethers.constants.AddressZero, walletAddress], 
+      value: '0.0', 
+      data: '0x0'
+    }
+    console.log(params);
+    try {
+    const txHash = await Contract.write(params);
     this.props.navigation.navigate('DAOstack/RequestComplete');
+    } catch(e){
+      console.error(e);
+    }
+    
   };
 
   render() {
     const { tokenInfo, iterator, token } = this.props;
+    const { dao, backgroundColor, title, description, link } = this.props.navigation.state.params;
     return (
       <View style={{ flex: 1, padding: 20, alignItems: 'center' }}>
         <Image
@@ -104,6 +129,7 @@ export default class ReputationRequest extends Component<Props> {
               keyboardType="numeric"
               style={{ flex: 1, fontWeight: '600', fontSize: 15 }}
               placeholder="e.g. 100"
+              onChangeText={(reputationReward) => this.setState({reputationReward})}
             />
             <Text style={{ fontWeight: '600', fontSize: 15 }}>REP</Text>
           </View>
