@@ -12,13 +12,13 @@
 * */
 
 import { createBottomTabNavigator } from 'react-navigation';
-import Map from './Screens/Map'
+// import Map from './Screens/Map'
 import Home from './Screens/Home'
 import Camera from './Screens/Camera'
 
 export default createBottomTabNavigator({
 	// Your ExampleMaps's Tab Navigator's names are defined here as a default
 	Home: Home,
-	Maps: Map,
+	// Maps: Map,
 	Camera: Camera
 });

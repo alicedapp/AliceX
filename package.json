@@ -11,9 +11,7 @@
   "dependencies": {
     "3box-activity": "^0.0.9",
     "@apollo/react-hooks": "^3.0.1",
-    "@mapbox/mapbox-sdk": "^0.6.0",
     "@react-native-firebase/messaging": "^6.1.0",
-    "@react-native-mapbox-gl/maps": "^7.0.0-rc3",
     "apollo-boost": "^0.4.3",
     "apollo-link-ws": "^1.0.18",
     "axios": "^0.19.0",
@@ -60,8 +58,7 @@
     "styled-components": "^4.3.2",
     "subscriptions-transport-ws": "^0.9.16",
     "url": "^0.11.0",
-    "uuid": "^3.3.3",
-    "yarn": "^1.17.3"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
