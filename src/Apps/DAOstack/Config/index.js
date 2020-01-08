@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
+import {IPFSApiClient} from './ipfs-api'
 
 const apolloClientConfig = {
   link: new HttpLink({
@@ -12,3 +13,4 @@ const apolloClientConfig = {
 };
 
 export const ApolloClientConfig = new ApolloClient(apolloClientConfig);
+export const Ipfs = new IPFSApiClient('https://api.thegraph.com/ipfs-daostack/api/v0')

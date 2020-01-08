@@ -21,6 +21,7 @@ import { Button } from '../Components';
 import { ContributionRewardSchemeABI } from "../ABI";
 import { ethers } from 'ethers'
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
+import {Ipfs as IpfsClient} from '../Config'
 
 const options = {
   enableVibrateFallback: true,
@@ -69,15 +70,15 @@ export default class ReputationRequest extends Component<Props> {
    submit = async () => {
     ReactNativeHapticFeedback.trigger('selection', options);
     const { dao, backgroundColor, title, description, link } = this.props.navigation.state.params;
-    console.log(dao, backgroundColor, title, description, link, this.state.reputationReward)
-    // TODO - description and title and link into description hash
+    const descriptionHash = await IpfsClient.addAndPinString(JSON.stringify({title, description, url: link, tags: []}));
+
     const walletAddress = await Wallet.getAddress();
 
     const params = {
       contractAddress: dao.schemes[0].address, 
       abi: ContributionRewardSchemeABI, 
       functionName: 'proposeContributionReward', 
-      parameters: [dao.id, '', ethers.utils.parseEther(this.state.reputationReward).toString(), [0, 0, 0, 0, 1], ethers.constants.AddressZero, walletAddress], 
+      parameters: [dao.id, descriptionHash, ethers.utils.parseEther(this.state.reputationReward).toString(), [0, 0, 0, 0, 1], ethers.constants.AddressZero, walletAddress], 
       value: '0.0', 
       data: '0x0'
     }
