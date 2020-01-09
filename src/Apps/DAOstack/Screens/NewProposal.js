@@ -51,44 +51,89 @@ export default class NewProposal extends Component<Props> {
       animatePress: new Animated.Value(1),
       title: '',
       description: '',
-      link: ''
+      link: '',
+      titleIsValid: true,
+      descriptionIsValid: true
     };
   }
 
+  validateAndNavigate = () => {
+    let hasValidationErrors = false;
+    if (this.state.title.length) {
+      this.setState({ titleIsValid: true });
+    } else {
+      this.setState({ titleIsValid: false });
+      hasValidationErrors = true;
+    }
+
+    if (this.state.description.length) {
+      this.setState({ descriptionIsValid: true });
+    } else {
+      this.setState({ descriptionIsValid: false });
+      hasValidationErrors = true;
+    }
+
+    if (hasValidationErrors) {
+      return;
+    }
+
+    this.props.navigation.navigate('DAOstack/ReputationRequest', { 
+      dao: this.props.navigation.state.params.dao,
+      backgroundColor: this.props.navigation.state.params.backgroundColor,
+      title: this.state.title,
+      description: this.state.description,
+      link: this.state.link
+    });
+  };
+
   render() {
-    const { tokenInfo, iterator, token, navigation } = this.props;
-    const { dao, backgroundColor } = this.props.navigation.state.params;
     return (
       <View style={{ flex: 1, padding: 20, alignItems: 'flex-start' }}>
-        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
+        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
           Title
+          {
+            this.state.titleIsValid ? null :
+            <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+              &nbsp;&nbsp;Required
+            </Text>
+          }
         </Text>
         <TextInput
-          style={{
-            padding: 10,
-            width: '100%',
-            ...styles.input,
-            height: 50,
-            fontWeight: '600',
-            fontSize: 15,
-          }}
+          style={[{
+              padding: 10,
+              width: '100%',
+              ...styles.input,
+              height: 50,
+              fontWeight: '600',
+              fontSize: 15
+            },
+            (this.state.titleIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+          ]}
           onChangeText={(title) => this.setState({title})}
           placeholder="e.g. Reputation Request"
         />
-        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
+        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
           Description
+          {
+            this.state.descriptionIsValid ? null :
+            <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+              &nbsp;&nbsp;Required
+            </Text>
+          }
         </Text>
         <TextInput
           multiline
-          style={{
-            padding: 10,
-            paddingTop: 15,
-            width: '100%',
-            ...styles.input,
-            height: 200,
-            fontWeight: '600',
-            fontSize: 15,
-          }}
+          style={[{
+              padding: 10,
+              paddingTop: 15,
+              width: '100%',
+              ...styles.input,
+              height: 200,
+              fontWeight: '600',
+              fontSize: 15
+            },
+            (this.state.descriptionIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+          ]}
           onChangeText={(description) => this.setState({description})}
           placeholder={"Describe the reason you're joining this DAO"}
         />
@@ -108,7 +153,7 @@ export default class NewProposal extends Component<Props> {
           placeholder="Add a link for more details"
         />
         <Button
-          onPress={() => navigation.navigate('DAOstack/ReputationRequest', { dao, backgroundColor, title: this.state.title, description: this.state.description, link: this.state.link })}
+          onPress={this.validateAndNavigate}
           style={{
             alignSelf: 'center',
             alignItems: 'center',
@@ -153,4 +198,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
+  errorColor: {
+    color: 'red'
+  },
+  errorBorderColor: {
+    borderColor: 'red'
+  }
 });

@@ -63,17 +63,25 @@ export default class ReputationRequest extends Component<Props> {
 
     this.state = {
       animatePress: new Animated.Value(1),
-      reputationReward: ''
+      reputationReward: '',
+      reputationRewardIsValid: true
     };
   }
 
-   submit = async () => {
+  submit = async () => {
+    if (this.state.reputationReward > 0) {
+      this.setState({ reputationRewardIsValid: true });
+    } else {
+      this.setState({ reputationRewardIsValid: false });
+      return;
+    }
+
     ReactNativeHapticFeedback.trigger('selection', options);
     const { dao, backgroundColor, title, description, link } = this.props.navigation.state.params;
     const descriptionHash = await IpfsClient.addAndPinString(JSON.stringify({title, description, url: link, tags: []}));
 
+    this.props.navigation.goBack()
     const walletAddress = await Wallet.getAddress();
-
     const params = {
       contractAddress: dao.schemes[0].address, 
       abi: ContributionRewardSchemeABI, 
@@ -88,12 +96,10 @@ export default class ReputationRequest extends Component<Props> {
     } catch(e){
       console.error(e);
     }
-    
+
   };
 
   render() {
-    const { tokenInfo, iterator, token } = this.props;
-    const { dao, backgroundColor, title, description, link } = this.props.navigation.state.params;
     return (
       <View style={{ flex: 1, padding: 20, alignItems: 'center' }}>
         <Image
@@ -114,22 +120,30 @@ export default class ReputationRequest extends Component<Props> {
         <View>
           <Text style={{ fontWeight: '700', fontSize: 17, marginBottom: 10, marginTop: 20 }}>
             Reputation Request
+            {
+              this.state.reputationRewardIsValid ? null :
+              <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+                &nbsp;&nbsp;Required
+              </Text>
+            }
           </Text>
           <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              ...styles.input,
-              paddingHorizontal: 10,
-              height: 50,
-              alignItems: 'center',
-            }}
+            style={[{
+                flexDirection: 'row',
+                width: '100%',
+                ...styles.input,
+                paddingHorizontal: 10,
+                height: 50,
+                alignItems: 'center'
+              },
+              (this.state.reputationRewardIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+            ]}
           >
             <TextInput
               keyboardType="numeric"
               style={{ flex: 1, fontWeight: '600', fontSize: 15 }}
               placeholder="e.g. 100"
-              onChangeText={(reputationReward) => this.setState({reputationReward})}
+              onChangeText={(reputationReward) => this.setState({reputationReward: reputationReward.replace(/[^0-9]/g, '')})}
             />
             <Text style={{ fontWeight: '600', fontSize: 15 }}>REP</Text>
           </View>
@@ -172,4 +186,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
+  errorColor: {
+    color: 'red'
+  },
+  errorBorderColor: {
+    borderColor: 'red'
+  }
 });
