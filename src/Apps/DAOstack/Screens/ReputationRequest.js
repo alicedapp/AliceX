@@ -82,7 +82,6 @@ export default class ReputationRequest extends Component<Props> {
       value: '0.0', 
       data: '0x0'
     }
-    console.log(params);
     try {
     const txHash = await Contract.write(params);
     this.props.navigation.navigate('DAOstack/RequestComplete');
