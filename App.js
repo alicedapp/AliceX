@@ -20,7 +20,7 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 import CodePush from "react-native-code-push";
-import MapboxGL from '@react-native-mapbox-gl/maps';
+// import MapboxGL from '@react-native-mapbox-gl/maps';
 import { isIphoneX } from 'react-native-iphone-x-helper'
 
 import env from './env.json';
@@ -30,11 +30,11 @@ import DappsScreen from './src/AliceCore/Screens/DappsScreen';
 import Dashboard from './src/AliceCore/Screens/Dashboard';
 import NavigatorService, {navigate} from './src/AliceCore/Utils/navigationWrapper';
 import {NavigationBar} from "./src/AliceCore/Components";
-import {challengedPOI} from "./src/Apps/Foam/utils";
+// import {challengedPOI} from "./src/Apps/Foam/utils";
 import firebase from 'react-native-firebase';
 
 const { height, width } = Dimensions.get('window');
-MapboxGL.setAccessToken(env.mapbox);
+// MapboxGL.setAccessToken(env.mapbox);
 GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const AppTabNavigator = createMaterialTopTabNavigator({
@@ -238,47 +238,15 @@ class App extends Component {
 
   onOpened(openResult) {
     console.log('Message: ', openResult.notification.payload.body);
-    if (openResult.notification.payload.title === "FOAM") {
-      navigate('FoamMap', {poi: challengedPOI});
-    }
+    // if (openResult.notification.payload.title === "FOAM") {
+    //   navigate('FoamMap', {poi: challengedPOI});
+    // }
 
     if (openResult.notification.payload.title === "E2E") {
       navigate('E2E');
     }
     if (openResult.notification.payload.title === "VotezUp") {
       navigate('BridgeWater');
-    }
-    if (openResult.notification.payload.title === "CheezeWizards") {
-      navigate('CheezeWizards/WizardScreen', {
-        notificationChallenge: {
-          affinity: 3,
-          ascending: false,
-          ascensionOpponent: 0,
-          challengeId: "_71eemyysk",
-          currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
-          id: "6144",
-          maxPower: 117022711285813,
-          molded: false,
-          nonce: 4,
-          owner: "0xB45B74aDE7973AD25eC91F64c64aEC07d26F386C",
-          power: 56340035804596,
-          ready: true,
-        },
-        wizard: {
-          affinity: 1,
-          ascending: false,
-          ascensionOpponent: 0,
-          challengeId: "_m9ol8etji",
-          currentDuel: "0x0000000000000000000000000000000000000000000000000000000000000000",
-          id: "6090",
-          maxPower: 70000000000000,
-          molded: false,
-          nonce: 2,
-          owner: "0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB",
-          power: 70000000000000,
-          ready: true,
-        }
-      });
     }
 
   }

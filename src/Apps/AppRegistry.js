@@ -8,8 +8,6 @@
 
 /*        Apps Export Section          */
 /*        This is your Main Route Name          */
-// export { default as CheezeWizards } from './CheezeWizards';
-export { default as Foam } from './Foam';
 export { default as Test } from './Example';
 export { default as DAOstack } from './DAOstack';
 export { default as CryptoKitties } from './CryptoKitties';
@@ -43,18 +41,6 @@ export const AppRegistry = [
     homeRoute: 'DAOstack',
     icon: require('./DAOstack/Assets/logo.png')
   },
-  {
-    appName: 'Foam',
-    backgroundColor: '#ffffff',
-    homeRoute: 'Foam',
-    icon: require('../AliceCore/Assets/foam.png')
-  },
-  // {
-  //   appName: 'CheezeWiza..',
-  //   backgroundColor: '#fdef5d',
-  //   homeRoute: 'CheezeWizards',
-  //   icon: require('./CheezeWizards/Assets/logo.png')
-  // },
   {
     appName: 'CryptoKitties',
     backgroundColor: '#FFFFFF',

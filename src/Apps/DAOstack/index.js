@@ -15,7 +15,6 @@ import {
   Holders,
   NewProposal,
   Proposals,
-  Redemptions,
   ReputationRequest,
   RequestComplete,
   DetailedProposal
