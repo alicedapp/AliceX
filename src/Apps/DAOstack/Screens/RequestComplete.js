@@ -47,7 +47,6 @@ export default class RequestComplete extends Component<Props> {
 
   continue = () => {
     ReactNativeHapticFeedback.trigger('selection', options);
-    console.log('PROPS: ', this.props);
     const resetAction = StackActions.pop({
       n: 3,
     });

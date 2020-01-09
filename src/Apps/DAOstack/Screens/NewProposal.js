@@ -26,7 +26,7 @@ export default class NewProposal extends Component<Props> {
         color: 'white',
       },
       headerStyle: {
-        backgroundColor: '#092D5E',
+        backgroundColor: navigation.state.params.backgroundColor,
       },
 
       headerLeft: (
@@ -49,11 +49,15 @@ export default class NewProposal extends Component<Props> {
 
     this.state = {
       animatePress: new Animated.Value(1),
+      title: '',
+      description: '',
+      link: ''
     };
   }
 
   render() {
     const { tokenInfo, iterator, token, navigation } = this.props;
+    const { dao, backgroundColor } = this.props.navigation.state.params;
     return (
       <View style={{ flex: 1, padding: 20, alignItems: 'flex-start' }}>
         <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
@@ -68,6 +72,7 @@ export default class NewProposal extends Component<Props> {
             fontWeight: '600',
             fontSize: 15,
           }}
+          onChangeText={(title) => this.setState({title})}
           placeholder="e.g. Reputation Request"
         />
         <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
@@ -84,6 +89,7 @@ export default class NewProposal extends Component<Props> {
             fontWeight: '600',
             fontSize: 15,
           }}
+          onChangeText={(description) => this.setState({description})}
           placeholder={"Describe the reason you're joining this DAO"}
         />
         <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
@@ -98,10 +104,11 @@ export default class NewProposal extends Component<Props> {
             fontWeight: '600',
             fontSize: 15,
           }}
+          onChangeText={(link) => this.setState({link})}
           placeholder="Add a link for more details"
         />
         <Button
-          onPress={() => navigation.navigate('DAOstack/ReputationRequest')}
+          onPress={() => navigation.navigate('DAOstack/ReputationRequest', { dao, backgroundColor, title: this.state.title, description: this.state.description, link: this.state.link })}
           style={{
             alignSelf: 'center',
             alignItems: 'center',

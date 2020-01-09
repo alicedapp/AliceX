@@ -31,6 +31,12 @@ const DAOS_QUERY = gql`
       id
       name
       reputationHoldersCount
+      schemes(first: 1000) {
+        id,
+        address,
+        name,
+        paramsHash
+      }
       proposals(first: 1000) {
         id
         stage

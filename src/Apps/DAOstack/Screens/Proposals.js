@@ -108,7 +108,8 @@ export default class Proposals extends Component {
 
   newProposal = () => {
     ReactNativeHapticFeedback.trigger('selection', options);
-    this.props.navigation.navigate('DAOstack/NewProposal');
+    const { dao, backgroundColor } = this.props.navigation.state.params;
+    this.props.navigation.navigate('DAOstack/NewProposal', { dao, backgroundColor });
     this.setState({ modalVisible: !this.state.modalVisible });
   };
 
