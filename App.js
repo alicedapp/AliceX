@@ -184,12 +184,10 @@ class App extends Component {
   //3
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    console.log('FIREBASE TOKEN: ', fcmToken);
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
         // user has a device token
-        console.log('FIREBASE TOKEN: ', fcmToken);
         // await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     }
@@ -290,9 +288,6 @@ class App extends Component {
           onNavigationStateChange={(prevState, currentState, action) => {
             const currentRouteName = this.getActiveRouteName(currentState);
             const previousRouteName = this.getActiveRouteName(prevState);
-            console.log('CURRENT ROUTE: ', currentRouteName);
-            console.log('CURRENT ROUTE: ', previousRouteName);
-            console.log('CURRENT ROUTE STATE: ', this.state.currentRoute);
             if (previousRouteName !== currentRouteName) {
               this.setState({ currentRoute: currentRouteName });
               // the line below uses the @react-native-firebase/analytics tracker
