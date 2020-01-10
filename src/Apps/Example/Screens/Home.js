@@ -1,8 +1,17 @@
 import React from "react";
-import {Text, TouchableOpacity, ScrollView, View, Dimensions} from "react-native";
+import {Text, TouchableOpacity, ScrollView, View, Dimensions, TextInput} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
-import {FoodContractABI} from "../ABI";
+import {MessageContract} from "../ABI";
+import { switchcase } from "../../../AliceCore/Utils";
 const { height, width } = Dimensions.get('window');
+const MessageContractAddress = {
+  "Mainnet": "0x9330b5fC61fa17B1CCA51Cb7bc398871321A4BFB",
+  "Ropsten": "0x824012FB45C37f905085F0D68E3f060f9b68fcb1",
+  "Rinkeby": "0x2f21957c7147c3eE49235903D6471159a16c9ccd",
+  "Kovan": "0x066b159eced604C62e05bb0869e9B65D3e271B8E",
+  "Goerli": "0x066b159eced604C62e05bb0869e9B65D3e271B8E"
+};
+
 
 export default class ExampleHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -22,7 +31,8 @@ export default class ExampleHome extends React.Component {
       tokenTxHash: '',
       transferHash: '',
       txHash: '',
-      balance: ''
+      balance: '',
+      inputValue: '',
     };
 
     this.child = React.createRef();
@@ -141,7 +151,15 @@ export default class ExampleHome extends React.Component {
 
   contractSend = async () => {
     try {
-      const contractTxHash = await Contract.write({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'setOrder', parameters: ['Mark', 'HotDog'], value: '0.0', data: '0x0'})
+      const network = await Wallet.getNetwork();
+      const contractAddress = switchcase({
+        "main": MessageContractAddress.Mainnet,
+        "ropsten": MessageContractAddress.Ropsten,
+        "rinkeby": MessageContractAddress.Rinkeby,
+        "kovan": MessageContractAddress.Kovan,
+        "goerli": MessageContractAddress.Goerli,
+      })(network.name);
+      const contractTxHash = await Contract.write({contractAddress, abi: MessageContract, functionName: 'setMessage', parameters: [this.state.inputValue], value: '0.0', data: '0x0'});
       console.log('contractTxHash: ', contractTxHash);
       this.setState({contractTxHash})
 
@@ -152,7 +170,16 @@ export default class ExampleHome extends React.Component {
 
   contractRead = async () => {
     try {
-      const result = await Contract.read({contractAddress: '0x68F7202dcb25360FA6042F6739B7F6526AfcA66E', abi: FoodContractABI, functionName: 'getOrder', parameters: [] });
+      const network = await Wallet.getNetwork();
+      const contractAddress = switchcase({
+        "main": MessageContractAddress.Mainnet,
+        "ropsten": MessageContractAddress.Ropsten,
+        "rinkeby": MessageContractAddress.Rinkeby,
+        "kovan": MessageContractAddress.Kovan,
+        "goerli": MessageContractAddress.Goerli,
+      })(network.name);
+      console.log('contract address: ', contractAddress);
+      const result = await Contract.read({contractAddress, abi: MessageContract, functionName: 'getMessage', parameters: []});
       console.log('RESULT: ', result);
       this.setState({contractInfo: result});
 
@@ -160,6 +187,8 @@ export default class ExampleHome extends React.Component {
       console.log(e)
     }
   };
+
+  onChangeText = text => this.setState({inputValue: text});
 
 
   render() {
@@ -199,6 +228,10 @@ export default class ExampleHome extends React.Component {
           <TouchableOpacity onPress={this.sendToken} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Send Token</Text>
           </TouchableOpacity>
+                 <Text>Send to Contract: {this.state.inputValue}</Text>
+                 <TextInput onChangeText={text => this.onChangeText(text)}
+                            value={this.state.inputValue}
+                            style={{borderWidth: 1, borderColor: 'black', width: width / 2 , height: 30, marginBottom: 5}}/>
           <Text>TransactionHash: {this.state.contractTxHash}</Text>
           <TouchableOpacity onPress={this.contractSend} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Send To Contract</Text>
