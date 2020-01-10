@@ -47,13 +47,22 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/in
     - https://alchemyapi.io/
 ```js
 {
-  "mapbox": "pk.534967796345.807345023845",
-  "alchemy": "384259834528074235-897342",
-  "onesignal":"3245342-543-5534-435-53434525",
-  "opensea":"324523525425432453543",
-  "etherscan": "23542354234523452345",
-  "cheezeWizard": "523542345235245-532543253253",
+  "mapbox": "pk.123456789thisisafakekey.1234567890",
+  "amberdata": "123456789thisisafakekey",
+  "ditcraft": "123456789thisisafakekey",
+  "opensea": "bef62b077b104cee981849a010b70da2",
+  "etherscan": "123456789thisisafakekey",
+  "firebaseConfig": {
+    "apiKey": "AIzaSyAAVOJJPFaADs-0PtLSm4o_tFvZhfConfI",
+    "authDomain": "app-123456789thisisafakekey.firebaseapp.com",
+    "databaseURL": "https://app-123456789thisisafakekey.firebaseio.com",
+    "projectId": "app-123456789thisisafakekey",
+    "storageBucket": "app-123456789thisisafakekey.appspot.com",
+    "messagingSenderId": "123456789thisisafakekey",
+    "appId": "1:123456789thisisafakekey:web:123456789thisisafakekey"
+  }
 }
+
 
 ```
 
