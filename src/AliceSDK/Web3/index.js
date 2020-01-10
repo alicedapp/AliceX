@@ -30,7 +30,6 @@ const getBalance = async () => {
 const getNetwork = async () => {
   try {
     let network = JSON.parse(await NativeModules.WalletModule.getNetwork());
-    console.log('network: ', network);
     network.name = network.name.toLowerCase();
     return network;
   } catch(e) {
@@ -112,50 +111,52 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
 };
 
 const read = async ({contractAddress, abi, functionName, parameters}) => {
-    const networkData = await getNetwork();
-    const network = networkData.name;
-    if (network === "ropsten") {
-      const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
-      if (parameters.length === 0) {
-        return contract[functionName]();
-      } else if (parameters.length > 0) {
-        return contract[functionName](...parameters);
-      }
-
-    } else if (network === "rinkeby") {
-      const contract = new EthersContract(contractAddress, abi, infuraProviderRinkeby);
-      if (parameters.length === 0) {
-        return contract[functionName]();
-      } else if (parameters.length > 0) {
-        return contract[functionName](...parameters);
-      }
-
-    } else if (network === "main") {
-      const contract = new EthersContract(contractAddress, abi, infuraProvider);
-      if (parameters.length === 0) {
-        return contract[functionName]();
-      } else if (parameters.length > 0) {
-        return contract[functionName](...parameters);
-      }
-
-    } else if (network === "goerli") {
-      const contract = new EthersContract(contractAddress, abi, infuraProviderGoerli);
-      if (parameters.length === 0) {
-        return contract[functionName]();
-      } else if (parameters.length > 0) {
-        return contract[functionName](...parameters);
-      }
-
-    } else if (network === "kovan") {
-      const contract = new EthersContract(contractAddress, abi, infuraProviderKovan);
-      if (parameters.length === 0) {
-        return contract[functionName]();
-      } else if (parameters.length > 0) {
-        return contract[functionName](...parameters);
-      }
-    } else {
-      return "Unsupported network"
+  const networkData = await getNetwork();
+  const network = networkData.name;
+  if (network === "ropsten") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
     }
+
+  } else if (network === "rinkeby") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderRinkeby);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else if (network === "main") {
+    const contract = new EthersContract(contractAddress, abi, infuraProvider);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else if (network === "goerli") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderGoerli);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else if (network === "kovan") {
+    const contract = new EthersContract(contractAddress, abi, infuraProviderKovan);
+    if (parameters.length === 0) {
+      return contract[functionName]();
+    } else if (parameters.length > 0) {
+      return contract[functionName](...parameters);
+    }
+
+  } else {
+    return "Unsupported network"
+  }
+
 };
 
 const resolve = async (ensName) => {

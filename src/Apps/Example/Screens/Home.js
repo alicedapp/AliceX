@@ -1,4 +1,3 @@
-
 import React from "react";
 import {Text, TouchableOpacity, ScrollView, View, Dimensions, TextInput} from "react-native";
 import {Wallet, Contract} from "../../../AliceSDK/Web3";
@@ -196,10 +195,15 @@ export default class ExampleHome extends React.Component {
     const { navigation } = this.props;
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-        <ScrollView contentContainerStyle={{width, marginTop:50, alignItems: 'center', justifyContent: 'center', paddingVertical: 100}}>
+               <ScrollView contentContainerStyle={{width, marginTop:50, alignItems: 'center', justifyContent: 'center', paddingVertical: 100}}>
           <Text>Address: {this.state.address}</Text>
           <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Address</Text>
+          </TouchableOpacity>
+                 <Text>Crash Test Button</Text>
+
+                 <TouchableOpacity onPress={() => crash()} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Crash Test</Text>
           </TouchableOpacity>
           <Text>Transfer</Text>
           <TouchableOpacity onPress={this.transfer} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
@@ -229,10 +233,10 @@ export default class ExampleHome extends React.Component {
           <TouchableOpacity onPress={this.sendToken} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Send Token</Text>
           </TouchableOpacity>
-          <Text>Send to Contract: {this.state.inputValue}</Text>
-          <TextInput onChangeText={text => this.onChangeText(text)}
-                     value={this.state.inputValue}
-                     style={{borderWidth: 1, borderColor: 'black', width: width / 2 , height: 30, marginBottom: 5}}/>
+                 <Text>Send to Contract: {this.state.inputValue}</Text>
+                 <TextInput onChangeText={text => this.onChangeText(text)}
+                            value={this.state.inputValue}
+                            style={{borderWidth: 1, borderColor: 'black', width: width / 2 , height: 30, marginBottom: 5}}/>
           <Text>TransactionHash: {this.state.contractTxHash}</Text>
           <TouchableOpacity onPress={this.contractSend} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Send To Contract</Text>
