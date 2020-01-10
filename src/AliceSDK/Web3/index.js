@@ -3,6 +3,8 @@ import {ethers, Contract as EthersContract} from 'ethers';
 let infuraProvider = new ethers.providers.InfuraProvider('mainnet');
 let infuraProviderRopsten = new ethers.providers.InfuraProvider('ropsten');
 let infuraProviderRinkeby = new ethers.providers.InfuraProvider('rinkeby');
+let infuraProviderKovan = new ethers.providers.InfuraProvider('kovan');
+let infuraProviderGoerli = new ethers.providers.InfuraProvider('goerli');
 
 const url = "https://eth-mainnet.alchemyapi.io/jsonrpc/J5dtZ15uh9UBfyGUwicNlNbjXvN-aog0";
 const provider = new ethers.providers.JsonRpcProvider(url);
@@ -108,35 +110,51 @@ const write = async ({contractAddress, abi, functionName, parameters, value = "0
   }
 };
 
-const read = async ({contractAddress, abi, functionName, parameters, network}) => {
-  if (network === "ropsten") {
-    const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
-    if (parameters.length === 0) {
-      return contract[functionName]();
-    } else if (parameters.length > 0) {
-      return contract[functionName](...parameters);
+const read = async ({contractAddress, abi, functionName, parameters}) => {
+    const networkData = await getNetwork();
+    const network = networkData.name;
+    if (network === "ropsten") {
+      const contract = new EthersContract(contractAddress, abi, infuraProviderRopsten);
+      if (parameters.length === 0) {
+        return contract[functionName]();
+      } else if (parameters.length > 0) {
+        return contract[functionName](...parameters);
+      }
+
+    } else if (network === "rinkeby") {
+      const contract = new EthersContract(contractAddress, abi, infuraProviderRinkeby);
+      if (parameters.length === 0) {
+        return contract[functionName]();
+      } else if (parameters.length > 0) {
+        return contract[functionName](...parameters);
+      }
+
+    } else if (network === "main") {
+      const contract = new EthersContract(contractAddress, abi, infuraProvider);
+      if (parameters.length === 0) {
+        return contract[functionName]();
+      } else if (parameters.length > 0) {
+        return contract[functionName](...parameters);
+      }
+
+    } else if (network === "goerli") {
+      const contract = new EthersContract(contractAddress, abi, infuraProviderGoerli);
+      if (parameters.length === 0) {
+        return contract[functionName]();
+      } else if (parameters.length > 0) {
+        return contract[functionName](...parameters);
+      }
+
+    } else if (network === "kovan") {
+      const contract = new EthersContract(contractAddress, abi, infuraProviderKovan);
+      if (parameters.length === 0) {
+        return contract[functionName]();
+      } else if (parameters.length > 0) {
+        return contract[functionName](...parameters);
+      }
+    } else {
+      return "Unsupported network"
     }
-
-  } else if (network === "rinkeby") {
-    const contract = new EthersContract(contractAddress, abi, infuraProviderRinkeby);
-    if (parameters.length === 0) {
-      return contract[functionName]();
-    } else if (parameters.length > 0) {
-      return contract[functionName](...parameters);
-    }
-
-  } else if (network === "main") {
-    const contract = new EthersContract(contractAddress, abi, infuraProvider);
-    if (parameters.length === 0) {
-      return contract[functionName]();
-    } else if (parameters.length > 0) {
-      return contract[functionName](...parameters);
-    }
-
-  } else {
-    return "Unsupported network"
-  }
-
 };
 
 const resolve = async (ensName) => {
