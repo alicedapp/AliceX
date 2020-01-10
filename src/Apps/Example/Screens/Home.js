@@ -200,6 +200,11 @@ export default class ExampleHome extends React.Component {
           <TouchableOpacity onPress={this.getAddress} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Get Address</Text>
           </TouchableOpacity>
+                 <Text>Crash Test Button</Text>
+
+                 <TouchableOpacity onPress={() => crash()} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
+            <Text>Crash Test</Text>
+          </TouchableOpacity>
           <Text>Transfer</Text>
           <TouchableOpacity onPress={this.transfer} style={{alignItems: 'center', justifyContent: 'center', width: 200, height: 40, backgroundColor: 'grey'}}>
             <Text>Transfer</Text>
