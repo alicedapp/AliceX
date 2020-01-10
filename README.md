@@ -53,7 +53,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/alicedapp/AliceX/master/in
   "opensea": "bef62b077b104cee981849a010b70da2",
   "etherscan": "123456789thisisafakekey",
   "firebaseConfig": {
-    "apiKey": "AIzaSyAAVOJJPFaADs-0PtLSm4o_tFvZhfConfI",
+    "apiKey": "123456789thisisafakekey-123456789thisisafakekey",
     "authDomain": "app-123456789thisisafakekey.firebaseapp.com",
     "databaseURL": "https://app-123456789thisisafakekey.firebaseio.com",
     "projectId": "app-123456789thisisafakekey",
