@@ -274,7 +274,7 @@ class App extends Component {
       return this.getActiveRouteName(route);
     }
     return route.routeName;
-  }
+  };
 
   render() {
     return (
