@@ -17,7 +17,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
-import { Query } from 'react-apollo';
+import { Subscription } from 'react-apollo';
 import {Wallet} from "../../../AliceSDK/Web3";
 import gql from 'graphql-tag';
 
@@ -25,7 +25,7 @@ import { DAOcolors } from '../Utils';
 
 const { height, width } = Dimensions.get('window');
 
-const DAOS_QUERY = gql`
+const DAOS_SUBSCRIPTION = gql`
   query {
     daos(orderBy: reputationHoldersCount, orderDirection: desc) {
       id
@@ -70,9 +70,11 @@ export default class DAOs extends Component {
   render() {
     return (
       <View style={{ flex: 1, paddingTop: 50 }}>
-        <Query query={DAOS_QUERY}>
+        <Subscription subscription={DAOS_SUBSCRIPTION}>
           {({ loading, error, data }) => {
-            if (error) return (
+            if (error) { 
+            console.error(error)  
+            return (
               <View
                 style={{
                   flex: 1,
@@ -84,6 +86,7 @@ export default class DAOs extends Component {
                 <Text>Can't fetch DAOs</Text>
               </View>
             );
+          }
             if (loading) {
               return (
                 <View
@@ -214,7 +217,7 @@ export default class DAOs extends Component {
               </>
             );
           }}
-        </Query>
+        </Subscription>
       </View>
     );
   }
