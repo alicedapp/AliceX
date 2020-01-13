@@ -47,7 +47,8 @@ export default class DetailedProposal extends Component {
 
   newProposal = () => {
     this.toggleJoinModal();
-    this.props.navigation.navigate('DAOstack/NewProposal');
+    const { dao, backgroundColor } = this.props.navigation.state.params;
+    this.props.navigation.navigate('DAOstack/NewProposal', { dao, backgroundColor });
   };
 
   onVoteInterceptor = (vote) => {
