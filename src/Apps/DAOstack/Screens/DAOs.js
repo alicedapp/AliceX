@@ -26,7 +26,7 @@ import { DAOcolors } from '../Utils';
 const { height, width } = Dimensions.get('window');
 
 const DAOS_SUBSCRIPTION = gql`
-  query {
+  subscription {
     daos(orderBy: reputationHoldersCount, orderDirection: desc) {
       id
       name

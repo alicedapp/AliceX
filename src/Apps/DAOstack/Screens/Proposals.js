@@ -36,7 +36,7 @@ const options = {
 const { height, width } = Dimensions.get('window');
 
 const PROPOSALS_SUBSCRIPTION = gql`
-  query Proposal($id: ID!) {
+  subscription Proposal($id: ID!) {
     dao(id: $id) {
       id
       name
@@ -159,7 +159,6 @@ export default class Proposals extends Component {
       <View style={{ flex: 1, paddingTop: 50 }}>
         <Subscription subscription={PROPOSALS_SUBSCRIPTION} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
-            console.log({ loading, error, data })
             if (error) return <Text>Can't fetch Proposals</Text>;
             if (loading) {
               return (
