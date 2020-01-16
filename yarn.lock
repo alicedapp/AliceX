@@ -7471,6 +7471,11 @@ react-native-draggable-grid@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-draggable-grid/-/react-native-draggable-grid-1.1.1.tgz#954566a5dfa3ce809b31e57752d34ae3df4440ec"
   integrity sha512-+JA+Y+0kSXalrzjNuy8u+Qq2ACb39wVTt0y71Mz2kNxMVWvswRaV/DUiV9hYxky6eG981l8SrekKsNT5DI9YxA==
 
+react-native-exception-handler@^2.10.8:
+  version "2.10.8"
+  resolved "https://registry.yarnpkg.com/react-native-exception-handler/-/react-native-exception-handler-2.10.8.tgz#1a7f846592d888d23adaf797e31802585f1d9ff0"
+  integrity sha512-ZN+jwpADRkCUNdad/50k0mZdMoICGrGdtaxgvRU+pNcWRRBAXJhuo4+jY0eQaoVpx1ghycGE6tBu9ka8gL2NOQ==
+
 react-native-firebase@^5.5.6:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.6.0.tgz#6f6123f53cb73477915dd55c55f3e1de91db38d2"
