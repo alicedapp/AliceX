@@ -126,9 +126,8 @@ export default class DAOs extends Component {
                 <ScrollView>
                   <View style={styles.container}>
                     {data.daos.map((dao, i) => {
-                      const { backgroundColor, color } = DAOcolors[i];
+                      const { backgroundColor, color } = DAOcolors[i%DAOcolors.length];
                       const walletAddress = this.state.walletAddress;
-                      console.log(walletAddress)
                       return (
                         <TouchableOpacity
                           key={i}
