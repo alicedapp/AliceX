@@ -11,11 +11,16 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import makeBlockie from 'ethereum-blockies-base64';
 import Markdown from 'react-native-simple-markdown';
-
+import JoinModal from './JoinModal';
 import { Countdown, Proposer, Beneficiary, ContributionReward, VoteBreakdown } from './'
 import { Settings } from '../../../AliceSDK/Web3';
 
 const { height, width } = Dimensions.get('window');
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 export default class Proposal extends Component {
   constructor(props) {
@@ -23,11 +28,32 @@ export default class Proposal extends Component {
     this.state = {
       loading: true,
       daos: [],
+      modalVisible: false
     };
   }
 
+  toggleJoinModal = () => {
+    ReactNativeHapticFeedback.trigger('selection', options);
+    this.setState({ modalVisible: !this.state.modalVisible });
+  };
+
+  newProposal = () => {
+    this.toggleJoinModal();
+    const { dao, backgroundColor } = this.props.navigation.state.params;
+    this.props.navigation.navigate('DAOstack/NewProposal', { dao, backgroundColor });
+  };
+
+  onVoteInterceptor = (vote) => {
+    if(this.props.viewerIsMember) {
+      return true;
+    }
+
+    this.toggleJoinModal()
+    return false;
+  }
+
   render() {
-    const { proposal, key, proposer, beneficiary } = this.props;
+    const { proposal, key, proposer, beneficiary, viewerIsMember, daoId } = this.props;
     const gravatar = makeBlockie(proposal.proposer);
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
@@ -48,7 +74,7 @@ export default class Proposal extends Component {
     return (
       <TouchableOpacity
         key={key}
-        onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary})}
+        onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary, viewerIsMember, daoId})}
         style={styles.daoBox}
       >
         <View style={{ flex: 1, padding: 15,}}>
@@ -77,8 +103,15 @@ export default class Proposal extends Component {
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <ContributionReward proposal={proposal}/>
           </View>
-          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} />
+          <VoteBreakdown totalRepWhenCreated={proposal.totalRepWhenCreated} votesFor={proposal.votesFor} votesAgainst={proposal.votesAgainst} proposal={proposal} onVote={this.onVoteInterceptor}/>
         </View>
+      <JoinModal
+        isVisible={this.state.modalVisible}
+        backdropOpacity={0.3}
+        onBackdropPress={this.toggleJoinModal}
+        onJoinPress={this.newProposal}
+        style={{ alignSelf: 'center' }}>
+      </JoinModal>
       </TouchableOpacity>
     );
   }

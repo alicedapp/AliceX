@@ -20,7 +20,7 @@ export default class VoteBreakdown extends Component {
   };
 
   async componentDidMount() {
-    const { totalRepWhenCreated, votesFor, votesAgainst } = this.props;
+    const { totalRepWhenCreated, votesFor, votesAgainst, } = this.props;
     const forPercentage = await this.calculatePercentage(totalRepWhenCreated, votesFor);
     const againstPercentage = await this.calculatePercentage(totalRepWhenCreated, votesAgainst);
     const total = forPercentage + againstPercentage;
@@ -44,6 +44,9 @@ export default class VoteBreakdown extends Component {
 
   vote = async (vote) => {
 
+    if(!this.props.onVote(vote)) {
+      return false
+    }
     try {
       if (vote === 'yes') {
         const txHash = await Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 1, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
@@ -52,9 +55,12 @@ export default class VoteBreakdown extends Component {
         console.log('no: ', vote);
         const txHash = await Contract.write({contractAddress: this.props.proposal.votingMachine, abi: VotingABI, functionName: 'vote', parameters: [this.props.proposal.id, 0, 0, "0x0000000000000000000000000000000000000000"], value: '0.0', data: '0x0'})
       }
+      return true;
     } catch (e) {
-
+      console.error(e);
     }
+
+    return false;
 
   };
 

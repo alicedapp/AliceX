@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 
-export default class ModalComponent extends Component<Props> {
+export default class ModalComponent extends Component {
   constructor() {
     super();
     this.state = {

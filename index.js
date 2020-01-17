@@ -19,10 +19,26 @@ if (__DEV__) {
 
 console.disableYellowBox = true;
 
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Alert} from 'react-native';
 import App from './App';
 import EmbeddedView from './EmbeddedView';
 import {name as appName} from './app.json';
+import {Navigation} from "./src/AliceSDK/Navigation";
+import {setJSExceptionHandler, setNativeExceptionHandler} from 'react-native-exception-handler';
+
+const exceptionhandler = (error, isFatal) => {
+  Navigation.goHome();
+  Alert.alert(
+    'App Crashed',
+    error,
+    [
+      {text: 'OK'},
+    ],
+  );
+};
+
+setNativeExceptionHandler(exceptionhandler);
+setJSExceptionHandler(exceptionhandler);
 
 AppRegistry.registerComponent('EmbeddedView', () => EmbeddedView);
 AppRegistry.registerComponent(appName, () => App);
