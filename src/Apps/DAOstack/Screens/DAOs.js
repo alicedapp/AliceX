@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import {
   Text,
+  TextInput,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
@@ -22,6 +23,7 @@ import {Wallet} from "../../../AliceSDK/Web3";
 import gql from 'graphql-tag';
 
 import { DAOcolors } from '../Utils';
+import { visitWithTypeInfo } from 'graphql';
 
 const { height, width } = Dimensions.get('window');
 
@@ -58,7 +60,8 @@ export default class DAOs extends Component {
     this.state = {
       loading: true,
       walletAddress: undefined,
-      daos: []
+      daos: [],
+      filter: ''
     };
   }
 
@@ -124,11 +127,28 @@ export default class DAOs extends Component {
                 </View>
 
                 <ScrollView>
+                  <TextInput
+                    style={[{
+                        padding: 8,
+                        width: '100%',
+                        ...styles.input,
+                        height: 40,
+                        fontWeight: '600',
+                        fontSize: 14
+                      },
+                      (this.state.titleIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+                    ]}
+                    onChangeText={(filter) => this.setState({filter})}
+                    autoCapitalize="none"
+                    placeholder="Filter DAOs"
+                  />
                   <View style={styles.container}>
                     {data.daos.map((dao, i) => {
-                      const { backgroundColor, color } = DAOcolors[i];
+                      if(this.state.filter.length > 0 && !dao.name.toLowerCase().includes(this.state.filter.toLowerCase())) {
+                        return
+                      }
+                      const { backgroundColor, color } = DAOcolors[i%DAOcolors.length];
                       const walletAddress = this.state.walletAddress;
-                      console.log(walletAddress)
                       return (
                         <TouchableOpacity
                           key={i}
@@ -245,6 +265,23 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'white',
     borderRadius: 50,
+  },
+  input: {
+    backgroundColor: '#E6E6E6',
+    width: width - 20,
+    height: 70,
+    fontSize: 14,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 0,
+    borderColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.1,
   },
   daoBox: {
     width: width - 20,
