@@ -179,7 +179,6 @@ export default class Proposals extends Component {
               );
             }
             this.state.daoReputationHolders = data.dao.reputationHolders;
-            console.log(walletAddress)
             this.state.isMember = this.isMember(walletAddress, this.state.daoReputationHolders);
             return (
               <>
