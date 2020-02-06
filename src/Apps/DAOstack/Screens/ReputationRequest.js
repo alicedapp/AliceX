@@ -83,7 +83,7 @@ export default class ReputationRequest extends Component<Props> {
     this.props.navigation.goBack()
     const walletAddress = await Wallet.getAddress();
     const params = {
-      contractAddress: dao.schemes[0].address, 
+      contractAddress: dao.schemes.find(s => s.name === 'ContributionReward').address, 
       abi: ContributionRewardSchemeABI, 
       functionName: 'proposeContributionReward', 
       parameters: [dao.id, descriptionHash, ethers.utils.parseEther(this.state.reputationReward).toString(), [0, 0, 0, 0, 1], ethers.constants.AddressZero, walletAddress], 

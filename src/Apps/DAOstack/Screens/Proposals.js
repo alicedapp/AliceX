@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Subscription } from 'react-apollo';
 import {ethers, Contract as EthersContract} from 'ethers';
 import { Modal, Proposal, FloatingButton, Button } from '../Components';
 import { NavigationBar } from '../../../AliceCore/Components/NavigationBar';
@@ -35,8 +35,8 @@ const options = {
 
 const { height, width } = Dimensions.get('window');
 
-const PROPOSALS_QUERY = gql`
-  query Proposal($id: ID!) {
+const PROPOSALS_SUBSCRIPTION = gql`
+  subscription Proposal($id: ID!) {
     dao(id: $id) {
       id
       name
@@ -157,7 +157,7 @@ export default class Proposals extends Component {
     let overtimeAmount = 1;
     return (
       <View style={{ flex: 1, paddingTop: 50 }}>
-        <Query query={PROPOSALS_QUERY} variables={{ id: dao.id }}>
+        <Subscription subscription={PROPOSALS_SUBSCRIPTION} variables={{ id: dao.id }}>
           {({ loading, error, data }) => {
             if (error) return <Text>Can't fetch Proposals</Text>;
             if (loading) {
@@ -179,7 +179,6 @@ export default class Proposals extends Component {
               );
             }
             this.state.daoReputationHolders = data.dao.reputationHolders;
-            console.log(walletAddress)
             this.state.isMember = this.isMember(walletAddress, this.state.daoReputationHolders);
             return (
               <>
@@ -237,7 +236,7 @@ export default class Proposals extends Component {
               </>
             );
           }}
-        </Query>
+        </Subscription>
         <FloatingButton onPress={this.toggleModal}>
           <Image
             source={require('../Assets/plus.png')}
