@@ -54,6 +54,7 @@ export default class Proposal extends Component {
 
   render() {
     const { proposal, key, proposer, beneficiary, viewerIsMember, daoId } = this.props;
+    const { backgroundColor } = this.props.navigation.state.params;
     const gravatar = makeBlockie(proposal.proposer);
     const ProposalDescription = () => {
       if(proposal.description.length > 80){
@@ -74,7 +75,7 @@ export default class Proposal extends Component {
     return (
       <TouchableOpacity
         key={key}
-        onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary, viewerIsMember, daoId})}
+        onPress={() => this.props.navigation.navigate('DAOstack/DetailedProposal', {proposal, proposer, beneficiary, viewerIsMember, daoId, backgroundColor})}
         style={styles.daoBox}
       >
         <View style={{ flex: 1, padding: 15,}}>

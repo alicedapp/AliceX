@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet,
   View,
+  ScrollView,
   TouchableWithoutFeedback,
   Image,
   TextInput,
@@ -88,94 +89,100 @@ export default class NewProposal extends Component<Props> {
 
   render() {
     return (
-      <View style={{ flex: 1, padding: 20, alignItems: 'flex-start' }}>
-        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
-          Title
-          {
-            this.state.titleIsValid ? null :
-            <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
-              &nbsp;&nbsp;Required
+      <View style={{ flex: 1, width: '100%' }}>
+        <ScrollView contentContainerStyle={{ width: '100%', flexGrow: 1, paddingTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, flexDirection: 'column', justifyContent: 'space-between'}}>
+          <View style={{ alignContent: 'flex-start'}}>
+            <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
+              Title
+              {
+                this.state.titleIsValid ? null :
+                <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+                  &nbsp;&nbsp;Required
+                </Text>
+              }
             </Text>
-          }
-        </Text>
-        <TextInput
-          style={[{
-              padding: 10,
-              width: '100%',
-              ...styles.input,
-              height: 50,
-              fontWeight: '600',
-              fontSize: 15
-            },
-            (this.state.titleIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
-          ]}
-          onChangeText={(title) => this.setState({title})}
-          placeholder="e.g. Reputation Request"
-        />
-        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
-          Description
-          {
-            this.state.descriptionIsValid ? null :
-            <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
-              &nbsp;&nbsp;Required
+            <TextInput
+              style={[{
+                  padding: 10,
+                  width: '100%',
+                  ...styles.input,
+                  height: 50,
+                  fontWeight: '600',
+                  fontSize: 15
+                },
+                (this.state.titleIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+              ]}
+              onChangeText={(title) => this.setState({title})}
+              placeholder="e.g. Reputation Request"
+            />
+            <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20, marginRight: 10 }}>
+              Description
+              {
+                this.state.descriptionIsValid ? null :
+                <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+                  &nbsp;&nbsp;Required
+                </Text>
+              }
             </Text>
-          }
-        </Text>
-        <TextInput
-          multiline
-          style={[{
-              padding: 10,
-              paddingTop: 15,
-              width: '100%',
-              ...styles.input,
-              height: 200,
-              fontWeight: '600',
-              fontSize: 15
-            },
-            (this.state.descriptionIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
-          ]}
-          onChangeText={(description) => this.setState({description})}
-          placeholder={"Describe the reason you're joining this DAO"}
-        />
-        <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
-          Attachment URL
-        </Text>
-        <TextInput
-          style={{
-            padding: 10,
-            width: '100%',
-            ...styles.input,
-            height: 50,
-            fontWeight: '600',
-            fontSize: 15,
-          }}
-          onChangeText={(link) => this.setState({link})}
-          placeholder="Add a link for more details"
-        />
-        <Button
-          onPress={this.validateAndNavigate}
-          style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            width: 250,
-            paddingVertical: 15,
-            position: 'absolute',
-            bottom: 50,
-            zIndex: 1000,
-          }}
-        >
-          <View />
-          <Text style={{ color: 'white', fontWeight: '600', fontSize: 15 }}>Next Step</Text>
-          <Image
-            source={require('../Assets/forward-button-white.png')}
-            style={{
-              height: 25,
-              resizeMode: 'contain',
-            }}
-          />
-        </Button>
+            <TextInput
+              multiline
+              style={[{
+                  padding: 10,
+                  paddingTop: 15,
+                  width: '100%',
+                  ...styles.input,
+                  height: 200,
+                  fontWeight: '600',
+                  fontSize: 15
+                },
+                (this.state.descriptionIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+              ]}
+              onChangeText={(description) => this.setState({description})}
+              placeholder={"Describe the reason you're joining this DAO"}
+            />
+            <Text style={{ fontWeight: '700', fontSize: 18, marginBottom: 10, marginTop: 20 }}>
+              Attachment URL
+            </Text>
+            <TextInput
+              style={{
+                padding: 10,
+                width: '100%',
+                ...styles.input,
+                height: 50,
+                fontWeight: '600',
+                fontSize: 15,
+              }}
+              onChangeText={(link) => this.setState({link})}
+              placeholder="Add a link for more details"
+            />
+          </View>
+
+          <View style={{ paddingTop: 20, alignItems: 'center' }}>
+            <Button
+              onPress={this.validateAndNavigate}
+              style={{
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                width: 250,
+                paddingVertical: 15,
+                resizeMode: 'contain',
+              }}
+              >
+              <View style={{ alignItems: 'center', width: (200 - 25) }}>
+                <Text style={{ color: 'white', fontWeight: '600', fontSize: 15 }}>Next Step</Text>
+              </View>
+              <Image
+                source={require('../Assets/forward-button-white.png')}
+                style={{
+                  height: 25,
+                  width: 25,
+                }}
+                />
+            </Button>
+          </View>
+        </ScrollView>
       </View>
     );
   }

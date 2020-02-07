@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
-import React, { Component } from 'react';
-import {View} from 'react-native'
+import React, { Component, Fragment } from 'react';
+import { View, SafeAreaView} from 'react-native'
 import { ApolloProvider } from 'react-apollo';
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
@@ -46,13 +46,18 @@ class DAOstackContainer extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <ApolloProvider client={client}>
-          <App
-            navigation={this.props.navigation}
-          />
-        </ApolloProvider>
-      </View>
+      <Fragment>
+        <SafeAreaView></SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={{flex: 1}}>
+            <ApolloProvider client={client}>
+              <App
+                navigation={this.props.navigation}
+              />
+            </ApolloProvider>
+          </View>
+        </SafeAreaView>
+      </Fragment>
     );
   }
 }
