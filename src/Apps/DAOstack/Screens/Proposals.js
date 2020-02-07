@@ -25,8 +25,8 @@ import gql from 'graphql-tag';
 import { Subscription } from 'react-apollo';
 import {ethers, Contract as EthersContract} from 'ethers';
 import { Modal, Proposal, FloatingButton, Button } from '../Components';
-import { NavigationBar } from '../../../AliceCore/Components/NavigationBar';
 import { getDAOStackAccounts } from '../Utils/http';
+import { TabView, TabBar } from 'react-native-tab-view';
 
 const options = {
   enableVibrateFallback: true,
@@ -36,7 +36,7 @@ const options = {
 const { height, width } = Dimensions.get('window');
 
 const PROPOSALS_SUBSCRIPTION = gql`
-  subscription Proposal($id: ID!) {
+  subscription Proposal($id: ID!, $stage: String!) {
     dao(id: $id) {
       id
       name
@@ -46,7 +46,7 @@ const PROPOSALS_SUBSCRIPTION = gql`
         address
         balance
       }
-      proposals(first: 1000) {
+      proposals(first: 1000, where: { stage: $stage }) {
         id
         stage
         proposer
@@ -102,6 +102,14 @@ export default class Proposals extends Component {
       pendingProposals: [],
       boostedProposals: [],
       regularProposals: [],
+
+      index: 0,
+      routes: [
+        { key: 'Boosted', title: 'Boosted' },
+        { key: 'PreBoosted', title: 'Pending' },
+        { key: 'Queued', title: 'Regular' },
+        { key: 'QuietEndingPeriod', title: 'Overtime' },
+      ],
     };
 
   }
@@ -147,96 +155,111 @@ export default class Proposals extends Component {
     this.setState({ accounts });
   }
 
-  render() {
-    const {overtimeProposals, pendingProposals, boostedProposals, regularProposals,} = this.state;
-    const { dao, backgroundColor, walletAddress } = this.props.navigation.state.params;
-    console.log(this.props.navigation)
-    let boostedAmount = 1;
-    let pendingAmount = 1;
-    let regularAmount = 1;
-    let overtimeAmount = 1;
-    return (
-      <View style={{ flex: 1, paddingTop: 50 }}>
-        <Subscription subscription={PROPOSALS_SUBSCRIPTION} variables={{ id: dao.id }}>
-          {({ loading, error, data }) => {
-            if (error) return <Text>Can't fetch Proposals</Text>;
-            if (loading) {
-              return (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#fff',
-                  }}
-                >
-                  <Image source={require('../Assets/loading.gif')} style={{
-                    resizeMode: 'contain',
-                    height: 80,
-                    width: 80,
-                  }}/>
-                </View>
-              );
-            }
-            this.state.daoReputationHolders = data.dao.reputationHolders;
-            this.state.isMember = this.isMember(walletAddress, this.state.daoReputationHolders);
-            return (
-              <>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    padding: 15,
-                  }}
-                >
-                  <Text style={{ fontSize: 30, fontWeight: '700' }}>{dao.name}</Text>
-                  <View
-                    style={{
-                      height: 40,
-                      width: 40,
-                      borderRadius: 20,
-                      borderWidth: 5,
-                      borderColor: 'rgba(255,255,255,0.5)',
-                      backgroundColor,
-                    }}
-                  />
-                </View>
-                <ScrollView>
-                  <View style={styles.container}>
-                    {/*{!!boostedAmount && !!pendingAmount && !!regularAmount && !!overtimeAmount && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>No Active Proposals</Text>}*/}
+  handleIndexChange = (index) => this.setState({
+    index,
+  });
 
-                    {overtimeAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Overtime</Text>}
-                    {data.dao.proposals.map((proposal, i) => {
-                      if (proposal.stage === "QuietEndingPeriod") {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
-                      }
-                    })}
-                    {boostedAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Boosted Proposals</Text>}
-                    {data.dao.proposals.map((proposal, i) => {
-                      if (proposal.stage === 'Boosted') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
-                      }
-                    })}
-                    {pendingAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Pending Proposals</Text>}
-                    {data.dao.proposals.map((proposal, i) => {
-                      if (proposal.stage === 'PreBoosted') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
-                      }
-                    })}
-                    {regularAmount > 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>Regular Proposals</Text>}
-                    {data.dao.proposals.map((proposal, i) => {
-                      if (proposal.stage === 'Queued') {
-                        return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
-                      }
-                    })}
-                  </View>
-                </ScrollView>
-              </>
-            );
-          }}
-        </Subscription>
+  renderTabBar = (
+    props
+  ) => (<TabBar
+      {...props}
+      scrollEnabled
+      activeColor={'#3078CA'}
+      inactiveColor={'grey'}
+      indicatorStyle={styles.indicator}
+      style={{...styles.tabbar}}
+      tabStyle={styles.tabStyle}
+      renderLabel={({ route, focused, color }) => (
+        <View style={[color == 'grey' ? {borderBottomColor: 'white', borderBottomWidth: 3} : {borderBottomWidth: 3, borderBottomColor: '#3078CA'}]}>
+          <Text style={{
+            fontSize: 15,
+            color: color,
+            fontWeight: '700',
+            marginBottom: 4,
+            marginLeft: 0,
+            marginRight: 0
+          }}>
+            {route.title}
+          </Text>
+        </View>
+      )}
+    />);
+
+  render() {
+    const { dao, backgroundColor, walletAddress } = this.props.navigation.state.params;
+    const renderScene = ({ route }) => {
+          const resultView = (
+            <Subscription subscription={PROPOSALS_SUBSCRIPTION} variables={{ id: dao.id, stage: route.key || 'Boosted' }}>
+              {({ loading, error, data }) => {
+                if (error) return <Text>Can't fetch Proposals</Text>;
+                if (loading) {
+                  return (
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#fff',
+                      }}
+                    >
+                      <Image source={require('../Assets/loading.gif')} style={{
+                        resizeMode: 'contain',
+                        height: 80,
+                        width: 80,
+                      }}/>
+                    </View>
+                  );
+                }
+                this.state.daoReputationHolders = data.dao.reputationHolders;
+                this.state.isMember = this.isMember(walletAddress, this.state.daoReputationHolders);
+                return (
+                  <ScrollView>
+                    <View style={styles.container}>
+                      {data.dao.proposals && data.dao.proposals.length == 0 && <Text style={{ margin: 15, fontSize: 20, color: 'grey', fontWeight: '600' }}>There are no proposals</Text>}
+                      {data.dao.proposals.map((proposal, i) => {
+                          return <Proposal navigation={this.props.navigation} key={i} proposal={proposal} proposer={this.getProfile(proposal.proposer)} beneficiary={proposal.contributionReward && this.getProfile(proposal.contributionReward.beneficiary)} daoId={dao.id} viewerIsMember={this.state.isMember} />;
+                      })}
+                    </View>
+                  </ScrollView>
+                );
+              }}
+            </Subscription>);
+
+        return route.key === this.state.routes[this.state.index].key ? resultView : null
+    }
+
+    return (
+      <View style={{ flex: 1 }}>
+        <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              padding: 15,
+            }}
+          >
+            <Text style={{ fontSize: 30, fontWeight: '700' }}>{dao.name}</Text>
+            <View
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 20,
+                borderWidth: 5,
+                borderColor: 'rgba(255,255,255,0.5)',
+                backgroundColor,
+              }}
+            />
+          </View>
+
+          <TabView
+            navigationState={this.state}
+            renderScene={renderScene}
+            renderTabBar={this.renderTabBar}
+            onIndexChange={this.handleIndexChange}
+            style={[styles.tabBar]}
+            tabStyle={styles.tabBarTab}
+          />
         <FloatingButton onPress={this.toggleModal}>
           <Image
             source={require('../Assets/plus.png')}
@@ -336,5 +359,21 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
     shadowOpacity: 0.1,
+  },
+
+  tabbar: {
+    backgroundColor: '#ffffff',
+    marginLeft: 10,
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60
+  },
+  indicator: {
+    backgroundColor: '#3078CA',
+    height: 0,
+  },
+  tabStyle: {
+    width: 'auto',
   },
 });

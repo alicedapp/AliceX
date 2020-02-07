@@ -70,7 +70,7 @@ export default class DetailedProposal extends Component {
       <View
         style={styles.container}
       >
-          <View style={{ flex: 1, padding: 15, marginTop: 60 }}>
+          <View style={{ flex: 1, padding: 15 }}>
             <View style={{ flexDirection: 'column', marginBottom: 14 }}>
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontSize: 25, fontWeight: '700', flex: 1}}>{proposal.title}</Text>

@@ -11,6 +11,7 @@ import {
   Text,
   StyleSheet,
   View,
+  ScrollView,
   TouchableWithoutFeedback,
   Image,
   TextInput,
@@ -101,70 +102,74 @@ export default class ReputationRequest extends Component<Props> {
 
   render() {
     return (
-      <View style={{ flex: 1, padding: 20, alignItems: 'center' }}>
-        <Image
-          source={require('../Assets/road-ahead.png')}
-          style={{
-            height: width - 150,
-            resizeMode: 'contain',
-          }}
-        />
-        <Text style={{ fontWeight: '800', fontSize: 20, marginTop: 5, marginBottom: 15 }}>
-          You're almost there!
+      <View style={{ flex: 1, width: '100%' }}>
+      <ScrollView contentContainerStyle={{ width: '100%', flexGrow: 1, paddingTop: 20, paddingLeft: 20, paddingRight: 20, paddingBottom: 20, flexDirection: 'column', justifyContent: 'space-between'}}>
+      <View style={{ alignItems: 'center' }}>
+      <Image
+        source={require('../Assets/road-ahead.png')}
+        style={{
+          height: width - 150,
+          resizeMode: 'contain',
+        }}
+      />
+      <Text style={{ fontWeight: '800', fontSize: 20, marginTop: 5, marginBottom: 15 }}>
+        You're almost there!
+      </Text>
+      <Text style={{ paddingHorizontal: 25, color: 'grey', fontWeight: '700', fontSize: 15 }}>
+        DAOs in DAOstack require you to apply for Reputation (REP) to take part in voting on
+        proposals. The recommended request is 100 REPs. If accepted you will be able to contribute
+        to the future of this DAO.
+      </Text>
+      <View>
+        <Text style={{ fontWeight: '700', fontSize: 17, marginBottom: 10, marginTop: 20 }}>
+          Reputation Request
+          {
+            this.state.reputationRewardIsValid ? null :
+            <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
+              &nbsp;&nbsp;Required
+            </Text>
+          }
         </Text>
-        <Text style={{ paddingHorizontal: 25, color: 'grey', fontWeight: '700', fontSize: 15 }}>
-          DAOs in DAOstack require you to apply for Reputation (REP) to take part in voting on
-          proposals. The recommended request is 100 REPs. If accepted you will be able to contribute
-          to the future of this DAO.
-        </Text>
-        <View>
-          <Text style={{ fontWeight: '700', fontSize: 17, marginBottom: 10, marginTop: 20 }}>
-            Reputation Request
-            {
-              this.state.reputationRewardIsValid ? null :
-              <Text style={{ fontWeight: '700', fontSize: 15, marginBottom: 10, marginTop: 20, ...styles.errorColor }}>
-                &nbsp;&nbsp;Required
-              </Text>
-            }
-          </Text>
-          <View
-            style={[{
-                flexDirection: 'row',
-                width: '100%',
-                ...styles.input,
-                paddingHorizontal: 10,
-                height: 50,
-                alignItems: 'center'
-              },
-              (this.state.reputationRewardIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
-            ]}
-          >
-            <TextInput
-              keyboardType="numeric"
-              style={{ flex: 1, fontWeight: '600', fontSize: 15 }}
-              placeholder="e.g. 100"
-              onChangeText={(reputationReward) => this.setState({reputationReward: reputationReward.replace(/[^0-9]/g, '')})}
-            />
-            <Text style={{ fontWeight: '600', fontSize: 15 }}>REP</Text>
-          </View>
-        </View>
-        <Button
-          onPress={this.submit}
-          style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            width: 250,
-            paddingVertical: 15,
-            position: 'absolute',
-            bottom: 50,
-            zIndex: 1000,
-          }}
+        <View
+          style={[{
+              flexDirection: 'row',
+              width: '100%',
+              ...styles.input,
+              paddingHorizontal: 10,
+              height: 50,
+              alignItems: 'center'
+            },
+            (this.state.reputationRewardIsValid) ? null : { borderWidth: 1, ...styles.errorBorderColor }
+          ]}
         >
-          <Text style={{ color: 'white', fontWeight: '600', fontSize: 15, margin: 5 }}>Submit</Text>
-        </Button>
+          <TextInput
+            keyboardType="numeric"
+            style={{ flex: 1, fontWeight: '600', fontSize: 15 }}
+            placeholder="e.g. 100"
+            onChangeText={(reputationReward) => this.setState({reputationReward: reputationReward.replace(/[^0-9]/g, '')})}
+          />
+          <Text style={{ fontWeight: '600', fontSize: 15 }}>REP</Text>
+        </View>
       </View>
+    </View>
+
+    <View style={{ paddingTop: 20}}>
+      <Button
+        onPress={this.submit}
+        style={{
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: 250,
+          paddingVertical: 15,
+        }}
+      >
+        <Text style={{ color: 'white', fontWeight: '600', fontSize: 15, margin: 5 }}>Submit</Text>
+      </Button>
+      </View>
+      </ScrollView>
+    </View>
     );
   }
 }

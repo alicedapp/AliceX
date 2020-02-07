@@ -72,7 +72,7 @@ export default class DAOs extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, paddingTop: 50 }}>
+      <View style={{ flex: 1 }}>
         <Subscription subscription={DAOS_SUBSCRIPTION}>
           {({ loading, error, data }) => {
             if (error) { 
