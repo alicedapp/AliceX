@@ -21,7 +21,7 @@ export const NavigationBar = () => (
         height: 35,
       }}/>
     </TouchableOpacity>
-    <TouchableOpacity style={{ padding: 3 }}>
+    <TouchableOpacity style={{ padding: 3 }} onPress={Navigation.minimizeApp}>
       <Image source={require('../Assets/pin.png')} style={{
         resizeMode: 'contain',
         width: 35,
