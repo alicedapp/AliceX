@@ -27,7 +27,7 @@
     "ethers": "^4.0.31",
     "events": "^3.0.0",
     "firebase": "^6.6.0",
-    "firebase-admin": "^8.7.0",
+    "firebase-admin": "^11.4.1",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
     "jetifier": "^1.6.4",
